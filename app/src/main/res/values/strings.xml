@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Passage</string>
+
+    <!-- Settings -->
+    <string name="settings_help">Help and support</string>
+    <string name="settings_help_about_title">About this app</string>
+    <string name="settings_help_about_description">About the application and the developer</string>
+    <string name="settings_help_release_notes_title">Release notes</string>
+    <string name="settings_help_release_notes_description">See the release notes history</string>
+
+    <!-- About -->
+    <string name="about_name">Jordan Fisher</string>
+    <string name="about_desc">Mobile App Developer</string>
+    <string name="dependency_thank_you">A big thank you to everyone listed below for helping make this app possible! :)</string>
+    <string name="about_additional">Special thanks\n\n
+        - TODO</string>
+
+    <!-- Modify -->
+    <string name="modify_header_add">Add a passage</string>
+    <string name="modify_header_edit">Edit your passage</string>
+
+    <string name="modify_header_save">Save</string>
+
+    <!-- Menu -->
+    <string name="menu_now">Now</string>
+    <string name="menu_previous">Previous</string>
+    <string name="menu_settings">Settings</string>
+    <string name="modify_field_name">Personalise</string>
+    <string name="modify_field_name_desc">Pick a name, a description, and a colour for what you are want to track here</string>
+    <string name="modify_field_name_hint">Name</string>
+    <string name="modify_field_description_hint">Description</string>
+    <string name="modify_field_range">Range</string>
+    <string name="modify_field_range_desc">Enter the start and end values that you want to progress between. At the moment only numbers are supported</string>
+    <string name="modify_field_range_initial">From</string>
+    <string name="modify_field_range_final">To</string>
+    <string name="modify_field_dates">Dates</string>
+    <string name="modify_field_dates_desc">Pick the dates you want the two values above to line up with</string>
+    <string name="modify_field_dates_button">Pick dates</string>
+    <string name="modify_field_colour_hint">Colour</string>
+</resources>

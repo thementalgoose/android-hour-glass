@@ -1,0 +1,95 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="LightTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="pTextPrimary">#181818</item>
+        <item name="pTextSecondary">#383838</item>
+        <item name="pTextInversePrimary">#fbfbfb</item>
+        <item name="pTextInverseSecondary">#e8e8e8</item>
+
+        <item name="pBackgroundPrimary">#ffffff</item>
+        <item name="pBackgroundSecondary">#f8f8f8</item>
+        <item name="pBackgroundInversePrimary">#181818</item>
+        <item name="pBackgroundInverseSecondary">#383838</item>
+
+        <item name="pEditTextBackground">#e8e8e8</item>
+    </style>
+
+    <style name="LightTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
+
+    <style name="LightTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
+
+    <style name="LightTheme.Launcher" parent="LightTheme">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#000000</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">#000000</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
+
+    <!-- Text -->
+
+    <style name="Text">
+        <item name="android:textColor">?attr/pTextPrimary</item>
+    </style>
+
+    <style name="Text.Header">
+        <item name="android:textColor">?attr/pTextPrimary</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.Item" />
+
+    <style name="Text.Item.Title">
+        <item name="android:textColor">?attr/pTextPrimary</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.Item.Description">
+        <item name="android:textColor">?attr/pTextSecondary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Modify" />
+
+    <style name="Text.Modify.Title">
+        <item name="android:textColor">?attr/pTextPrimary</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.Modify.Save">
+        <item name="android:textColor">?attr/pTextInversePrimary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Text.Modify.FieldTitle">
+        <item name="android:textColor">?attr/pTextPrimary</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.Modify.FieldDescription">
+        <item name="android:textColor">?attr/pTextSecondary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Modify.FieldValue">
+        <item name="android:textColor">?attr/pTextSecondary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+</resources>
