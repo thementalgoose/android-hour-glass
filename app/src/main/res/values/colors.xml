@@ -3,6 +3,8 @@
     <color name="splash_brand_1">#ffffff</color>
     <color name="splash_brand_2">#ffffff</color>
 
+    <color name="brand">#AD1457</color>
+
 <!--    <color name="aboutThisApp_headerDark">#3C306E</color>-->
     <color name="aboutThisApp_headerLight">#AD1457</color>
 </resources>

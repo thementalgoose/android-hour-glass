@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="header">64dp</dimen>
+    <dimen name="header">48dp</dimen>
 
     <dimen name="progressHeight">28dp</dimen>
 

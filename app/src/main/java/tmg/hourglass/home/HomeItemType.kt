@@ -13,6 +13,7 @@ enum class HomeItemAction(
 
 sealed class HomeItemType {
     object Header: HomeItemType()
+    object Placeholder: HomeItemType()
     data class Item(
         val countdown: Countdown,
         val action: HomeItemAction

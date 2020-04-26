@@ -13,6 +13,7 @@ import tmg.hourglass.extensions.setOnClickListener
 import tmg.hourglass.settings.release.ReleaseActivity
 import tmg.utilities.extensions.observe
 import tmg.utilities.extensions.observeEvent
+import java.lang.RuntimeException
 
 class SettingsActivity: BaseActivity() {
 

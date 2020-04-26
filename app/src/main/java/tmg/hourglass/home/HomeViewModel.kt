@@ -54,10 +54,17 @@ class HomeViewModel(
         .map { list ->
             mutableListOf<HomeItemType>(HomeItemType.Header)
                 .apply {
-                    addAll(list.map {
-                        val action: HomeItemAction = if ((viewTab.valueOrNull ?: HomeTab.NOW) == HomeTab.NOW) HomeItemAction.EDIT else HomeItemAction.DELETE
-                        HomeItemType.Item(countdown = it, action = action)
-                    })
+                    if (list.isEmpty()) {
+                        add(HomeItemType.Placeholder)
+                    }
+                    else {
+                        addAll(list.map {
+                            val action: HomeItemAction = if ((viewTab.valueOrNull
+                                    ?: HomeTab.NOW) == HomeTab.NOW
+                            ) HomeItemAction.EDIT else HomeItemAction.DELETE
+                            HomeItemType.Item(countdown = it, action = action)
+                        })
+                    }
                 }
         }
         .asLiveData(viewModelScope.coroutineContext)

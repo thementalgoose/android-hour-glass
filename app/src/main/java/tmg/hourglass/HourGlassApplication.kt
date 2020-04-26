@@ -1,8 +1,10 @@
 package tmg.hourglass
 
 import android.app.Application
+import android.util.Log
 import com.github.stkent.bugshaker.BugShaker
 import com.github.stkent.bugshaker.flow.dialog.AlertDialogType
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.jakewharton.threetenabp.AndroidThreeTen
 import io.realm.Realm
 import org.koin.android.ext.android.inject
@@ -43,6 +45,13 @@ class HourGlassApplication: Application() {
                 .setLoggingEnabled(BuildConfig.DEBUG)
                 .assemble()
                 .start()
+        }
+
+        // Crash Reporting
+        Log.i("Hour Glass", "Crash reporting ${if (prefs.crashReporting) "enabled" else "disabled"}")
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(prefs.crashReporting)
+        if (!prefs.crashReporting) {
+            FirebaseCrashlytics.getInstance().deleteUnsentReports()
         }
     }
 }

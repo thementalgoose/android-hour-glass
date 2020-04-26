@@ -8,13 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import tmg.hourglass.R
 import tmg.hourglass.home.views.HeaderViewHolder
 import tmg.hourglass.home.views.ItemViewHolder
+import tmg.hourglass.home.views.PlaceholderViewHolder
 import tmg.utilities.extensions.toEnum
 
 private enum class HomeViewType(
     @LayoutRes val layoutId: Int
 ) {
     HEADER(R.layout.element_countdown_header),
-    ITEM(R.layout.element_countdown_item)
+    ITEM(R.layout.element_countdown_item),
+    PLACEHOLDER(R.layout.element_countdown_placeholder)
 }
 
 class HomeAdapter(
@@ -34,6 +36,7 @@ class HomeAdapter(
         return when (list[position]) {
             HomeItemType.Header -> HomeViewType.HEADER.ordinal
             is HomeItemType.Item -> HomeViewType.ITEM.ordinal
+            HomeItemType.Placeholder -> HomeViewType.PLACEHOLDER.ordinal
         }
     }
 
@@ -42,6 +45,7 @@ class HomeAdapter(
         return when (viewType.toEnum<HomeViewType>()!!) {
             HomeViewType.HEADER -> HeaderViewHolder(view)
             HomeViewType.ITEM -> ItemViewHolder(view, actionItem)
+            HomeViewType.PLACEHOLDER -> PlaceholderViewHolder(view)
         }
     }
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -51,6 +55,9 @@ class HomeAdapter(
             }
             is ItemViewHolder -> {
                 holder.bind(list[position] as HomeItemType.Item)
+            }
+            is PlaceholderViewHolder -> {
+                holder.bind()
             }
         }
     }

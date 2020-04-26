@@ -142,8 +142,8 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
         monthEnd: Int,
         dayEnd: Int
     ) {
-        val start: LocalDate = LocalDate.of(yearStart, monthStart, dayStart)
-        val end: LocalDate = LocalDate.of(yearEnd, monthEnd, dayEnd)
+        val start: LocalDate = LocalDate.of(yearStart, monthStart + 1, dayStart)
+        val end: LocalDate = LocalDate.of(yearEnd, monthEnd + 1, dayEnd)
         viewModel.inputs.inputDates(start.atStartOfDay(), end.plusDays(1).atStartOfDay().minusSeconds(1L))
     }
 

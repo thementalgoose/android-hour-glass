@@ -9,6 +9,8 @@
         android:id="@+id/rvMain"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/paddingVLarge"
         app:layout_constraintBottom_toTopOf="@id/bnvNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -16,12 +18,12 @@
 
     <ImageButton
         android:id="@+id/ibtnAdd"
-        android:foreground="@drawable/ripple_rounded"
         android:layout_width="@dimen/addButtonSize"
         android:layout_height="@dimen/addButtonSize"
         android:layout_marginEnd="@dimen/paddingMedium"
         android:layout_marginBottom="@dimen/paddingMedium"
         android:background="@drawable/background_fab"
+        android:foreground="@drawable/ripple_rounded"
         android:src="@drawable/ic_add"
         android:tint="?attr/colorPrimary"
         app:layout_constraintBottom_toTopOf="@id/bnvNavigation"

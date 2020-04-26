@@ -81,6 +81,7 @@
                 android:background="@drawable/background_edit_text"
                 android:hint="@string/modify_field_name_hint"
                 android:importantForAutofill="no"
+                android:inputType="textCapSentences"
                 android:paddingStart="@dimen/paddingSmall"
                 android:paddingTop="@dimen/paddingNSmall"
                 android:paddingEnd="@dimen/paddingSmall"
@@ -100,6 +101,7 @@
                 android:background="@drawable/background_edit_text"
                 android:hint="@string/modify_field_description_hint"
                 android:importantForAutofill="no"
+                android:inputType="textCapSentences"
                 android:paddingStart="@dimen/paddingSmall"
                 android:paddingTop="@dimen/paddingNSmall"
                 android:paddingEnd="@dimen/paddingSmall"
@@ -312,7 +314,6 @@
         tools:visibility="visible" />
 
     <TextView
-        android:gravity="center"
         android:id="@+id/btnSave"
         style="@style/Text.Modify.Save"
         android:layout_width="0dp"
@@ -323,6 +324,7 @@
         android:height="@dimen/addButtonSize"
         android:background="@drawable/background_save"
         android:foreground="@drawable/ripple_rounded"
+        android:gravity="center"
         android:text="@string/modify_header_save"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
