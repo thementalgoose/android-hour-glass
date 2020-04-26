@@ -1,5 +1,6 @@
 package tmg.hourglass.settings
 
+import android.app.AlertDialog
 import android.content.Intent
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -24,8 +25,30 @@ class SettingsActivity: BaseActivity() {
     override fun initViews() {
         ibtnClose.setOnClickListener(viewModel.inputs::clickBack)
 
-        llResetAll.setOnClickListener(viewModel.inputs::clickDeleteAll)
-        llResetDone.setOnClickListener(viewModel.inputs::clickDeleteDone)
+        llResetAll.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.settings_reset_all_confirm_title)
+                .setMessage(R.string.settings_reset_all_confirm_description)
+                .setPositiveButton(R.string.settings_reset_all_confirm_confirm) { _, _ ->
+                    viewModel.inputs.clickDeleteAll()
+                }
+                .setNegativeButton(R.string.settings_reset_all_confirm_cancel) { _, _ -> }
+                .setCancelable(false)
+                .create()
+                .show()
+        }
+        llResetDone.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.settings_reset_done_confirm_title)
+                .setMessage(R.string.settings_reset_done_confirm_description)
+                .setPositiveButton(R.string.settings_reset_done_confirm_confirm) { _, _ ->
+                    viewModel.inputs.clickDeleteDone()
+                }
+                .setNegativeButton(R.string.settings_reset_done_confirm_cancel) { _, _ -> }
+                .setCancelable(false)
+                .create()
+                .show()
+        }
 
         llHelpAbout.setOnClickListener(viewModel.inputs::clickAbout)
         llHelpReleaseNotes.setOnClickListener(viewModel.inputs::clickReleaseNotes)

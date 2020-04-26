@@ -33,6 +33,15 @@
     <string name="settings_help_shake_to_report_description">Shake the app at any time to screenshot and send me any bugs, issues, or suggestions you may have for this app!</string>
     <string name="settings_help_shake_to_report_after_app_restart">Your shake to report preference will be applied once the app has restarted</string>
 
+    <string name="settings_reset_all_confirm_title">Are you sure?</string>
+    <string name="settings_reset_all_confirm_description">This will remove all previous and current countdown items that you have!</string>
+    <string name="settings_reset_all_confirm_confirm">Yes</string>
+    <string name="settings_reset_all_confirm_cancel">Cancel</string>
+    <string name="settings_reset_done_confirm_title">Are you sure?</string>
+    <string name="settings_reset_done_confirm_description">This will remove all the items that you have in your previous tab, and all items that have been completed</string>
+    <string name="settings_reset_done_confirm_confirm">Yes</string>
+    <string name="settings_reset_done_confirm_cancel">Cancel</string>
+
     <!-- About -->
     <string name="about_name">Jordan Fisher</string>
     <string name="about_desc">Mobile App Developer</string>
