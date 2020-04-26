@@ -3,7 +3,7 @@
 
     <dimen name="header">64dp</dimen>
 
-    <dimen name="progressHeight">20dp</dimen>
+    <dimen name="progressHeight">28dp</dimen>
 
     <!-- Default padding -->
     <dimen name="paddingVLarge">32dp</dimen>

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="pTextPrimary" type="color" />
-    <attr name="pTextSecondary" type="color" />
-    <attr name="pTextInversePrimary" type="color" />
-    <attr name="pTextInverseSecondary" type="color" />
+    <attr name="colorPrimaryAlpha" format="color" />
 
-    <attr name="pBackgroundPrimary" type="color" />
-    <attr name="pBackgroundSecondary" type="color" />
-    <attr name="pBackgroundInversePrimary" type="color" />
-    <attr name="pBackgroundInverseSecondary" type="color" />
+    <attr name="pTextPrimary" format="color" />
+    <attr name="pTextSecondary" format="color" />
+    <attr name="pTextInversePrimary" format="color" />
+    <attr name="pTextInverseSecondary" format="color" />
+
+    <attr name="pBackgroundPrimary" format="color" />
+    <attr name="pBackgroundSecondary" format="color" />
+    <attr name="pBackgroundInversePrimary" format="color" />
+    <attr name="pBackgroundInverseSecondary" format="color" />
 
     <attr name="pEditTextBackground" format="color" />
 </resources>

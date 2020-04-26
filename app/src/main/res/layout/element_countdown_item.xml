@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clMain"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/pBackgroundPrimary"
+    android:paddingTop="@dimen/paddingXSmall">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/Text.Item.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/paddingMedium"
+        android:paddingTop="@dimen/paddingSmall"
+        android:paddingEnd="@dimen/paddingMedium"
+        android:paddingBottom="@dimen/paddingSmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Mileage" />
+
+    <ImageButton
+        android:id="@+id/ibtnEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/paddingSmall"
+        android:background="@drawable/ripple_rounded"
+        android:paddingStart="@dimen/paddingSmall"
+        android:paddingEnd="@dimen/paddingSmall"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintBottom_toBottomOf="@id/tvTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvTitle" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        style="@style/Text.Item.Description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/paddingMedium"
+        android:paddingEnd="@dimen/paddingMedium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        tools:text="Something else needs to be stored in the mileage side" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvBar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/progressHeight"
+        android:layout_marginStart="@dimen/paddingMedium"
+        android:layout_marginTop="@dimen/paddingSmall"
+        android:layout_marginEnd="@dimen/paddingMedium"
+        android:layout_marginBottom="@dimen/paddingNSmall"
+        app:cardCornerRadius="@dimen/corner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDescription">
+
+        <tmg.hourglass.utils.LabelledProgressView
+            android:id="@+id/lpvMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        style="@style/Text.Item.Labels"
+        android:id="@+id/tvStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/cvBar"
+        app:layout_constraintTop_toBottomOf="@id/cvBar"
+        tools:text="16000" />
+
+    <TextView
+        android:id="@+id/tvEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/cvBar"
+        app:layout_constraintTop_toBottomOf="@id/cvBar"
+        tools:text="64000" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

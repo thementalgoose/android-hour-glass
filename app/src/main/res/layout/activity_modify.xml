@@ -311,7 +311,8 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
 
-    <Button
+    <TextView
+        android:gravity="center"
         android:id="@+id/btnSave"
         style="@style/Text.Modify.Save"
         android:layout_width="0dp"

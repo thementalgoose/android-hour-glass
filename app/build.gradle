@@ -8,7 +8,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "tmg.passage"
+        applicationId "tmg.hourglass"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -79,7 +79,8 @@ dependencies {
     // ColorSheet
     implementation 'petrov.kristiyan:colorpicker-library:1.1.10'
 
-    // Realm Koroutines
-    // implementation 'com.michaelbukachi:realmkoroutines:0.1.2'
+    // SmoothDateRangePicker
+    implementation 'com.leavjenn.smoothdaterangepicker:library:0.2.0'
+
 
 }
