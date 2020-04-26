@@ -1,6 +1,6 @@
 package tmg.passage.extensions
 
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.*
 import org.threeten.bp.format.DateTimeFormatter
 import java.text.ParseException
 import kotlin.NullPointerException
@@ -15,4 +15,16 @@ fun String.toLocalDateTime(format: String = "dd/MM/yyyy HH:mm"): LocalDateTime {
         e.printStackTrace()
         LocalDateTime.MIN
     }
+}
+
+fun LocalDateTime.format(format: String = "dd/MM/yyyy HH:mm"): String {
+    return this.format(DateTimeFormatter.ofPattern(format))
+}
+
+fun LocalDate.format(format: String = "dd/MM/yyyy"): String {
+    return this.format(DateTimeFormatter.ofPattern(format))
+}
+
+fun LocalTime.format(format: String = "HH:mm"): String {
+    return this.format(DateTimeFormatter.ofPattern(format))
 }

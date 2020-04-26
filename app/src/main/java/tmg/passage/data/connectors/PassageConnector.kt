@@ -11,7 +11,6 @@ interface PassageConnector {
     fun getSync(id: String): Passage?
     fun get(id: String): Flow<Passage?>
 
-    fun save(passage: Passage)
     fun saveSync(passage: Passage)
 
     fun deleteAll()

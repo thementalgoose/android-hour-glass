@@ -35,6 +35,7 @@
     <string name="modify_field_range_final">To</string>
     <string name="modify_field_dates">Dates</string>
     <string name="modify_field_dates_desc">Pick the dates you want the two values above to line up with</string>
+    <string name="modify_field_dates_format"><b>%s</b> ......... <b>%s</b></string>
     <string name="modify_field_dates_button">Pick dates</string>
     <string name="modify_field_colour_hint">Colour</string>
 </resources>

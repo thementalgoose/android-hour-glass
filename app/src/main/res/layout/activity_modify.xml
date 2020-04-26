@@ -79,15 +79,15 @@
                 android:layout_marginStart="@dimen/paddingMedium"
                 android:layout_marginEnd="@dimen/paddingMedium"
                 android:background="@drawable/background_edit_text"
+                android:hint="@string/modify_field_name_hint"
                 android:importantForAutofill="no"
                 android:paddingStart="@dimen/paddingSmall"
                 android:paddingTop="@dimen/paddingNSmall"
                 android:paddingEnd="@dimen/paddingSmall"
                 android:paddingBottom="@dimen/paddingNSmall"
-                android:hint="@string/modify_field_name_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvFieldNameDesc"/>
+                app:layout_constraintTop_toBottomOf="@id/tvFieldNameDesc" />
 
             <EditText
                 android:id="@+id/etFieldDescription"
@@ -95,18 +95,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/paddingMedium"
+                android:layout_marginTop="@dimen/paddingMedium"
                 android:layout_marginEnd="@dimen/paddingMedium"
                 android:background="@drawable/background_edit_text"
+                android:hint="@string/modify_field_description_hint"
                 android:importantForAutofill="no"
-                android:layout_marginTop="@dimen/paddingMedium"
                 android:paddingStart="@dimen/paddingSmall"
                 android:paddingTop="@dimen/paddingNSmall"
                 android:paddingEnd="@dimen/paddingSmall"
                 android:paddingBottom="@dimen/paddingNSmall"
-                android:hint="@string/modify_field_description_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etFieldName"/>
+                app:layout_constraintTop_toBottomOf="@id/etFieldName" />
 
             <TextView
                 android:id="@+id/btnColour"
@@ -114,11 +114,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/paddingMedium"
+                android:layout_marginTop="@dimen/paddingMedium"
                 android:layout_marginEnd="@dimen/paddingMedium"
                 android:background="@drawable/background_edit_text"
                 android:foreground="@drawable/ripple_rounded"
                 android:gravity="center|start"
-                android:layout_marginTop="@dimen/paddingMedium"
                 android:paddingStart="@dimen/paddingSmall"
                 android:paddingTop="@dimen/paddingNSmall"
                 android:paddingEnd="@dimen/paddingSmall"
@@ -129,9 +129,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etFieldDescription" />
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="@dimen/paddingNSmall"
+                app:cardCornerRadius="@dimen/corner"
+                app:layout_constraintBottom_toBottomOf="@id/btnColour"
+                app:layout_constraintEnd_toEndOf="@id/btnColour"
+                app:layout_constraintTop_toTopOf="@id/btnColour">
 
+                <View
+                    android:id="@+id/vColour"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="@id/btnColour"
+                    app:layout_constraintEnd_toEndOf="@id/btnColour"
+                    app:layout_constraintTop_toTopOf="@id/btnColour"
+                    tools:background="?attr/colorPrimary" />
 
-
+            </androidx.cardview.widget.CardView>
 
 
             <TextView

@@ -3,13 +3,14 @@ package tmg.passage.realm.models
 import io.realm.Realm
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import org.threeten.bp.ZoneOffset
 import org.threeten.bp.format.DateTimeFormatter
 import tmg.passage.data.PassageType
 import tmg.passage.data.models.Passage
 import tmg.passage.extensions.toLocalDateTime
 import tmg.utilities.extensions.toEnum
 
-private const val dateFormat: String = "dd/MM/yyyy HH:mm"
+private const val dateFormat: String = "yyyy/MM/dd HH:mm"
 
 open class RealmPassage(
     @PrimaryKey var id: String = "",
@@ -17,8 +18,8 @@ open class RealmPassage(
     var description: String = "",
     var colour: String = "",
 
-    var start: String = "", // Date
-    var end: String = "", // Date
+    var start: Long = 0L, // Date
+    var end: Long = 0L, // Date
     var initial: String = "",
     var final: String = "",
 
@@ -31,8 +32,8 @@ fun RealmPassage.convert(): Passage {
         name = this.name,
         description = this.description,
         colour = this.colour,
-        start = this.start.toLocalDateTime(dateFormat),
-        end = this.end.toLocalDateTime(dateFormat),
+        start = this.start.toLocalDateTime(),
+        end = this.end.toLocalDateTime(),
         initial = this.initial,
         final = this.final,
         passageType = this.passageType.toEnum<PassageType> { it.key } ?: PassageType.NUMBER
@@ -57,8 +58,8 @@ private fun RealmPassage.applyData(passage: Passage) {
     this.name = passage.name
     this.description = passage.description
     this.colour = passage.colour
-    this.start = passage.start.format(DateTimeFormatter.ofPattern(dateFormat))
-    this.end = passage.end.format(DateTimeFormatter.ofPattern(dateFormat))
+    this.start = passage.start.toInstant(ZoneOffset.UTC).toEpochMilli()
+    this.end = passage.start.toInstant(ZoneOffset.UTC).toEpochMilli()
     this.initial = passage.initial
     this.final = passage.final
     this.passageType = passage.passageType.key

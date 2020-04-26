@@ -79,4 +79,7 @@ dependencies {
     // ColorSheet
     implementation 'petrov.kristiyan:colorpicker-library:1.1.10'
 
+    // Realm Koroutines
+    // implementation 'com.michaelbukachi:realmkoroutines:0.1.2'
+
 }

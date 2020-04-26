@@ -1,5 +1,6 @@
 package tmg.passage.modify
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -43,8 +44,7 @@ interface ModifyViewModelOutputs {
     val name: MutableLiveData<String>
     val description: MutableLiveData<String>
     val colour: MutableLiveData<String>
-    val startDate: MutableLiveData<LocalDateTime>
-    val endDate: MutableLiveData<LocalDateTime>
+    val dates: MutableLiveData<Pair<LocalDateTime, LocalDateTime>>
     val initial: MutableLiveData<String>
     val final: MutableLiveData<String>
 }
@@ -64,8 +64,7 @@ class ModifyViewModel(
     override val name: MutableLiveData<String> = MutableLiveData()
     override val description: MutableLiveData<String> = MutableLiveData()
     override val colour: MutableLiveData<String> = MutableLiveData()
-    override val startDate: MutableLiveData<LocalDateTime> = MutableLiveData()
-    override val endDate: MutableLiveData<LocalDateTime> = MutableLiveData()
+    override val dates: MutableLiveData<Pair<LocalDateTime,LocalDateTime>> = MutableLiveData()
     override val initial: MutableLiveData<String> = MutableLiveData()
     override val final: MutableLiveData<String> = MutableLiveData()
 
@@ -85,8 +84,7 @@ class ModifyViewModel(
                 name.value = it.name
                 description.value = it.description
                 colour.value = it.colour
-                startDate.value = it.start
-                endDate.value = it.end
+                dates.value = Pair(it.start, it.end)
                 initial.value = it.initial
                 final.value = it.final
             }
@@ -98,7 +96,7 @@ class ModifyViewModel(
     }
 
     override fun inputName(name: String) {
-
+        this.name.value = name
     }
 
     override fun inputDescription(name: String) {
@@ -110,8 +108,7 @@ class ModifyViewModel(
     }
 
     override fun inputDates(start: LocalDateTime, end: LocalDateTime) {
-        this.startDate.value = start
-        this.endDate.value = end
+        this.dates.value = Pair(start, end)
     }
 
     override fun inputInitial(value: String) {
@@ -123,19 +120,25 @@ class ModifyViewModel(
     }
 
     override fun clickSave() {
-        val passage: Passage = Passage(
-            id = id ?: UUID.randomUUID().toString(),
-            name = name.value ?: "",
-            description = description.value ?: "",
-            colour = colour.value ?: "",
-            start = startDate.value ?: LocalDateTime.MIN,
-            end = endDate.value ?: LocalDateTime.MAX,
-            initial = initial.value ?: "",
-            final = final.value ?: "",
-            passageType = PassageType.NUMBER
-        )
-        connector.save(passage)
-        closeEvent.value = Event()
+        Log.i("Passage", "Clicking save")
+        try {
+            val passage: Passage = Passage(
+                id = id ?: UUID.randomUUID().toString(),
+                name = name.value!!,
+                description = description.value ?: "",
+                colour = colour.value!!,
+                start = dates.value?.first!!,
+                end = dates.value?.second!!,
+                initial = initial.value!!,
+                final = final.value!!,
+                passageType = PassageType.NUMBER
+            )
+            connector.saveSync(passage)
+            closeEvent.value = Event()
+        }
+        catch (e: NullPointerException) {
+            e.printStackTrace()
+        }
     }
 
     override fun clickDelete() {
