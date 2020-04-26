@@ -4,11 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.prefs.IPrefs
 import tmg.hourglass.releaseNotes
+import tmg.utilities.lifecycle.Event
 
 //region Inputs
 
 interface ReleaseViewModelInputs {
-
+    fun clickBack()
 }
 
 //endregion
@@ -17,6 +18,7 @@ interface ReleaseViewModelInputs {
 
 interface ReleaseViewModelOutputs {
     val content: MutableLiveData<List<Int>>
+    val goBack: MutableLiveData<Event>
 }
 
 //endregion
@@ -30,11 +32,17 @@ class ReleaseViewModel(
 
     override val content: MutableLiveData<List<Int>> = MutableLiveData()
 
+    override val goBack: MutableLiveData<Event> = MutableLiveData()
+
     init {
         content.value = releaseNotes.values.toList()
     }
 
     //region Inputs
+
+    override fun clickBack() {
+        goBack.value = Event()
+    }
 
     //endregion
 }

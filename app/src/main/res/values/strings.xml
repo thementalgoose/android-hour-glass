@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Hour Glass</string>
+    <string name="app_name">HourGlass</string>
 
     <!-- Release Notes -->
     <string name="release_1"><![CDATA[Initial release
-    <br/>- Create "Passages" that you want to track across a given time frame
+    <br/>- Create "Countdowns" that you want to track across a given time frame
     <br/>- Not much more too it than that but I hope it can be useful for you]]></string>
 
     <!-- Placeholder -->
