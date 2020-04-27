@@ -2,11 +2,12 @@
     <string name="app_name">HourGlass</string>
 
     <!-- Release Notes -->
-    <string name="release_1"><![CDATA[Initial release
+    <string name="release_1"><![CDATA[1.0 <b>Initial release</b>
     <br/>- Create "Countdowns" that you want to track across a given time frame
     <br/>- Not much more too it than that but I hope it can be useful for you]]></string>
-    <string name="release_2"><![CDATA[Formality
-    <br/>- Added privacy policy links in the app]]></string>
+    <string name="release_2"><![CDATA[1.1 <b>Formality</b>
+    <br/>- Added privacy policy links in the app
+    <br/>- Usual bug fixes and improvements]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
