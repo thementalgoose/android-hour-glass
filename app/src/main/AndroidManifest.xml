@@ -29,6 +29,8 @@
 
         <activity android:name="tmg.hourglass.settings.release.ReleaseActivity" />
 
+        <activity android:name="tmg.hourglass.settings.privacy.PrivacyPolicyActivity" />
+
         <activity android:name="tmg.components.about.AboutThisAppActivity" />
 
 

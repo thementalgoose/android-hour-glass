@@ -10,11 +10,12 @@ import io.realm.Realm
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import tmg.hourglass.di.passageModule
+import tmg.hourglass.di.hourGlassModule
 import tmg.hourglass.prefs.IPrefs
 
 val releaseNotes: Map<Int, Int> = mapOf(
-    1 to R.string.release_1
+    1 to R.string.release_1,
+    2 to R.string.release_2
 )
 
 class HourGlassApplication: Application() {
@@ -30,7 +31,7 @@ class HourGlassApplication: Application() {
         // Koin
         startKoin {
             androidContext(this@HourGlassApplication)
-            modules(passageModule)
+            modules(hourGlassModule)
         }
 
         // ThreeTen

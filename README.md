@@ -8,6 +8,7 @@ Hour Glass is a calendar countdown application to help you map values between tw
 - Koin
 - Realm
 - Kotlin Coroutines
+- Firebase (Analytics + Crashlytics)
 
 [![Google Play](https://imgur.com/c8dzN69)](https://play.google.com/store/apps/details?id=tmg.hourglass)
 

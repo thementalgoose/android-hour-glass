@@ -19,6 +19,7 @@ interface SettingsViewModelInputs {
     fun clickCrashReporting()
     fun clickSuggestions()
     fun clickShakeToReport()
+    fun clickPrivacyPolicy()
 }
 
 //endregion
@@ -36,6 +37,7 @@ interface SettingsViewModelOutputs {
     val crashReporting: MutableLiveData<Pair<Boolean, Boolean>> // Show update, updated too
     val openSuggestions: MutableLiveData<Event>
     val shakeToReport: MutableLiveData<Pair<Boolean, Boolean>> // Show update, updated too
+    val privacyPolicy: MutableLiveData<Event>
 }
 
 //endregion
@@ -53,6 +55,8 @@ class SettingsViewModel(
     override val crashReporting: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData(Pair(false, prefs.crashReporting))
     override val openSuggestions: MutableLiveData<Event> = MutableLiveData()
     override val shakeToReport: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData(Pair(false, prefs.shakeToReport))
+
+    override val privacyPolicy: MutableLiveData<Event> = MutableLiveData()
 
     var inputs: SettingsViewModelInputs = this
     var outputs: SettingsViewModelOutputs = this
@@ -97,6 +101,10 @@ class SettingsViewModel(
     override fun clickShakeToReport() {
         prefs.shakeToReport = !prefs.shakeToReport
         shakeToReport.value = Pair(true, prefs.shakeToReport)
+    }
+
+    override fun clickPrivacyPolicy() {
+        privacyPolicy.value = Event()
     }
 
     //endregion

@@ -9,13 +9,15 @@ import tmg.hourglass.prefs.IPrefs
 import tmg.hourglass.prefs.Prefs
 import tmg.hourglass.realm.connectors.RealmCountdownConnector
 import tmg.hourglass.settings.SettingsViewModel
+import tmg.hourglass.settings.privacy.PrivacyPolicyViewModel
 import tmg.hourglass.settings.release.ReleaseViewModel
 
-val passageModule = module {
+val hourGlassModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { ModifyViewModel(get()) }
     viewModel { SettingsViewModel(get(), get()) }
     viewModel { ReleaseViewModel(get()) }
+    viewModel { PrivacyPolicyViewModel(get()) }
 
     single<CountdownConnector> { RealmCountdownConnector() }
     single<IPrefs> { Prefs(get()) }

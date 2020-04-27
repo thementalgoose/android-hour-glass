@@ -11,10 +11,10 @@ import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.extensions.setOnClickListener
+import tmg.hourglass.settings.privacy.PrivacyPolicyActivity
 import tmg.hourglass.settings.release.ReleaseActivity
 import tmg.utilities.extensions.observe
 import tmg.utilities.extensions.observeEvent
-import java.lang.RuntimeException
 
 class SettingsActivity: BaseActivity() {
 
@@ -55,6 +55,7 @@ class SettingsActivity: BaseActivity() {
         llHelpCrashReporting.setOnClickListener(viewModel.inputs::clickCrashReporting)
         llHelpSuggestions.setOnClickListener(viewModel.inputs::clickSuggestions)
         llHelpShakeToReport.setOnClickListener(viewModel.inputs::clickShakeToReport)
+        llHelpPrivacyPolicy.setOnClickListener(viewModel.inputs::clickPrivacyPolicy)
 
         observeEvent(viewModel.outputs.goBack) {
             finish()
@@ -90,7 +91,7 @@ class SettingsActivity: BaseActivity() {
             }
         }
 
-        observe(viewModel.outputs.openSuggestions) {
+        observeEvent(viewModel.outputs.openSuggestions) {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/html"
             intent.putExtra(Intent.EXTRA_EMAIL, "thementalgoose@gmail.com")
@@ -108,6 +109,10 @@ class SettingsActivity: BaseActivity() {
                     Snackbar.LENGTH_LONG
                 ).show()
             }
+        }
+
+        observeEvent(viewModel.outputs.privacyPolicy) {
+            startActivity(Intent(this, PrivacyPolicyActivity::class.java))
         }
     }
 
