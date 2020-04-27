@@ -184,8 +184,8 @@
 
             <ImageView
                 android:id="@+id/imgCrashReporting"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:background="@drawable/background_edit_text"
                 android:paddingStart="@dimen/paddingSmall"
                 android:paddingTop="@dimen/paddingSmall"
@@ -264,8 +264,8 @@
 
             <ImageView
                 android:id="@+id/imgShakeToReport"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:background="@drawable/background_edit_text"
                 android:paddingStart="@dimen/paddingSmall"
                 android:paddingTop="@dimen/paddingSmall"
