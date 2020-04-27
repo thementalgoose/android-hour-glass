@@ -1,334 +1,388 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="?attr/pBackgroundPrimary"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/paddingVLarge">
-
-        <ImageButton
-            android:id="@+id/ibtnClose"
-            android:layout_width="@dimen/addButtonSize"
-            android:layout_height="@dimen/addButtonSize"
-            android:layout_marginStart="@dimen/paddingXSmall"
-            android:layout_marginTop="@dimen/paddingXSmall"
-            android:background="@null"
-            android:src="@drawable/ic_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvHeader"
-            style="@style/Text.Settings.PageTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/paddingMedium"
-            android:paddingTop="@dimen/paddingSmall"
-            android:paddingEnd="@dimen/paddingMedium"
-            android:paddingBottom="@dimen/paddingMedium"
-            android:text="@string/settings_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ibtnClose" />
-
-        <TextView
-            style="@style/Text.Settings.Header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/paddingMedium"
-            android:layout_marginTop="@dimen/paddingLarge"
-            android:layout_marginEnd="@dimen/paddingMedium"
-            android:layout_marginBottom="@dimen/paddingSmall"
-            android:text="@string/settings_reset" />
+        android:background="?attr/pBackgroundPrimary">
 
         <LinearLayout
-            android:id="@+id/llResetAll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="@drawable/ripple_rounded"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingStart="@dimen/paddingMedium"
-            android:paddingTop="@dimen/paddingNSmall"
-            android:paddingEnd="@dimen/paddingMedium"
-            android:paddingBottom="@dimen/paddingNSmall">
+            android:paddingBottom="@dimen/paddingVLarge">
 
-            <TextView
-                style="@style/Text.Settings.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_reset_all_title" />
-
-            <TextView
-                style="@style/Text.Settings.Description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:tint="?attr/pTextPrimary"
+                android:id="@+id/ibtnClose"
+                android:layout_width="@dimen/addButtonSize"
+                android:layout_height="@dimen/addButtonSize"
+                android:layout_marginStart="@dimen/paddingXSmall"
                 android:layout_marginTop="@dimen/paddingXSmall"
-                android:text="@string/settings_reset_all_description" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llResetDone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="@drawable/ripple_rounded"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/paddingMedium"
-            android:paddingTop="@dimen/paddingNSmall"
-            android:paddingEnd="@dimen/paddingMedium"
-            android:paddingBottom="@dimen/paddingNSmall">
-
-            <TextView
-                style="@style/Text.Settings.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_reset_done_title" />
-
-            <TextView
-                style="@style/Text.Settings.Description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/paddingXSmall"
-                android:text="@string/settings_reset_done_description" />
-
-        </LinearLayout>
-
-        <TextView
-            style="@style/Text.Settings.Header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/paddingMedium"
-            android:layout_marginTop="@dimen/paddingLarge"
-            android:layout_marginEnd="@dimen/paddingMedium"
-            android:layout_marginBottom="@dimen/paddingSmall"
-            android:text="@string/settings_help" />
-
-        <LinearLayout
-            android:id="@+id/llHelpAbout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="@drawable/ripple_rounded"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/paddingMedium"
-            android:paddingTop="@dimen/paddingNSmall"
-            android:paddingEnd="@dimen/paddingMedium"
-            android:paddingBottom="@dimen/paddingNSmall">
-
-            <TextView
-                style="@style/Text.Settings.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_help_about_title" />
-
-            <TextView
-                style="@style/Text.Settings.Description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/paddingXSmall"
-                android:text="@string/settings_help_about_description" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llHelpReleaseNotes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="@drawable/ripple_rounded"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/paddingMedium"
-            android:paddingTop="@dimen/paddingNSmall"
-            android:paddingEnd="@dimen/paddingMedium"
-            android:paddingBottom="@dimen/paddingNSmall">
-
-            <TextView
-                style="@style/Text.Settings.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_help_release_notes_title" />
-
-            <TextView
-                style="@style/Text.Settings.Description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/paddingXSmall"
-                android:text="@string/settings_help_release_notes_description" />
-
-        </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/llHelpCrashReporting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="@drawable/ripple_rounded"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/paddingMedium"
-            android:paddingTop="@dimen/paddingNSmall"
-            android:paddingEnd="@dimen/paddingMedium"
-            android:paddingBottom="@dimen/paddingNSmall">
-
-            <ImageView
-                android:id="@+id/imgCrashReporting"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/background_edit_text"
-                android:paddingStart="@dimen/paddingSmall"
-                android:paddingTop="@dimen/paddingSmall"
-                android:paddingEnd="@dimen/paddingSmall"
-                android:paddingBottom="@dimen/paddingSmall"
-                app:layout_constraintBottom_toBottomOf="@id/tvCrashDesc"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvCrashTitle"
-                tools:src="@drawable/ic_settings_check" />
-
-            <TextView
-                android:id="@+id/tvCrashTitle"
-                style="@style/Text.Settings.Title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/paddingMedium"
-                android:text="@string/settings_help_crash_reporting_title"
-                app:layout_constraintEnd_toStartOf="@id/imgCrashReporting"
+                android:background="@null"
+                android:src="@drawable/ic_back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvCrashDesc"
-                style="@style/Text.Settings.Description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/paddingXSmall"
-                android:layout_marginEnd="@dimen/paddingMedium"
-                android:text="@string/settings_help_crash_reporting_description"
-                app:layout_constraintEnd_toStartOf="@id/imgCrashReporting"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvCrashTitle" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/llHelpSuggestions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="@drawable/ripple_rounded"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/paddingMedium"
-            android:paddingTop="@dimen/paddingNSmall"
-            android:paddingEnd="@dimen/paddingMedium"
-            android:paddingBottom="@dimen/paddingNSmall">
-
-            <TextView
-                style="@style/Text.Settings.Title"
+                android:id="@+id/tvHeader"
+                style="@style/Text.Settings.PageTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/settings_help_suggestions_title" />
-
-            <TextView
-                style="@style/Text.Settings.Description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/paddingXSmall"
-                android:text="@string/settings_help_suggestions_description" />
-
-        </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/llHelpShakeToReport"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="@drawable/ripple_rounded"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/paddingMedium"
-            android:paddingTop="@dimen/paddingNSmall"
-            android:paddingEnd="@dimen/paddingMedium"
-            android:paddingBottom="@dimen/paddingNSmall">
-
-            <ImageView
-                android:id="@+id/imgShakeToReport"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/background_edit_text"
-                android:paddingStart="@dimen/paddingSmall"
+                android:paddingStart="@dimen/paddingMedium"
                 android:paddingTop="@dimen/paddingSmall"
-                android:paddingEnd="@dimen/paddingSmall"
-                android:paddingBottom="@dimen/paddingSmall"
-                app:layout_constraintBottom_toBottomOf="@id/tvShakeDesc"
+                android:paddingEnd="@dimen/paddingMedium"
+                android:paddingBottom="@dimen/paddingMedium"
+                android:text="@string/settings_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvShakeTitle"
-                tools:src="@drawable/ic_settings_check" />
-
-            <TextView
-                android:id="@+id/tvShakeTitle"
-                style="@style/Text.Settings.Title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/paddingMedium"
-                android:text="@string/settings_help_shake_to_report_title"
-                app:layout_constraintEnd_toStartOf="@id/imgShakeToReport"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/ibtnClose" />
 
             <TextView
-                android:id="@+id/tvShakeDesc"
-                style="@style/Text.Settings.Description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/paddingXSmall"
-                android:layout_marginEnd="@dimen/paddingMedium"
-                android:text="@string/settings_help_shake_to_report_description"
-                app:layout_constraintEnd_toStartOf="@id/imgShakeToReport"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvShakeTitle" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/llHelpPrivacyPolicy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="@drawable/ripple_rounded"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/paddingMedium"
-            android:paddingTop="@dimen/paddingNSmall"
-            android:paddingEnd="@dimen/paddingMedium"
-            android:paddingBottom="@dimen/paddingNSmall">
-
-            <TextView
-                style="@style/Text.Settings.Title"
+                style="@style/Text.Settings.Header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/settings_help_privacy_policy_title" />
+                android:layout_marginStart="@dimen/paddingMedium"
+                android:layout_marginTop="@dimen/paddingLarge"
+                android:layout_marginEnd="@dimen/paddingMedium"
+                android:layout_marginBottom="@dimen/paddingSmall"
+                android:text="@string/settings_reset" />
 
-            <TextView
-                style="@style/Text.Settings.Description"
+            <LinearLayout
+                android:id="@+id/llResetAll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/paddingXSmall"
-                android:text="@string/settings_help_privacy_policy_description" />
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_rounded"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/paddingMedium"
+                android:paddingTop="@dimen/paddingNSmall"
+                android:paddingEnd="@dimen/paddingMedium"
+                android:paddingBottom="@dimen/paddingNSmall">
+
+                <TextView
+                    style="@style/Text.Settings.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_reset_all_title" />
+
+                <TextView
+                    style="@style/Text.Settings.Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/paddingXSmall"
+                    android:text="@string/settings_reset_all_description" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llResetDone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_rounded"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/paddingMedium"
+                android:paddingTop="@dimen/paddingNSmall"
+                android:paddingEnd="@dimen/paddingMedium"
+                android:paddingBottom="@dimen/paddingNSmall">
+
+                <TextView
+                    style="@style/Text.Settings.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_reset_done_title" />
+
+                <TextView
+                    style="@style/Text.Settings.Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/paddingXSmall"
+                    android:text="@string/settings_reset_done_description" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/Text.Settings.Header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/paddingMedium"
+                android:layout_marginTop="@dimen/paddingLarge"
+                android:layout_marginEnd="@dimen/paddingMedium"
+                android:layout_marginBottom="@dimen/paddingSmall"
+                android:text="@string/settings_theme" />
+
+            <LinearLayout
+                android:id="@+id/llThemeTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_rounded"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/paddingMedium"
+                android:paddingTop="@dimen/paddingNSmall"
+                android:paddingEnd="@dimen/paddingMedium"
+                android:paddingBottom="@dimen/paddingNSmall">
+
+                <TextView
+                    style="@style/Text.Settings.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_theme_theme_title" />
+
+                <TextView
+                    style="@style/Text.Settings.Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/paddingXSmall"
+                    android:text="@string/settings_theme_theme_description" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/Text.Settings.Header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/paddingMedium"
+                android:layout_marginTop="@dimen/paddingLarge"
+                android:layout_marginEnd="@dimen/paddingMedium"
+                android:layout_marginBottom="@dimen/paddingSmall"
+                android:text="@string/settings_help" />
+
+            <LinearLayout
+                android:id="@+id/llHelpAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_rounded"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/paddingMedium"
+                android:paddingTop="@dimen/paddingNSmall"
+                android:paddingEnd="@dimen/paddingMedium"
+                android:paddingBottom="@dimen/paddingNSmall">
+
+                <TextView
+                    style="@style/Text.Settings.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_help_about_title" />
+
+                <TextView
+                    style="@style/Text.Settings.Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/paddingXSmall"
+                    android:text="@string/settings_help_about_description" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llHelpReleaseNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_rounded"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/paddingMedium"
+                android:paddingTop="@dimen/paddingNSmall"
+                android:paddingEnd="@dimen/paddingMedium"
+                android:paddingBottom="@dimen/paddingNSmall">
+
+                <TextView
+                    style="@style/Text.Settings.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_help_release_notes_title" />
+
+                <TextView
+                    style="@style/Text.Settings.Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/paddingXSmall"
+                    android:text="@string/settings_help_release_notes_description" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/llHelpCrashReporting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_rounded"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/paddingMedium"
+                android:paddingTop="@dimen/paddingNSmall"
+                android:paddingEnd="@dimen/paddingMedium"
+                android:paddingBottom="@dimen/paddingNSmall">
+
+                <ImageView
+                    android:id="@+id/imgCrashReporting"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/background_edit_text"
+                    android:paddingStart="@dimen/paddingSmall"
+                    android:paddingTop="@dimen/paddingSmall"
+                    android:paddingEnd="@dimen/paddingSmall"
+                    android:paddingBottom="@dimen/paddingSmall"
+                    app:layout_constraintBottom_toBottomOf="@id/tvCrashDesc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvCrashTitle"
+                    tools:src="@drawable/ic_settings_check" />
+
+                <TextView
+                    android:id="@+id/tvCrashTitle"
+                    style="@style/Text.Settings.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/paddingMedium"
+                    android:text="@string/settings_help_crash_reporting_title"
+                    app:layout_constraintEnd_toStartOf="@id/imgCrashReporting"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvCrashDesc"
+                    style="@style/Text.Settings.Description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/paddingXSmall"
+                    android:layout_marginEnd="@dimen/paddingMedium"
+                    android:text="@string/settings_help_crash_reporting_description"
+                    app:layout_constraintEnd_toStartOf="@id/imgCrashReporting"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCrashTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/llHelpSuggestions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_rounded"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/paddingMedium"
+                android:paddingTop="@dimen/paddingNSmall"
+                android:paddingEnd="@dimen/paddingMedium"
+                android:paddingBottom="@dimen/paddingNSmall">
+
+                <TextView
+                    style="@style/Text.Settings.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_help_suggestions_title" />
+
+                <TextView
+                    style="@style/Text.Settings.Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/paddingXSmall"
+                    android:text="@string/settings_help_suggestions_description" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/llHelpShakeToReport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_rounded"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/paddingMedium"
+                android:paddingTop="@dimen/paddingNSmall"
+                android:paddingEnd="@dimen/paddingMedium"
+                android:paddingBottom="@dimen/paddingNSmall">
+
+                <ImageView
+                    android:id="@+id/imgShakeToReport"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/background_edit_text"
+                    android:paddingStart="@dimen/paddingSmall"
+                    android:paddingTop="@dimen/paddingSmall"
+                    android:paddingEnd="@dimen/paddingSmall"
+                    android:paddingBottom="@dimen/paddingSmall"
+                    app:layout_constraintBottom_toBottomOf="@id/tvShakeDesc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvShakeTitle"
+                    tools:src="@drawable/ic_settings_check" />
+
+                <TextView
+                    android:id="@+id/tvShakeTitle"
+                    style="@style/Text.Settings.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/paddingMedium"
+                    android:text="@string/settings_help_shake_to_report_title"
+                    app:layout_constraintEnd_toStartOf="@id/imgShakeToReport"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvShakeDesc"
+                    style="@style/Text.Settings.Description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/paddingXSmall"
+                    android:layout_marginEnd="@dimen/paddingMedium"
+                    android:text="@string/settings_help_shake_to_report_description"
+                    app:layout_constraintEnd_toStartOf="@id/imgShakeToReport"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvShakeTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/llHelpPrivacyPolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_rounded"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/paddingMedium"
+                android:paddingTop="@dimen/paddingNSmall"
+                android:paddingEnd="@dimen/paddingMedium"
+                android:paddingBottom="@dimen/paddingNSmall">
+
+                <TextView
+                    style="@style/Text.Settings.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_help_privacy_policy_title" />
+
+                <TextView
+                    style="@style/Text.Settings.Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/paddingXSmall"
+                    android:text="@string/settings_help_privacy_policy_description" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-</androidx.core.widget.NestedScrollView>
+    <View
+        android:id="@+id/vBackground"
+        android:visibility="gone"
+        android:background="@color/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include layout="@layout/bottom_sheet_theme" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

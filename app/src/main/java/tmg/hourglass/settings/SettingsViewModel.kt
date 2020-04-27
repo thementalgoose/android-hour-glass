@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.prefs.IPrefs
+import tmg.hourglass.prefs.ThemePref
 import tmg.utilities.lifecycle.Event
 
 //region Inputs
@@ -13,6 +14,8 @@ interface SettingsViewModelInputs {
 
     fun clickDeleteAll()
     fun clickDeleteDone()
+
+    fun clickTheme(themePref: ThemePref)
 
     fun clickAbout()
     fun clickReleaseNotes()
@@ -32,6 +35,9 @@ interface SettingsViewModelOutputs {
     val deletedAll: MutableLiveData<Event>
     val deletedDone: MutableLiveData<Event>
 
+    val themeUpdated: MutableLiveData<Event>
+    val themeSelected: MutableLiveData<ThemePref>
+
     val openAbout: MutableLiveData<Event>
     val openReleaseNotes: MutableLiveData<Event>
     val crashReporting: MutableLiveData<Pair<Boolean, Boolean>> // Show update, updated too
@@ -48,8 +54,13 @@ class SettingsViewModel(
 ) : BaseViewModel(), SettingsViewModelInputs, SettingsViewModelOutputs {
 
     override val goBack: MutableLiveData<Event> = MutableLiveData()
+
     override val deletedAll: MutableLiveData<Event> = MutableLiveData()
     override val deletedDone: MutableLiveData<Event> = MutableLiveData()
+
+    override val themeUpdated: MutableLiveData<Event> = MutableLiveData()
+    override val themeSelected: MutableLiveData<ThemePref> = MutableLiveData(prefs.theme)
+
     override val openAbout: MutableLiveData<Event> = MutableLiveData()
     override val openReleaseNotes: MutableLiveData<Event> = MutableLiveData()
     override val crashReporting: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData(Pair(false, prefs.crashReporting))
@@ -79,6 +90,12 @@ class SettingsViewModel(
     override fun clickDeleteDone() {
         countdownConnector.deleteDone()
         deletedDone.value = Event()
+    }
+
+    override fun clickTheme(themePref: ThemePref) {
+        themeSelected.value = themePref
+        themeUpdated.value = Event()
+        prefs.theme = themePref
     }
 
     override fun clickAbout() {

@@ -16,6 +16,7 @@
             android:layout_height="@dimen/addButtonSize"
             android:layout_marginStart="@dimen/paddingXSmall"
             android:layout_marginTop="@dimen/paddingXSmall"
+            android:tint="?attr/pTextPrimary"
             android:background="@null"
             android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"

@@ -22,8 +22,30 @@
         <item name="pEditTextBackground">#e8e8e8</item>
     </style>
 
-    <style name="LightTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
+    <!-- Base application theme. -->
+    <style name="DarkTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#AD1457</item>
+        <item name="colorPrimaryDark">?attr/pBackgroundPrimary</item>
+        <item name="colorAccent">#AD1457</item>
 
+        <item name="colorPrimaryAlpha">#88AD1457</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <item name="pTextPrimary">#fbfbfb</item>
+        <item name="pTextSecondary">#e8e8e8</item>
+        <item name="pTextInversePrimary">#181818</item>
+        <item name="pTextInverseSecondary">#383838</item>
+
+        <item name="pBackgroundPrimary">#181818</item>
+        <item name="pBackgroundSecondary">#383838</item>
+        <item name="pBackgroundInversePrimary">#ffffff</item>
+        <item name="pBackgroundInverseSecondary">#f8f8f8</item>
+
+        <item name="pEditTextBackground">#282828</item>
+    </style>
+
+    <style name="LightTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
     <style name="LightTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
     <style name="LightTheme.Launcher" parent="LightTheme">

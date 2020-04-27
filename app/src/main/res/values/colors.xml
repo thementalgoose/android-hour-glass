@@ -7,4 +7,6 @@
 
 <!--    <color name="aboutThisApp_headerDark">#3C306E</color>-->
     <color name="aboutThisApp_headerLight">#AD1457</color>
+    <color name="aboutThisApp_headerDark">#AD1457</color>
+    <color name="overlay">#88000000</color>
 </resources>

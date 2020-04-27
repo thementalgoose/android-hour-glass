@@ -2,8 +2,12 @@ package tmg.hourglass.settings
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.widget.LinearLayout
+import android.widget.Toast
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_settings.*
+import kotlinx.android.synthetic.main.bottom_sheet_theme.*
 import org.koin.android.ext.android.inject
 import tmg.components.about.AboutThisAppActivity
 import tmg.components.about.AboutThisAppDependency
@@ -11,18 +15,28 @@ import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.extensions.setOnClickListener
+import tmg.hourglass.prefs.ThemePref
 import tmg.hourglass.settings.privacy.PrivacyPolicyActivity
 import tmg.hourglass.settings.release.ReleaseActivity
+import tmg.utilities.bottomsheet.BottomSheetFader
+import tmg.utilities.extensions.expand
+import tmg.utilities.extensions.hidden
 import tmg.utilities.extensions.observe
 import tmg.utilities.extensions.observeEvent
 
 class SettingsActivity: BaseActivity() {
 
     private val viewModel: SettingsViewModel by inject()
+    private lateinit var themeBottomSheet: BottomSheetBehavior<LinearLayout>
 
     override fun layoutId(): Int = R.layout.activity_settings
 
     override fun initViews() {
+        themeBottomSheet = BottomSheetBehavior.from(bsTheme)
+        themeBottomSheet.isHideable = true
+        themeBottomSheet.addBottomSheetCallback(BottomSheetFader(vBackground, "theme"))
+        themeBottomSheet.hidden()
+
         ibtnClose.setOnClickListener(viewModel.inputs::clickBack)
 
         llResetAll.setOnClickListener {
@@ -50,6 +64,13 @@ class SettingsActivity: BaseActivity() {
                 .show()
         }
 
+        llThemeTheme.setOnClickListener {
+            themeBottomSheet.expand()
+        }
+        clThemeAuto.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.AUTO) }
+        clThemeLight.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.LIGHT) }
+        clThemeDark.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.DARK) }
+
         llHelpAbout.setOnClickListener(viewModel.inputs::clickAbout)
         llHelpReleaseNotes.setOnClickListener(viewModel.inputs::clickReleaseNotes)
         llHelpCrashReporting.setOnClickListener(viewModel.inputs::clickCrashReporting)
@@ -70,6 +91,21 @@ class SettingsActivity: BaseActivity() {
             Snackbar.make(llResetAll, getString(R.string.settings_reset_done_done), Snackbar.LENGTH_LONG).show()
             finish()
         }
+
+
+
+
+        observe(viewModel.outputs.themeSelected) {
+            updateThemePicker(it)
+            themeBottomSheet.hidden()
+        }
+
+        observeEvent(viewModel.outputs.themeUpdated) {
+            Toast.makeText(applicationContext, getString(R.string.settings_theme_applied_later), Toast.LENGTH_LONG).show()
+        }
+
+
+
 
         observeEvent(viewModel.outputs.openAbout) {
             openAbout()
@@ -120,7 +156,11 @@ class SettingsActivity: BaseActivity() {
         startActivity(
             AboutThisAppActivity.intent(
                 this,
-                isDarkMode = false,
+                isDarkMode = when (prefs.theme) {
+                    ThemePref.AUTO -> false
+                    ThemePref.LIGHT -> false
+                    ThemePref.DARK -> true
+                },
                 name = getString(R.string.about_name),
                 nameDesc = getString(R.string.about_desc),
                 imageUrl = "https://avatars1.githubusercontent.com/u/5982159",
@@ -184,5 +224,14 @@ class SettingsActivity: BaseActivity() {
                 )
             )
         )
+    }
+
+    private fun updateThemePicker(theme: ThemePref) {
+        imgAuto.setImageResource(if (theme == ThemePref.AUTO) R.drawable.ic_settings_check else 0)
+        imgAuto.setBackgroundResource(if (theme == ThemePref.AUTO) R.drawable.background_selected else R.drawable.background_edit_text)
+        imgLight.setImageResource(if (theme == ThemePref.LIGHT) R.drawable.ic_settings_check else 0)
+        imgLight.setBackgroundResource(if (theme == ThemePref.LIGHT) R.drawable.background_selected else R.drawable.background_edit_text)
+        imgDark.setImageResource(if (theme == ThemePref.DARK) R.drawable.ic_settings_check else 0)
+        imgDark.setBackgroundResource(if (theme == ThemePref.DARK) R.drawable.background_selected else R.drawable.background_edit_text)
     }
 }

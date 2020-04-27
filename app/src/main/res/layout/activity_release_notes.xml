@@ -15,6 +15,7 @@
             android:layout_width="@dimen/addButtonSize"
             android:layout_height="@dimen/addButtonSize"
             android:layout_marginStart="@dimen/paddingXSmall"
+            android:tint="?attr/pTextPrimary"
             android:layout_marginTop="@dimen/paddingXSmall"
             android:background="@null"
             android:src="@drawable/ic_back"

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/pBackgroundPrimary">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,6 +28,7 @@
                 android:layout_marginTop="@dimen/paddingXSmall"
                 android:background="@null"
                 android:src="@drawable/ic_back"
+                android:tint="?attr/pTextPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -86,6 +88,7 @@
                 android:paddingTop="@dimen/paddingNSmall"
                 android:paddingEnd="@dimen/paddingSmall"
                 android:paddingBottom="@dimen/paddingNSmall"
+                android:textColorHint="?attr/pTextSecondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvFieldNameDesc" />
@@ -106,6 +109,7 @@
                 android:paddingTop="@dimen/paddingNSmall"
                 android:paddingEnd="@dimen/paddingSmall"
                 android:paddingBottom="@dimen/paddingNSmall"
+                android:textColorHint="?attr/pTextSecondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etFieldName" />
@@ -194,6 +198,7 @@
                 android:paddingTop="@dimen/paddingNSmall"
                 android:paddingEnd="@dimen/paddingSmall"
                 android:paddingBottom="@dimen/paddingNSmall"
+                android:textColorHint="?attr/pTextSecondary"
                 app:layout_constraintEnd_toStartOf="@id/etFinal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvFieldRangeDesc" />
@@ -213,6 +218,7 @@
                 android:paddingTop="@dimen/paddingNSmall"
                 android:paddingEnd="@dimen/paddingSmall"
                 android:paddingBottom="@dimen/paddingNSmall"
+                android:textColorHint="?attr/pTextSecondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/etInitial"
                 app:layout_constraintTop_toBottomOf="@id/tvFieldRangeDesc" />
