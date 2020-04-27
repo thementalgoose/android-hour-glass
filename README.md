@@ -1,5 +1,7 @@
 # HourGlass - Android
 
+[![Google Play](https://i.imgur.com/gSfLc4N.png)](https://play.google.com/store/apps/details?id=tmg.hourglass)
+
 ![HourGlass](res/feature.png)
 
 Hour Glass is a calendar countdown application to help you map values between two dates
@@ -9,8 +11,6 @@ Hour Glass is a calendar countdown application to help you map values between tw
 - Realm
 - Kotlin Coroutines
 - Firebase (Analytics + Crashlytics)
-
-[![Google Play](https://imgur.com/c8dzN69)](https://play.google.com/store/apps/details?id=tmg.hourglass)
 
 ```
 Copyright 2020 Jordan Fisher
