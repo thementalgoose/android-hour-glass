@@ -21,9 +21,9 @@ android {
 
     buildTypes {
         debug {
-//            firebaseCrashlytics {
-//                mappingFileUploadEnabled false
-//            }
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
         }
         release {
             minifyEnabled false
