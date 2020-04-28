@@ -3,7 +3,7 @@ package tmg.hourglass.settings
 import androidx.lifecycle.MutableLiveData
 import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.data.connectors.CountdownConnector
-import tmg.hourglass.prefs.IPrefs
+import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
 import tmg.utilities.lifecycle.Event
 
@@ -50,7 +50,7 @@ interface SettingsViewModelOutputs {
 
 class SettingsViewModel(
     private val countdownConnector: CountdownConnector,
-    private val prefs: IPrefs
+    private val prefs: PreferencesManager
 ) : BaseViewModel(), SettingsViewModelInputs, SettingsViewModelOutputs {
 
     override val goBack: MutableLiveData<Event> = MutableLiveData()

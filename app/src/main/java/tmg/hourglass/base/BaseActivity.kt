@@ -3,14 +3,14 @@ package tmg.hourglass.base
 import android.os.Bundle
 import org.koin.android.ext.android.inject
 import tmg.hourglass.R
-import tmg.hourglass.prefs.IPrefs
+import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
 import tmg.utilities.extensions.isInDayMode
 import tmg.utilities.lifecycle.common.CommonActivity
 
 abstract class BaseActivity: CommonActivity() {
 
-    val prefs: IPrefs by inject()
+    val prefs: PreferencesManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         when (prefs.theme) {

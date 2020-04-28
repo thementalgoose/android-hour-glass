@@ -11,7 +11,7 @@ import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import tmg.hourglass.di.hourGlassModule
-import tmg.hourglass.prefs.IPrefs
+import tmg.hourglass.prefs.PreferencesManager
 
 val releaseNotes: Map<Int, Int> = mapOf(
     1 to R.string.release_1,
@@ -20,7 +20,7 @@ val releaseNotes: Map<Int, Int> = mapOf(
 
 class HourGlassApplication: Application() {
 
-    private val prefs: IPrefs by inject()
+    private val prefs: PreferencesManager by inject()
 
     override fun onCreate() {
         super.onCreate()

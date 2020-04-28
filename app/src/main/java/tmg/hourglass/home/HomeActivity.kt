@@ -2,6 +2,7 @@ package tmg.hourglass.home
 
 import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tmg.hourglass.R

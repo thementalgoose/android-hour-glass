@@ -8,8 +8,11 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import tmg.hourglass.analytics.AnalyticsManager
+import tmg.hourglass.analytics.FirebaseAnalyticsManager
 import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.data.connectors.CountdownConnector
+import tmg.utilities.extensions.then
 import tmg.utilities.lifecycle.DataEvent
 import tmg.utilities.lifecycle.Event
 
