@@ -14,8 +14,9 @@ import tmg.hourglass.di.hourGlassModule
 import tmg.hourglass.prefs.PreferencesManager
 
 val releaseNotes: Map<Int, Int> = mapOf(
-    1 to R.string.release_1,
-    2 to R.string.release_2
+    3 to R.string.release_3,
+    2 to R.string.release_2,
+    1 to R.string.release_1
 )
 
 class HourGlassApplication: Application() {

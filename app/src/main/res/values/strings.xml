@@ -8,6 +8,9 @@
     <string name="release_2"><![CDATA[1.1 <b>Formality</b>
     <br/>- Added privacy policy links in the app
     <br/>- Usual bug fixes and improvements]]></string>
+    <string name="release_3"><![CDATA[1.2 <b>Dark Mode</b>
+    <br/>- Added support for dark mode
+    <br/>- Usual bug fixes and improvements]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
