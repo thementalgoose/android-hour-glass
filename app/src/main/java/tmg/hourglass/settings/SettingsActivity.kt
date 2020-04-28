@@ -19,10 +19,7 @@ import tmg.hourglass.prefs.ThemePref
 import tmg.hourglass.settings.privacy.PrivacyPolicyActivity
 import tmg.hourglass.settings.release.ReleaseActivity
 import tmg.utilities.bottomsheet.BottomSheetFader
-import tmg.utilities.extensions.expand
-import tmg.utilities.extensions.hidden
-import tmg.utilities.extensions.observe
-import tmg.utilities.extensions.observeEvent
+import tmg.utilities.extensions.*
 
 class SettingsActivity: BaseActivity() {
 
@@ -157,7 +154,7 @@ class SettingsActivity: BaseActivity() {
             AboutThisAppActivity.intent(
                 this,
                 isDarkMode = when (prefs.theme) {
-                    ThemePref.AUTO -> false
+                    ThemePref.AUTO -> this.isInNightMode()
                     ThemePref.LIGHT -> false
                     ThemePref.DARK -> true
                 },
