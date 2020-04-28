@@ -9,4 +9,5 @@
     <color name="aboutThisApp_headerLight">#AD1457</color>
     <color name="aboutThisApp_headerDark">#AD1457</color>
     <color name="overlay">#88000000</color>
+    <color name="black">#000000</color>
 </resources>

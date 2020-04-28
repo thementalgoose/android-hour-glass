@@ -333,6 +333,7 @@
         android:gravity="center"
         android:text="@string/modify_header_save"
         android:textAllCaps="false"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ibtnDelete" />
