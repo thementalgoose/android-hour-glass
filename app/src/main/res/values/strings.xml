@@ -11,6 +11,9 @@
     <string name="release_3"><![CDATA[1.2 <b>Dark Mode</b>
     <br/>- Added support for dark mode
     <br/>- Usual bug fixes and improvements]]></string>
+    <string name="release_4"><![CDATA[1.2 <b>Whoops</b>
+    <br/>- Fixed dark mode not applying to about screen
+    <br/>- Fixed google play store link]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>

@@ -166,8 +166,8 @@ class SettingsActivity: BaseActivity() {
                 appVersion = BuildConfig.VERSION_NAME,
                 appName = getString(R.string.app_name),
                 website = "https://jordanfisher.io",
+                play = "https://play.google.com/store/apps/details?id=tmg.hourglass",
                 email = "thementalgoose@gmail.com",
-                packageName = packageName ?: "",
                 dependencies = listOf(
                     AboutThisAppDependency(
                         order = 1,
@@ -206,7 +206,7 @@ class SettingsActivity: BaseActivity() {
                     ),
                     AboutThisAppDependency(
                         order = 6,
-                        dependencyName = "TMG Utilities + Components",
+                        dependencyName = "Utilities + Components",
                         author = "Jordan Fisher",
                         url = "https://github.com/thementalgoose/android-components",
                         imageUrl = "https://avatars2.githubusercontent.com/u/5982159"
