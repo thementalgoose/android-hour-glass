@@ -1,6 +1,9 @@
 package tmg.hourglass.settings
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import tmg.components.prefs.*
+import tmg.hourglass.R
 import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.prefs.PreferencesManager
@@ -19,9 +22,9 @@ interface SettingsViewModelInputs {
 
     fun clickAbout()
     fun clickReleaseNotes()
-    fun clickCrashReporting()
+    fun clickCrashReporting(type: Boolean)
     fun clickSuggestions()
-    fun clickShakeToReport()
+    fun clickShakeToReport(type: Boolean)
     fun clickPrivacyPolicy()
 }
 
@@ -30,6 +33,7 @@ interface SettingsViewModelInputs {
 //region Outputs
 
 interface SettingsViewModelOutputs {
+    val list: MutableLiveData<List<AppPreferencesItem>>
     val goBack: MutableLiveData<Event>
 
     val deletedAll: MutableLiveData<Event>
@@ -50,7 +54,8 @@ interface SettingsViewModelOutputs {
 
 class SettingsViewModel(
     private val countdownConnector: CountdownConnector,
-    private val prefs: PreferencesManager
+    private val prefs: PreferencesManager,
+    private val context: Context
 ) : BaseViewModel(), SettingsViewModelInputs, SettingsViewModelOutputs {
 
     override val goBack: MutableLiveData<Event> = MutableLiveData()
@@ -72,8 +77,59 @@ class SettingsViewModel(
     var inputs: SettingsViewModelInputs = this
     var outputs: SettingsViewModelOutputs = this
 
-    init {
+    override val list: MutableLiveData<List<AppPreferencesItem>> = MutableLiveData()
 
+    init {
+        list.value = prefsList(context) {
+            category(R.string.settings_theme) {
+                preference(PrefType.THEME_APP.key,
+                    title = R.string.settings_theme_theme_title,
+                    description = R.string.settings_theme_theme_description
+                )
+            }
+            category(R.string.settings_reset) {
+                preference(PrefType.DELETE_ALL.key,
+                    title = R.string.settings_reset_all_title,
+                    description = R.string.settings_reset_all_description
+                )
+                preference(PrefType.DELETE_DONE.key,
+                    title = R.string.settings_reset_done_title,
+                    description = R.string.settings_reset_done_description
+                )
+            }
+            category(R.string.settings_help) {
+                preference(PrefType.HELP_ABOUT.key,
+                    title = R.string.settings_help_about_title,
+                    description = R.string.settings_help_about_description
+                )
+                preference(PrefType.HELP_RELEASE.key,
+                    title = R.string.settings_help_release_notes_title,
+                    description = R.string.settings_help_release_notes_description
+                )
+            }
+            category(R.string.settings_feedback) {
+                preference(PrefType.FEEDBACK_SUGGESTION.key,
+                    title = R.string.settings_help_suggestions_title,
+                    description = R.string.settings_help_suggestions_description
+                )
+                switch(PrefType.FEEDBACK_CRASH_REPORTING.key,
+                    title = R.string.settings_help_crash_reporting_title,
+                    description = R.string.settings_help_crash_reporting_description,
+                    isChecked = prefs.crashReporting
+                )
+                switch(PrefType.FEEDBACK_SHAKE.key,
+                    title = R.string.settings_help_shake_to_report_title,
+                    description = R.string.settings_help_shake_to_report_description,
+                    isChecked = prefs.shakeToReport
+                )
+            }
+            category(R.string.settings_privacy) {
+                preference(PrefType.PRIVACY_PRIVACY.key,
+                    title = R.string.settings_help_privacy_policy_title,
+                    description = R.string.settings_help_privacy_policy_description
+                )
+            }
+        }
     }
 
     //region Inputs
@@ -106,8 +162,8 @@ class SettingsViewModel(
         openReleaseNotes.value = Event()
     }
 
-    override fun clickCrashReporting() {
-        prefs.crashReporting = !prefs.crashReporting
+    override fun clickCrashReporting(type: Boolean) {
+        prefs.crashReporting = type
         crashReporting.value = Pair(true, prefs.crashReporting)
     }
 
@@ -115,8 +171,8 @@ class SettingsViewModel(
         openSuggestions.value = Event()
     }
 
-    override fun clickShakeToReport() {
-        prefs.shakeToReport = !prefs.shakeToReport
+    override fun clickShakeToReport(type: Boolean) {
+        prefs.shakeToReport = type
         shakeToReport.value = Pair(true, prefs.shakeToReport)
     }
 
@@ -125,4 +181,18 @@ class SettingsViewModel(
     }
 
     //endregion
+
+    enum class PrefType(
+        val key: String
+    ) {
+        THEME_APP("theme_app"),
+        DELETE_ALL("delete_all"),
+        DELETE_DONE("delete_done"),
+        HELP_ABOUT("help_about"),
+        HELP_RELEASE("help_release"),
+        FEEDBACK_CRASH_REPORTING("feedback_crash_reporting"),
+        FEEDBACK_SUGGESTION("feedback_suggestions"),
+        FEEDBACK_SHAKE("feedback_shake"),
+        PRIVACY_PRIVACY("privacy_privacy")
+    }
 }

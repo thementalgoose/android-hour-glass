@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llPrefSwitchMain"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="@drawable/ripple_rounded"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/paddingMedium"
+    android:paddingTop="@dimen/paddingNSmall"
+    android:paddingEnd="@dimen/paddingMedium"
+    android:paddingBottom="@dimen/paddingNSmall">
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:clickable="false"
+        android:paddingStart="@dimen/paddingSmall"
+        android:paddingTop="@dimen/paddingSmall"
+        android:paddingEnd="@dimen/paddingSmall"
+        android:paddingBottom="@dimen/paddingSmall"
+        app:layout_constraintBottom_toBottomOf="@id/tvPrefSwitchDesc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvPrefSwitchTitle"
+        tools:src="@drawable/ic_settings_check" />
+
+    <TextView
+        android:id="@+id/tvPrefSwitchTitle"
+        style="@style/Text.Settings.Title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/paddingMedium"
+        android:text="@string/settings_help_crash_reporting_title"
+        app:layout_constraintEnd_toStartOf="@id/checkbox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPrefSwitchDesc"
+        style="@style/Text.Settings.Description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/paddingXSmall"
+        android:layout_marginEnd="@dimen/paddingMedium"
+        android:text="@string/settings_help_crash_reporting_description"
+        app:layout_constraintEnd_toStartOf="@id/checkbox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPrefSwitchTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

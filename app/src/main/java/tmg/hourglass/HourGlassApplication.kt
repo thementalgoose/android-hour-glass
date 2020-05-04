@@ -14,13 +14,14 @@ import tmg.hourglass.di.hourGlassModule
 import tmg.hourglass.prefs.PreferencesManager
 
 val releaseNotes: Map<Int, Int> = mapOf(
+    5 to R.string.release_5,
     4 to R.string.release_4,
     3 to R.string.release_3,
     2 to R.string.release_2,
     1 to R.string.release_1
 )
 
-class HourGlassApplication: Application() {
+class HourGlassApplication : Application() {
 
     private val prefs: PreferencesManager by inject()
 

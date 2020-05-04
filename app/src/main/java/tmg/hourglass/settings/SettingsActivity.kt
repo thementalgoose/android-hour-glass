@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -21,10 +22,11 @@ import tmg.hourglass.settings.release.ReleaseActivity
 import tmg.utilities.bottomsheet.BottomSheetFader
 import tmg.utilities.extensions.*
 
-class SettingsActivity: BaseActivity() {
+class SettingsActivity : BaseActivity() {
 
     private val viewModel: SettingsViewModel by inject()
     private lateinit var themeBottomSheet: BottomSheetBehavior<LinearLayout>
+    private lateinit var adapter: SettingsAdapter
 
     override fun layoutId(): Int = R.layout.activity_settings
 
@@ -35,58 +37,42 @@ class SettingsActivity: BaseActivity() {
         themeBottomSheet.hidden()
         vBackground.setOnClickListener { themeBottomSheet.hidden() }
 
+        adapter = SettingsAdapter(
+            prefClicked = { prefClicked(it) },
+            prefSwitchClicked = { key, value -> prefSwitched(key, value) }
+        )
+        rvSettings.adapter = adapter
+        rvSettings.layoutManager = LinearLayoutManager(this)
+
         ibtnClose.setOnClickListener(viewModel.inputs::clickBack)
 
-        llResetAll.setOnClickListener {
-            AlertDialog.Builder(this)
-                .setTitle(R.string.settings_reset_all_confirm_title)
-                .setMessage(R.string.settings_reset_all_confirm_description)
-                .setPositiveButton(R.string.settings_reset_all_confirm_confirm) { _, _ ->
-                    viewModel.inputs.clickDeleteAll()
-                }
-                .setNegativeButton(R.string.settings_reset_all_confirm_cancel) { _, _ -> }
-                .setCancelable(false)
-                .create()
-                .show()
-        }
-        llResetDone.setOnClickListener {
-            AlertDialog.Builder(this)
-                .setTitle(R.string.settings_reset_done_confirm_title)
-                .setMessage(R.string.settings_reset_done_confirm_description)
-                .setPositiveButton(R.string.settings_reset_done_confirm_confirm) { _, _ ->
-                    viewModel.inputs.clickDeleteDone()
-                }
-                .setNegativeButton(R.string.settings_reset_done_confirm_cancel) { _, _ -> }
-                .setCancelable(false)
-                .create()
-                .show()
-        }
-
-        llThemeTheme.setOnClickListener {
-            themeBottomSheet.expand()
-        }
         clThemeAuto.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.AUTO) }
         clThemeLight.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.LIGHT) }
         clThemeDark.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.DARK) }
 
-        llHelpAbout.setOnClickListener(viewModel.inputs::clickAbout)
-        llHelpReleaseNotes.setOnClickListener(viewModel.inputs::clickReleaseNotes)
-        llHelpCrashReporting.setOnClickListener(viewModel.inputs::clickCrashReporting)
-        llHelpSuggestions.setOnClickListener(viewModel.inputs::clickSuggestions)
-        llHelpShakeToReport.setOnClickListener(viewModel.inputs::clickShakeToReport)
-        llHelpPrivacyPolicy.setOnClickListener(viewModel.inputs::clickPrivacyPolicy)
+        observe(viewModel.outputs.list) {
+            adapter.list = it
+        }
 
         observeEvent(viewModel.outputs.goBack) {
             finish()
         }
 
         observeEvent(viewModel.outputs.deletedAll) {
-            Snackbar.make(llResetAll, getString(R.string.settings_reset_all_done), Snackbar.LENGTH_LONG).show()
+            Snackbar.make(
+                rvSettings,
+                getString(R.string.settings_reset_all_done),
+                Snackbar.LENGTH_LONG
+            ).show()
             finish()
         }
 
         observeEvent(viewModel.outputs.deletedDone) {
-            Snackbar.make(llResetAll, getString(R.string.settings_reset_done_done), Snackbar.LENGTH_LONG).show()
+            Snackbar.make(
+                rvSettings,
+                getString(R.string.settings_reset_done_done),
+                Snackbar.LENGTH_LONG
+            ).show()
             finish()
         }
 
@@ -99,7 +85,11 @@ class SettingsActivity: BaseActivity() {
         }
 
         observeEvent(viewModel.outputs.themeUpdated) {
-            Toast.makeText(applicationContext, getString(R.string.settings_theme_applied_later), Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                applicationContext,
+                getString(R.string.settings_theme_applied_later),
+                Toast.LENGTH_LONG
+            ).show()
         }
 
 
@@ -112,13 +102,11 @@ class SettingsActivity: BaseActivity() {
         observeEvent(viewModel.outputs.openReleaseNotes) {
             startActivity(Intent(this, ReleaseActivity::class.java))
         }
-
+//
         observe(viewModel.outputs.crashReporting) { (showUpdate, value) ->
-            imgCrashReporting.setImageResource(if (value) R.drawable.ic_settings_check else 0)
-            imgCrashReporting.setBackgroundResource(if (value) R.drawable.background_selected else R.drawable.background_edit_text)
             if (showUpdate) {
                 Snackbar.make(
-                    llResetAll,
+                    rvSettings,
                     getString(R.string.settings_help_crash_reporting_after_app_restart),
                     Snackbar.LENGTH_LONG
                 ).show()
@@ -134,11 +122,9 @@ class SettingsActivity: BaseActivity() {
         }
 
         observe(viewModel.outputs.shakeToReport) { (showUpdate, value) ->
-            imgShakeToReport.setImageResource(if (value) R.drawable.ic_settings_check else 0)
-            imgShakeToReport.setBackgroundResource(if (value) R.drawable.background_selected else R.drawable.background_edit_text)
             if (showUpdate) {
                 Snackbar.make(
-                    llResetAll,
+                    rvSettings,
                     getString(R.string.settings_help_shake_to_report_after_app_restart),
                     Snackbar.LENGTH_LONG
                 ).show()
@@ -147,6 +133,63 @@ class SettingsActivity: BaseActivity() {
 
         observeEvent(viewModel.outputs.privacyPolicy) {
             startActivity(Intent(this, PrivacyPolicyActivity::class.java))
+        }
+    }
+
+    private fun prefClicked(key: String) {
+        when (key.toEnum<SettingsViewModel.PrefType> { it.key }) {
+            SettingsViewModel.PrefType.THEME_APP -> {
+                themeBottomSheet.expand()
+            }
+            SettingsViewModel.PrefType.DELETE_ALL -> {
+                AlertDialog.Builder(this)
+                    .setTitle(R.string.settings_reset_all_confirm_title)
+                    .setMessage(R.string.settings_reset_all_confirm_description)
+                    .setPositiveButton(R.string.settings_reset_all_confirm_confirm) { _, _ ->
+                        viewModel.inputs.clickDeleteAll()
+                    }
+                    .setNegativeButton(R.string.settings_reset_all_confirm_cancel) { _, _ -> }
+                    .setCancelable(false)
+                    .create()
+                    .show()
+            }
+            SettingsViewModel.PrefType.DELETE_DONE -> {
+                AlertDialog.Builder(this)
+                    .setTitle(R.string.settings_reset_done_confirm_title)
+                    .setMessage(R.string.settings_reset_done_confirm_description)
+                    .setPositiveButton(R.string.settings_reset_done_confirm_confirm) { _, _ ->
+                        viewModel.inputs.clickDeleteDone()
+                    }
+                    .setNegativeButton(R.string.settings_reset_done_confirm_cancel) { _, _ -> }
+                    .setCancelable(false)
+                    .create()
+                    .show()
+            }
+            SettingsViewModel.PrefType.HELP_ABOUT -> {
+                viewModel.inputs.clickAbout()
+            }
+            SettingsViewModel.PrefType.HELP_RELEASE -> {
+                viewModel.inputs.clickReleaseNotes()
+            }
+            SettingsViewModel.PrefType.FEEDBACK_SUGGESTION -> {
+                viewModel.inputs.clickSuggestions()
+            }
+            SettingsViewModel.PrefType.PRIVACY_PRIVACY -> {
+                viewModel.inputs.clickPrivacyPolicy()
+            }
+            else -> throw Error("Regular pref type $key not supported")
+        }
+    }
+
+    private fun prefSwitched(key: String, toNewValue: Boolean) {
+        when (key.toEnum<SettingsViewModel.PrefType> { it.key }) {
+            SettingsViewModel.PrefType.FEEDBACK_CRASH_REPORTING -> {
+                viewModel.inputs.clickCrashReporting(toNewValue)
+            }
+            SettingsViewModel.PrefType.FEEDBACK_SHAKE -> {
+                viewModel.inputs.clickShakeToReport(toNewValue)
+            }
+            else -> throw Error("Regular pref type $key not supported")
         }
     }
 

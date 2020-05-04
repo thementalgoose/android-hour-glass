@@ -11,15 +11,24 @@
     <string name="release_3"><![CDATA[1.2 <b>Dark Mode</b>
     <br/>- Added support for dark mode
     <br/>- Usual bug fixes and improvements]]></string>
-    <string name="release_4"><![CDATA[1.2 <b>Whoops</b>
+    <string name="release_4"><![CDATA[1.3 <b>Whoops</b>
     <br/>- Fixed dark mode not applying to about screen
     <br/>- Fixed google play store link]]></string>
+    <string name="release_5"><![CDATA[1.4
+    <br/>- Migrated settings to use proper settings structure
+    <br/>- Reordered settings into new categories
+    <br/>- Added some initial options for countdown types
+    <br/>- Updated utilities to 1.1.1, components to 2.0.0 ]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_theme_title">App theme</string>
+    <string name="settings_theme_theme_description">Pick your theming preference</string>
+    <string name="settings_theme_theme_summary">Pick here between following your system theming or overriding a light or dark theme</string>
     <string name="settings_reset">Reset</string>
     <string name="settings_reset_all_title">Delete all</string>
     <string name="settings_reset_all_description">Delete all the items that you have setup in the app</string>
@@ -27,11 +36,9 @@
     <string name="settings_reset_done_title">Delete done</string>
     <string name="settings_reset_done_description">Delete all the items that you have now finished and are in your previous tab</string>
     <string name="settings_reset_done_done">Items have been cleared</string>
-    <string name="settings_theme">Theme</string>
-    <string name="settings_theme_theme_title">App theme</string>
-    <string name="settings_theme_theme_description">Pick your theming preference</string>
-    <string name="settings_theme_theme_summary">Pick here between following your system theming or overriding a light or dark theme</string>
-    <string name="settings_help">Help and support</string>
+    <string name="settings_help">About</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_privacy">Privacy</string>
     <string name="settings_help_about_title">About this app</string>
     <string name="settings_help_about_description">About the application and the developer</string>
     <string name="settings_help_release_notes_title">Release notes</string>

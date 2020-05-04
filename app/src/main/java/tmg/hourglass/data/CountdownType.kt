@@ -7,6 +7,14 @@ enum class CountdownType(
     NUMBER(
         key = "NUMBER"
     ),
+    MILES(
+        key = "MILES",
+        converter = { "$it mi" }
+    ),
+    KILOMETRES(
+        key = "KILOMETRES",
+        converter = { "$it km" }
+    ),
     MONEY_GBP(
         key = "MONEY_GBP",
         converter = { "£ $it" }
@@ -18,15 +26,7 @@ enum class CountdownType(
     MONEY_EUR(
         key = "MONEY_EUR",
         converter = { "€ $it" }
-    ),
-    MILES(
-        key = "MILES",
-        converter = { "$it mi" }
-    ),
-    KILOMETRES(
-        key = "KILOMETRES",
-        converter = { "$it km" }
-    ),
+    )
 //    COUNTDOWN(
 //        key = "COUNTDOWN",
 //        converter = { "$it days" }
