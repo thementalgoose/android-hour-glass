@@ -4,20 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.widget.LinearLayout
 import androidx.core.graphics.toColorInt
 import androidx.core.view.isGone
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.leavjenn.smoothdaterangepicker.date.SmoothDateRangePickerFragment
 import kotlinx.android.synthetic.main.activity_modify.*
+import kotlinx.android.synthetic.main.bottom_sheet_modify.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.threeten.bp.LocalDate
 import petrov.kristiyan.colorpicker.ColorPicker
 import petrov.kristiyan.colorpicker.ColorPicker.OnFastChooseColorListener
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
-import tmg.hourglass.extensions.addTextUpdateListener
-import tmg.hourglass.extensions.format
-import tmg.hourglass.extensions.hexColour
-import tmg.hourglass.extensions.setOnClickListener
+import tmg.hourglass.extensions.*
+import tmg.utilities.bottomsheet.BottomSheetFader
+import tmg.utilities.extensions.expand
+import tmg.utilities.extensions.hidden
 import tmg.utilities.extensions.observe
 import tmg.utilities.extensions.observeEvent
 
@@ -27,6 +31,9 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
 
     private val viewModel: ModifyViewModel by viewModel()
     private var passageId: String? = null
+
+    private lateinit var bottomSheetType: BottomSheetBehavior<LinearLayout>
+    private lateinit var adapter: ModifyTypeAdapter
 
     private var currentColour: String? = null
 
@@ -39,7 +46,12 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
 
     override fun initViews() {
 
+        setupBottomSheet()
+
         ibtnClose.setOnClickListener(viewModel.inputs::clickClose)
+        btnType.setOnClickListener {
+            bottomSheetType.expand()
+        }
         btnDates.setOnClickListener {
             showRangePicker()
         }
@@ -79,6 +91,14 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
             this.currentColour = it
             vColour.setBackgroundColor(it.toColorInt())
         }
+
+        observe(viewModel.outputs.typeList) {
+            adapter.list = it
+        }
+        observe(viewModel.outputs.type) {
+            btnType.setText(it.label())
+        }
+
         observe(viewModel.outputs.dates) {
             btnDates.text = getString(R.string.modify_field_dates_format, it.first.format("dd MMM yyyy"), it.second.format("dd MMM yyyy"))
         }
@@ -94,6 +114,24 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
             ibtnDelete.isGone = it
             tvHeader.setText(if (it) R.string.modify_header_add else R.string.modify_header_edit)
         }
+    }
+
+    private fun setupBottomSheet() {
+        bottomSheetType = BottomSheetBehavior.from(bsModifyType)
+        bottomSheetType.isHideable = true
+        bottomSheetType.hidden()
+        bottomSheetType.addBottomSheetCallback(BottomSheetFader(bottomSheetBackground, "bottom_sheet"))
+
+        bottomSheetBackground.setOnClickListener { bottomSheetType.hidden() }
+
+        adapter = ModifyTypeAdapter(
+            itemSelected = {
+                viewModel.inputs.inputType(it)
+                bottomSheetType.hidden()
+            }
+        )
+        rvOptions.adapter = adapter
+        rvOptions.layoutManager = LinearLayoutManager(this)
     }
 
     private fun showColourPicker(withDefault: String) {

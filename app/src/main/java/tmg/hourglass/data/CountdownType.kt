@@ -9,22 +9,30 @@ enum class CountdownType(
     ),
     MONEY_GBP(
         key = "MONEY_GBP",
-        converter = { "£$it" }
+        converter = { "£ $it" }
     ),
     MONEY_USD(
         key = "MONEY_USD",
-        converter = { "$$it" }
+        converter = { "$ $it" }
     ),
     MONEY_EUR(
         key = "MONEY_EUR",
-        converter = { "€$it" }
+        converter = { "€ $it" }
     ),
     MILES(
         key = "MILES",
-        converter = { "${it}mi" }
+        converter = { "$it mi" }
     ),
     KILOMETRES(
         key = "KILOMETRES",
-        converter = { "${it}km" }
-    );
+        converter = { "$it km" }
+    ),
+//    COUNTDOWN(
+//        key = "COUNTDOWN",
+//        converter = { "$it days" }
+//    ),
+//    DAYS(
+//        key = "DAYS",
+//        converter = { "$it days" }
+//    )
 }

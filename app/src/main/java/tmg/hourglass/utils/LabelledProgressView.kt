@@ -150,6 +150,7 @@ class LabelledProgressView : View, ValueAnimator.AnimatorUpdateListener, Animato
         maxPercentage = progress
         start(progress)
         this.labelResolver = resolver
+        drawOnBar(maxPercentage)
     }
 
     //endregion

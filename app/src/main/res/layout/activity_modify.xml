@@ -1,341 +1,418 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/pBackgroundPrimary">
+    android:layout_height="match_parent">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/paddingVLarge"
-        app:layout_constraintBottom_toBottomOf="@id/vGradient"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:background="?attr/pBackgroundPrimary">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/paddingVLarge"
+            app:layout_constraintBottom_toBottomOf="@id/vGradient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:id="@+id/ibtnClose"
-                android:layout_width="@dimen/addButtonSize"
-                android:layout_height="@dimen/addButtonSize"
-                android:layout_marginStart="@dimen/paddingXSmall"
-                android:layout_marginTop="@dimen/paddingXSmall"
-                android:background="@null"
-                android:src="@drawable/ic_back"
-                android:tint="?attr/pTextPrimary"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tvHeader"
-                style="@style/Text.Modify.Title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/paddingMedium"
-                android:paddingTop="@dimen/paddingSmall"
-                android:paddingEnd="@dimen/paddingMedium"
-                android:paddingBottom="@dimen/paddingMedium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ibtnClose"
-                tools:text="Add" />
+                <ImageButton
+                    android:id="@+id/ibtnClose"
+                    android:layout_width="@dimen/addButtonSize"
+                    android:layout_height="@dimen/addButtonSize"
+                    android:layout_marginStart="@dimen/paddingXSmall"
+                    android:layout_marginTop="@dimen/paddingXSmall"
+                    android:background="@null"
+                    android:src="@drawable/ic_back"
+                    android:tint="?attr/pTextPrimary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvFieldName"
-                style="@style/Text.Modify.FieldTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/paddingMedium"
-                android:paddingTop="@dimen/paddingSmall"
-                android:paddingEnd="@dimen/paddingMedium"
-                android:text="@string/modify_field_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvHeader" />
+                <TextView
+                    android:id="@+id/tvHeader"
+                    style="@style/Text.Modify.Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/paddingMedium"
+                    android:paddingTop="@dimen/paddingSmall"
+                    android:paddingEnd="@dimen/paddingMedium"
+                    android:paddingBottom="@dimen/paddingMedium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ibtnClose"
+                    tools:text="Add" />
 
-            <TextView
-                android:id="@+id/tvFieldNameDesc"
-                style="@style/Text.Modify.FieldDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/paddingMedium"
-                android:paddingTop="@dimen/paddingXSmall"
-                android:paddingEnd="@dimen/paddingMedium"
-                android:paddingBottom="@dimen/paddingNSmall"
-                android:text="@string/modify_field_name_desc"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvFieldName" />
+                <TextView
+                    android:id="@+id/tvFieldName"
+                    style="@style/Text.Modify.FieldTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/paddingMedium"
+                    android:paddingTop="@dimen/paddingSmall"
+                    android:paddingEnd="@dimen/paddingMedium"
+                    android:text="@string/modify_field_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvHeader" />
 
-            <EditText
-                android:id="@+id/etFieldName"
-                style="@style/Text.Modify.FieldValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/paddingMedium"
-                android:layout_marginEnd="@dimen/paddingMedium"
-                android:background="@drawable/background_edit_text"
-                android:hint="@string/modify_field_name_hint"
-                android:importantForAutofill="no"
-                android:inputType="textCapSentences"
-                android:paddingStart="@dimen/paddingSmall"
-                android:paddingTop="@dimen/paddingNSmall"
-                android:paddingEnd="@dimen/paddingSmall"
-                android:paddingBottom="@dimen/paddingNSmall"
-                android:textColorHint="?attr/pTextSecondary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvFieldNameDesc" />
+                <TextView
+                    android:id="@+id/tvFieldNameDesc"
+                    style="@style/Text.Modify.FieldDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/paddingMedium"
+                    android:paddingTop="@dimen/paddingXSmall"
+                    android:paddingEnd="@dimen/paddingMedium"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:text="@string/modify_field_name_desc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvFieldName" />
 
-            <EditText
-                android:id="@+id/etFieldDescription"
-                style="@style/Text.Modify.FieldValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/paddingMedium"
-                android:layout_marginTop="@dimen/paddingMedium"
-                android:layout_marginEnd="@dimen/paddingMedium"
-                android:background="@drawable/background_edit_text"
-                android:hint="@string/modify_field_description_hint"
-                android:importantForAutofill="no"
-                android:inputType="textCapSentences"
-                android:paddingStart="@dimen/paddingSmall"
-                android:paddingTop="@dimen/paddingNSmall"
-                android:paddingEnd="@dimen/paddingSmall"
-                android:paddingBottom="@dimen/paddingNSmall"
-                android:textColorHint="?attr/pTextSecondary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etFieldName" />
+                <EditText
+                    android:id="@+id/etFieldName"
+                    style="@style/Text.Modify.FieldValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/paddingMedium"
+                    android:layout_marginEnd="@dimen/paddingMedium"
+                    android:background="@drawable/background_edit_text"
+                    android:hint="@string/modify_field_name_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="textCapSentences"
+                    android:paddingStart="@dimen/paddingSmall"
+                    android:paddingTop="@dimen/paddingNSmall"
+                    android:paddingEnd="@dimen/paddingSmall"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:textColorHint="?attr/pTextSecondary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvFieldNameDesc" />
 
-            <TextView
-                android:id="@+id/btnColour"
-                style="@style/Text.Modify.FieldValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/paddingMedium"
-                android:layout_marginTop="@dimen/paddingMedium"
-                android:layout_marginEnd="@dimen/paddingMedium"
-                android:background="@drawable/background_edit_text"
-                android:foreground="@drawable/ripple_rounded"
-                android:gravity="center|start"
-                android:paddingStart="@dimen/paddingSmall"
-                android:paddingTop="@dimen/paddingNSmall"
-                android:paddingEnd="@dimen/paddingSmall"
-                android:paddingBottom="@dimen/paddingNSmall"
-                android:text="@string/modify_field_colour_hint"
-                android:textAllCaps="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etFieldDescription" />
+                <EditText
+                    android:id="@+id/etFieldDescription"
+                    style="@style/Text.Modify.FieldValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/paddingMedium"
+                    android:layout_marginTop="@dimen/paddingMedium"
+                    android:layout_marginEnd="@dimen/paddingMedium"
+                    android:background="@drawable/background_edit_text"
+                    android:hint="@string/modify_field_description_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="textCapSentences"
+                    android:paddingStart="@dimen/paddingSmall"
+                    android:paddingTop="@dimen/paddingNSmall"
+                    android:paddingEnd="@dimen/paddingSmall"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:textColorHint="?attr/pTextSecondary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/etFieldName" />
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="@dimen/paddingNSmall"
-                app:cardCornerRadius="@dimen/corner"
-                app:layout_constraintBottom_toBottomOf="@id/btnColour"
-                app:layout_constraintEnd_toEndOf="@id/btnColour"
-                app:layout_constraintTop_toTopOf="@id/btnColour">
+                <TextView
+                    android:id="@+id/btnColour"
+                    style="@style/Text.Modify.FieldValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/paddingMedium"
+                    android:layout_marginTop="@dimen/paddingMedium"
+                    android:layout_marginEnd="@dimen/paddingMedium"
+                    android:background="@drawable/background_edit_text"
+                    android:foreground="@drawable/ripple_rounded"
+                    android:gravity="center|start"
+                    android:paddingStart="@dimen/paddingSmall"
+                    android:paddingTop="@dimen/paddingNSmall"
+                    android:paddingEnd="@dimen/paddingSmall"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:text="@string/modify_field_colour_hint"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/etFieldDescription" />
 
-                <View
-                    android:id="@+id/vColour"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="@dimen/paddingNSmall"
+                    app:cardCornerRadius="@dimen/corner"
                     app:layout_constraintBottom_toBottomOf="@id/btnColour"
                     app:layout_constraintEnd_toEndOf="@id/btnColour"
-                    app:layout_constraintTop_toTopOf="@id/btnColour"
-                    tools:background="?attr/colorPrimary" />
+                    app:layout_constraintTop_toTopOf="@id/btnColour">
 
-            </androidx.cardview.widget.CardView>
+                    <View
+                        android:id="@+id/vColour"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="@id/btnColour"
+                        app:layout_constraintEnd_toEndOf="@id/btnColour"
+                        app:layout_constraintTop_toTopOf="@id/btnColour"
+                        tools:background="?attr/colorPrimary" />
 
-
-            <TextView
-                android:id="@+id/tvFieldRange"
-                style="@style/Text.Modify.FieldTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/paddingMedium"
-                android:paddingTop="@dimen/paddingMedium"
-                android:paddingEnd="@dimen/paddingMedium"
-                android:text="@string/modify_field_range"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnColour" />
-
-            <TextView
-                android:id="@+id/tvFieldRangeDesc"
-                style="@style/Text.Modify.FieldDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/paddingMedium"
-                android:paddingTop="@dimen/paddingXSmall"
-                android:paddingEnd="@dimen/paddingMedium"
-                android:paddingBottom="@dimen/paddingNSmall"
-                android:text="@string/modify_field_range_desc"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvFieldRange" />
-
-            <EditText
-                android:id="@+id/etInitial"
-                style="@style/Text.Modify.FieldValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/paddingMedium"
-                android:layout_marginEnd="@dimen/paddingMedium"
-                android:background="@drawable/background_edit_text"
-                android:hint="@string/modify_field_range_initial"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:paddingStart="@dimen/paddingSmall"
-                android:paddingTop="@dimen/paddingNSmall"
-                android:paddingEnd="@dimen/paddingSmall"
-                android:paddingBottom="@dimen/paddingNSmall"
-                android:textColorHint="?attr/pTextSecondary"
-                app:layout_constraintEnd_toStartOf="@id/etFinal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvFieldRangeDesc" />
-
-            <EditText
-                android:id="@+id/etFinal"
-                style="@style/Text.Modify.FieldValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/paddingMedium"
-                android:layout_marginEnd="@dimen/paddingMedium"
-                android:background="@drawable/background_edit_text"
-                android:hint="@string/modify_field_range_final"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:paddingStart="@dimen/paddingSmall"
-                android:paddingTop="@dimen/paddingNSmall"
-                android:paddingEnd="@dimen/paddingSmall"
-                android:paddingBottom="@dimen/paddingNSmall"
-                android:textColorHint="?attr/pTextSecondary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/etInitial"
-                app:layout_constraintTop_toBottomOf="@id/tvFieldRangeDesc" />
+                </androidx.cardview.widget.CardView>
 
 
-            <TextView
-                android:id="@+id/tvFieldDates"
-                style="@style/Text.Modify.FieldTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/paddingMedium"
-                android:paddingTop="@dimen/paddingMedium"
-                android:paddingEnd="@dimen/paddingMedium"
-                android:text="@string/modify_field_dates"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etInitial" />
 
-            <TextView
-                android:id="@+id/tvFieldDatesDesc"
-                style="@style/Text.Modify.FieldDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/paddingMedium"
-                android:paddingTop="@dimen/paddingXSmall"
-                android:paddingEnd="@dimen/paddingMedium"
-                android:paddingBottom="@dimen/paddingNSmall"
-                android:text="@string/modify_field_dates_desc"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvFieldDates" />
 
-            <TextView
-                android:id="@+id/btnDates"
-                style="@style/Text.Modify.FieldValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/paddingMedium"
-                android:layout_marginEnd="@dimen/paddingMedium"
-                android:background="@drawable/background_edit_text"
-                android:foreground="@drawable/ripple_rounded"
-                android:gravity="center|start"
-                android:paddingStart="@dimen/paddingSmall"
-                android:paddingTop="@dimen/paddingNSmall"
-                android:paddingEnd="@dimen/paddingSmall"
-                android:paddingBottom="@dimen/paddingNSmall"
-                android:text="@string/modify_field_dates_button"
-                android:textAllCaps="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvFieldDatesDesc" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+
+
+
+
+                <TextView
+                    android:id="@+id/tvType"
+                    style="@style/Text.Modify.FieldTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/paddingMedium"
+                    android:paddingTop="@dimen/paddingMedium"
+                    android:paddingEnd="@dimen/paddingMedium"
+                    android:text="@string/modify_field_type"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnColour" />
+
+                <TextView
+                    android:id="@+id/tvTypeDescription"
+                    style="@style/Text.Modify.FieldDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/paddingMedium"
+                    android:paddingTop="@dimen/paddingXSmall"
+                    android:paddingEnd="@dimen/paddingMedium"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:text="@string/modify_field_type_desc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvType" />
+
+                <TextView
+                    android:id="@+id/btnType"
+                    style="@style/Text.Modify.FieldValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/paddingMedium"
+                    android:layout_marginEnd="@dimen/paddingMedium"
+                    android:background="@drawable/background_edit_text"
+                    android:foreground="@drawable/ripple_rounded"
+                    android:gravity="center|start"
+                    android:paddingStart="@dimen/paddingSmall"
+                    android:paddingTop="@dimen/paddingNSmall"
+                    android:paddingEnd="@dimen/paddingSmall"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTypeDescription" />
+
+
+
+
+
+
+
+
+
+                <TextView
+                    android:id="@+id/tvFieldRange"
+                    style="@style/Text.Modify.FieldTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/paddingMedium"
+                    android:paddingTop="@dimen/paddingMedium"
+                    android:paddingEnd="@dimen/paddingMedium"
+                    android:text="@string/modify_field_range"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnType" />
+
+                <TextView
+                    android:id="@+id/tvFieldRangeDesc"
+                    style="@style/Text.Modify.FieldDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/paddingMedium"
+                    android:paddingTop="@dimen/paddingXSmall"
+                    android:paddingEnd="@dimen/paddingMedium"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:text="@string/modify_field_range_desc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvFieldRange" />
+
+                <EditText
+                    android:id="@+id/etInitial"
+                    style="@style/Text.Modify.FieldValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/paddingMedium"
+                    android:layout_marginEnd="@dimen/paddingMedium"
+                    android:background="@drawable/background_edit_text"
+                    android:hint="@string/modify_field_range_initial"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/paddingSmall"
+                    android:paddingTop="@dimen/paddingNSmall"
+                    android:paddingEnd="@dimen/paddingSmall"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:textColorHint="?attr/pTextSecondary"
+                    app:layout_constraintEnd_toStartOf="@id/etFinal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvFieldRangeDesc" />
+
+                <EditText
+                    android:id="@+id/etFinal"
+                    style="@style/Text.Modify.FieldValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/paddingMedium"
+                    android:layout_marginEnd="@dimen/paddingMedium"
+                    android:background="@drawable/background_edit_text"
+                    android:hint="@string/modify_field_range_final"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/paddingSmall"
+                    android:paddingTop="@dimen/paddingNSmall"
+                    android:paddingEnd="@dimen/paddingSmall"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:textColorHint="?attr/pTextSecondary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/etInitial"
+                    app:layout_constraintTop_toBottomOf="@id/tvFieldRangeDesc" />
+
+
+                <TextView
+                    android:id="@+id/tvFieldDates"
+                    style="@style/Text.Modify.FieldTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/paddingMedium"
+                    android:paddingTop="@dimen/paddingMedium"
+                    android:paddingEnd="@dimen/paddingMedium"
+                    android:text="@string/modify_field_dates"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/etInitial" />
+
+                <TextView
+                    android:id="@+id/tvFieldDatesDesc"
+                    style="@style/Text.Modify.FieldDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/paddingMedium"
+                    android:paddingTop="@dimen/paddingXSmall"
+                    android:paddingEnd="@dimen/paddingMedium"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:text="@string/modify_field_dates_desc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvFieldDates" />
+
+                <TextView
+                    android:id="@+id/btnDates"
+                    style="@style/Text.Modify.FieldValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/paddingMedium"
+                    android:layout_marginEnd="@dimen/paddingMedium"
+                    android:background="@drawable/background_edit_text"
+                    android:foreground="@drawable/ripple_rounded"
+                    android:gravity="center|start"
+                    android:paddingStart="@dimen/paddingSmall"
+                    android:paddingTop="@dimen/paddingNSmall"
+                    android:paddingEnd="@dimen/paddingSmall"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:text="@string/modify_field_dates_button"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvFieldDatesDesc" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <View
+            android:id="@+id/vGradient"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/paddingVLarge"
+            android:background="@drawable/background_gradient"
+            app:layout_constraintBottom_toTopOf="@id/vBorder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/vBorder"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/paddingMedium"
+            android:background="?attr/pBackgroundPrimary"
+            app:layout_constraintBottom_toTopOf="@id/vBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/vBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="?attr/pBackgroundPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnSave" />
+
+        <ImageButton
+            android:id="@+id/ibtnDelete"
+            android:layout_width="@dimen/addButtonSize"
+            android:layout_height="@dimen/addButtonSize"
+            android:layout_marginStart="@dimen/paddingMedium"
+            android:layout_marginTop="@dimen/paddingXSmall"
+            android:layout_marginBottom="@dimen/paddingMedium"
+            android:background="@drawable/background_fab"
+            android:foreground="@drawable/ripple_rounded"
+            android:src="@drawable/ic_delete"
+            android:tint="?attr/colorPrimary"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/btnSave"
+            style="@style/Text.Modify.Save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/paddingMedium"
+            android:layout_marginEnd="@dimen/paddingMedium"
+            android:layout_marginBottom="@dimen/paddingMedium"
+            android:height="@dimen/addButtonSize"
+            android:background="@drawable/background_save"
+            android:foreground="@drawable/ripple_rounded"
+            android:gravity="center"
+            android:text="@string/modify_header_save"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ibtnDelete" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
-        android:id="@+id/vGradient"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/paddingVLarge"
-        android:background="@drawable/background_gradient"
-        app:layout_constraintBottom_toTopOf="@id/vBorder"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:id="@+id/bottomSheetBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overlay"
+        android:visibility="gone" />
 
-    <View
-        android:id="@+id/vBorder"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/paddingMedium"
-        android:background="?attr/pBackgroundPrimary"
-        app:layout_constraintBottom_toTopOf="@id/vBackground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <include layout="@layout/bottom_sheet_modify" />
 
-    <View
-        android:id="@+id/vBackground"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:background="?attr/pBackgroundPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnSave" />
-
-    <ImageButton
-        android:id="@+id/ibtnDelete"
-        android:layout_width="@dimen/addButtonSize"
-        android:layout_height="@dimen/addButtonSize"
-        android:layout_marginStart="@dimen/paddingMedium"
-        android:layout_marginTop="@dimen/paddingXSmall"
-        android:layout_marginBottom="@dimen/paddingMedium"
-        android:background="@drawable/background_fab"
-        android:foreground="@drawable/ripple_rounded"
-        android:src="@drawable/ic_delete"
-        android:tint="?attr/colorPrimary"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible" />
-
-    <TextView
-        android:id="@+id/btnSave"
-        style="@style/Text.Modify.Save"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/paddingMedium"
-        android:layout_marginEnd="@dimen/paddingMedium"
-        android:layout_marginBottom="@dimen/paddingMedium"
-        android:height="@dimen/addButtonSize"
-        android:background="@drawable/background_save"
-        android:foreground="@drawable/ripple_rounded"
-        android:gravity="center"
-        android:text="@string/modify_header_save"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ibtnDelete" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

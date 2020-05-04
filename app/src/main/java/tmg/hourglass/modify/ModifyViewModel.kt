@@ -7,6 +7,7 @@ import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.data.CountdownType
 import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.data.models.Countdown
+import tmg.hourglass.utils.Selected
 import tmg.utilities.lifecycle.Event
 import java.util.*
 
@@ -21,6 +22,7 @@ interface ModifyViewModelInputs {
     fun inputDescription(name: String)
     fun inputColour(colour: String)
 
+    fun inputType(type: CountdownType)
     fun inputDates(start: LocalDateTime, end: LocalDateTime)
     fun inputInitial(value: String)
     fun inputFinal(value: String)
@@ -39,6 +41,9 @@ interface ModifyViewModelOutputs {
 
     val isValid: MutableLiveData<Boolean>
 
+    val type: MutableLiveData<CountdownType>
+    val typeList: MutableLiveData<List<Selected<CountdownType>>>
+
     val name: MutableLiveData<String>
     val description: MutableLiveData<String>
     val colour: MutableLiveData<String>
@@ -51,7 +56,7 @@ interface ModifyViewModelOutputs {
 
 class ModifyViewModel(
     private val connector: CountdownConnector
-): BaseViewModel(), ModifyViewModelInputs, ModifyViewModelOutputs {
+) : BaseViewModel(), ModifyViewModelInputs, ModifyViewModelOutputs {
 
     var inputs: ModifyViewModelInputs = this
     var outputs: ModifyViewModelOutputs = this
@@ -64,9 +69,12 @@ class ModifyViewModel(
     override val name: MutableLiveData<String> = MutableLiveData()
     override val description: MutableLiveData<String> = MutableLiveData()
     override val colour: MutableLiveData<String> = MutableLiveData()
-    override val dates: MutableLiveData<Pair<LocalDateTime,LocalDateTime>> = MutableLiveData()
+    override val dates: MutableLiveData<Pair<LocalDateTime, LocalDateTime>> = MutableLiveData()
     override val initial: MutableLiveData<String> = MutableLiveData()
     override val final: MutableLiveData<String> = MutableLiveData()
+
+    override val type: MutableLiveData<CountdownType> = MutableLiveData()
+    override val typeList: MutableLiveData<List<Selected<CountdownType>>> = MutableLiveData()
 
     override val closeEvent: MutableLiveData<Event> = MutableLiveData()
 
@@ -74,11 +82,13 @@ class ModifyViewModel(
 
     }
 
+
     //region Inputs
 
     override fun initialise(id: String?) {
         this.id = id
         this.isAddition.value = id == null
+        this.type.value = CountdownType.NUMBER
         if (id != null) {
             connector.getSync(id)?.let {
                 name.value = it.name
@@ -87,8 +97,10 @@ class ModifyViewModel(
                 dates.value = Pair(it.start, it.end)
                 initial.value = it.initial
                 final.value = it.finishing
+                type.value = it.countdownType
             }
         }
+        updateList(this.type.value!!)
         validate()
     }
 
@@ -110,6 +122,11 @@ class ModifyViewModel(
         validate()
     }
 
+    override fun inputType(type: CountdownType) {
+        this.type.value = type
+        this.updateList(type)
+    }
+
     override fun inputDates(start: LocalDateTime, end: LocalDateTime) {
         this.dates.value = Pair(start, end)
         validate()
@@ -126,9 +143,8 @@ class ModifyViewModel(
     }
 
     override fun clickSave() {
-        Log.i("Passage", "Clicking save")
         try {
-            val countdown: Countdown = Countdown(
+            val countdown = Countdown(
                 id = id ?: UUID.randomUUID().toString(),
                 name = name.value!!,
                 description = description.value ?: "",
@@ -137,13 +153,13 @@ class ModifyViewModel(
                 end = dates.value?.second!!,
                 initial = initial.value!!,
                 finishing = final.value!!,
-                countdownType = CountdownType.NUMBER
+                countdownType = type.value!!
             )
             connector.saveSync(countdown)
             closeEvent.value = Event()
-        }
-        catch (e: NullPointerException) {
+        } catch (e: NullPointerException) {
             e.printStackTrace()
+            // TODO: Notify of a failure
         }
     }
 
@@ -155,6 +171,14 @@ class ModifyViewModel(
     }
 
     //endregion
+
+    private fun updateList(type: CountdownType) {
+        typeList.value = CountdownType
+            .values()
+            .map {
+                Selected(it, it == type)
+            }
+    }
 
     private fun validate() {
         when {

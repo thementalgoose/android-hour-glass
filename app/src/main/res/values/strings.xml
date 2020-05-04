@@ -133,6 +133,9 @@
     <string name="modify_field_name_desc">Pick a name, a description, and a colour for what you are want to track here</string>
     <string name="modify_field_name_hint">Name</string>
     <string name="modify_field_description_hint">Description</string>
+
+    <string name="modify_field_type">Type</string>
+    <string name="modify_field_type_desc">Select which kind of metric you would like to countdown or count-up</string>
     <string name="modify_field_range">Range</string>
     <string name="modify_field_range_desc">Enter the start and end values that you want to progress between. At the moment only numbers are supported</string>
     <string name="modify_field_range_initial">From</string>
@@ -143,4 +146,5 @@
     <string name="modify_field_dates_button">Pick dates</string>
     <string name="modify_field_colour_hint">Colour</string>
     <string name="settings_theme_applied_later">Theme will be applied when the app is restarted</string>
+    <string name="modify_type_title">Countdown type</string>
 </resources>

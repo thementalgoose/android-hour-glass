@@ -33,6 +33,7 @@ class SettingsActivity: BaseActivity() {
         themeBottomSheet.isHideable = true
         themeBottomSheet.addBottomSheetCallback(BottomSheetFader(vBackground, "theme"))
         themeBottomSheet.hidden()
+        vBackground.setOnClickListener { themeBottomSheet.hidden() }
 
         ibtnClose.setOnClickListener(viewModel.inputs::clickBack)
 
