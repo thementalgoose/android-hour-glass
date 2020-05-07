@@ -87,6 +87,12 @@ class SettingsViewModel(
                     description = R.string.settings_theme_theme_description
                 )
             }
+//            category(R.string.settings_customisation) {
+//                preference(PrefType.CUSTOMISE_KEEP_IN_NOW.key,
+//                    title = R.string.settings_customisation_move_to_previous_title,
+//                    description = R.string.settings_customisation_move_to_previous_description
+//                )
+//            }
             category(R.string.settings_reset) {
                 preference(PrefType.DELETE_ALL.key,
                     title = R.string.settings_reset_all_title,
@@ -186,6 +192,7 @@ class SettingsViewModel(
         val key: String
     ) {
         THEME_APP("theme_app"),
+        CUSTOMISE_KEEP_IN_NOW("keep_in_now"),
         DELETE_ALL("delete_all"),
         DELETE_DONE("delete_done"),
         HELP_ABOUT("help_about"),
