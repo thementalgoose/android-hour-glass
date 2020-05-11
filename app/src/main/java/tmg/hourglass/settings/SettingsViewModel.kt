@@ -68,9 +68,11 @@ class SettingsViewModel(
 
     override val openAbout: MutableLiveData<Event> = MutableLiveData()
     override val openReleaseNotes: MutableLiveData<Event> = MutableLiveData()
-    override val crashReporting: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData(Pair(false, prefs.crashReporting))
+    override val crashReporting: MutableLiveData<Pair<Boolean, Boolean>> =
+        MutableLiveData(Pair(false, prefs.crashReporting))
     override val openSuggestions: MutableLiveData<Event> = MutableLiveData()
-    override val shakeToReport: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData(Pair(false, prefs.shakeToReport))
+    override val shakeToReport: MutableLiveData<Pair<Boolean, Boolean>> =
+        MutableLiveData(Pair(false, prefs.shakeToReport))
 
     override val privacyPolicy: MutableLiveData<Event> = MutableLiveData()
 
@@ -82,7 +84,8 @@ class SettingsViewModel(
     init {
         list.value = prefsList(context) {
             category(R.string.settings_theme) {
-                preference(PrefType.THEME_APP.key,
+                preference(
+                    PrefType.THEME_APP.key,
                     title = R.string.settings_theme_theme_title,
                     description = R.string.settings_theme_theme_description
                 )
@@ -94,43 +97,51 @@ class SettingsViewModel(
 //                )
 //            }
             category(R.string.settings_reset) {
-                preference(PrefType.DELETE_ALL.key,
+                preference(
+                    PrefType.DELETE_ALL.key,
                     title = R.string.settings_reset_all_title,
                     description = R.string.settings_reset_all_description
                 )
-                preference(PrefType.DELETE_DONE.key,
+                preference(
+                    PrefType.DELETE_DONE.key,
                     title = R.string.settings_reset_done_title,
                     description = R.string.settings_reset_done_description
                 )
             }
             category(R.string.settings_help) {
-                preference(PrefType.HELP_ABOUT.key,
+                preference(
+                    PrefType.HELP_ABOUT.key,
                     title = R.string.settings_help_about_title,
                     description = R.string.settings_help_about_description
                 )
-                preference(PrefType.HELP_RELEASE.key,
+                preference(
+                    PrefType.HELP_RELEASE.key,
                     title = R.string.settings_help_release_notes_title,
                     description = R.string.settings_help_release_notes_description
                 )
             }
             category(R.string.settings_feedback) {
-                preference(PrefType.FEEDBACK_SUGGESTION.key,
+                preference(
+                    PrefType.FEEDBACK_SUGGESTION.key,
                     title = R.string.settings_help_suggestions_title,
                     description = R.string.settings_help_suggestions_description
                 )
-                switch(PrefType.FEEDBACK_CRASH_REPORTING.key,
+                switch(
+                    PrefType.FEEDBACK_CRASH_REPORTING.key,
                     title = R.string.settings_help_crash_reporting_title,
                     description = R.string.settings_help_crash_reporting_description,
                     isChecked = prefs.crashReporting
                 )
-                switch(PrefType.FEEDBACK_SHAKE.key,
+                switch(
+                    PrefType.FEEDBACK_SHAKE.key,
                     title = R.string.settings_help_shake_to_report_title,
                     description = R.string.settings_help_shake_to_report_description,
                     isChecked = prefs.shakeToReport
                 )
             }
             category(R.string.settings_privacy) {
-                preference(PrefType.PRIVACY_PRIVACY.key,
+                preference(
+                    PrefType.PRIVACY_PRIVACY.key,
                     title = R.string.settings_help_privacy_policy_title,
                     description = R.string.settings_help_privacy_policy_description
                 )

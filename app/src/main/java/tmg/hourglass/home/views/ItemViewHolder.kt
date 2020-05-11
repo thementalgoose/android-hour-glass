@@ -57,7 +57,7 @@ class ItemViewHolder(
             lpvMain.progressColour = countdown.colour.toColorInt()
             lpvMain.textBarColour = Color.WHITE
             lpvMain.textBackgroundColour = itemView.context.theme.getColor(R.attr.pTextSecondary)
-            lpvMain.setProgress(getProgress(countdown.start, countdown.end)) {
+            lpvMain.animateProgress(getProgress(countdown.start, countdown.end)) {
                 countdown.countdownType.converter((start + (it * (end - start))).toInt().toString())
             }
         }
