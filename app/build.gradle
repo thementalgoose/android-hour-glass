@@ -13,8 +13,8 @@ android {
         applicationId "tmg.hourglass"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 5
-        versionName "1.4"
+        versionCode 6
+        versionName "1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -70,7 +70,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0-alpha06'
 
     // ConstraintLayout
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta5"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta6"
 
     // ThreeTen
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
@@ -85,9 +85,9 @@ dependencies {
     implementation "org.koin:koin-androidx-fragment:$koin_version"
 
     // TMG
-    implementation 'com.github.thementalgoose:android-components:2.0.0'
+    implementation 'com.github.thementalgoose:android-components:2.0.1'
     implementation 'com.github.thementalgoose:android-utilities:1.1.1'
-    implementation 'com.github.thementalgoose:android-labelled-progress-bar:1.0.0'
+    implementation 'com.github.thementalgoose:android-labelled-progress-bar:1.0.1'
 
     // ColorSheet
     implementation 'petrov.kristiyan:colorpicker-library:1.1.10'

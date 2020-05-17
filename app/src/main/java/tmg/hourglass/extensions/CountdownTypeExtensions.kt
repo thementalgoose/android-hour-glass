@@ -11,5 +11,6 @@ fun CountdownType.label(): Int {
         CountdownType.MONEY_EUR -> R.string.countdown_type_money_eur
         CountdownType.MILES -> R.string.countdown_type_miles
         CountdownType.KILOMETRES -> R.string.countdown_type_kilometres
+        CountdownType.DAYS -> R.string.countdown_type_days
     }
 }

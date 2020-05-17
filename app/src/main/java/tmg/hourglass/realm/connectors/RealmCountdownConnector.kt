@@ -119,6 +119,7 @@ class RealmCountdownConnector : CountdownConnector {
     ): Flow<T?> = callbackFlow {
         val realm: Realm = realm()
         val query = where(realm.where(realmClass))
+        @Suppress("SENSELESS_COMPARISON")
         val listener = RealmChangeListener<E> { t ->
             if (t != null) {
                 offer(convert(t))

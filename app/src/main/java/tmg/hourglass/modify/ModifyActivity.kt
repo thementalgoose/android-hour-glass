@@ -24,6 +24,7 @@ import tmg.utilities.extensions.expand
 import tmg.utilities.extensions.hidden
 import tmg.utilities.extensions.observe
 import tmg.utilities.extensions.observeEvent
+import tmg.utilities.extensions.views.show
 
 
 class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
@@ -114,6 +115,9 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
             ibtnDelete.isGone = it
             tvHeader.setText(if (it) R.string.modify_header_add else R.string.modify_header_edit)
         }
+
+
+        observe(viewModel.outputs.showRange) { (from, to) -> showRange(from, to) }
     }
 
     private fun setupBottomSheet() {
@@ -140,6 +144,13 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
             .setDefaultColorButton(Color.parseColor(withDefault))
             .setColumns(5)
             .show()
+    }
+
+    private fun showRange(from: Boolean, to: Boolean) {
+        tvFieldRange.show(from || to)
+        tvFieldRangeDesc.show(from || to)
+        etInitial.show(from)
+        etFinal.show(to)
     }
 
     private fun showRangePicker() {

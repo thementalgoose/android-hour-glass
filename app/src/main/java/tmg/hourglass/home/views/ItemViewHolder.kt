@@ -17,7 +17,7 @@ import tmg.utilities.extensions.getColor
 class ItemViewHolder(
     itemView: View,
     val actionItem: (id: String, action: HomeItemAction) -> Unit
-): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     init {
         itemView.ibtnEdit.setOnClickListener(this)
@@ -37,17 +37,24 @@ class ItemViewHolder(
             val start: Int = countdown.initial.toIntOrNull() ?: 0
             val end: Int = countdown.finishing.toIntOrNull() ?: 100
 
+
+
             if (countdown.description.isEmpty()) {
-                tvDescription.text = context.getString(R.string.home_no_description,
-                    start.toString(), countdown.start.format("dd MMM yyyy"),
-                    end.toString(), countdown.end.format("dd MMM yyyy")
+                tvDescription.text = context.getString(
+                    R.string.home_no_description,
+                    countdown.countdownType.converter(start.toString()),
+                    countdown.start.format("dd MMM yyyy"),
+                    countdown.countdownType.converter(end.toString()),
+                    countdown.end.format("dd MMM yyyy")
                 ).fromHtml()
-            }
-            else {
-                tvDescription.text = context.getString(R.string.home_description,
+            } else {
+                tvDescription.text = context.getString(
+                    R.string.home_description,
                     countdown.description,
-                    start.toString(), countdown.start.format("dd MMM yyyy"),
-                    end.toString(), countdown.end.format("dd MMM yyyy")
+                    countdown.countdownType.converter(start.toString()),
+                    countdown.start.format("dd MMM yyyy"),
+                    countdown.countdownType.converter(end.toString()),
+                    countdown.end.format("dd MMM yyyy")
                 ).fromHtml()
             }
 

@@ -19,6 +19,12 @@
     <br/>- Reordered settings into new categories
     <br/>- Added some initial options for countdown types
     <br/>- Updated utilities to 1.1.1, components to 2.0.0 ]]></string>
+    <string name="release_6"><![CDATA[1.5
+    <br/>- Added type labels on preview cars
+    <br/>- Added standard days support for countdown
+    <br/>- Updated components to 2.0.1
+    <br/>- Updated constraint layout to 2.0.0-beta6
+    <br/>- Updated progress bar to 1.0.1]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
@@ -72,6 +78,7 @@
     <string name="countdown_type_money_eur">Money (€)</string>
     <string name="countdown_type_miles">Miles</string>
     <string name="countdown_type_kilometres">Kilometres</string>
+    <string name="countdown_type_days">Days</string>
 
     <!-- Privacy Policy -->
     <string name="privacy_policy_title">Privacy Policy</string>

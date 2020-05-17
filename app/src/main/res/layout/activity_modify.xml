@@ -289,6 +289,12 @@
                     app:layout_constraintStart_toEndOf="@id/etInitial"
                     app:layout_constraintTop_toBottomOf="@id/tvFieldRangeDesc" />
 
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier"
+                    app:barrierDirection="bottom"
+                    android:layout_width="wrap_content"
+                    app:constraint_referenced_ids="etFinal,etInitial"
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/tvFieldDates"
@@ -301,7 +307,7 @@
                     android:text="@string/modify_field_dates"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/etInitial" />
+                    app:layout_constraintTop_toBottomOf="@id/barrier" />
 
                 <TextView
                     android:id="@+id/tvFieldDatesDesc"
