@@ -45,7 +45,8 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
         viewModel.inputs.initialise(passageId)
     }
 
-    override fun initViews() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         setupBottomSheet()
 

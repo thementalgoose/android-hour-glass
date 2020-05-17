@@ -1,6 +1,7 @@
 package tmg.hourglass.home
 
 import android.content.Intent
+import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_home.*
@@ -19,8 +20,8 @@ class HomeActivity: BaseActivity() {
 
     override fun layoutId(): Int = R.layout.activity_home
 
-    override fun initViews() {
-        super.initViews()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         adapter = HomeAdapter(
             actionItem = { id, action ->

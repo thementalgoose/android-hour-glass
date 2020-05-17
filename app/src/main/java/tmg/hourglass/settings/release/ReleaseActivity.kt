@@ -1,5 +1,6 @@
 package tmg.hourglass.settings.release
 
+import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_release_notes.*
 import org.koin.android.ext.android.inject
 import tmg.hourglass.R
@@ -15,7 +16,8 @@ class ReleaseActivity: BaseActivity() {
 
     override fun layoutId(): Int = R.layout.activity_release_notes
 
-    override fun initViews() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         ibtnClose.setOnClickListener(viewModel.inputs::clickBack)
 

@@ -2,6 +2,7 @@ package tmg.hourglass.settings
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +31,9 @@ class SettingsActivity : BaseActivity() {
 
     override fun layoutId(): Int = R.layout.activity_settings
 
-    override fun initViews() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         themeBottomSheet = BottomSheetBehavior.from(bsTheme)
         themeBottomSheet.isHideable = true
         themeBottomSheet.addBottomSheetCallback(BottomSheetFader(vBackground, "theme"))
