@@ -68,7 +68,7 @@
     <string name="settings_reset_all_confirm_confirm">Yes</string>
     <string name="settings_reset_all_confirm_cancel">Cancel</string>
     <string name="settings_reset_done_confirm_title">Are you sure?</string>
-    <string name="settings_reset_done_confirm_description">This will remove all the items that you have in your previous tab, and all items that have been completed</string>
+    <string name="settings_reset_done_confirm_description">This will remove all the items that you have in your previous tab.</string>
     <string name="settings_reset_done_confirm_confirm">Yes</string>
     <string name="settings_reset_done_confirm_cancel">Cancel</string>
 
