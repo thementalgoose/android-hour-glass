@@ -24,6 +24,7 @@ class ModifyTypeViewHolder(
         itemView.apply {
             tvTitle.setText(selected.data.label())
             imgSelected.setBackgroundResource(if (selected.isSelected) R.drawable.background_selected else 0)
+            imgSelected.setImageResource(if (selected.isSelected) R.drawable.ic_settings_check else 0)
         }
     }
 
