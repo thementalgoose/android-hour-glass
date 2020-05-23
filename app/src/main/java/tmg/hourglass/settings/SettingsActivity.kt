@@ -17,11 +17,15 @@ import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.extensions.setOnClickListener
+import tmg.hourglass.extensions.updateWidgets
 import tmg.hourglass.prefs.ThemePref
 import tmg.hourglass.settings.privacy.PrivacyPolicyActivity
 import tmg.hourglass.settings.release.ReleaseActivity
+import tmg.hourglass.widget.dark.ItemWidgetDarkProvider
+import tmg.hourglass.widget.light.ItemWidgetLightProvider
 import tmg.utilities.bottomsheet.BottomSheetFader
 import tmg.utilities.extensions.*
+
 
 class SettingsActivity : BaseActivity() {
 
@@ -78,8 +82,6 @@ class SettingsActivity : BaseActivity() {
             ).show()
             finish()
         }
-
-
 
 
         observe(viewModel.outputs.themeSelected) {
@@ -167,6 +169,11 @@ class SettingsActivity : BaseActivity() {
                     .setCancelable(false)
                     .create()
                     .show()
+            }
+            SettingsViewModel.PrefType.WIDGETS_REFRESH -> {
+                updateWidgets(ItemWidgetLightProvider::class.java)
+                updateWidgets(ItemWidgetDarkProvider::class.java)
+                Snackbar.make(rvSettings, getString(R.string.settings_widgets_refresh_refreshed), Snackbar.LENGTH_LONG).show()
             }
             SettingsViewModel.PrefType.HELP_ABOUT -> {
                 viewModel.inputs.clickAbout()

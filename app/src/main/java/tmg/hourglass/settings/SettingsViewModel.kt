@@ -96,6 +96,13 @@ class SettingsViewModel(
 //                    description = R.string.settings_customisation_move_to_previous_description
 //                )
 //            }
+            category(R.string.settings_widgets) {
+                preference(
+                    PrefType.WIDGETS_REFRESH.key,
+                    title = R.string.settings_widgets_refresh_title,
+                    description = R.string.settings_widgets_refresh_description
+                )
+            }
             category(R.string.settings_reset) {
                 preference(
                     PrefType.DELETE_ALL.key,
@@ -206,6 +213,7 @@ class SettingsViewModel(
         CUSTOMISE_KEEP_IN_NOW("keep_in_now"),
         DELETE_ALL("delete_all"),
         DELETE_DONE("delete_done"),
+        WIDGETS_REFRESH("widget_refresh"),
         HELP_ABOUT("help_about"),
         HELP_RELEASE("help_release"),
         FEEDBACK_CRASH_REPORTING("feedback_crash_reporting"),

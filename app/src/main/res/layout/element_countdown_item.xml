@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/pBackgroundPrimary"
-    android:paddingTop="@dimen/paddingXSmall">
+    android:foreground="@drawable/ripple_rounded"
+    android:paddingTop="@dimen/paddingSmall">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -26,7 +27,7 @@
         android:id="@+id/ibtnEdit"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/paddingSmall"
+        android:layout_marginEnd="@dimen/paddingMedium"
         android:background="@drawable/ripple_rounded"
         android:paddingStart="@dimen/paddingSmall"
         android:paddingEnd="@dimen/paddingSmall"

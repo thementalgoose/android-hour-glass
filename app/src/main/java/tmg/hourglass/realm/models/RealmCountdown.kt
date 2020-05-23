@@ -42,14 +42,22 @@ fun RealmCountdown.convert(): Countdown {
 
 fun Countdown.saveSync(realm: Realm) {
     realm.executeTransaction { transRealm ->
-        val realmCountdown: RealmCountdown = transRealm.where<RealmCountdown>().equalTo("id", this.id).findFirst() ?: transRealm.createObject(RealmCountdown::class.java, this.id)
+        val realmCountdown: RealmCountdown = transRealm
+            .where<RealmCountdown>()
+            .equalTo("id", this.id)
+            .findFirst()
+            ?: transRealm.createObject(RealmCountdown::class.java, this.id)
         realmCountdown.applyData(this)
     }
 }
 
 fun Countdown.save(realm: Realm) {
     realm.executeTransactionAsync { transRealm ->
-        val realmCountdown: RealmCountdown = transRealm.where<RealmCountdown>().equalTo("id", this.id).findFirst() ?: transRealm.createObject(RealmCountdown::class.java, this.id)
+        val realmCountdown: RealmCountdown = transRealm
+            .where<RealmCountdown>()
+            .equalTo("id", this.id)
+            .findFirst()
+            ?: transRealm.createObject(RealmCountdown::class.java, this.id)
         realmCountdown.applyData(this)
     }
 }

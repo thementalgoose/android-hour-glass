@@ -7,11 +7,13 @@ import com.github.stkent.bugshaker.flow.dialog.AlertDialogType
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.jakewharton.threetenabp.AndroidThreeTen
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import tmg.hourglass.di.hourGlassModule
 import tmg.hourglass.prefs.PreferencesManager
+import tmg.hourglass.realm.RealmDBMigration
 
 val releaseNotes: Map<Int, Int> = mapOf(
     6 to R.string.release_6,
@@ -31,6 +33,11 @@ class HourGlassApplication : Application() {
 
         // Realm
         Realm.init(this)
+        val config = RealmConfiguration.Builder()
+            .schemaVersion(1L)
+            .migration(RealmDBMigration())
+            .build()
+        Realm.setDefaultConfiguration(config)
 
         // Koin
         startKoin {

@@ -18,4 +18,8 @@
     <dimen name="corner">6dp</dimen>
 
     <dimen name="modifyIconSize">36dp</dimen>
+
+    <!-- Widgets -->
+    <dimen name="widgetMinWidth">120dp</dimen>
+    <dimen name="widgetMinHeight">60dp</dimen>
 </resources>

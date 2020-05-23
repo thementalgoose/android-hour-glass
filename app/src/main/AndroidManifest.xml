@@ -4,20 +4,21 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name="tmg.hourglass.HourGlassApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name="tmg.hourglass.HourGlassApplication"
         android:theme="@style/LightTheme">
 
-        <activity android:name="tmg.hourglass.SplashActivity"
+        <activity
+            android:name="tmg.hourglass.SplashActivity"
             android:theme="@style/LightTheme.Launcher">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -33,6 +34,41 @@
 
         <activity android:name="tmg.components.about.AboutThisAppActivity" />
 
+        <!-- Widget -->
+
+        <activity android:name=".widget.dark.ItemWidgetDarkPickerActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".widget.light.ItemWidgetLightPickerActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".widget.light.ItemWidgetLightProvider"
+            android:label="@string/widget_label_dark">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_light" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.dark.ItemWidgetDarkProvider"
+            android:label="@string/widget_label_dark">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_dark" />
+        </receiver>
 
     </application>
 

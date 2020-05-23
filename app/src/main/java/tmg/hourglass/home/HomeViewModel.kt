@@ -65,7 +65,7 @@ class HomeViewModel(
                             val action: HomeItemAction = if ((viewTab.valueOrNull
                                     ?: HomeTab.NOW) == HomeTab.NOW
                             ) HomeItemAction.EDIT else HomeItemAction.DELETE
-                            HomeItemType.Item(countdown = it, action = action)
+                            HomeItemType.Item(countdown = it, action = action, isEnabled = false)
                         })
                     }
                 }

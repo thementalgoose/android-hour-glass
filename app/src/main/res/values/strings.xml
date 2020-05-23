@@ -35,6 +35,10 @@
     <string name="settings_theme_theme_title">App theme</string>
     <string name="settings_theme_theme_description">Pick your theming preference</string>
     <string name="settings_theme_theme_summary">Pick here between following your system theming or overriding a light or dark theme</string>
+    <string name="settings_widgets">Widgets</string>
+    <string name="settings_widgets_refresh_title">Refresh widgets</string>
+    <string name="settings_widgets_refresh_description">Widgets should refresh every hour, but you can force refresh them by clicking here</string>
+    <string name="settings_widgets_refresh_refreshed">Widgets have been refreshed</string>
     <string name="settings_customisation">Customisation</string>
     <string name="settings_customisation_move_to_previous_title">Keep in now</string>
     <string name="settings_customisation_move_to_previous_description">Change the number of days a countdown item appears in "Now" after it\'s finished</string>
@@ -164,4 +168,10 @@
     <string name="modify_field_colour_hint">Colour</string>
     <string name="settings_theme_applied_later">Theme will be applied when the app is restarted</string>
     <string name="modify_type_title">Countdown type</string>
+
+    <!-- Widgets -->
+    <string name="widget_error">Item not found</string>
+    <string name="widget_value">N/A</string>
+    <string name="widget_label_light">Light mode</string>
+    <string name="widget_label_dark">Dark mode</string>
 </resources>

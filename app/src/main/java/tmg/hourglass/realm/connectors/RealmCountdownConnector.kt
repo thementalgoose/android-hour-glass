@@ -13,7 +13,7 @@ import tmg.hourglass.realm.models.RealmCountdown
 import tmg.hourglass.realm.models.convert
 import tmg.hourglass.realm.models.saveSync
 
-class RealmCountdownConnector : CountdownConnector {
+class RealmCountdownConnector: RealmBaseConnector(), CountdownConnector {
 
     override fun allCurrent(): Flow<List<Countdown>> = flowableList(
         realmClass = RealmCountdown::class.java,
@@ -83,55 +83,5 @@ class RealmCountdownConnector : CountdownConnector {
             transRealm.where<RealmCountdown>().equalTo("id", id).findFirst()?.deleteFromRealm()
         }
         realm.close()
-    }
-
-    //region Utils
-
-    private val now: Long
-        get() = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
-
-    private fun realm(): Realm = Realm.getDefaultInstance()
-
-    //endregion
-
-    private fun <E : RealmObject, T> flowableList(
-        realmClass: Class<E>,
-        where: (q: RealmQuery<E>) -> RealmQuery<E>,
-        convert: (model: E) -> T
-    ): Flow<List<T>> = callbackFlow {
-        val realm: Realm = realm()
-        val query = where(realm.where(realmClass))
-        val listener = RealmChangeListener<RealmResults<E>> { t ->
-            offer(t.map { convert(it) })
-        }
-        val results = query.findAllAsync()
-        results.addChangeListener(listener)
-        awaitClose {
-            results.removeAllChangeListeners()
-            realm.close()
-        }
-    }
-
-    private fun <E : RealmObject, T> flowable(
-        realmClass: Class<E>,
-        where: (q: RealmQuery<E>) -> RealmQuery<E>,
-        convert: (model: E) -> T
-    ): Flow<T?> = callbackFlow {
-        val realm: Realm = realm()
-        val query = where(realm.where(realmClass))
-        @Suppress("SENSELESS_COMPARISON")
-        val listener = RealmChangeListener<E> { t ->
-            if (t != null) {
-                offer(convert(t))
-            } else {
-                offer(null)
-            }
-        }
-        val results = query.findFirstAsync()
-        results.addChangeListener(listener)
-        awaitClose {
-            results.removeAllChangeListeners()
-            realm.close()
-        }
     }
 }
