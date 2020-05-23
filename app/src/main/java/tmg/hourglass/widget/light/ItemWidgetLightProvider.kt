@@ -12,6 +12,7 @@ import tmg.hourglass.widget.onUpdate
 class ItemWidgetLightProvider: AppWidgetProvider() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
+
         super.onReceive(context, intent)
     }
 
@@ -20,6 +21,7 @@ class ItemWidgetLightProvider: AppWidgetProvider() {
         appWidgetManager: AppWidgetManager?,
         appWidgetIds: IntArray?
     ) {
+        Log.i("HourGlass", "Processing light widget updates for ids ${appWidgetIds?.joinToString(",")}")
         onUpdate<ItemWidgetLightProvider>(
             context = context,
             layoutId = R.layout.widget_item_light,

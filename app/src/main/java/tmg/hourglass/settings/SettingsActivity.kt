@@ -17,6 +17,7 @@ import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.extensions.setOnClickListener
+import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.extensions.updateWidgets
 import tmg.hourglass.prefs.ThemePref
 import tmg.hourglass.settings.privacy.PrivacyPolicyActivity
@@ -171,8 +172,7 @@ class SettingsActivity : BaseActivity() {
                     .show()
             }
             SettingsViewModel.PrefType.WIDGETS_REFRESH -> {
-                updateWidgets(ItemWidgetLightProvider::class.java)
-                updateWidgets(ItemWidgetDarkProvider::class.java)
+                updateAllWidgets()
                 Snackbar.make(rvSettings, getString(R.string.settings_widgets_refresh_refreshed), Snackbar.LENGTH_LONG).show()
             }
             SettingsViewModel.PrefType.HELP_ABOUT -> {

@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
+import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.modify.ModifyActivity
 import tmg.hourglass.settings.SettingsActivity
 import tmg.utilities.extensions.observe
@@ -67,6 +68,10 @@ class HomeActivity: BaseActivity() {
 
         observeEvent(viewModel.outputs.editItemEvent) {
             startActivity(ModifyActivity.intent(this, it))
+        }
+
+        observeEvent(viewModel.outputs.deleteItemEvent) {
+            updateAllWidgets()
         }
     }
 }

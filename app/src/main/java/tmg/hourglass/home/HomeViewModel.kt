@@ -33,6 +33,7 @@ interface HomeViewModelOutputs {
     val addItemEvent: MutableLiveData<Event>
     val editItemEvent: MutableLiveData<DataEvent<String>>
     val items: LiveData<List<HomeItemType>>
+    val deleteItemEvent: MutableLiveData<Event>
 }
 
 //endregion
@@ -74,6 +75,7 @@ class HomeViewModel(
 
     override val editItemEvent: MutableLiveData<DataEvent<String>> = MutableLiveData()
     override val addItemEvent: MutableLiveData<Event> = MutableLiveData()
+    override val deleteItemEvent: MutableLiveData<Event> = MutableLiveData()
 
     //region Inputs
 
@@ -87,6 +89,7 @@ class HomeViewModel(
 
     override fun deleteItem(id: String) {
         countdownConnector.delete(id)
+        deleteItemEvent.value = Event()
     }
 
     override fun switchList(tab: HomeTab) {

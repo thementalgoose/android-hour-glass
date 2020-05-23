@@ -20,6 +20,7 @@ class ItemWidgetDarkProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager?,
         appWidgetIds: IntArray?
     ) {
+        Log.i("HourGlass", "Processing dark widget updates for ids ${appWidgetIds?.joinToString(",")}")
         onUpdate<ItemWidgetDarkProvider>(
             context = context,
             layoutId = R.layout.widget_item_dark,
