@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "",
+        "mobilesdk_app_id": "abc",
         "android_client_info": {
-          "package_name": ""
+          "package_name": "tmg.hourglass.sand"
         }
       },
       "oauth_client": [
