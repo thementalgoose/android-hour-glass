@@ -9,7 +9,6 @@
 /.idea/assetWizardSettings.xml
 /app/google-services.json
 /app/src/live/google-services.json
-/app/src/sand/google-services.json
 .DS_Store
 /build
 /captures
