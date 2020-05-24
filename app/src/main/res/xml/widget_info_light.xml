@@ -3,7 +3,6 @@
     android:configure="tmg.hourglass.widget.light.ItemWidgetLightPickerActivity"
     android:initialLayout="@layout/widget_item_light"
     android:minWidth="@dimen/widgetMinWidth"
-    android:minHeight="@dimen/widgetMinHeight"
     android:previewImage="@drawable/preview_light"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="3600000"

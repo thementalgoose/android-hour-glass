@@ -3,7 +3,6 @@
     android:configure="tmg.hourglass.widget.dark.ItemWidgetDarkPickerActivity"
     android:initialLayout="@layout/widget_item_dark"
     android:minWidth="@dimen/widgetMinWidth"
-    android:minHeight="@dimen/widgetMinHeight"
     android:previewImage="@drawable/preview_dark"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="3600000"

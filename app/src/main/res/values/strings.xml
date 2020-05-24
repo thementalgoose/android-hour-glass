@@ -27,6 +27,9 @@
     <br/>- Widget support! From your home screen see a snapshot of the current progress. Dark and light mode supported
     <br/>- Updated some settings wording
     <br/>- Updated about this app information]]></string>
+    <string name="release_8"><![CDATA[2.1
+    <br/>- Fixed minimum widget size for home screen on some phones
+    <br/>- Updated dependencies]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
