@@ -156,7 +156,7 @@
     ▲ Starts at %s on <b>%s</b><br/>
     ▼ Ends at %s on <b>%s</b>]]></string>
     <string name="modify_field_name">Personalise</string>
-    <string name="modify_field_name_desc">Pick a name, a description, and a colour for what you are want to track here</string>
+    <string name="modify_field_name_desc">Pick a name, a description, and a colour for your countdown item below</string>
     <string name="modify_field_name_hint">Name</string>
     <string name="modify_field_description_hint">Description</string>
 
