@@ -7,6 +7,7 @@ import tmg.utilities.prefs.SharedPrefManager
 private const val keyCrashReporting: String = "crashReporting"
 private const val keyShakeToReport: String = "shakeToReport"
 private const val keyVersion: String = "version"
+private const val keyWidgetUpdated: String = "widgetUpdate"
 private const val keyThemePref: String = "themePref"
 
 class AppPreferencesManager(context: Context): SharedPrefManager(context), PreferencesManager {
@@ -24,6 +25,10 @@ class AppPreferencesManager(context: Context): SharedPrefManager(context), Prefe
     override var version: Int
         get() = getInt(keyVersion, 0)
         set(value) = save(keyVersion, value)
+
+    override var widgetShowUpdate: Boolean
+        get() = getBoolean(keyWidgetUpdated, true)
+        set(value) = save(keyWidgetUpdated, value)
 
     override var theme: ThemePref
         get() = getString(keyThemePref, ThemePref.AUTO.key)?.toEnum<ThemePref> { it.key } ?: ThemePref.AUTO

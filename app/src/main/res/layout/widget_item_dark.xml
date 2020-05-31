@@ -47,4 +47,13 @@
         android:progressTint="@color/brand"
         tools:progress="50" />
 
+    <TextView
+        android:id="@+id/updatedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressBar"
+        android:layout_alignParentEnd="true"
+        style="@style/Text.Widget.Dark.Subtitle"
+        tools:text="Updated at 11:23 20th March 2019" />
+
 </RelativeLayout>

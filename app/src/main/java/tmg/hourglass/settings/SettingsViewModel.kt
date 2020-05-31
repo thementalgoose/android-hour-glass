@@ -20,6 +20,8 @@ interface SettingsViewModelInputs {
 
     fun clickTheme(themePref: ThemePref)
 
+    fun clickWidgetUpdate(enabled: Boolean)
+
     fun clickAbout()
     fun clickReleaseNotes()
     fun clickCrashReporting(type: Boolean)
@@ -102,6 +104,12 @@ class SettingsViewModel(
                     title = R.string.settings_widgets_refresh_title,
                     description = R.string.settings_widgets_refresh_description
                 )
+                switch(
+                    PrefType.WIDGETS_UPDATED.key,
+                    title = R.string.settings_widgets_updated_title,
+                    description = R.string.settings_widgets_updated_description,
+                    isChecked = prefs.widgetShowUpdate
+                )
             }
             category(R.string.settings_reset) {
                 preference(
@@ -178,6 +186,10 @@ class SettingsViewModel(
         prefs.theme = themePref
     }
 
+    override fun clickWidgetUpdate(enabled: Boolean) {
+        prefs.widgetShowUpdate = enabled
+    }
+
     override fun clickAbout() {
         openAbout.value = Event()
     }
@@ -214,6 +226,7 @@ class SettingsViewModel(
         DELETE_ALL("delete_all"),
         DELETE_DONE("delete_done"),
         WIDGETS_REFRESH("widget_refresh"),
+        WIDGETS_UPDATED("widget_updated"),
         HELP_ABOUT("help_about"),
         HELP_RELEASE("help_release"),
         FEEDBACK_CRASH_REPORTING("feedback_crash_reporting"),

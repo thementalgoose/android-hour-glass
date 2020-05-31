@@ -7,14 +7,20 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.util.Log
+import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.core.graphics.toColorInt
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.data.models.Countdown
+import tmg.hourglass.extensions.format
+import tmg.hourglass.prefs.AppPreferencesManager
+import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.realm.connectors.RealmCountdownConnector
 import tmg.hourglass.realm.connectors.RealmWidgetConnector
 import tmg.hourglass.utils.ProgressUtils
@@ -29,6 +35,8 @@ inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdate(
 
     for (x in 0 until (appWidgetIds?.size ?: 0)) {
         val widgetId: Int = appWidgetIds!![x]
+
+        val prefs: PreferencesManager = AppPreferencesManager(context!!)
 
         val countdownModel: Countdown? =
             RealmWidgetConnector(RealmCountdownConnector()).getCountdownModelSync(widgetId)
@@ -47,9 +55,24 @@ inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdate(
 
             remoteView.setProgressBar(R.id.progressBar, 100, (progress * 100.0f).toInt(), false)
             remoteView.setProgressBarColor(R.id.progressBar, countdownModel.colour.toColorInt())
+
+            remoteView.setViewVisibility(R.id.updatedAt, if (prefs.widgetShowUpdate) View.VISIBLE else View.GONE)
+
+            when {
+                progress >= 1.0f -> {
+                    remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_finished))
+                }
+                progress <= 0.0f -> {
+                    remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_not_started))
+                }
+                else -> {
+                    remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_progress, LocalDateTime.now().format("HH:mm dd MMM yyyy")))
+                }
+            }
         } else {
-            remoteView.setTextViewText(R.id.title, context?.getString(R.string.widget_error))
-            remoteView.setTextViewText(R.id.value, context?.getString(R.string.widget_value))
+            remoteView.setTextViewText(R.id.title, context.getString(R.string.widget_error))
+            remoteView.setTextViewText(R.id.value, context.getString(R.string.widget_value))
+            remoteView.setTextViewText(R.id.updatedAt, "")
         }
 
         val intent = Intent(context, T::class.java)

@@ -196,6 +196,9 @@ class SettingsActivity : BaseActivity() {
             SettingsViewModel.PrefType.FEEDBACK_CRASH_REPORTING -> {
                 viewModel.inputs.clickCrashReporting(toNewValue)
             }
+            SettingsViewModel.PrefType.WIDGETS_UPDATED -> {
+                viewModel.inputs.clickWidgetUpdate(toNewValue)
+            }
             SettingsViewModel.PrefType.FEEDBACK_SHAKE -> {
                 viewModel.inputs.clickShakeToReport(toNewValue)
             }
