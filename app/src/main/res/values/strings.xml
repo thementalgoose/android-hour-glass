@@ -30,6 +30,10 @@
     <string name="release_8"><![CDATA[2.1
     <br/>- Fixed minimum widget size for home screen on some phones
     <br/>- Updated dependencies]]></string>
+    <string name="release_9"><![CDATA[2.2
+    <br/>- Added widget update date to widgets
+    <br/>- Added settings toggle for new widget update date to customise
+    <br/>- Fixed some typos throughout the modify screen]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
