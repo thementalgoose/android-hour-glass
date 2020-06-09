@@ -15,4 +15,10 @@ data class Countdown(
     val finishing: String,
 
     val countdownType: CountdownType
-)
+) {
+    val daysStart: LocalDateTime
+        get() = start.toLocalDate().atStartOfDay()
+
+    val daysEnd: LocalDateTime
+        get() = end.toLocalDate().atStartOfDay()
+}
