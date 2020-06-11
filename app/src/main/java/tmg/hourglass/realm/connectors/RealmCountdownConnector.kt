@@ -5,6 +5,7 @@ import io.realm.kotlin.where
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.map
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import tmg.hourglass.data.connectors.CountdownConnector
@@ -20,10 +21,19 @@ class RealmCountdownConnector: RealmBaseConnector(), CountdownConnector {
         where = {
             it
                 .greaterThanOrEqualTo("end", now)
-                .lessThanOrEqualTo("start", now)
         },
         convert = { it.convert() }
-    )
+    ).map { list ->
+        val nowLocalDateTime = LocalDateTime.now()
+        mutableListOf<Countdown>().apply {
+            addAll(list
+                .filter { it.start <= nowLocalDateTime }
+                .sortedBy { it.end })
+            addAll(list
+                .filter { it.start > nowLocalDateTime }
+                .sortedBy { it.start })
+        }
+    }
 
     override fun allDone(): Flow<List<Countdown>> = flowableList(
         realmClass = RealmCountdown::class.java,

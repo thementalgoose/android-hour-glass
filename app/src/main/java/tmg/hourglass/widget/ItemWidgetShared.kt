@@ -25,6 +25,7 @@ import tmg.hourglass.realm.connectors.RealmCountdownConnector
 import tmg.hourglass.realm.connectors.RealmWidgetConnector
 import tmg.hourglass.utils.ProgressUtils
 import java.lang.reflect.Method
+import kotlin.math.floor
 
 inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdate(
     context: Context?,
@@ -46,10 +47,10 @@ inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdate(
 
             val start = countdownModel.initial.toIntOrNull() ?: 0
             val end = countdownModel.finishing.toIntOrNull() ?: 100
-            val progress = ProgressUtils.getProgress(countdownModel.start, countdownModel.end)
+            val progress = ProgressUtils.getProgress(countdownModel.startByType, countdownModel.endByType)
 
             val label =
-                countdownModel.countdownType.converter((start + (progress * (end - start))).toInt().toString())
+                countdownModel.countdownType.converter(floor((start + (progress * (end - start)))).toInt().toString())
 
             remoteView.setTextViewText(R.id.value, label)
 

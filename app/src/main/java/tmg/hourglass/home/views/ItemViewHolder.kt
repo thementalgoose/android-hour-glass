@@ -13,7 +13,9 @@ import tmg.hourglass.home.HomeItemType
 import tmg.hourglass.utils.ProgressUtils.Companion.getProgress
 import tmg.utilities.extensions.fromHtml
 import tmg.utilities.extensions.getColor
+import tmg.utilities.extensions.toDecimalPlacesString
 import tmg.utilities.extensions.views.show
+import kotlin.math.floor
 
 class ItemViewHolder(
     itemView: View,
@@ -77,14 +79,20 @@ class ItemViewHolder(
             lpvMain.progressColour = countdown.colour.toColorInt()
             lpvMain.textBarColour = Color.WHITE
             lpvMain.textBackgroundColour = itemView.context.theme.getColor(R.attr.pTextSecondary)
-            if (item.animateBar) {
-                lpvMain.animateProgress(getProgress(countdown.start, countdown.end)) {
-                    countdown.countdownType.converter((start + (it * (end - start))).toInt().toString())
+            val progress = getProgress(countdown.startByType, countdown.endByType)
+            when {
+                progress == 0.0f -> {
+                    lpvMain.setProgress(0.01f) { countdown.countdownType.converter(start.toString()) }
                 }
-            }
-            else {
-                lpvMain.setProgress(getProgress(countdown.start, countdown.end)) {
-                    countdown.countdownType.converter((start + (it * (end - start))).toInt().toString())
+                item.animateBar -> {
+                    lpvMain.animateProgress(progress) {
+                        countdown.countdownType.converter(floor((start + (it * (end - start)))).toInt().toString())
+                    }
+                }
+                else -> {
+                    lpvMain.setProgress(progress) {
+                        countdown.countdownType.converter(floor((start + (it * (end - start)))).toInt().toString())
+                    }
                 }
             }
         }

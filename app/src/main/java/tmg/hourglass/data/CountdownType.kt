@@ -30,5 +30,5 @@ enum class CountdownType(
     MONEY_EUR(
         key = "MONEY_EUR",
         converter = { "€ $it" }
-    )
+    );
 }

@@ -16,9 +16,16 @@ data class Countdown(
 
     val countdownType: CountdownType
 ) {
-    val daysStart: LocalDateTime
-        get() = start.toLocalDate().atStartOfDay()
 
-    val daysEnd: LocalDateTime
-        get() = end.toLocalDate().atStartOfDay()
+    val startByType: LocalDateTime
+        get() = when (countdownType) {
+            CountdownType.DAYS -> start.toLocalDate().atTime(23, 59, 59)
+            else -> start
+        }
+
+    val endByType: LocalDateTime
+        get() = when (countdownType) {
+            CountdownType.DAYS -> end.toLocalDate().atTime(23, 59, 59)
+            else -> end
+        }
 }
