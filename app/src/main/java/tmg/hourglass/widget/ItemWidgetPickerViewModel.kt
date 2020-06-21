@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
@@ -36,6 +38,7 @@ interface ItemWidgetPickerViewModelOutputs {
 
 //endregion
 
+@Suppress("EXPERIMENTAL_API_USAGE")
 class ItemWidgetPickerViewModel(
     private val widgetReferenceConnector: WidgetConnector,
     private val countdownConnector: CountdownConnector

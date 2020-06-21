@@ -10,6 +10,7 @@ import tmg.hourglass.realm.models.RealmWidgetReference
 import tmg.hourglass.realm.models.convert
 import tmg.hourglass.realm.models.saveSync
 
+@Suppress("EXPERIMENTAL_API_USAGE")
 class RealmWidgetConnector(
     private val countdownConnector: CountdownConnector
 ): RealmBaseConnector(), WidgetConnector {

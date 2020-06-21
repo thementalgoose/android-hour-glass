@@ -17,6 +17,7 @@ import tmg.hourglass.extensions.format
 import tmg.hourglass.utils.Selected
 import tmg.utilities.lifecycle.Event
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 private val requiresStart: List<CountdownType> = listOf(
     NUMBER,
@@ -183,7 +184,9 @@ class ModifyViewModel(
             closeEvent.value = Event()
         } catch (e: NullPointerException) {
             e.printStackTrace()
-            // TODO: Notify of a failure
+            validate()
+            isValid.value = false
+            crashReporter.logException(e)
         }
     }
 
@@ -205,15 +208,11 @@ class ModifyViewModel(
                     val days = ChronoUnit.DAYS.between(startDate, endDate)
                     initial.value = days.toString()
                     final.value = "0"
-
-                    // TODO: Remove logging here
-                    Log.i("HourGlass", "Days found: $days between $startDate and $endDate")
                 }
                 else {
                     crashReporter.log("Validation error occurred - Days selected and save attempted before date range is configured")
                 }
             }
-
             else -> {}
         }
     }

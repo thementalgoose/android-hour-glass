@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -38,6 +40,7 @@ interface HomeViewModelOutputs {
 
 //endregion
 
+@Suppress("EXPERIMENTAL_API_USAGE")
 class HomeViewModel(
     private val countdownConnector: CountdownConnector
 ) : BaseViewModel(), HomeViewModelInputs, HomeViewModelOutputs {

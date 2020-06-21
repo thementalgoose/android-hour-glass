@@ -32,7 +32,8 @@
 
         <activity android:name="tmg.hourglass.settings.privacy.PrivacyPolicyActivity" />
 
-        <activity android:name="tmg.components.about.AboutThisAppActivity" />
+        <activity android:name="tmg.components.about.AboutThisAppActivity"
+            android:theme="@style/DarkTheme" />
 
         <!-- Widget -->
 

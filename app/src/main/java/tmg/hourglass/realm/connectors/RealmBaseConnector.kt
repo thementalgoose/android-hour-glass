@@ -5,12 +5,14 @@ import io.realm.RealmChangeListener
 import io.realm.RealmObject
 import io.realm.RealmQuery
 import io.realm.RealmResults
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 
+@ExperimentalCoroutinesApi
 open class RealmBaseConnector {
 
     //region Utils

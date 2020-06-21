@@ -29,6 +29,7 @@ class HomeActivity: BaseActivity() {
                 when (action) {
                     HomeItemAction.EDIT -> viewModel.inputs.editItem(id)
                     HomeItemAction.DELETE -> viewModel.inputs.deleteItem(id)
+                    else -> {}
                 }
             }
         )

@@ -13,22 +13,54 @@ enum class CountdownType(
     ),
     MILES(
         key = "MILES",
-        converter = { "$it mi" }
+        converter = { "${it}mi" }
+    ),
+    MILLIMETRES(
+        key = "MILLIMETRES",
+        converter = { "${it}mm" }
+    ),
+    METRES(
+        key = "METRES",
+        converter = { "${it}m" }
     ),
     KILOMETRES(
         key = "KILOMETRES",
-        converter = { "$it km" }
+        converter = { "${it}km" }
     ),
     MONEY_GBP(
         key = "MONEY_GBP",
-        converter = { "£ $it" }
+        converter = { "£$it" }
     ),
     MONEY_USD(
         key = "MONEY_USD",
-        converter = { "$ $it" }
+        converter = { "$$it" }
     ),
     MONEY_EUR(
         key = "MONEY_EUR",
-        converter = { "€ $it" }
+        converter = { "€$it" }
+    ),
+    MONEY_YEN(
+        key = "MONEY_YEN",
+        converter = { "¥$it" }
+    ),
+    KILOGRAMS(
+        key = "KILOGRAMS",
+        converter = { "${it}kg"}
+    ),
+    GRAMS(
+        key = "GRAMS",
+        converter = { "${it}g"}
+    ),
+    LITRES(
+        key = "LITRES",
+        converter = { "${it}ml"}
+    ),
+    MILLILITRES(
+        key = "MILLILITRES",
+        converter = { "${it}ml"}
+    ),
+    SECONDS(
+        key = "SECONDS",
+        converter = { "${it}s"}
     );
 }
