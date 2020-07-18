@@ -16,6 +16,7 @@ import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.realm.RealmDBMigration
 
 val releaseNotes: Map<Int, Int> = mapOf(
+    13 to R.string.release_13,
     12 to R.string.release_12,
     11 to R.string.release_11,
     10 to R.string.release_10,

@@ -52,6 +52,11 @@
     <br/>- Updated lifecycle dependencies to 2.3.0-alpha04
     <br/>- Updated labelled-progress-bar to 1.0.3
     <br/>- Updated contraintlayout to 2.0.0-beta7]]></string>
+    <string name="release_13"><![CDATA[2.5.1
+    <br/>- Added temperature scales
+    <br/>- Fixed some typos throughout the settings
+    <br/>- Updated firebase
+    <br/>- Updated contraintlayout to 2.0.0-beta8]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
@@ -76,7 +81,7 @@
     <string name="settings_reset_all_description">Delete all the items that you have setup in the app</string>
     <string name="settings_reset_all_done">Items have been cleared</string>
     <string name="settings_reset_done_title">Delete done</string>
-    <string name="settings_reset_done_description">Delete all the items that in your previous tab</string>
+    <string name="settings_reset_done_description">Delete all the items that are in your previous tab</string>
     <string name="settings_reset_done_done">Items have been cleared</string>
     <string name="settings_help">About</string>
     <string name="settings_feedback">Feedback</string>
@@ -120,6 +125,8 @@
     <string name="countdown_type_millilitres">Millilitres</string>
     <string name="countdown_type_litres">Litres</string>
     <string name="countdown_type_seconds">Seconds</string>
+    <string name="countdown_type_celsius">Celsuis</string>
+    <string name="countdown_type_fahrenheit">Fahrenheit</string>
 
     <!-- Privacy Policy -->
     <string name="privacy_policy_title">Privacy Policy</string>

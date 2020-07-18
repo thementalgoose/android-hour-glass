@@ -20,5 +20,7 @@ fun CountdownType.label(): Int {
         CountdownType.MILLILITRES -> R.string.countdown_type_millilitres
         CountdownType.LITRES -> R.string.countdown_type_litres
         CountdownType.SECONDS -> R.string.countdown_type_seconds
+        CountdownType.TEMPERATURE_CELSIUS -> R.string.countdown_type_celsius
+        CountdownType.TEMPERATURE_FAHRENHEIT -> R.string.countdown_type_fahrenheit
     }
 }

@@ -62,5 +62,13 @@ enum class CountdownType(
     SECONDS(
         key = "SECONDS",
         converter = { "${it}s"}
+    ),
+    TEMPERATURE_CELSIUS(
+        key = "CELSIUS",
+        converter = { "${it}°C"}
+    ),
+    TEMPERATURE_FAHRENHEIT(
+        key = "FAHRENHEIT",
+        converter = { "${it}°F"}
     );
 }

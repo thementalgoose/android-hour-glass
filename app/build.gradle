@@ -13,8 +13,8 @@ android {
         applicationId "tmg.hourglass"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 12
-        versionName "2.5"
+        versionCode 13
+        versionName "2.5.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -87,7 +87,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0-alpha01'
 
     // ConstraintLayout
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta7"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta8"
 
     // ThreeTen
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
