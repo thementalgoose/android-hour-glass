@@ -1,14 +1,11 @@
 package tmg.hourglass.modify
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.crashlytics.internal.common.CrashlyticsCore
-import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.temporal.ChronoUnit
 import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.crash.CrashReporter
+import tmg.hourglass.data.CountdownInterpolator
 import tmg.hourglass.data.CountdownType
 import tmg.hourglass.data.CountdownType.*
 import tmg.hourglass.data.connectors.CountdownConnector
@@ -17,7 +14,6 @@ import tmg.hourglass.extensions.format
 import tmg.hourglass.utils.Selected
 import tmg.utilities.lifecycle.Event
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 private val requiresStart: List<CountdownType> = listOf(
     NUMBER,
@@ -51,6 +47,7 @@ interface ModifyViewModelInputs {
     fun inputDates(start: LocalDateTime, end: LocalDateTime)
     fun inputInitial(value: String)
     fun inputFinal(value: String)
+    fun inputInterpolator(interpolator: CountdownInterpolator)
 
     fun clickSave()
     fun clickDelete()
@@ -77,6 +74,9 @@ interface ModifyViewModelOutputs {
     val dates: MutableLiveData<Pair<LocalDateTime, LocalDateTime>>
     val initial: MutableLiveData<String>
     val final: MutableLiveData<String>
+
+    val interpolator: MutableLiveData<CountdownInterpolator>
+    val interpolatorList: MutableLiveData<List<Selected<CountdownInterpolator>>>
 }
 
 //endregion
@@ -105,6 +105,9 @@ class ModifyViewModel(
     override val type: MutableLiveData<CountdownType> = MutableLiveData()
     override val typeList: MutableLiveData<List<Selected<CountdownType>>> = MutableLiveData()
 
+    override val interpolator: MutableLiveData<CountdownInterpolator> = MutableLiveData(CountdownInterpolator.LINEAR)
+    override val interpolatorList: MutableLiveData<List<Selected<CountdownInterpolator>>> = MutableLiveData()
+
     override val closeEvent: MutableLiveData<Event> = MutableLiveData()
 
     //region Inputs
@@ -122,9 +125,11 @@ class ModifyViewModel(
                 initial.value = it.initial
                 final.value = it.finishing
                 type.value = it.countdownType
+                interpolator.value = it.interpolator
             }
         }
-        updateList(this.type.value!!)
+        updateTypeList(this.type.value!!)
+        updateInterpolatorList(this.interpolator.value!!)
         validate()
     }
 
@@ -148,7 +153,7 @@ class ModifyViewModel(
 
     override fun inputType(type: CountdownType) {
         this.type.value = type
-        this.updateList(type)
+        this.updateTypeList(type)
     }
 
     override fun inputDates(start: LocalDateTime, end: LocalDateTime) {
@@ -166,6 +171,11 @@ class ModifyViewModel(
         validate()
     }
 
+    override fun inputInterpolator(interpolator: CountdownInterpolator) {
+        this.interpolator.value = interpolator
+        this.updateInterpolatorList(interpolator)
+    }
+
     override fun clickSave() {
         try {
             updatePartialValues(type.value!!)
@@ -178,7 +188,8 @@ class ModifyViewModel(
                 end = dates.value?.second!!,
                 initial = initial.value!!,
                 finishing = final.value!!,
-                countdownType = type.value!!
+                countdownType = type.value!!,
+                interpolator = interpolator.value!!
             )
             connector.saveSync(countdown)
             closeEvent.value = Event()
@@ -217,7 +228,7 @@ class ModifyViewModel(
         }
     }
 
-    private fun updateList(type: CountdownType) {
+    private fun updateTypeList(type: CountdownType) {
         when (type) {
             DAYS -> showRange.value = Pair(false, second = false)
             else -> showRange.value = Pair(true, second = true)
@@ -226,6 +237,14 @@ class ModifyViewModel(
             .values()
             .map {
                 Selected(it, it == type)
+            }
+    }
+
+    private fun updateInterpolatorList(interpolator: CountdownInterpolator) {
+        interpolatorList.value = CountdownInterpolator
+            .values()
+            .map {
+                Selected(it, it == interpolator)
             }
     }
 

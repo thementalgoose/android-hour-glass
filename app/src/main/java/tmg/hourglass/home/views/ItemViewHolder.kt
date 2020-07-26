@@ -79,7 +79,7 @@ class ItemViewHolder(
             lpvMain.progressColour = countdown.colour.toColorInt()
             lpvMain.textBarColour = Color.WHITE
             lpvMain.textBackgroundColour = itemView.context.theme.getColor(R.attr.pTextSecondary)
-            val progress = getProgress(countdown.startByType, countdown.endByType)
+            val progress = getProgress(countdown.startByType, countdown.endByType, interpolator = countdown.interpolator)
             when {
                 progress == 0.0f -> {
                     lpvMain.setProgress(0.01f) { countdown.countdownType.converter(start.toString()) }

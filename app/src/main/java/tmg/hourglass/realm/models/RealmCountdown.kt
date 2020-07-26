@@ -5,6 +5,7 @@ import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.kotlin.where
 import org.threeten.bp.ZoneOffset
+import tmg.hourglass.data.CountdownInterpolator
 import tmg.hourglass.data.CountdownType
 import tmg.hourglass.data.models.Countdown
 import tmg.hourglass.extensions.toLocalDateTime
@@ -23,7 +24,8 @@ open class RealmCountdown(
     var initial: String = "",
     var finishing: String = "",
 
-    var passageType: String = ""
+    var passageType: String = "",
+    var interpolator: String = ""
 ): RealmObject()
 
 fun RealmCountdown.convert(): Countdown {
@@ -36,7 +38,8 @@ fun RealmCountdown.convert(): Countdown {
         end = this.end.toLocalDateTime(),
         initial = this.initial,
         finishing = this.finishing,
-        countdownType = this.passageType.toEnum<CountdownType> { it.key } ?: CountdownType.NUMBER
+        countdownType = this.passageType.toEnum<CountdownType> { it.key } ?: CountdownType.NUMBER,
+        interpolator = this.interpolator.toEnum<CountdownInterpolator> { it.key } ?: CountdownInterpolator.LINEAR
     )
 }
 
@@ -71,4 +74,5 @@ private fun RealmCountdown.applyData(countdown: Countdown) {
     this.initial = countdown.initial
     this.finishing = countdown.finishing
     this.passageType = countdown.countdownType.key
+    this.interpolator = countdown.interpolator.key
 }

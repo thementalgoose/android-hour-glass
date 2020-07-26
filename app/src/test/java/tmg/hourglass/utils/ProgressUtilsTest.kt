@@ -5,6 +5,8 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
+import tmg.hourglass.data.CountdownInterpolator
+import tmg.hourglass.data.CountdownInterpolator.LINEAR
 import tmg.hourglass.utils.ProgressUtils.Companion.getProgress
 
 class ProgressUtilsTest {
@@ -23,6 +25,6 @@ class ProgressUtilsTest {
         val end = LocalDateTime.parse(endText, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
         val current = LocalDateTime.parse(currentText, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
 
-        assertEquals(expected, getProgress(start, end, current = current))
+        assertEquals(expected, getProgress(start, end, current = current, interpolator = LINEAR))
     }
 }

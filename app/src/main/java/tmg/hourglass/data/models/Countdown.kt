@@ -1,6 +1,7 @@
 package tmg.hourglass.data.models
 
 import org.threeten.bp.LocalDateTime
+import tmg.hourglass.data.CountdownInterpolator
 import tmg.hourglass.data.CountdownType
 
 data class Countdown(
@@ -14,7 +15,8 @@ data class Countdown(
     val initial: String,
     val finishing: String,
 
-    val countdownType: CountdownType
+    val countdownType: CountdownType,
+    val interpolator: CountdownInterpolator
 ) {
 
     val startByType: LocalDateTime

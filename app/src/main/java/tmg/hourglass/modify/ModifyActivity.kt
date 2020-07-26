@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.leavjenn.smoothdaterangepicker.date.SmoothDateRangePickerFragment
 import kotlinx.android.synthetic.main.activity_modify.*
+import kotlinx.android.synthetic.main.bottom_sheet_interpolator.*
 import kotlinx.android.synthetic.main.bottom_sheet_modify.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.threeten.bp.LocalDate
@@ -18,12 +19,11 @@ import petrov.kristiyan.colorpicker.ColorPicker
 import petrov.kristiyan.colorpicker.ColorPicker.OnFastChooseColorListener
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
+import tmg.hourglass.data.CountdownInterpolator
+import tmg.hourglass.data.CountdownType
 import tmg.hourglass.extensions.*
 import tmg.utilities.bottomsheet.BottomSheetFader
-import tmg.utilities.extensions.expand
-import tmg.utilities.extensions.hidden
-import tmg.utilities.extensions.observe
-import tmg.utilities.extensions.observeEvent
+import tmg.utilities.extensions.*
 import tmg.utilities.extensions.views.show
 
 
@@ -33,8 +33,11 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
     private val viewModel: ModifyViewModel by viewModel()
     private var passageId: String? = null
 
-    private lateinit var bottomSheetType: BottomSheetBehavior<LinearLayout>
-    private lateinit var adapter: ModifyTypeAdapter
+    private lateinit var typeBottomSheet: BottomSheetBehavior<LinearLayout>
+    private lateinit var typeAdapter: ModifyTypeAdapter<CountdownType>
+
+    private lateinit var interpolatorBottomSheet: BottomSheetBehavior<LinearLayout>
+    private lateinit var interpolatorAdapter: ModifyTypeAdapter<CountdownInterpolator>
 
     private var currentColour: String? = null
 
@@ -48,11 +51,18 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupBottomSheet()
+        setupTypeBottomSheet()
+        setupInterpolatorBottomSheet()
+        bottomSheetBackground.setOnClickListener { hideAllBottomSheets() }
+
+
 
         ibtnClose.setOnClickListener(viewModel.inputs::clickClose)
         btnType.setOnClickListener {
-            bottomSheetType.expand()
+            typeBottomSheet.expand()
+        }
+        btnInterpolator.setOnClickListener {
+            interpolatorBottomSheet.expand()
         }
         btnDates.setOnClickListener {
             showRangePicker()
@@ -67,6 +77,8 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
 
         btnSave.setOnClickListener(viewModel.inputs::clickSave)
         ibtnDelete.setOnClickListener(viewModel.inputs::clickDelete)
+
+
 
         observe(viewModel.outputs.name) {
             if (!etFieldName.hasFocus()) {
@@ -95,10 +107,17 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
         }
 
         observe(viewModel.outputs.typeList) {
-            adapter.list = it
+            typeAdapter.list = it
         }
         observe(viewModel.outputs.type) {
             btnType.setText(it.label())
+        }
+
+        observe(viewModel.outputs.interpolatorList) {
+            interpolatorAdapter.list = it
+        }
+        observe(viewModel.outputs.interpolator) {
+            btnInterpolator.setText(it.label())
         }
 
         observe(viewModel.outputs.dates) {
@@ -121,22 +140,36 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
         observe(viewModel.outputs.showRange) { (from, to) -> showRange(from, to) }
     }
 
-    private fun setupBottomSheet() {
-        bottomSheetType = BottomSheetBehavior.from(bsModifyType)
-        bottomSheetType.isHideable = true
-        bottomSheetType.hidden()
-        bottomSheetType.addBottomSheetCallback(BottomSheetFader(bottomSheetBackground, "bottom_sheet"))
+    private fun setupTypeBottomSheet() {
+        typeBottomSheet = BottomSheetBehavior.from(bsModifyType)
+        typeBottomSheet.isHideable = true
+        typeBottomSheet.hidden()
+        typeBottomSheet.addBottomSheetCallback(BottomSheetFader(bottomSheetBackground, "type"))
 
-        bottomSheetBackground.setOnClickListener { bottomSheetType.hidden() }
-
-        adapter = ModifyTypeAdapter(
+        typeAdapter = ModifyTypeAdapter(
             itemSelected = {
-                viewModel.inputs.inputType(it)
-                bottomSheetType.hidden()
+                viewModel.inputs.inputType(it.toEnum<CountdownType> { it.key }!!)
+                typeBottomSheet.hidden()
             }
         )
-        rvOptions.adapter = adapter
+        rvOptions.adapter = typeAdapter
         rvOptions.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun setupInterpolatorBottomSheet() {
+        interpolatorBottomSheet = BottomSheetBehavior.from(bsInterpolator)
+        interpolatorBottomSheet.isHideable = true
+        interpolatorBottomSheet.hidden()
+        interpolatorBottomSheet.addBottomSheetCallback(BottomSheetFader(bottomSheetBackground, "interpolator"))
+
+        interpolatorAdapter = ModifyTypeAdapter(
+            itemSelected = {
+                viewModel.inputs.inputInterpolator(it.toEnum<CountdownInterpolator> { it.key }!!)
+                interpolatorBottomSheet.hidden()
+            }
+        )
+        rvInterpolatorOptions.adapter = interpolatorAdapter
+        rvInterpolatorOptions.layoutManager = LinearLayoutManager(this)
     }
 
     private fun showColourPicker(withDefault: String) {
@@ -169,6 +202,21 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
     override fun onCancel() {}
 
     //endregion
+
+    override fun onBackPressed() {
+        if (typeBottomSheet.state != BottomSheetBehavior.STATE_HIDDEN ||
+                interpolatorBottomSheet.state != BottomSheetBehavior.STATE_HIDDEN) {
+            hideAllBottomSheets()
+        }
+        else {
+            super.onBackPressed()
+        }
+    }
+
+    private fun hideAllBottomSheets() {
+        typeBottomSheet.hidden()
+        interpolatorBottomSheet.hidden()
+    }
 
     companion object {
 

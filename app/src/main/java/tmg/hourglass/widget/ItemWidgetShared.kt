@@ -13,6 +13,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.core.graphics.toColorInt
+import io.realm.exceptions.RealmMigrationNeededException
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.BuildConfig
@@ -39,41 +40,47 @@ inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdate(
 
         val prefs: PreferencesManager = AppPreferencesManager(context!!)
 
-        val countdownModel: Countdown? =
-            RealmWidgetConnector(RealmCountdownConnector()).getCountdownModelSync(widgetId)
         val remoteView = RemoteViews(BuildConfig.APPLICATION_ID, layoutId)
-        if (countdownModel != null) {
-            remoteView.setTextViewText(R.id.title, countdownModel.name)
 
-            val start = countdownModel.initial.toIntOrNull() ?: 0
-            val end = countdownModel.finishing.toIntOrNull() ?: 100
-            val progress = ProgressUtils.getProgress(countdownModel.startByType, countdownModel.endByType)
+        try {
+            val countdownModel = RealmWidgetConnector(RealmCountdownConnector()).getCountdownModelSync(widgetId)
+            if (countdownModel != null) {
+                remoteView.setTextViewText(R.id.title, countdownModel.name)
 
-            val label =
-                countdownModel.countdownType.converter(floor((start + (progress * (end - start)))).toInt().toString())
+                val start = countdownModel.initial.toIntOrNull() ?: 0
+                val end = countdownModel.finishing.toIntOrNull() ?: 100
+                val progress = ProgressUtils.getProgress(countdownModel.startByType, countdownModel.endByType, interpolator = countdownModel.interpolator)
 
-            remoteView.setTextViewText(R.id.value, label)
+                val label =
+                    countdownModel.countdownType.converter(floor((start + (progress * (end - start)))).toInt().toString())
 
-            remoteView.setProgressBar(R.id.progressBar, 100, (progress * 100.0f).toInt(), false)
-            remoteView.setProgressBarColor(R.id.progressBar, countdownModel.colour.toColorInt())
+                remoteView.setTextViewText(R.id.value, label)
 
-            remoteView.setViewVisibility(R.id.updatedAt, if (prefs.widgetShowUpdate) View.VISIBLE else View.GONE)
+                remoteView.setProgressBar(R.id.progressBar, 100, (progress * 100.0f).toInt(), false)
+                remoteView.setProgressBarColor(R.id.progressBar, countdownModel.colour.toColorInt())
 
-            when {
-                progress >= 1.0f -> {
-                    remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_finished))
+                remoteView.setViewVisibility(R.id.updatedAt, if (prefs.widgetShowUpdate) View.VISIBLE else View.GONE)
+
+                when {
+                    progress >= 1.0f -> {
+                        remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_finished))
+                    }
+                    progress <= 0.0f -> {
+                        remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_not_started))
+                    }
+                    else -> {
+                        remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_progress, LocalDateTime.now().format("HH:mm dd MMM yyyy")))
+                    }
                 }
-                progress <= 0.0f -> {
-                    remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_not_started))
-                }
-                else -> {
-                    remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_progress, LocalDateTime.now().format("HH:mm dd MMM yyyy")))
-                }
+            } else {
+                remoteView.setTextViewText(R.id.title, context.getString(R.string.widget_error))
+                remoteView.setTextViewText(R.id.value, context.getString(R.string.widget_value))
+                remoteView.setTextViewText(R.id.updatedAt, "")
             }
-        } else {
-            remoteView.setTextViewText(R.id.title, context.getString(R.string.widget_error))
-            remoteView.setTextViewText(R.id.value, context.getString(R.string.widget_value))
-            remoteView.setTextViewText(R.id.updatedAt, "")
+        } catch (e: RealmMigrationNeededException) {
+            remoteView.setTextViewText(R.id.title, context.getString(R.string.widget_migration_needed))
+            remoteView.setTextViewText(R.id.value, context.getString(R.string.widget_migration_needed_value))
+            remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_migration_needed_label))
         }
 
         val intent = Intent(context, T::class.java)

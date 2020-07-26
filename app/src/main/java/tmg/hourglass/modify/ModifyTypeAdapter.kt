@@ -7,11 +7,11 @@ import tmg.hourglass.R
 import tmg.hourglass.data.CountdownType
 import tmg.hourglass.utils.Selected
 
-class ModifyTypeAdapter(
-    private val itemSelected: (countdownType: CountdownType) -> Unit
+class ModifyTypeAdapter<T>(
+    private val itemSelected: (key: String) -> Unit
 ): RecyclerView.Adapter<ModifyTypeViewHolder>() {
 
-    var list: List<Selected<CountdownType>> = emptyList()
+    var list: List<Selected<T>> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()

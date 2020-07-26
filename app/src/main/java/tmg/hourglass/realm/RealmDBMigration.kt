@@ -16,6 +16,11 @@ class RealmDBMigration: RealmMigration {
         }
 
         if (oldVersion <= 1L) {
+            schema.get("RealmCountdown")
+                ?.addField("interpolator", String::class.java, FieldAttribute.REQUIRED)
+        }
+
+        if (oldVersion <= 2L) {
             // Future migration
         }
     }

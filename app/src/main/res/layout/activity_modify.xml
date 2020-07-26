@@ -296,6 +296,82 @@
                     app:constraint_referenced_ids="etFinal,etInitial"
                     android:layout_height="wrap_content" />
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <TextView
+                    android:id="@+id/tvInterpolator"
+                    style="@style/Text.Modify.FieldTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/paddingMedium"
+                    android:paddingTop="@dimen/paddingMedium"
+                    android:paddingEnd="@dimen/paddingMedium"
+                    android:text="@string/modify_field_interpolator"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/barrier" />
+
+                <TextView
+                    android:id="@+id/tvInterpolatorDescription"
+                    style="@style/Text.Modify.FieldDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/paddingMedium"
+                    android:paddingTop="@dimen/paddingXSmall"
+                    android:paddingEnd="@dimen/paddingMedium"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:text="@string/modify_field_interpolator_desc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvInterpolator" />
+
+                <TextView
+                    android:id="@+id/btnInterpolator"
+                    style="@style/Text.Modify.FieldValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/paddingMedium"
+                    android:layout_marginEnd="@dimen/paddingMedium"
+                    android:background="@drawable/background_edit_text"
+                    android:foreground="@drawable/ripple_rounded"
+                    android:gravity="center|start"
+                    android:paddingStart="@dimen/paddingSmall"
+                    android:paddingTop="@dimen/paddingNSmall"
+                    android:paddingEnd="@dimen/paddingSmall"
+                    android:paddingBottom="@dimen/paddingNSmall"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvInterpolatorDescription" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <TextView
                     android:id="@+id/tvFieldDates"
                     style="@style/Text.Modify.FieldTitle"
@@ -307,7 +383,7 @@
                     android:text="@string/modify_field_dates"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/barrier" />
+                    app:layout_constraintTop_toBottomOf="@id/btnInterpolator" />
 
                 <TextView
                     android:id="@+id/tvFieldDatesDesc"
@@ -420,5 +496,7 @@
         android:visibility="gone" />
 
     <include layout="@layout/bottom_sheet_modify" />
+
+    <include layout="@layout/bottom_sheet_interpolator" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
