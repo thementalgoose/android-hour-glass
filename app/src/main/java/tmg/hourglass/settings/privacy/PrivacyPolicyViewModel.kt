@@ -21,9 +21,7 @@ interface PrivacyPolicyViewModelOutputs {
 
 //endregion
 
-class PrivacyPolicyViewModel(
-    val prefs: PreferencesManager
-): BaseViewModel(), PrivacyPolicyViewModelInputs, PrivacyPolicyViewModelOutputs {
+class PrivacyPolicyViewModel: BaseViewModel(), PrivacyPolicyViewModelInputs, PrivacyPolicyViewModelOutputs {
 
     var inputs: PrivacyPolicyViewModelInputs = this
     var outputs: PrivacyPolicyViewModelOutputs = this

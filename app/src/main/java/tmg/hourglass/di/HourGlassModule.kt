@@ -23,8 +23,8 @@ val hourGlassModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { ModifyViewModel(get(), get()) }
     viewModel { SettingsViewModel(get(), get(), get()) }
-    viewModel { ReleaseViewModel(get()) }
-    viewModel { PrivacyPolicyViewModel(get()) }
+    viewModel { ReleaseViewModel() }
+    viewModel { PrivacyPolicyViewModel() }
 
     viewModel { ItemWidgetPickerViewModel(get(), get()) }
 

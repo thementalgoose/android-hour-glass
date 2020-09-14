@@ -1,3 +1,4 @@
 /build
 app/google-services.json
-release
+/release
+/live

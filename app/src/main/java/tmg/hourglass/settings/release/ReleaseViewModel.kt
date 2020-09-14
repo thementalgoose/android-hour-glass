@@ -23,9 +23,7 @@ interface ReleaseViewModelOutputs {
 
 //endregion
 
-class ReleaseViewModel(
-    val prefs: PreferencesManager
-): BaseViewModel(), ReleaseViewModelInputs, ReleaseViewModelOutputs {
+class ReleaseViewModel: BaseViewModel(), ReleaseViewModelInputs, ReleaseViewModelOutputs {
 
     var inputs: ReleaseViewModelInputs = this
     var outputs: ReleaseViewModelOutputs = this

@@ -84,7 +84,7 @@ class SettingsViewModel(
     override val list: MutableLiveData<List<AppPreferencesItem>> = MutableLiveData()
 
     init {
-        list.value = prefsList(context) {
+        list.value = prefsList {
             category(R.string.settings_theme) {
                 preference(
                     PrefType.THEME_APP.key,
