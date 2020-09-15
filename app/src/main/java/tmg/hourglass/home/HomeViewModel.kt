@@ -50,7 +50,7 @@ class HomeViewModel(
     var inputs: HomeViewModelInputs = this
     var outputs: HomeViewModelOutputs = this
 
-    private val viewTab: ConflatedBroadcastChannel<HomeTab> = ConflatedBroadcastChannel(HomeTab.NOW)
+    private val viewTab: ConflatedBroadcastChannel<HomeTab> = ConflatedBroadcastChannel()
 
     override val items: LiveData<List<HomeItemType>> = viewTab
         .asFlow()
@@ -81,6 +81,10 @@ class HomeViewModel(
     override val editItemEvent: MutableLiveData<DataEvent<String>> = MutableLiveData()
     override val addItemEvent: MutableLiveData<Event> = MutableLiveData()
     override val deleteItemEvent: MutableLiveData<Event> = MutableLiveData()
+
+    init {
+        viewTab.offer(HomeTab.NOW)
+    }
 
     //region Inputs
 

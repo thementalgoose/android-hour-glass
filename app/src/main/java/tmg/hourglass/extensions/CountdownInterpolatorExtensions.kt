@@ -13,12 +13,14 @@ fun CountdownInterpolator.label(): Int {
     }
 }
 
-fun CountdownInterpolator.valueInterpolator(): Interpolator {
+fun CountdownInterpolator.valueInterpolator(interpolator: Interpolator? = null): Interpolator {
+    if (interpolator != null) {
+        return interpolator
+    }
     return when (this) {
         CountdownInterpolator.ACCELERATE -> AccelerateInterpolator()
         CountdownInterpolator.DECELERATE -> DecelerateInterpolator()
         CountdownInterpolator.LINEAR -> LinearInterpolator()
         CountdownInterpolator.ACCELERATE_DECELERATE -> AccelerateDecelerateInterpolator()
     }
-
 }

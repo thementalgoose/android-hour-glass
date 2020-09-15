@@ -16,22 +16,10 @@ import tmg.hourglass.utils.Selected
 import tmg.utilities.lifecycle.Event
 import java.util.*
 
-private val requiresStart: List<CountdownType> = listOf(
-    NUMBER,
-    MILES,
-    KILOMETRES,
-    MONEY_GBP,
-    MONEY_USD,
-    MONEY_EUR
-)
-private val requiresEnd: List<CountdownType> = listOf(
-    NUMBER,
-    MILES,
-    KILOMETRES,
-    MONEY_GBP,
-    MONEY_USD,
-    MONEY_EUR
-)
+private val requiresStart: List<CountdownType> = CountdownType.values()
+    .filter { it != DAYS }
+private val requiresEnd: List<CountdownType> = CountdownType.values()
+    .filter { it != DAYS }
 
 //region Inputs
 
@@ -107,10 +95,14 @@ class ModifyViewModel(
     override val type: MutableLiveData<CountdownType> = MutableLiveData()
     override val typeList: MutableLiveData<List<Selected<CountdownType>>> = MutableLiveData()
 
-    override val interpolator: MutableLiveData<CountdownInterpolator> = MutableLiveData(CountdownInterpolator.LINEAR)
+    override val interpolator: MutableLiveData<CountdownInterpolator> = MutableLiveData()
     override val interpolatorList: MutableLiveData<List<Selected<CountdownInterpolator>>> = MutableLiveData()
 
     override val closeEvent: MutableLiveData<Event> = MutableLiveData()
+
+    init {
+        interpolator.value = CountdownInterpolator.LINEAR
+    }
 
     //region Inputs
 
@@ -251,6 +243,8 @@ class ModifyViewModel(
     }
 
     private fun validate() {
+        val startDate: String? = dates.value?.first?.format("yyyy/MM/dd")
+        val endDate: String? = dates.value?.second?.format("yyyy/MM/dd")
         when {
             name.value.isNullOrEmpty() -> isValid.value = false
             colour.value.isNullOrEmpty() -> isValid.value = false
@@ -260,7 +254,8 @@ class ModifyViewModel(
             final.value?.toIntOrNull() == null && type.value.hasEndValue() -> isValid.value = false
             type.value.hasStartValue() && type.value.hasEndValue() && initial.value == final.value -> isValid.value = false
             dates.value == null -> isValid.value = false
-            dates.value?.first?.format("dd/MM/yyyy") == dates.value?.second?.format("dd/MM/yyyy") -> isValid.value = false
+            startDate == endDate -> isValid.value = false
+            ((startDate?.compareTo(endDate ?: "1970/01/01") ?: -1) >= 0) -> isValid.value = false
             else -> isValid.value = true
         }
     }

@@ -58,7 +58,6 @@ interface SettingsViewModelOutputs {
 class SettingsViewModel(
     private val countdownConnector: CountdownConnector,
     private val prefs: PreferencesManager,
-    private val context: Context,
     scopeProvider: ScopeProvider
 ) : BaseViewModel(scopeProvider), SettingsViewModelInputs, SettingsViewModelOutputs {
 
@@ -68,15 +67,13 @@ class SettingsViewModel(
     override val deletedDone: MutableLiveData<Event> = MutableLiveData()
 
     override val themeUpdated: MutableLiveData<Event> = MutableLiveData()
-    override val themeSelected: MutableLiveData<ThemePref> = MutableLiveData(prefs.theme)
+    override val themeSelected: MutableLiveData<ThemePref> = MutableLiveData()
 
     override val openAbout: MutableLiveData<Event> = MutableLiveData()
     override val openReleaseNotes: MutableLiveData<Event> = MutableLiveData()
-    override val crashReporting: MutableLiveData<Pair<Boolean, Boolean>> =
-        MutableLiveData(Pair(false, prefs.crashReporting))
+    override val crashReporting: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
     override val openSuggestions: MutableLiveData<Event> = MutableLiveData()
-    override val shakeToReport: MutableLiveData<Pair<Boolean, Boolean>> =
-        MutableLiveData(Pair(false, prefs.shakeToReport))
+    override val shakeToReport: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
 
     override val privacyPolicy: MutableLiveData<Event> = MutableLiveData()
 
@@ -164,6 +161,10 @@ class SettingsViewModel(
                 )
             }
         }
+
+        themeSelected.value = prefs.theme
+        shakeToReport.value = Pair(false, prefs.shakeToReport)
+        crashReporting.value = Pair(false, prefs.crashReporting)
     }
 
     //region Inputs
@@ -234,6 +235,6 @@ class SettingsViewModel(
         FEEDBACK_CRASH_REPORTING("feedback_crash_reporting"),
         FEEDBACK_SUGGESTION("feedback_suggestions"),
         FEEDBACK_SHAKE("feedback_shake"),
-        PRIVACY_PRIVACY("privacy_privacy")
+        PRIVACY_PRIVACY("privacy_policy")
     }
 }

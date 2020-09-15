@@ -196,7 +196,7 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
     //region OnFastChooseColorListener
 
     override fun setOnFastChooseColorListener(position: Int, color: Int) {
-        viewModel.inputs.inputColour(color.hexColour)
+        viewModel.inputs.inputColour(color.hexColor)
     }
 
     override fun onCancel() {}

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.threeten.bp.LocalDateTime
+import tmg.hourglass.*
 import tmg.hourglass.data.CountdownInterpolator
 import tmg.hourglass.data.CountdownType
 import tmg.hourglass.data.connectors.CountdownConnector
@@ -28,41 +29,20 @@ class ItemWidgetPickerViewModelTest: BaseTest() {
     private var mockCountdownConnector: CountdownConnector = mock()
 
     private val mockWidgetId: Int = 1
-    private val mockCountdownPrimaryId: String = "1"
-    private val mockCountdownPrimary: Countdown = Countdown(
-        id = mockCountdownPrimaryId,
-        name = "Test1", description = "Test1", colour = "#000001",
-        start = LocalDateTime.now(), end = LocalDateTime.now(),
-        initial = "0", finishing = "100", countdownType = CountdownType.DAYS,
-        interpolator = CountdownInterpolator.LINEAR
-    )
-    private val mockCountdownSecondaryId: String = "2"
-    private val mockCountdownSecondary: Countdown = Countdown(
-        id = mockCountdownSecondaryId,
-        name = "Test2", description = "Test2", colour = "#000002",
-        start = LocalDateTime.now(), end = LocalDateTime.now(),
-        initial = "100", finishing = "0", countdownType = CountdownType.DAYS,
-        interpolator = CountdownInterpolator.LINEAR
-    )
-
-    private val expectedItemPrimary: HomeItemType.Item = HomeItemType.Item(
-        countdown = mockCountdownPrimary,
-        action = HomeItemAction.CHECK,
-        isEnabled = false,
-        showDescription = false,
-        clickBackground = true,
-        animateBar = false
-    )
-    private val expectedItemSecondary: HomeItemType.Item = HomeItemType.Item(
-        countdown = mockCountdownSecondary,
-        action = HomeItemAction.CHECK,
-        isEnabled = false,
-        showDescription = false,
-        clickBackground = true,
-        animateBar = false
-    )
-
     private val mockCountdownItems = listOf(mockCountdownPrimary, mockCountdownSecondary)
+
+    private val expectedWidgetPickerItemPrimary = expectedItemPrimary.copy(
+        isEnabled = false,
+        clickBackground = true,
+        showDescription = false,
+        animateBar = false
+    )
+    private val expectedWidgetPickerItemSecondary = expectedItemSecondary.copy(
+        isEnabled = false,
+        clickBackground = true,
+        showDescription = false,
+        animateBar = false
+    )
 
     @BeforeEach
     internal fun setUp() {
@@ -80,8 +60,8 @@ class ItemWidgetPickerViewModelTest: BaseTest() {
         whenever(mockCountdownConnector.all()).thenReturn(flow { emit(mockCountdownItems) })
         val expected = listOf(
             HomeItemType.Header,
-            expectedItemPrimary,
-            expectedItemSecondary
+            expectedWidgetPickerItemPrimary,
+            expectedWidgetPickerItemSecondary
         )
 
         initSUT()
@@ -113,12 +93,18 @@ class ItemWidgetPickerViewModelTest: BaseTest() {
         initSUT()
         advanceUntilIdle()
 
-        assertValue(listOf(HomeItemType.Header, expectedItemPrimary, expectedItemSecondary), sut.outputs.list)
+        assertValue(listOf(HomeItemType.Header,
+            expectedWidgetPickerItemPrimary,
+            expectedWidgetPickerItemSecondary
+        ), sut.outputs.list)
         assertValue(false, sut.outputs.isSavedEnabled)
 
         sut.inputs.checkedItem(mockCountdownPrimaryId)
 
-        assertValue(listOf(HomeItemType.Header, expectedItemPrimary.copy(isEnabled = true), expectedItemSecondary), sut.outputs.list)
+        assertValue(listOf(HomeItemType.Header,
+            expectedWidgetPickerItemPrimary.copy(isEnabled = true),
+            expectedWidgetPickerItemSecondary
+        ), sut.outputs.list)
         assertValue(true, sut.outputs.isSavedEnabled)
     }
 

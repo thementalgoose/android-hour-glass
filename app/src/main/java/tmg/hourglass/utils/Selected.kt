@@ -1,6 +1,6 @@
 package tmg.hourglass.utils
 
-class Selected<T>(
+data class Selected<T>(
     val data: T,
     val isSelected: Boolean
 )
