@@ -11,6 +11,7 @@ Hour Glass is a calendar countdown application to help you map values between tw
 - Realm
 - Kotlin Coroutines
 - Firebase (Analytics + Crashlytics)
+- View models unit tests
 
 ```
 Copyright 2020 Jordan Fisher
