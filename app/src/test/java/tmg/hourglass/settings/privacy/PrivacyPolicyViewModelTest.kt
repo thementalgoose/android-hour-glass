@@ -17,7 +17,7 @@ class PrivacyPolicyViewModelTest: BaseTest() {
     @BeforeEach
     internal fun setUp() {
 
-        sut = PrivacyPolicyViewModel()
+        sut = PrivacyPolicyViewModel(testScopeProvider)
     }
 
     @Test

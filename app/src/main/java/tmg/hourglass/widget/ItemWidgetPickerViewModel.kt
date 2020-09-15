@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.map
 import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.data.connectors.WidgetConnector
+import tmg.hourglass.di.async.ScopeProvider
 import tmg.hourglass.home.HomeItemAction
 import tmg.hourglass.home.HomeItemType
 import tmg.hourglass.home.HomeTab
@@ -41,8 +42,9 @@ interface ItemWidgetPickerViewModelOutputs {
 @Suppress("EXPERIMENTAL_API_USAGE")
 class ItemWidgetPickerViewModel(
     private val widgetReferenceConnector: WidgetConnector,
-    private val countdownConnector: CountdownConnector
-): BaseViewModel(), ItemWidgetPickerViewModelInputs, ItemWidgetPickerViewModelOutputs {
+    private val countdownConnector: CountdownConnector,
+    scopeProvider: ScopeProvider
+): BaseViewModel(scopeProvider), ItemWidgetPickerViewModelInputs, ItemWidgetPickerViewModelOutputs {
 
     var inputs: ItemWidgetPickerViewModelInputs = this
     var outputs: ItemWidgetPickerViewModelOutputs = this
@@ -54,7 +56,7 @@ class ItemWidgetPickerViewModel(
         .asFlow()
         .combinePair(appWidgetId.asFlow())
         .map { it.first != null && it.second != null }
-        .asLiveData(viewModelScope.coroutineContext)
+        .asLiveData(scope.coroutineContext)
     override val save: MutableLiveData<DataEvent<String>> = MutableLiveData()
 
     override val list: LiveData<List<HomeItemType>> = countdownConnector.all()
@@ -79,7 +81,7 @@ class ItemWidgetPickerViewModel(
                     }
                 }
         }
-        .asLiveData(viewModelScope.coroutineContext)
+        .asLiveData(scope.coroutineContext)
 
     //region Inputs
 

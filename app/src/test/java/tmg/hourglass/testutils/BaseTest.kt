@@ -8,6 +8,7 @@ import org.junit.Rule
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
+import tmg.hourglass.di.async.ScopeProvider
 
 // https://stackoverflow.com/questions/62332403/how-to-inject-viewmodelscope-for-android-unit-test-with-kotlin-coroutines
 
@@ -19,7 +20,9 @@ open class BaseTest {
     val coroutineScope = CoroutineRule()
 
     private val testDispatcher = TestCoroutineDispatcher()
-    val testScope = TestCoroutineScope(testDispatcher)
+    private val testScope = TestCoroutineScope(testDispatcher)
+
+    val testScopeProvider = TestScopeProvider(testScope)
 
     @BeforeEach
     @CallSuper

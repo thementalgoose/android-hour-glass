@@ -19,7 +19,7 @@ class ReleaseViewModelTest: BaseTest() {
 
     @BeforeEach
     internal fun setUp() {
-        sut = ReleaseViewModel()
+        sut = ReleaseViewModel(testScopeProvider)
     }
 
     @Test

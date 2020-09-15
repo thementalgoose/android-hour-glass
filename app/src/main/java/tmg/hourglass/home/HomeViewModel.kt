@@ -14,6 +14,7 @@ import tmg.hourglass.analytics.AnalyticsManager
 import tmg.hourglass.analytics.FirebaseAnalyticsManager
 import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.data.connectors.CountdownConnector
+import tmg.hourglass.di.async.ScopeProvider
 import tmg.utilities.extensions.then
 import tmg.utilities.lifecycle.DataEvent
 import tmg.utilities.lifecycle.Event
@@ -42,8 +43,9 @@ interface HomeViewModelOutputs {
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 class HomeViewModel(
-    private val countdownConnector: CountdownConnector
-) : BaseViewModel(), HomeViewModelInputs, HomeViewModelOutputs {
+    private val countdownConnector: CountdownConnector,
+    scopeProvider: ScopeProvider
+) : BaseViewModel(scopeProvider), HomeViewModelInputs, HomeViewModelOutputs {
 
     var inputs: HomeViewModelInputs = this
     var outputs: HomeViewModelOutputs = this
@@ -74,7 +76,7 @@ class HomeViewModel(
                     }
                 }
         }
-        .asLiveData(viewModelScope.coroutineContext)
+        .asLiveData(scope.coroutineContext)
 
     override val editItemEvent: MutableLiveData<DataEvent<String>> = MutableLiveData()
     override val addItemEvent: MutableLiveData<Event> = MutableLiveData()

@@ -6,6 +6,7 @@ import tmg.components.prefs.*
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.data.connectors.CountdownConnector
+import tmg.hourglass.di.async.ScopeProvider
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
 import tmg.utilities.lifecycle.Event
@@ -57,8 +58,9 @@ interface SettingsViewModelOutputs {
 class SettingsViewModel(
     private val countdownConnector: CountdownConnector,
     private val prefs: PreferencesManager,
-    private val context: Context
-) : BaseViewModel(), SettingsViewModelInputs, SettingsViewModelOutputs {
+    private val context: Context,
+    scopeProvider: ScopeProvider
+) : BaseViewModel(scopeProvider), SettingsViewModelInputs, SettingsViewModelOutputs {
 
     override val goBack: MutableLiveData<Event> = MutableLiveData()
 

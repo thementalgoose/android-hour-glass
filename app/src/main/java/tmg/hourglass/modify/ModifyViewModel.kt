@@ -10,6 +10,7 @@ import tmg.hourglass.data.CountdownType
 import tmg.hourglass.data.CountdownType.*
 import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.data.models.Countdown
+import tmg.hourglass.di.async.ScopeProvider
 import tmg.hourglass.extensions.format
 import tmg.hourglass.utils.Selected
 import tmg.utilities.lifecycle.Event
@@ -83,8 +84,9 @@ interface ModifyViewModelOutputs {
 
 class ModifyViewModel(
     private val connector: CountdownConnector,
-    private val crashReporter: CrashReporter
-) : BaseViewModel(), ModifyViewModelInputs, ModifyViewModelOutputs {
+    private val crashReporter: CrashReporter,
+    scopeProvider: ScopeProvider
+) : BaseViewModel(scopeProvider), ModifyViewModelInputs, ModifyViewModelOutputs {
 
     var inputs: ModifyViewModelInputs = this
     var outputs: ModifyViewModelOutputs = this

@@ -2,6 +2,7 @@ package tmg.hourglass.settings.privacy
 
 import androidx.lifecycle.MutableLiveData
 import tmg.hourglass.base.BaseViewModel
+import tmg.hourglass.di.async.ScopeProvider
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.utilities.lifecycle.Event
 
@@ -21,7 +22,9 @@ interface PrivacyPolicyViewModelOutputs {
 
 //endregion
 
-class PrivacyPolicyViewModel: BaseViewModel(), PrivacyPolicyViewModelInputs, PrivacyPolicyViewModelOutputs {
+class PrivacyPolicyViewModel(
+    scopeProvider: ScopeProvider
+): BaseViewModel(scopeProvider), PrivacyPolicyViewModelInputs, PrivacyPolicyViewModelOutputs {
 
     var inputs: PrivacyPolicyViewModelInputs = this
     var outputs: PrivacyPolicyViewModelOutputs = this
