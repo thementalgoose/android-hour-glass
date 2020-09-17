@@ -19,8 +19,8 @@ open class BaseTest {
     @get:Rule
     val coroutineScope = CoroutineRule()
 
-    private val testDispatcher = TestCoroutineDispatcher()
-    private val testScope = TestCoroutineScope(testDispatcher)
+    private val testDispatcher = coroutineScope.testDispatcher
+    private val testScope = coroutineScope.testScope
 
     val testScopeProvider = TestScopeProvider(testScope)
 
@@ -28,14 +28,6 @@ open class BaseTest {
     @CallSuper
     private fun beforeAll() {
         Dispatchers.setMain(testDispatcher)
-    }
-
-    @AfterEach
-    @CallSuper
-    private fun afterAll() {
-        Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
-        testScope.cleanupTestCoroutines()
     }
 
     fun coroutineTest(block: TestCoroutineScope.() -> Unit) {
