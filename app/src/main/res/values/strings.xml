@@ -60,6 +60,9 @@
     <string name="release_14"><![CDATA[2.6.0
     <br/>- Added progress type switcher! Now choose between linear, accelerate, decelerate, and accelerate-decelerate progression types
     <br/>- Fixed some typos throughout the settings]]></string>
+    <string name="release_15"><![CDATA[2.7.0
+    <br/>- General stability updates and bug fixes
+    <br/>- More typos fixed throughout. Tweaked widget adding screen]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
