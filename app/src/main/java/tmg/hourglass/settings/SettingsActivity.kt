@@ -17,6 +17,7 @@ import tmg.components.about.AboutThisAppDependency
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
+import tmg.hourglass.extensions.getTheme
 import tmg.hourglass.extensions.setOnClickListener
 import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.prefs.ThemePref
@@ -221,19 +222,24 @@ class SettingsActivity : BaseActivity() {
         imgDark.setBackgroundResource(if (theme == ThemePref.DARK) R.drawable.background_selected else R.drawable.background_edit_text)
     }
 
+    private fun getAboutTheme(): Int {
+        return when (prefs.theme) {
+            ThemePref.AUTO -> if (isInNightMode()) R.style.DarkTheme_AboutThisApp else R.style.LightTheme_AboutThisApp
+            ThemePref.LIGHT -> R.style.LightTheme_AboutThisApp
+            ThemePref.DARK -> R.style.DarkTheme_AboutThisApp
+        }
+    }
+
     private val aboutThisAppConfiguration
         get() = AboutThisAppConfiguration(
-            isDarkMode = when (prefs.theme) {
-                ThemePref.AUTO -> this.isInNightMode()
-                ThemePref.LIGHT -> false
-                ThemePref.DARK -> true
-            },
+            themeRes = getAboutTheme(),
             name = getString(R.string.about_name),
             nameDesc = getString(R.string.about_desc),
             imageUrl = "https://lh3.googleusercontent.com/DcgSFsCSPOmXW8fEP32cZ44B1KqX_gk-8prh7Qd7nXhnugYE6Nhl1FE_aKaF9q62B6w",
-            thankYou = getString(R.string.dependency_thank_you),
+            subtitle = getString(R.string.dependency_thank_you),
             footnote = "", // getString(R.string.about_additional),
             appVersion = BuildConfig.VERSION_NAME,
+            appPackageName = "tmg.hourglass",
             appName = getString(R.string.app_name),
             play = "https://play.google.com/store/apps/details?id=tmg.hourglass",
             email = "thementalgoose@gmail.com",

@@ -22,6 +22,19 @@
         <item name="pEditTextBackground">#e8e8e8</item>
     </style>
 
+    <style name="DarkTheme.AboutThisApp" parent="DarkTheme">
+        <!-- About This App Activity (light) -->
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimaryDark">@color/brand_dark</item>
+        <item name="aboutThisApp_header">@color/brand_dark</item>
+        <item name="aboutThisApp_textPrimary">#f8f8f8</item>
+        <item name="aboutThisApp_textSecondary">#e8e8e8</item>
+        <item name="aboutThisApp_textToolbar">#f8f8f8</item>
+        <item name="aboutThisApp_iconPrimary">?attr/aboutThisApp_textPrimary</item>
+        <item name="aboutThisApp_backgroundPrimary">#181818</item>
+        <item name="aboutThisApp_backgroundSecondary">#383838</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="DarkTheme" parent="AppTheme">
         <!-- Customize your theme here. -->
@@ -43,6 +56,19 @@
         <item name="pBackgroundInverseSecondary">#f8f8f8</item>
 
         <item name="pEditTextBackground">#282828</item>
+    </style>
+
+    <style name="LightTheme.AboutThisApp" parent="LightTheme">
+        <!-- About This App Activity (light) -->
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimaryDark">@color/brand_dark</item>
+        <item name="aboutThisApp_header">@color/brand_dark</item>
+        <item name="aboutThisApp_textPrimary">#181818</item>
+        <item name="aboutThisApp_textSecondary">#383838</item>
+        <item name="aboutThisApp_textToolbar">#f8f8f8</item>
+        <item name="aboutThisApp_iconPrimary">?attr/aboutThisApp_textPrimary</item>
+        <item name="aboutThisApp_backgroundPrimary">#fbfbfb</item>
+        <item name="aboutThisApp_backgroundSecondary">#f2f2f2</item>
     </style>
 
     <style name="LightTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />

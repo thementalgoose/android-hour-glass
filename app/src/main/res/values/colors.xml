@@ -5,9 +5,8 @@
 
     <color name="brand">#AD1457</color>
 
-<!--    <color name="aboutThisApp_headerDark">#3C306E</color>-->
-    <color name="aboutThisApp_headerLight">#AD1457</color>
-    <color name="aboutThisApp_headerDark">#AD1457</color>
     <color name="overlay">#88000000</color>
     <color name="black">#000000</color>
+
+    <color name="brand_dark">#5E1B3A</color>
 </resources>

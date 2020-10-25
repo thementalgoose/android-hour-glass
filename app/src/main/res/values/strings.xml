@@ -63,6 +63,10 @@
     <string name="release_15"><![CDATA[2.7.0
     <br/>- General stability updates and bug fixes
     <br/>- More typos fixed throughout. Tweaked widget adding screen]]></string>
+    <string name="release_16"><![CDATA[3.0.0
+    <br/>- Android R support
+    <br/>- New about this app screen
+    <br/>- Fixed some random crashes throughout the app]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
