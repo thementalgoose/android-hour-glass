@@ -73,7 +73,7 @@ class ItemWidgetPickerViewModelTest: BaseTest() {
     @Test
     fun `ItemWidgetPickerViewModel placeholder item is loaded when there are no items in the database`() = coroutineTest {
 
-        whenever(mockCountdownConnector.all()).thenReturn(flow { emit(emptyList()) })
+        whenever(mockCountdownConnector.all()).thenReturn(flow { emit(emptyList<Countdown>()) })
         val expected = listOf(
             HomeItemType.Header,
             HomeItemType.Placeholder

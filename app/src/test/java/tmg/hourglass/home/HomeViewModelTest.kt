@@ -49,7 +49,7 @@ class HomeViewModelTest: BaseTest() {
     @Test
     fun `HomeViewModel initial setup loads empty list if no items are stored`() = coroutineTest {
 
-        whenever(mockCountdownConnector.allCurrent()).thenReturn(flow { emit(emptyList()) })
+        whenever(mockCountdownConnector.allCurrent()).thenReturn(flow { emit(emptyList<Countdown>()) })
 
         val expected = listOf(
             HomeItemType.Header,
