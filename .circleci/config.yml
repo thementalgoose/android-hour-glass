@@ -39,9 +39,9 @@ keystore: &keystore
       name: Decrypting environment variables
       command: |
         echo $ENCODED_KEYSTORE | base64 --decode >> ${HOME}/keystore.jks0
-        echo ‘export KEYSTORE=${HOME}/keystore.jks’ >> $BASH_ENV
+        echo 'export KEYSTORE=${HOME}/keystore.jks' >> $BASH_ENV
         echo $ENCODED_DEPLOYMENT_KEY | base64 --decode >> ${HOME}/deployment_private_key.json
-        echo ‘export PRIVATE_KEY=${HOME}/deployment_private_key.json’ >> $BASH_ENV
+        echo 'export PRIVATE_KEY=${HOME}/deployment_private_key.json' >> $BASH_ENV
 
 ## Jobs
 
