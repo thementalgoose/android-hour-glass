@@ -67,6 +67,9 @@
     <br/>- Android R support
     <br/>- New about this app screen
     <br/>- Fixed some random crashes throughout the app]]></string>
+    <string name="release_18"><![CDATA[3.0.2
+    <br/>- Dependency updates
+    <br/>- Incredibly minor bug fixes]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
