@@ -6,6 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'de.mannodermaus.android-junit5'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.github.triplet.play'
 
@@ -24,6 +25,8 @@ android {
 
     buildTypes {
         debug {
+            minifyEnabled false
+            useProguard false
             firebaseCrashlytics {
                 mappingFileUploadEnabled false
             }
@@ -32,6 +35,15 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
     flavorDimensions 'version'
@@ -51,13 +63,42 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        androidTest.resources.srcDirs += 'src/androidTest/res'
+        test.java.srcDirs += 'src/test/java'
     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
+    testOptions {
+        junitPlatform {
+            testLogging {
+                events "skipped", "failed", "standardOut", "standardError"
+            }
+        }
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+            all {
+                afterSuite { desc, result ->
+                    if (!desc.parent) {
+                        println "\n======================================================================="
+                        println "${desc.displayName}"
+                        println "Test result: ${result.resultType}"
+                        println "Test summary: ${result.testCount} tests, " +
+                                "${result.successfulTestCount} succeeded, " +
+                                "${result.failedTestCount} failed, " +
+                                "${result.skippedTestCount} skipped"
+                        println "======================================================================="
+                    }
+                }
+                useJUnitPlatform()
+                testLogging {
+                    showStandardStreams = true
+                    events "skipped", "failed", "standardOut", "standardError"
+                }
+            }
+        }
     }
 }
 
