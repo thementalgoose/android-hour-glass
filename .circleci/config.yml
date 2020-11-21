@@ -1,0 +1,82 @@
+version: 2.1
+
+## Docker container setup
+
+config_android: &config_android
+  docker:
+    - image: circleci/android:api-30
+  working_directory: ~/code
+  environment:
+    TERM: dumb
+
+## Caching information
+
+restore_cache: &restore_cache
+  restore_cache:
+    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+
+save_cache: &save_cache
+  save_cache:
+    paths:
+      - ~/.gradle/caches
+      - ~/.gradle/wrapper
+    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+
+dependencies: &dependencies
+  - run:
+      name: Fixing gradlew permissions
+      command: sudo chmod +x ./gradlew
+  - run:
+      name: Update dependencies
+      command: ./gradlew dependencies
+
+## Jobs
+
+jobs:
+
+  job-test:
+    <<: *config_android
+    steps:
+      - checkout
+      - <<: *restore_cache
+      - <<: *dependencies
+      - <<: *save_cache
+      - run:
+          name: Running unit tests - app
+          command: ./gradlew :app:testLiveDebugUnitTest
+      - store_test_results:
+          path: app/build/test-results
+
+  job-build-deploy:
+    <<: *config_android
+    steps:
+      - checkout
+      - <<: *restore_cache
+      - <<: *dependencies
+      - <<: *save_cache
+      - run:
+          name: Assemble release build
+          command: ./gradlew publishRelease
+
+## Workflows
+
+workflows:
+  version: 2
+
+  run_tests:
+    jobs:
+      - job-test:
+          filters:
+            branches:
+              only: master
+
+  run_build_deploy:
+    jobs:
+      - job-build-deploy:
+          requires:
+            - job-test
+          filters:
+            tags:
+              only: /^[0-9]+\.[0-9]+\.[0-9]+/
+            branches:
+              ignore: /.*/

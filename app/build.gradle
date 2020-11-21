@@ -1,3 +1,5 @@
+import com.github.triplet.gradle.androidpublisher.ResolutionStrategy
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -5,6 +7,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 30
@@ -56,6 +59,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+}
+
+play {
+    track = 'internal'
+    serviceAccountCredentials = file(System.getenv("PRIVATE_KEY") ?: "hour-glass.json")
+    defaultToAppBundles = true
+    resolutionStrategy = ResolutionStrategy.IGNORE
 }
 
 dependencies {
