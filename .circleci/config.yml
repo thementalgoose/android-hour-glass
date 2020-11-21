@@ -68,7 +68,7 @@ workflows:
       - job-test:
           filters:
             branches:
-              only: master
+              only: circle-ci
 
   run_build_deploy:
     jobs:
