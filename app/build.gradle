@@ -1,10 +1,14 @@
+import com.github.triplet.gradle.androidpublisher.ResolutionStrategy
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'de.mannodermaus.android-junit5'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 30
@@ -16,19 +20,42 @@ android {
         versionCode 18
         versionName "3.0.2"
 
+        multiDexEnabled true
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(System.getenv("KEYSTORE") ?: "hour-glass.keystore")
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEYSTORE_ALIAS")
+            keyPassword System.getenv("KEYSTORE_PASSWORD")
+        }
     }
 
     buildTypes {
         debug {
+            minifyEnabled false
+            useProguard false
             firebaseCrashlytics {
                 mappingFileUploadEnabled false
             }
         }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
     flavorDimensions 'version'
@@ -48,14 +75,50 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        androidTest.resources.srcDirs += 'src/androidTest/res'
+        test.java.srcDirs += 'src/test/java'
     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
+    testOptions {
+        junitPlatform {
+            testLogging {
+                events "skipped", "failed", "standardOut", "standardError"
+            }
+        }
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+            all {
+                afterSuite { desc, result ->
+                    if (!desc.parent) {
+                        println "\n======================================================================="
+                        println "${desc.displayName}"
+                        println "Test result: ${result.resultType}"
+                        println "Test summary: ${result.testCount} tests, " +
+                                "${result.successfulTestCount} succeeded, " +
+                                "${result.failedTestCount} failed, " +
+                                "${result.skippedTestCount} skipped"
+                        println "======================================================================="
+                    }
+                }
+                useJUnitPlatform()
+                testLogging {
+                    showStandardStreams = true
+                    events "skipped", "failed", "standardOut", "standardError"
+                }
+            }
+        }
     }
+}
+
+play {
+    track = 'internal'
+    serviceAccountCredentials = file(System.getenv("PRIVATE_KEY") ?: "hour-glass.json")
+    defaultToAppBundles = true
+    resolutionStrategy = ResolutionStrategy.IGNORE
 }
 
 dependencies {
@@ -63,6 +126,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation "androidx.multidex:multidex:2.0.1"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$junit"
