@@ -1,5 +1,7 @@
 # HourGlass - Android
 
+[![CircleCI](https://circleci.com/gh/thementalgoose/android-hour-glass.svg?style=shield&circle-token=d99934cc0ae72e2cf59fd94470d51a457bc31fa4)](https://app.circleci.com/pipelines/gh/thementalgoose/android-hour-glass)
+
 [![Google Play](https://i.imgur.com/gSfLc4N.png)](https://play.google.com/store/apps/details?id=tmg.hourglass)
 
 ![HourGlass](res/feature.png)
