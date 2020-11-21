@@ -188,7 +188,6 @@ class ModifyViewModel(
             connector.saveSync(countdown)
             closeEvent.value = Event()
         } catch (e: NullPointerException) {
-            e.printStackTrace()
             validate()
             isValid.value = false
             crashReporter.logException(e)
