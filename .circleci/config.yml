@@ -80,21 +80,26 @@ workflows:
       - job-test:
           filters:
             branches:
-              only: circle-ci
+              ignore: /.*/
+#              only: circle-ci
 
   run_build_deploy:
     jobs:
       - job-test:
           filters:
-            tags:
-              only: /^[0-9]+\.[0-9]+\.[0-9]+/
             branches:
-              ignore: /.*/
+              only: circle-ci
+#            tags:
+#              only: /^[0-9]+\.[0-9]+\.[0-9]+/
+#            branches:
+#              ignore: /.*/
       - job-build-deploy:
           requires:
             - job-test
           filters:
-            tags:
-              only: /^[0-9]+\.[0-9]+\.[0-9]+/
             branches:
-              ignore: /.*/
+              only: circle-ci
+#            tags:
+#              only: /^[0-9]+\.[0-9]+\.[0-9]+/
+#            branches:
+#              ignore: /.*/
