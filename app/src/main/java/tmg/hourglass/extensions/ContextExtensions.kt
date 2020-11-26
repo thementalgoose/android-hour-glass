@@ -5,12 +5,16 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import tmg.hourglass.widget.dark.ItemWidgetDarkProvider
-import tmg.hourglass.widget.light.ItemWidgetLightProvider
+import tmg.hourglass.widget.bar.dark.WidgetBarDarkProvider
+import tmg.hourglass.widget.bar.light.WidgetBarLightProvider
+import tmg.hourglass.widget.circle.dark.WidgetCircleDarkProvider
+import tmg.hourglass.widget.circle.light.WidgetCircleLightProvider
 
 fun Context.updateAllWidgets() {
-    updateWidgets(ItemWidgetLightProvider::class.java)
-    updateWidgets(ItemWidgetDarkProvider::class.java)
+    updateWidgets(WidgetBarLightProvider::class.java)
+    updateWidgets(WidgetBarDarkProvider::class.java)
+    updateWidgets(WidgetCircleLightProvider::class.java)
+    updateWidgets(WidgetCircleDarkProvider::class.java)
 }
 
 fun <T : AppWidgetProvider> Context.updateWidgets(zClass: Class<T>) {

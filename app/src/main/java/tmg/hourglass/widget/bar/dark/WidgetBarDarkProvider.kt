@@ -1,4 +1,4 @@
-package tmg.hourglass.widget.dark
+package tmg.hourglass.widget.bar.dark
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -6,10 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import tmg.hourglass.R
-import tmg.hourglass.widget.onUpdate
+import tmg.hourglass.widget.bar.onUpdateBar
 
 
-class ItemWidgetDarkProvider : AppWidgetProvider() {
+class WidgetBarDarkProvider : AppWidgetProvider() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
@@ -21,9 +21,9 @@ class ItemWidgetDarkProvider : AppWidgetProvider() {
         appWidgetIds: IntArray?
     ) {
         Log.i("HourGlass", "Processing dark widget updates for ids ${appWidgetIds?.joinToString(",")}")
-        onUpdate<ItemWidgetDarkProvider>(
+        onUpdateBar<WidgetBarDarkProvider>(
             context = context,
-            layoutId = R.layout.widget_item_dark,
+            layoutId = R.layout.widget_bar_dark,
             appWidgetManager = appWidgetManager,
             appWidgetIds = appWidgetIds
         )

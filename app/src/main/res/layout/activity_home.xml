@@ -1,20 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/pBackgroundPrimary">
+    android:background="?attr/pBackgroundPrimary"
+    app:layoutDescription="@xml/home_scene"
+    tools:showPaths="true">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMain"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/headerHeightCollapsed" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/headerIconExpanded"
+        android:layout_height="@dimen/headerIconExpanded"
+        android:alpha="1.0"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorPrimary" />
+
+    <ImageView
+        android:id="@+id/logoCrossFade"
+        android:layout_width="@dimen/headerIconExpanded"
+        android:layout_height="@dimen/headerIconExpanded"
+        android:alpha="0.0"
+        android:importantForAccessibility="no"
+        android:rotation="180"
+        android:src="@drawable/ic_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorPrimary" />
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/paddingVLarge"
-        app:layout_constraintBottom_toTopOf="@id/bnvNavigation"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/headerExtended"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/headerExtended"
+        style="@style/Text.Header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/paddingMedium"
+        android:layout_marginEnd="@dimen/paddingMedium"
+        android:paddingBottom="@dimen/paddingMedium"
+        android:text="@string/app_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <TextView
+        android:id="@+id/header"
+        style="@style/Text.Header.Collapsed"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.0"
+        android:gravity="center|start"
+        android:paddingStart="@dimen/paddingSmall"
+        android:paddingEnd="@dimen/paddingSmall"
+        android:text="@string/app_name"
+        app:layout_constraintBottom_toBottomOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/logo"
+        app:layout_constraintTop_toTopOf="@id/background" />
+
+    <!-- List -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@id/bnvNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/background"
+        tools:itemCount="3"
+        tools:listitem="@layout/element_countdown_item" />
 
     <ImageButton
         android:id="@+id/ibtnAdd"
@@ -23,6 +102,7 @@
         android:layout_marginEnd="@dimen/paddingMedium"
         android:layout_marginBottom="@dimen/paddingMedium"
         android:background="@drawable/background_fab"
+        android:contentDescription="@string/ab_add"
         android:foreground="@drawable/ripple_rounded"
         android:src="@drawable/ic_add"
         android:tint="?attr/colorPrimary"
@@ -32,13 +112,13 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnvNavigation"
         android:layout_width="match_parent"
-        app:itemIconTint="@color/selector_nav_bar"
-        app:itemTextColor="@color/selector_nav_bar"
         android:layout_height="wrap_content"
         android:background="?attr/pBackgroundPrimary"
+        app:itemIconTint="@color/selector_nav_bar"
+        app:itemTextColor="@color/selector_nav_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/home" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>

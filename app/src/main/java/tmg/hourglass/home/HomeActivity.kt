@@ -33,8 +33,8 @@ class HomeActivity: BaseActivity() {
                 }
             }
         )
-        rvMain.adapter = adapter
-        rvMain.layoutManager = LinearLayoutManager(this)
+        list.adapter = adapter
+        list.layoutManager = LinearLayoutManager(this)
 
         bnvNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {

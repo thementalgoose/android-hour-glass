@@ -236,11 +236,16 @@
     <string name="widget_value">N/A</string>
     <string name="widget_label_light">Light mode</string>
     <string name="widget_label_dark">Dark mode</string>
+
     <string name="widget_finished">Finished</string>
     <string name="widget_not_started">Not started. Tap to update</string>
     <string name="widget_progress">Updated at %s</string>
 
+    <string name="widget_finished_short">Done</string>
+    <string name="widget_not_started_short">0</string>
+
     <string name="widget_migration_needed">Please open app</string>
     <string name="widget_migration_needed_value" />
     <string name="widget_migration_needed_label">Open the app to restore countdown</string>
+    <string name="widget_migration_needed_label_short">Error</string>
 </resources>

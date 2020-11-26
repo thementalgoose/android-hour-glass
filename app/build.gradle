@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId "tmg.hourglass"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 18
         versionName "3.0.2"
