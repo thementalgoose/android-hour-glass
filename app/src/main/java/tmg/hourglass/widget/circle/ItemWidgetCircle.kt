@@ -5,20 +5,19 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
-import androidx.core.graphics.toColorInt
 import io.realm.exceptions.RealmMigrationNeededException
-import org.threeten.bp.LocalDateTime
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
-import tmg.hourglass.extensions.format
 import tmg.hourglass.prefs.AppPreferencesManager
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.realm.connectors.RealmCountdownConnector
 import tmg.hourglass.realm.connectors.RealmWidgetConnector
 import tmg.hourglass.utils.ProgressUtils
-import tmg.hourglass.widget.setProgressBarColor
+import tmg.hourglass.widget.WidgetCircleProgress
+import tmg.hourglass.widget.WidgetSquareProgress
 import kotlin.math.floor
 
 inline fun <reified T: AppWidgetProvider> AppWidgetProvider.onUpdateCircle(
@@ -46,8 +45,8 @@ inline fun <reified T: AppWidgetProvider> AppWidgetProvider.onUpdateCircle(
 
                 remoteView.setTextViewText(R.id.value, label)
 
-                remoteView.setProgressBar(R.id.progressBar, 100, (progress * 100.0f).toInt(), false)
-                remoteView.setProgressBarColor(R.id.progressBar, countdownModel.colour.toColorInt())
+                val circleImage = WidgetCircleProgress.getImageFor(progress)
+                remoteView.setImageViewResource(R.id.progress, circleImage.res)
 
                 when {
                     progress >= 1.0f -> {

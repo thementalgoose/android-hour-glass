@@ -20,7 +20,7 @@ class WidgetBarLightProvider: AppWidgetProvider() {
         appWidgetManager: AppWidgetManager?,
         appWidgetIds: IntArray?
     ) {
-        Log.i("HourGlass", "Processing light widget updates for ids ${appWidgetIds?.joinToString(",")}")
+        Log.i("HourGlass", "Processing bar light widget updates for ids ${appWidgetIds?.joinToString(",")}")
         onUpdateBar<WidgetBarLightProvider>(
             context = context,
             layoutId = R.layout.widget_bar_light,

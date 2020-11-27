@@ -3,7 +3,7 @@
     android:configure="tmg.hourglass.widget.bar.light.WidgetBarLightPickerActivity"
     android:initialLayout="@layout/widget_bar_light"
     android:minWidth="@dimen/widgetBarMinWidth"
-    android:previewImage="@drawable/preview_light"
+    android:previewImage="@drawable/widget_preview_bar_light"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="3600000"
     android:widgetCategory="home_screen|keyguard">

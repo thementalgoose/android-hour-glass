@@ -21,7 +21,7 @@ class WidgetCircleLightProvider: AppWidgetProvider() {
         appWidgetManager: AppWidgetManager?,
         appWidgetIds: IntArray?
     ) {
-        Log.i("HourGlass", "Processing light widget updates for ids ${appWidgetIds?.joinToString(",")}")
+        Log.i("HourGlass", "Processing circle light widget updates for ids ${appWidgetIds?.joinToString(",")}")
         onUpdateCircle<WidgetCircleLightProvider>(
             context = context,
             layoutId = R.layout.widget_circle_light,

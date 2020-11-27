@@ -48,7 +48,7 @@
 
         <receiver
             android:name=".widget.bar.dark.WidgetBarDarkProvider"
-            android:label="@string/widget_label_dark">
+            android:label="@string/widget_bar_label_dark">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -67,7 +67,7 @@
 
         <receiver
             android:name="tmg.hourglass.widget.bar.light.WidgetBarLightProvider"
-            android:label="@string/widget_label_light">
+            android:label="@string/widget_bar_label_light">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -86,7 +86,7 @@
 
         <receiver
             android:name="tmg.hourglass.widget.circle.light.WidgetCircleLightProvider"
-            android:label="@string/widget_label_light">
+            android:label="@string/widget_circle_label_light">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -105,7 +105,7 @@
 
         <receiver
             android:name="tmg.hourglass.widget.circle.dark.WidgetCircleDarkProvider"
-            android:label="@string/widget_label_dark">
+            android:label="@string/widget_circle_label_dark">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

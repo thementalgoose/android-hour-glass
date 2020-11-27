@@ -3,7 +3,7 @@
     android:configure="tmg.hourglass.widget.bar.dark.WidgetBarDarkPickerActivity"
     android:initialLayout="@layout/widget_bar_dark"
     android:minWidth="@dimen/widgetBarMinWidth"
-    android:previewImage="@drawable/preview_dark"
+    android:previewImage="@drawable/widget_preview_bar_dark"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="3600000"
     android:widgetCategory="home_screen|keyguard">

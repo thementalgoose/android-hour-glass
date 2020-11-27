@@ -20,7 +20,7 @@ class WidgetBarDarkProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager?,
         appWidgetIds: IntArray?
     ) {
-        Log.i("HourGlass", "Processing dark widget updates for ids ${appWidgetIds?.joinToString(",")}")
+        Log.i("HourGlass", "Processing bar dark widget updates for ids ${appWidgetIds?.joinToString(",")}")
         onUpdateBar<WidgetBarDarkProvider>(
             context = context,
             layoutId = R.layout.widget_bar_dark,

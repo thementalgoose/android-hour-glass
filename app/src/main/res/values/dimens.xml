@@ -30,4 +30,6 @@
 
     <dimen name="widgetCircleMinWidth">60dp</dimen>
     <dimen name="widgetCircleMinHeight">60dp</dimen>
+
+    <dimen name="widgetCircleSize">36dp</dimen>
 </resources>

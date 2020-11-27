@@ -3,27 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:id="@+id/container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_widget_light"
     android:clickable="true"
     android:focusable="true">
 
-    <ProgressBar
+    <ImageView
         android:id="@+id/progress"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/paddingXSmall"
-        android:layout_marginEnd="@dimen/paddingXSmall"
+        android:layout_width="@dimen/widgetCircleSize"
+        android:layout_height="@dimen/widgetCircleSize"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/paddingXSmall"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="50" />
+        tools:ignore="ContentDescription" />
 
 
     <TextView
         android:id="@+id/value"
-        style="@style/Text.Widget.Light.Value"
+        style="@style/Text.Widget.Light.Small.Value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/progress"
@@ -32,7 +31,7 @@
         android:paddingTop="@dimen/paddingXSmall"
         android:paddingEnd="@dimen/paddingXSmall"
         android:paddingBottom="@dimen/paddingXSmall"
-        tools:text="38,400 mi" />
+        tools:text="2100 mi" />
 
     <!--    <TextView-->
     <!--        android:id="@+id/updatedAt"-->
