@@ -50,7 +50,7 @@ inline fun <reified T: AppWidgetProvider> AppWidgetProvider.onUpdateCircle(
 
                 when {
                     progress >= 1.0f -> {
-                        remoteView.setTextViewText(R.id.value, context.getString(R.string.widget_finished_short))
+                        remoteView.setImageViewResource(R.id.progress, R.drawable.widget_circle_check)
                     }
                     progress <= 0.0f -> {
                         remoteView.setTextViewText(R.id.value, context.getString(R.string.widget_not_started_short))
