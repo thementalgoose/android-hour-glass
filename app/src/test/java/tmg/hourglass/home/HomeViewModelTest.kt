@@ -52,7 +52,6 @@ class HomeViewModelTest: BaseTest() {
         whenever(mockCountdownConnector.allCurrent()).thenReturn(flow { emit(emptyList<Countdown>()) })
 
         val expected = listOf(
-            HomeItemType.Header,
             HomeItemType.Placeholder
         )
 
@@ -66,7 +65,6 @@ class HomeViewModelTest: BaseTest() {
     fun `HomeViewModel initial setup loads the NOW tab and all items by default`() = coroutineTest {
 
         val expected = mutableListOf<HomeItemType>()
-        expected.add(HomeItemType.Header)
         expected.addAll(expectedListNow)
 
         initSUT()
@@ -79,11 +77,9 @@ class HomeViewModelTest: BaseTest() {
     fun `HomeViewModel changing tabs changes list content`() = coroutineTest {
 
         val expectedPrevious = mutableListOf<HomeItemType>()
-        expectedPrevious.add(HomeItemType.Header)
         expectedPrevious.addAll(expectedListPrevious)
 
         val expectedNow = mutableListOf<HomeItemType>()
-        expectedNow.add(HomeItemType.Header)
         expectedNow.addAll(expectedListNow)
 
         initSUT()
