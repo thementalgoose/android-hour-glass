@@ -70,6 +70,9 @@
     <string name="release_18"><![CDATA[3.0.2
     <br/>- Dependency updates
     <br/>- Incredibly minor bug fixes]]></string>
+    <string name="release_19"><![CDATA[3.1.0
+    <br/>- Adds circular progress widget!
+    <br/>- Increases minimum support version to API 23]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
