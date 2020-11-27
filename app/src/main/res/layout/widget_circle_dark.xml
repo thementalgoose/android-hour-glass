@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_widget_dark"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/progress"
+        android:layout_width="@dimen/widgetCircleSize"
+        android:layout_height="@dimen/widgetCircleSize"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="@dimen/paddingXSmall"
+        android:layout_marginEnd="10dp"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/value"
+        style="@style/Text.Widget.Dark.Small.Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progress"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:paddingStart="@dimen/paddingXSmall"
+        android:paddingTop="@dimen/paddingXSmall"
+        android:paddingEnd="@dimen/paddingXSmall"
+        android:paddingBottom="@dimen/paddingXSmall"
+        tools:text="30 mi" />
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/updatedAt"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/progress"-->
+    <!--        android:layout_alignParentEnd="true"-->
+    <!--        style="@style/Text.Widget.Dark.Subtitle"-->
+    <!--        tools:text="11:23 20/03/2019" />-->
+</RelativeLayout>

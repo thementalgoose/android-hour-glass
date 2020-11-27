@@ -61,7 +61,7 @@ class HomeViewModel(
             }
         }
         .map { list ->
-            mutableListOf<HomeItemType>(HomeItemType.Header)
+            mutableListOf<HomeItemType>()
                 .apply {
                     if (list.isEmpty()) {
                         add(HomeItemType.Placeholder)

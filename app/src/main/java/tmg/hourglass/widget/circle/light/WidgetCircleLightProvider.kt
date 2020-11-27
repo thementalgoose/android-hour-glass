@@ -1,4 +1,4 @@
-package tmg.hourglass.widget.light
+package tmg.hourglass.widget.circle.light
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -6,10 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import tmg.hourglass.R
-import tmg.hourglass.widget.dark.ItemWidgetDarkProvider
-import tmg.hourglass.widget.onUpdate
+import tmg.hourglass.widget.bar.onUpdateBar
+import tmg.hourglass.widget.circle.onUpdateCircle
 
-class ItemWidgetLightProvider: AppWidgetProvider() {
+class WidgetCircleLightProvider: AppWidgetProvider() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
@@ -21,10 +21,10 @@ class ItemWidgetLightProvider: AppWidgetProvider() {
         appWidgetManager: AppWidgetManager?,
         appWidgetIds: IntArray?
     ) {
-        Log.i("HourGlass", "Processing light widget updates for ids ${appWidgetIds?.joinToString(",")}")
-        onUpdate<ItemWidgetLightProvider>(
+        Log.i("HourGlass", "Processing circle light widget updates for ids ${appWidgetIds?.joinToString(",")}")
+        onUpdateCircle<WidgetCircleLightProvider>(
             context = context,
-            layoutId = R.layout.widget_item_light,
+            layoutId = R.layout.widget_circle_light,
             appWidgetManager = appWidgetManager,
             appWidgetIds = appWidgetIds
         )

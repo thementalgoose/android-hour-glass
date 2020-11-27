@@ -31,6 +31,7 @@
                     android:layout_marginStart="@dimen/paddingXSmall"
                     android:layout_marginTop="@dimen/paddingXSmall"
                     android:background="@null"
+                    android:foreground="?attr/selectableItemBackground"
                     android:src="@drawable/ic_back"
                     android:tint="?attr/pTextPrimary"
                     app:layout_constraintStart_toStartOf="parent"
@@ -160,14 +161,6 @@
                 </androidx.cardview.widget.CardView>
 
 
-
-
-
-
-
-
-
-
                 <TextView
                     android:id="@+id/tvType"
                     style="@style/Text.Modify.FieldTitle"
@@ -213,13 +206,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvTypeDescription" />
-
-
-
-
-
-
-
 
 
                 <TextView
@@ -291,22 +277,10 @@
 
                 <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/barrier"
-                    app:barrierDirection="bottom"
                     android:layout_width="wrap_content"
-                    app:constraint_referenced_ids="etFinal,etInitial"
-                    android:layout_height="wrap_content" />
-
-
-
-
-
-
-
-
-
-
-
-
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="etFinal,etInitial" />
 
 
                 <TextView
@@ -354,22 +328,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvInterpolatorDescription" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                 <TextView

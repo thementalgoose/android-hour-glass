@@ -38,21 +38,36 @@
 
         <!-- Widget -->
 
-        <activity android:name=".widget.dark.ItemWidgetDarkPickerActivity">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
+        <!-- Bar Dark -->
 
-        <activity android:name=".widget.light.ItemWidgetLightPickerActivity">
+        <activity android:name=".widget.bar.dark.WidgetBarDarkPickerActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
         <receiver
-            android:name=".widget.light.ItemWidgetLightProvider"
-            android:label="@string/widget_label_light">
+            android:name=".widget.bar.dark.WidgetBarDarkProvider"
+            android:label="@string/widget_bar_label_dark">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_dark" />
+        </receiver>
+
+        <!-- Bar Light -->
+
+        <activity android:name="tmg.hourglass.widget.bar.light.WidgetBarLightPickerActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="tmg.hourglass.widget.bar.light.WidgetBarLightProvider"
+            android:label="@string/widget_bar_label_light">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -61,16 +76,44 @@
                 android:resource="@xml/widget_info_light" />
         </receiver>
 
+        <!-- Circle Dark -->
+
+        <activity android:name="tmg.hourglass.widget.circle.light.WidgetCircleLightPickerActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
         <receiver
-            android:name=".widget.dark.ItemWidgetDarkProvider"
-            android:label="@string/widget_label_dark">
+            android:name="tmg.hourglass.widget.circle.light.WidgetCircleLightProvider"
+            android:label="@string/widget_circle_label_light">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_dark" />
+                android:resource="@xml/widget_circle_light" />
         </receiver>
+
+        <!-- Circle Light -->
+
+        <activity android:name="tmg.hourglass.widget.circle.dark.WidgetCircleDarkPickerActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="tmg.hourglass.widget.circle.dark.WidgetCircleDarkProvider"
+            android:label="@string/widget_circle_label_dark">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_circle_dark" />
+        </receiver>
+
 
     </application>
 

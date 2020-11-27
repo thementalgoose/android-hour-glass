@@ -1,4 +1,4 @@
-package tmg.hourglass.widget
+package tmg.hourglass.widget.bar
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.ColorInt
@@ -14,21 +13,20 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.core.graphics.toColorInt
 import io.realm.exceptions.RealmMigrationNeededException
-import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
-import tmg.hourglass.data.models.Countdown
 import tmg.hourglass.extensions.format
 import tmg.hourglass.prefs.AppPreferencesManager
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.realm.connectors.RealmCountdownConnector
 import tmg.hourglass.realm.connectors.RealmWidgetConnector
 import tmg.hourglass.utils.ProgressUtils
+import tmg.hourglass.widget.setProgressBarColor
 import java.lang.reflect.Method
 import kotlin.math.floor
 
-inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdate(
+inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdateBar(
     context: Context?,
     @LayoutRes layoutId: Int,
     appWidgetManager: AppWidgetManager?,
@@ -37,9 +35,7 @@ inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdate(
 
     for (x in 0 until (appWidgetIds?.size ?: 0)) {
         val widgetId: Int = appWidgetIds!![x]
-
         val prefs: PreferencesManager = AppPreferencesManager(context!!)
-
         val remoteView = RemoteViews(BuildConfig.APPLICATION_ID, layoutId)
 
         try {
@@ -90,39 +86,5 @@ inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdate(
             PendingIntent.getBroadcast(context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         remoteView.setOnClickPendingIntent(R.id.container, pendingIntent)
         appWidgetManager?.updateAppWidget(widgetId, remoteView)
-    }
-}
-
-/**
- * Attempt to set the progress bar color
- * Uses reflection, highly likely to fail but it's a nice to have anyway
- */
-fun RemoteViews.setProgressBarColor(@IdRes progressBar: Int, @ColorInt color: Int) {
-    var setTintMethod: Method? = null
-    try {
-        setTintMethod = this::class.java.getMethod(
-            "setProgressTintList",
-            Int::class.javaPrimitiveType,
-            ColorStateList::class.java
-        )
-    } catch (e: Exception) {  // SecurityException, NoSuchMethodException
-        if (BuildConfig.DEBUG) {
-            e.printStackTrace()
-        }
-        /* Do nothing */
-    }
-    if (setTintMethod != null) {
-        try {
-            setTintMethod.invoke(
-                this,
-                progressBar,
-                ColorStateList.valueOf(color)
-            )
-        } catch (e: Exception) { // IllegalAccessException, InvocationTargetException
-            if (BuildConfig.DEBUG) {
-                e.printStackTrace()
-            }
-            /* Do nothing */
-        }
     }
 }
