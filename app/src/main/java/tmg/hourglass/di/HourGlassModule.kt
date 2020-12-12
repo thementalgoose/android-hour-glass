@@ -8,8 +8,6 @@ import tmg.hourglass.crash.CrashReporter
 import tmg.hourglass.crash.FirebaseCrashReporter
 import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.data.connectors.WidgetConnector
-import tmg.hourglass.di.async.ScopeProvider
-import tmg.hourglass.di.async.ViewModelScopeProvider
 import tmg.hourglass.home.HomeViewModel
 import tmg.hourglass.modify.ModifyViewModel
 import tmg.hourglass.prefs.PreferencesManager
@@ -22,13 +20,13 @@ import tmg.hourglass.settings.release.ReleaseViewModel
 import tmg.hourglass.widget.ItemWidgetPickerViewModel
 
 val hourGlassModule = module {
-    viewModel { HomeViewModel(get(), get()) }
-    viewModel { ModifyViewModel(get(), get(), get()) }
-    viewModel { SettingsViewModel(get(), get(), get()) }
-    viewModel { ReleaseViewModel(get()) }
-    viewModel { PrivacyPolicyViewModel(get()) }
+    viewModel { HomeViewModel(get()) }
+    viewModel { ModifyViewModel(get(), get()) }
+    viewModel { SettingsViewModel(get(), get()) }
+    viewModel { ReleaseViewModel() }
+    viewModel { PrivacyPolicyViewModel() }
 
-    viewModel { ItemWidgetPickerViewModel(get(), get(), get()) }
+    viewModel { ItemWidgetPickerViewModel(get(), get()) }
 
     single<CountdownConnector> { RealmCountdownConnector() }
     single<WidgetConnector> { RealmWidgetConnector(get()) }
@@ -36,5 +34,4 @@ val hourGlassModule = module {
     single<PreferencesManager> { AppPreferencesManager(get()) }
     single<AnalyticsManager> { FirebaseAnalyticsManager(get()) }
     single<CrashReporter> { FirebaseCrashReporter() }
-    single<ScopeProvider> { ViewModelScopeProvider() }
 }

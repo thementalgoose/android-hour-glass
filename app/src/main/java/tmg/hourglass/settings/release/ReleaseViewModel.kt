@@ -2,8 +2,6 @@ package tmg.hourglass.settings.release
 
 import androidx.lifecycle.MutableLiveData
 import tmg.hourglass.base.BaseViewModel
-import tmg.hourglass.di.async.ScopeProvider
-import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.releaseNotes
 import tmg.utilities.lifecycle.Event
 
@@ -24,9 +22,7 @@ interface ReleaseViewModelOutputs {
 
 //endregion
 
-class ReleaseViewModel(
-    scopeProvider: ScopeProvider
-): BaseViewModel(scopeProvider), ReleaseViewModelInputs, ReleaseViewModelOutputs {
+class ReleaseViewModel: BaseViewModel(), ReleaseViewModelInputs, ReleaseViewModelOutputs {
 
     var inputs: ReleaseViewModelInputs = this
     var outputs: ReleaseViewModelOutputs = this

@@ -1,8 +1,6 @@
 package tmg.hourglass.modify
 
 import com.nhaarman.mockitokotlin2.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -16,11 +14,9 @@ import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.data.models.Countdown
 import tmg.hourglass.testutils.BaseTest
 import tmg.hourglass.testutils.assertEventFired
-import tmg.hourglass.testutils.assertValue
+import tmg.hourglass.testutils.test
 import tmg.hourglass.utils.Selected
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class ModifyViewModelTestEdit: BaseTest() {
 
     lateinit var sut: ModifyViewModel
@@ -57,7 +53,7 @@ class ModifyViewModelTestEdit: BaseTest() {
     }
 
     private fun initSUT() {
-        sut = ModifyViewModel(mockCountdownConnector, mockCrashReporter, testScopeProvider)
+        sut = ModifyViewModel(mockCountdownConnector, mockCrashReporter)
         sut.inputs.initialise(mockEditId)
     }
 
@@ -66,32 +62,54 @@ class ModifyViewModelTestEdit: BaseTest() {
 
         initSUT()
 
-        assertValue(false, sut.outputs.isAddition)
+        sut.outputs.isAddition.test { assertValue(false) }
 
-        assertValue(mockName, sut.outputs.name)
-        assertValue(mockDescription, sut.outputs.description)
-        assertValue(mockColour, sut.outputs.colour)
-        assertValue(mockDates, sut.outputs.dates)
-        assertValue(mockInitial, sut.outputs.initial)
-        assertValue(mockFinal, sut.outputs.final)
-        assertValue(mockType, sut.outputs.type)
-        assertValue(mockInterpolator, sut.outputs.interpolator)
+        sut.outputs.name.test {
+            assertValue(mockName)
+        }
+        sut.outputs.description.test {
+            assertValue(mockDescription)
+        }
+        sut.outputs.colour.test {
+            assertValue(mockColour)
+        }
+        sut.outputs.dates.test {
+            assertValue(mockDates)
+        }
+        sut.outputs.initial.test {
+            assertValue(mockInitial)
+        }
+        sut.outputs.final.test {
+            assertValue(mockFinal)
+        }
+        sut.outputs.type.test {
+            assertValue(mockType)
+        }
+        sut.outputs.interpolator.test {
+            assertValue(mockInterpolator)
+        }
 
-        val expectedTypeList = CountdownType
-            .values()
-            .map {
-                Selected(it, it == mockType)
-            }
-        assertValue(expectedTypeList, sut.outputs.typeList)
+        sut.outputs.typeList.test {
+            val expectedTypeList = CountdownType
+                .values()
+                .map {
+                    Selected(it, it == mockType)
+                }
+            assertValue(expectedTypeList)
+        }
 
-        val expectedInterpolatorList = CountdownInterpolator
-            .values()
-            .map {
-                Selected(it, it == mockInterpolator)
-            }
-        assertValue(expectedInterpolatorList, sut.outputs.interpolatorList)
+        sut.outputs.interpolatorList.test {
+            val expectedInterpolatorList = CountdownInterpolator
+                .values()
+                .map {
+                    Selected(it, it == mockInterpolator)
+                }
+            assertValue(expectedInterpolatorList)
+        }
 
-        assertValue(false, sut.outputs.isValid)
+        sut.outputs.isValid.test {
+            assertValue(false)
+        }
     }
 
     @Test
@@ -102,7 +120,10 @@ class ModifyViewModelTestEdit: BaseTest() {
         sut.inputs.clickDelete()
 
         verify(mockCountdownConnector).delete(any())
-        assertEventFired(sut.outputs.closeEvent)
+
+        sut.outputs.closeEvent.test {
+            assertEventFired()
+        }
     }
 
     @AfterEach

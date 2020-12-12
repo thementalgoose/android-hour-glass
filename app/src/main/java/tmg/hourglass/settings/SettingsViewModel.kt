@@ -1,14 +1,14 @@
 package tmg.hourglass.settings
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import tmg.components.prefs.*
+import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.data.connectors.CountdownConnector
-import tmg.hourglass.di.async.ScopeProvider
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
+import tmg.utilities.lifecycle.DataEvent
 import tmg.utilities.lifecycle.Event
 
 //region Inputs
@@ -24,6 +24,7 @@ interface SettingsViewModelInputs {
     fun clickWidgetUpdate(enabled: Boolean)
 
     fun clickAbout()
+    fun clickReview()
     fun clickReleaseNotes()
     fun clickCrashReporting(type: Boolean)
     fun clickSuggestions()
@@ -46,6 +47,7 @@ interface SettingsViewModelOutputs {
     val themeSelected: MutableLiveData<ThemePref>
 
     val openAbout: MutableLiveData<Event>
+    val openReview: MutableLiveData<DataEvent<String>>
     val openReleaseNotes: MutableLiveData<Event>
     val crashReporting: MutableLiveData<Pair<Boolean, Boolean>> // Show update, updated too
     val openSuggestions: MutableLiveData<Event>
@@ -57,9 +59,8 @@ interface SettingsViewModelOutputs {
 
 class SettingsViewModel(
     private val countdownConnector: CountdownConnector,
-    private val prefs: PreferencesManager,
-    scopeProvider: ScopeProvider
-) : BaseViewModel(scopeProvider), SettingsViewModelInputs, SettingsViewModelOutputs {
+    private val prefs: PreferencesManager
+) : BaseViewModel(), SettingsViewModelInputs, SettingsViewModelOutputs {
 
     override val goBack: MutableLiveData<Event> = MutableLiveData()
 
@@ -70,6 +71,7 @@ class SettingsViewModel(
     override val themeSelected: MutableLiveData<ThemePref> = MutableLiveData()
 
     override val openAbout: MutableLiveData<Event> = MutableLiveData()
+    override val openReview: MutableLiveData<DataEvent<String>> = MutableLiveData()
     override val openReleaseNotes: MutableLiveData<Event> = MutableLiveData()
     override val crashReporting: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
     override val openSuggestions: MutableLiveData<Event> = MutableLiveData()
@@ -127,6 +129,11 @@ class SettingsViewModel(
                     PrefType.HELP_ABOUT.key,
                     title = R.string.settings_help_about_title,
                     description = R.string.settings_help_about_description
+                )
+                preference(
+                    PrefType.HELP_REVIEW.key,
+                    title = R.string.settings_help_review_title,
+                    description = R.string.settings_help_review_description
                 )
                 preference(
                     PrefType.HELP_RELEASE.key,
@@ -197,6 +204,10 @@ class SettingsViewModel(
         openAbout.value = Event()
     }
 
+    override fun clickReview() {
+        openReview.value = DataEvent("https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID)
+    }
+
     override fun clickReleaseNotes() {
         openReleaseNotes.value = Event()
     }
@@ -231,6 +242,7 @@ class SettingsViewModel(
         WIDGETS_REFRESH("widget_refresh"),
         WIDGETS_UPDATED("widget_updated"),
         HELP_ABOUT("help_about"),
+        HELP_REVIEW("help_review"),
         HELP_RELEASE("help_release"),
         FEEDBACK_CRASH_REPORTING("feedback_crash_reporting"),
         FEEDBACK_SUGGESTION("feedback_suggestions"),

@@ -19,8 +19,6 @@ import tmg.hourglass.home.HomeItemAction
 import tmg.hourglass.home.HomeItemType
 import tmg.hourglass.testutils.*
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class ItemWidgetPickerViewModelTest: BaseTest() {
 
     lateinit var sut: ItemWidgetPickerViewModel
@@ -50,7 +48,7 @@ class ItemWidgetPickerViewModelTest: BaseTest() {
     }
 
     private fun initSUT() {
-        sut = ItemWidgetPickerViewModel(mockWidgetReferenceConnector, mockCountdownConnector, testScopeProvider)
+        sut = ItemWidgetPickerViewModel(mockWidgetReferenceConnector, mockCountdownConnector)
         sut.inputs.supplyAppWidgetId(mockWidgetId)
     }
 
@@ -67,7 +65,9 @@ class ItemWidgetPickerViewModelTest: BaseTest() {
         initSUT()
         advanceUntilIdle()
 
-        assertValue(expected, sut.outputs.list)
+        sut.outputs.list.test {
+            assertValue(expected)
+        }
     }
 
     @Test
@@ -82,7 +82,9 @@ class ItemWidgetPickerViewModelTest: BaseTest() {
         initSUT()
         advanceUntilIdle()
 
-        assertValue(expected, sut.outputs.list)
+        sut.outputs.list.test {
+            assertValue(expected)
+        }
     }
 
     @Test
@@ -93,19 +95,22 @@ class ItemWidgetPickerViewModelTest: BaseTest() {
         initSUT()
         advanceUntilIdle()
 
-        assertValue(listOf(HomeItemType.Header,
+        val listObserver = sut.outputs.list.testObserve()
+        val savedObserver = sut.outputs.isSavedEnabled.testObserve()
+
+        listObserver.assertValue(listOf(HomeItemType.Header,
             expectedWidgetPickerItemPrimary,
             expectedWidgetPickerItemSecondary
-        ), sut.outputs.list)
-        assertValue(false, sut.outputs.isSavedEnabled)
+        ))
+        savedObserver.assertValue(false)
 
         sut.inputs.checkedItem(mockCountdownPrimaryId)
 
-        assertValue(listOf(HomeItemType.Header,
+        listObserver.assertValue(listOf(HomeItemType.Header,
             expectedWidgetPickerItemPrimary.copy(isEnabled = true),
             expectedWidgetPickerItemSecondary
-        ), sut.outputs.list)
-        assertValue(true, sut.outputs.isSavedEnabled)
+        ))
+        savedObserver.assertValue(true)
     }
 
     @Test
@@ -118,12 +123,16 @@ class ItemWidgetPickerViewModelTest: BaseTest() {
 
         sut.inputs.checkedItem(mockCountdownSecondaryId)
 
-        assertValue(true, sut.outputs.isSavedEnabled)
+        sut.outputs.isSavedEnabled.test {
+            assertValue(true)
+        }
 
         sut.inputs.clickSave()
 
         verify(mockWidgetReferenceConnector).saveSync(any(), any())
-        assertDataEventValue(mockCountdownSecondaryId, sut.outputs.save)
+        sut.outputs.save.test {
+            assertDataEventValue(mockCountdownSecondaryId)
+        }
     }
 
     @AfterEach

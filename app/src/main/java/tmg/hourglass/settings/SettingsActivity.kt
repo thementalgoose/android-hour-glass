@@ -1,7 +1,9 @@
 package tmg.hourglass.settings
 
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -104,10 +106,17 @@ class SettingsActivity : BaseActivity() {
             openAbout()
         }
 
+        observeEvent(viewModel.outputs.openReview) {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                startActivity(intent)
+            } catch (e: ActivityNotFoundException) { }
+        }
+
         observeEvent(viewModel.outputs.openReleaseNotes) {
             startActivity(Intent(this, ReleaseActivity::class.java))
         }
-//
+
         observe(viewModel.outputs.crashReporting) { (showUpdate, _) ->
             if (showUpdate) {
                 Snackbar.make(
@@ -180,6 +189,9 @@ class SettingsActivity : BaseActivity() {
             }
             SettingsViewModel.PrefType.HELP_ABOUT -> {
                 viewModel.inputs.clickAbout()
+            }
+            SettingsViewModel.PrefType.HELP_REVIEW -> {
+                viewModel.inputs.clickReview()
             }
             SettingsViewModel.PrefType.HELP_RELEASE -> {
                 viewModel.inputs.clickReleaseNotes()

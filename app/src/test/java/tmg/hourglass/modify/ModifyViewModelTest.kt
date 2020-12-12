@@ -1,8 +1,6 @@
 package tmg.hourglass.modify
 
 import com.nhaarman.mockitokotlin2.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -19,15 +17,11 @@ import tmg.hourglass.data.CountdownType
 import tmg.hourglass.data.CountdownType.DAYS
 import tmg.hourglass.data.CountdownType.GRAMS
 import tmg.hourglass.data.connectors.CountdownConnector
-import tmg.hourglass.data.models.Countdown
 import tmg.hourglass.testutils.BaseTest
 import tmg.hourglass.testutils.assertEventFired
-import tmg.hourglass.testutils.assertValue
+import tmg.hourglass.testutils.test
 import tmg.hourglass.utils.Selected
-import kotlin.NullPointerException
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class ModifyViewModelTest: BaseTest() {
 
     lateinit var sut: ModifyViewModel
@@ -41,7 +35,7 @@ class ModifyViewModelTest: BaseTest() {
     }
 
     private fun initSUT() {
-        sut = ModifyViewModel(mockCountdownConnector, mockCrashReporter, testScopeProvider)
+        sut = ModifyViewModel(mockCountdownConnector, mockCrashReporter)
         sut.inputs.initialise(null)
     }
 
@@ -50,7 +44,9 @@ class ModifyViewModelTest: BaseTest() {
 
         initSUT()
 
-        assertValue(true, sut.outputs.isAddition)
+        sut.outputs.isAddition.test {
+            assertValue(true)
+        }
     }
 
     @Test
@@ -61,7 +57,10 @@ class ModifyViewModelTest: BaseTest() {
         initSUT()
 
         sut.inputs.inputName(expectedInput)
-        assertValue(expectedInput, sut.outputs.name)
+
+        sut.outputs.name.test {
+            assertValue(expectedInput)
+        }
     }
 
     @Test
@@ -72,7 +71,9 @@ class ModifyViewModelTest: BaseTest() {
         initSUT()
 
         sut.inputs.inputDescription(expectedInput)
-        assertValue(expectedInput, sut.outputs.description)
+        sut.outputs.description.test {
+            assertValue(expectedInput)
+        }
     }
 
     @Test
@@ -83,7 +84,9 @@ class ModifyViewModelTest: BaseTest() {
         initSUT()
 
         sut.inputs.inputColour(expectedInput)
-        assertValue(expectedInput, sut.outputs.colour)
+        sut.outputs.colour.test {
+            assertValue(expectedInput)
+        }
     }
 
     @Test
@@ -99,10 +102,16 @@ class ModifyViewModelTest: BaseTest() {
         initSUT()
 
         sut.inputs.inputType(expectedInput)
-        assertValue(expectedInput, sut.outputs.type)
-        assertValue(Pair(true, second = true), sut.outputs.showRange)
-        assertValue(expectedTypeList, sut.outputs.typeList)
 
+        sut.outputs.type.test {
+            assertValue(expectedInput)
+        }
+        sut.outputs.showRange.test {
+            assertValue(Pair(true, second = true))
+        }
+        sut.outputs.typeList.test {
+            assertValue(expectedTypeList)
+        }
     }
 
     @Test
@@ -118,9 +127,16 @@ class ModifyViewModelTest: BaseTest() {
         initSUT()
 
         sut.inputs.inputType(expectedInput)
-        assertValue(expectedInput, sut.outputs.type)
-        assertValue(Pair(false, second = false), sut.outputs.showRange)
-        assertValue(expectedTypeList, sut.outputs.typeList)
+
+        sut.outputs.type.test {
+            assertValue(expectedInput)
+        }
+        sut.outputs.showRange.test {
+            assertValue(Pair(false, second = false))
+        }
+        sut.outputs.typeList.test {
+            assertValue(expectedTypeList)
+        }
     }
 
     @Test
@@ -133,7 +149,9 @@ class ModifyViewModelTest: BaseTest() {
 
         sut.inputs.inputDates(expectedStart, expectedEnd)
 
-        assertValue(Pair(expectedStart, expectedEnd), sut.outputs.dates)
+        sut.outputs.dates.test {
+            assertValue(Pair(expectedStart, expectedEnd))
+        }
     }
 
     @Test
@@ -145,7 +163,9 @@ class ModifyViewModelTest: BaseTest() {
 
         sut.inputs.inputInitial(expectedInput)
 
-        assertValue(expectedInput, sut.outputs.initial)
+        sut.outputs.initial.test {
+            assertValue(expectedInput)
+        }
     }
 
     @Test
@@ -157,7 +177,9 @@ class ModifyViewModelTest: BaseTest() {
 
         sut.inputs.inputFinal(expectedInput)
 
-        assertValue(expectedInput, sut.outputs.final)
+        sut.outputs.final.test {
+            assertValue(expectedInput)
+        }
     }
 
     @Test
@@ -174,8 +196,12 @@ class ModifyViewModelTest: BaseTest() {
 
         sut.inputs.inputInterpolator(expectedInput)
 
-        assertValue(expectedInput, sut.outputs.interpolator)
-        assertValue(expectedInterpolatorList, sut.outputs.interpolatorList)
+        sut.outputs.interpolator.test {
+            assertValue(expectedInput)
+        }
+        sut.outputs.interpolatorList.test {
+            assertValue(expectedInterpolatorList)
+        }
     }
 
     @ParameterizedTest
@@ -218,7 +244,9 @@ class ModifyViewModelTest: BaseTest() {
         sut.inputs.inputFinal(final ?: "")
         sut.inputs.inputInterpolator(getInterpolator(interpolator))
 
-        assertValue(expectedIsValidValue, sut.outputs.isValid)
+        sut.outputs.isValid.test {
+            assertValue(expectedIsValidValue)
+        }
     }
 
     @Test
@@ -231,8 +259,12 @@ class ModifyViewModelTest: BaseTest() {
 
         sut.inputs.clickSave()
 
-        assertValue(diffDays.toString(), sut.outputs.initial)
-        assertValue("0", sut.outputs.final)
+        sut.outputs.initial.test {
+            assertValue(diffDays.toString())
+        }
+        sut.outputs.final.test {
+            assertValue("0")
+        }
     }
 
     @Test
@@ -244,7 +276,10 @@ class ModifyViewModelTest: BaseTest() {
         sut.inputs.clickSave()
 
         verify(mockCountdownConnector).saveSync(any())
-        assertEventFired(sut.outputs.closeEvent)
+
+        sut.outputs.closeEvent.test {
+            assertEventFired()
+        }
     }
 
     @Test
@@ -268,7 +303,9 @@ class ModifyViewModelTest: BaseTest() {
 
         sut.inputs.clickSave()
 
-        assertValue(false, sut.outputs.isValid)
+        sut.outputs.isValid.test {
+            assertValue(false)
+        }
         verify(mockCrashReporter).logException(any())
     }
 

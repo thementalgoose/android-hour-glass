@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 
-@ExperimentalCoroutinesApi
 open class RealmBaseConnector {
 
     //region Utils

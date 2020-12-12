@@ -2,19 +2,16 @@
 <resources>
 
     <!-- Home -->
-    <dimen name="headerHeightExpanded">170dp</dimen>
     <dimen name="headerHeightCollapsed">54dp</dimen>
-    <dimen name="headerIconExpanded">108dp</dimen>
+    <dimen name="headerIconExpanded">140dp</dimen>
     <dimen name="headerIconCollapsed">42dp</dimen>
 
     <integer name="headerFadeStart">40</integer>
     <integer name="headerFadeEnd">60</integer>
 
-    <dimen name="header">48dp</dimen>
     <dimen name="progressHeight">28dp</dimen>
     <dimen name="addButtonSize">48dp</dimen>
     <dimen name="corner">6dp</dimen>
-    <dimen name="modifyIconSize">36dp</dimen>
 
     <!-- Default padding -->
     <dimen name="paddingVLarge">32dp</dimen>
@@ -26,10 +23,8 @@
 
     <!-- Widgets -->
     <dimen name="widgetBarMinWidth">120dp</dimen>
-    <dimen name="widgetBarMinHeight">60dp</dimen>
 
     <dimen name="widgetCircleMinWidth">60dp</dimen>
-    <dimen name="widgetCircleMinHeight">60dp</dimen>
 
     <dimen name="widgetCircleSize">36dp</dimen>
 </resources>

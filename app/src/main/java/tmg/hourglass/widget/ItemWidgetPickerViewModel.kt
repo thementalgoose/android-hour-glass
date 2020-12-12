@@ -4,18 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.data.connectors.WidgetConnector
-import tmg.hourglass.di.async.ScopeProvider
 import tmg.hourglass.home.HomeItemAction
 import tmg.hourglass.home.HomeItemType
-import tmg.hourglass.home.HomeTab
 import tmg.utilities.extensions.combinePair
 import tmg.utilities.lifecycle.DataEvent
 
@@ -42,9 +38,8 @@ interface ItemWidgetPickerViewModelOutputs {
 @Suppress("EXPERIMENTAL_API_USAGE")
 class ItemWidgetPickerViewModel(
     private val widgetReferenceConnector: WidgetConnector,
-    private val countdownConnector: CountdownConnector,
-    scopeProvider: ScopeProvider
-): BaseViewModel(scopeProvider), ItemWidgetPickerViewModelInputs, ItemWidgetPickerViewModelOutputs {
+    countdownConnector: CountdownConnector,
+): BaseViewModel(), ItemWidgetPickerViewModelInputs, ItemWidgetPickerViewModelOutputs {
 
     var inputs: ItemWidgetPickerViewModelInputs = this
     var outputs: ItemWidgetPickerViewModelOutputs = this
@@ -56,10 +51,11 @@ class ItemWidgetPickerViewModel(
         .asFlow()
         .combinePair(appWidgetId.asFlow())
         .map { it.first != null && it.second != null }
-        .asLiveData(scope.coroutineContext)
+        .asLiveData(viewModelScope.coroutineContext)
     override val save: MutableLiveData<DataEvent<String>> = MutableLiveData()
 
-    override val list: LiveData<List<HomeItemType>> = countdownConnector.all()
+    override val list: LiveData<List<HomeItemType>> = countdownConnector
+        .all()
         .combinePair(checkedId.asFlow())
         .map { (list, checkedId) ->
             mutableListOf<HomeItemType>(HomeItemType.Header)
@@ -81,7 +77,7 @@ class ItemWidgetPickerViewModel(
                     }
                 }
         }
-        .asLiveData(scope.coroutineContext)
+        .asLiveData(viewModelScope.coroutineContext)
 
     //region Inputs
 

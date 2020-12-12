@@ -9,24 +9,25 @@ import org.junit.jupiter.api.Test
 import tmg.hourglass.releaseNotes
 import tmg.hourglass.testutils.BaseTest
 import tmg.hourglass.testutils.assertEventFired
-import tmg.hourglass.testutils.assertValue
+import tmg.hourglass.testutils.test
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class ReleaseViewModelTest: BaseTest() {
 
     lateinit var sut: ReleaseViewModel
 
     @BeforeEach
     internal fun setUp() {
-        sut = ReleaseViewModel(testScopeProvider)
+        sut = ReleaseViewModel()
     }
 
     @Test
     fun `ReleaseViewModel content is set to all release notes when vm is initialised`() {
 
         val expected = releaseNotes.values.toList()
-        assertValue(expected, sut.outputs.content)
+
+        sut.outputs.content.test {
+            assertValue(expected)
+        }
     }
 
     @Test
@@ -34,7 +35,9 @@ class ReleaseViewModelTest: BaseTest() {
 
         sut.inputs.clickBack()
 
-        assertEventFired(sut.outputs.goBack)
+        sut.outputs.goBack.test {
+            assertEventFired()
+        }
     }
 
     @AfterEach

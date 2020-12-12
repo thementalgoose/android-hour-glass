@@ -9,17 +9,17 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import tmg.components.prefs.AppPreferencesItem
+import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref.DARK
 import tmg.hourglass.prefs.ThemePref.LIGHT
-import tmg.hourglass.testutils.BaseTest
+import tmg.hourglass.testutils.*
 import tmg.hourglass.testutils.assertEventFired
-import tmg.hourglass.testutils.assertValue
+import tmg.hourglass.testutils.test
+import tmg.hourglass.testutils.testObserve
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class SettingsViewModelTest: BaseTest() {
 
     lateinit var sut: SettingsViewModel
@@ -34,6 +34,7 @@ class SettingsViewModelTest: BaseTest() {
     private val keyWidgetsRefresh: String = "widget_refresh"
     private val keyWidgetsUpdated: String = "widget_updated"
     private val keyHelpAbout: String = "help_about"
+    private val keyHelpReview: String = "help_review"
     private val keyHelpRelease: String = "help_release"
     private val keyFeedbackCrash: String = "feedback_crash_reporting"
     private val keyFeedbackSuggestions: String = "feedback_suggestions"
@@ -81,6 +82,11 @@ class SettingsViewModelTest: BaseTest() {
             description = R.string.settings_help_about_description
         ),
         AppPreferencesItem.Preference(
+            prefKey = keyHelpReview,
+            title = R.string.settings_help_review_title,
+            description = R.string.settings_help_review_description
+        ),
+        AppPreferencesItem.Preference(
             prefKey = keyHelpRelease,
             title = R.string.settings_help_release_notes_title,
             description = R.string.settings_help_release_notes_description
@@ -120,7 +126,7 @@ class SettingsViewModelTest: BaseTest() {
     }
 
     private fun initSUT() {
-        sut = SettingsViewModel(mockCountdownConnector, mockPreferenceManager, testScopeProvider)
+        sut = SettingsViewModel(mockCountdownConnector, mockPreferenceManager)
     }
 
     @Test
@@ -128,7 +134,9 @@ class SettingsViewModelTest: BaseTest() {
 
         initSUT()
 
-        assertValue(expectedList, sut.outputs.list)
+        sut.outputs.list.test {
+            assertValue(expectedList)
+        }
     }
 
     @Test
@@ -138,7 +146,9 @@ class SettingsViewModelTest: BaseTest() {
 
         initSUT()
 
-        assertValue(DARK, sut.outputs.themeSelected)
+        sut.outputs.themeSelected.test {
+            assertValue(DARK)
+        }
     }
 
     @Test
@@ -148,7 +158,9 @@ class SettingsViewModelTest: BaseTest() {
 
         sut.inputs.clickBack()
 
-        assertEventFired(sut.outputs.goBack)
+        sut.outputs.goBack.test {
+            assertEventFired()
+        }
     }
 
     @Test
@@ -158,8 +170,10 @@ class SettingsViewModelTest: BaseTest() {
 
         sut.inputs.clickDeleteAll()
 
-        assertEventFired(sut.outputs.deletedAll)
         verify(mockCountdownConnector).deleteAll()
+        sut.outputs.deletedAll.test {
+            assertEventFired()
+        }
     }
 
     @Test
@@ -169,8 +183,10 @@ class SettingsViewModelTest: BaseTest() {
 
         sut.inputs.clickDeleteDone()
 
-        assertEventFired(sut.outputs.deletedDone)
         verify(mockCountdownConnector).deleteDone()
+        sut.outputs.deletedDone.test {
+            assertEventFired()
+        }
     }
 
     @Test
@@ -182,8 +198,12 @@ class SettingsViewModelTest: BaseTest() {
 
         sut.inputs.clickTheme(LIGHT)
 
-        assertValue(LIGHT, sut.outputs.themeSelected)
-        assertEventFired(sut.outputs.themeUpdated)
+        sut.outputs.themeSelected.test {
+            assertValue(LIGHT)
+        }
+        sut.outputs.themeUpdated.test {
+            assertEventFired()
+        }
         verify(mockPreferenceManager).theme = LIGHT
     }
 
@@ -206,7 +226,21 @@ class SettingsViewModelTest: BaseTest() {
 
         sut.inputs.clickAbout()
 
-        assertEventFired(sut.outputs.openAbout)
+        sut.outputs.openAbout.test {
+            assertEventFired()
+        }
+    }
+
+    @Test
+    fun `SettingsViewModel clicking review fires review event`() {
+
+        initSUT()
+
+        sut.inputs.clickReview()
+
+        sut.outputs.openReview.test {
+            assertDataEventValue("https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID)
+        }
     }
 
     @Test
@@ -216,7 +250,9 @@ class SettingsViewModelTest: BaseTest() {
 
         sut.inputs.clickReleaseNotes()
 
-        assertEventFired(sut.outputs.openReleaseNotes)
+        sut.outputs.openReleaseNotes.test {
+            assertEventFired()
+        }
     }
 
     @Test
@@ -226,13 +262,15 @@ class SettingsViewModelTest: BaseTest() {
 
         initSUT()
 
-        assertValue(Pair(false, second = false), sut.outputs.crashReporting)
+        val crashReportingObserver = sut.outputs.crashReporting.testObserve()
+
+        crashReportingObserver.assertValue(Pair(false, second = false))
 
         whenever(mockPreferenceManager.crashReporting).thenReturn(true)
         sut.inputs.clickCrashReporting(true)
         verify(mockPreferenceManager).crashReporting = true
 
-        assertValue(Pair(true, second = true), sut.outputs.crashReporting)
+        crashReportingObserver.assertValue(Pair(true, second = true))
     }
 
     @Test
@@ -242,7 +280,9 @@ class SettingsViewModelTest: BaseTest() {
 
         sut.inputs.clickSuggestions()
 
-        assertEventFired(sut.outputs.openSuggestions)
+        sut.outputs.openSuggestions.test {
+            assertEventFired()
+        }
     }
 
     @Test
@@ -252,13 +292,15 @@ class SettingsViewModelTest: BaseTest() {
 
         initSUT()
 
-        assertValue(Pair(false, second = false), sut.outputs.shakeToReport)
+        val shakeToReportObserver = sut.outputs.shakeToReport.testObserve()
+
+        shakeToReportObserver.assertValue(Pair(false, second = false))
 
         whenever(mockPreferenceManager.shakeToReport).thenReturn(true)
         sut.inputs.clickShakeToReport(true)
         verify(mockPreferenceManager).shakeToReport = true
 
-        assertValue(Pair(true, second = true), sut.outputs.shakeToReport)
+        shakeToReportObserver.assertValue(Pair(true, second = true))
     }
 
     @Test
@@ -268,7 +310,9 @@ class SettingsViewModelTest: BaseTest() {
 
         sut.inputs.clickPrivacyPolicy()
 
-        assertEventFired(sut.outputs.privacyPolicy)
+        sut.outputs.privacyPolicy.test {
+            assertEventFired()
+        }
     }
 
 

@@ -12,13 +12,8 @@ import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.data.models.Countdown
 import tmg.hourglass.home.HomeTab.NOW
 import tmg.hourglass.home.HomeTab.PREVIOUS
-import tmg.hourglass.testutils.BaseTest
-import tmg.hourglass.testutils.assertDataEventValue
-import tmg.hourglass.testutils.assertEventFired
-import tmg.hourglass.testutils.assertValue
+import tmg.hourglass.testutils.*
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class HomeViewModelTest: BaseTest() {
 
     lateinit var sut: HomeViewModel
@@ -43,7 +38,7 @@ class HomeViewModelTest: BaseTest() {
     }
 
     private fun initSUT() {
-        sut = HomeViewModel(mockCountdownConnector, testScopeProvider)
+        sut = HomeViewModel(mockCountdownConnector)
     }
 
     @Test
@@ -58,7 +53,9 @@ class HomeViewModelTest: BaseTest() {
         initSUT()
         advanceUntilIdle()
 
-        assertValue(expected, sut.outputs.items)
+        sut.outputs.items.test {
+            assertValue(expected)
+        }
     }
 
     @Test
@@ -70,7 +67,9 @@ class HomeViewModelTest: BaseTest() {
         initSUT()
         advanceUntilIdle()
 
-        assertValue(expected, sut.outputs.items)
+        sut.outputs.items.test {
+            assertValue(expected)
+        }
     }
 
     @Test
@@ -85,17 +84,19 @@ class HomeViewModelTest: BaseTest() {
         initSUT()
         advanceUntilIdle()
 
-        assertValue(expectedNow, sut.outputs.items)
+        val testScope = sut.outputs.items.testObserve()
+        testScope.assertValue(expectedNow)
+
         verify(mockCountdownConnector).allCurrent()
 
         sut.inputs.switchList(PREVIOUS)
 
-        assertValue(expectedPrevious, sut.outputs.items)
+        testScope.assertValue(expectedPrevious)
         verify(mockCountdownConnector).allDone()
 
         sut.inputs.switchList(NOW)
 
-        assertValue(expectedNow, sut.outputs.items)
+        testScope.assertValue(expectedNow)
     }
 
     @Test
@@ -106,7 +107,9 @@ class HomeViewModelTest: BaseTest() {
 
         sut.inputs.clickAdd()
 
-        assertEventFired(sut.outputs.addItemEvent)
+        sut.outputs.addItemEvent.test {
+            assertEventFired()
+        }
     }
 
     @Test
@@ -119,7 +122,9 @@ class HomeViewModelTest: BaseTest() {
 
         sut.inputs.editItem(sampleId)
 
-        assertDataEventValue(sampleId, sut.outputs.editItemEvent)
+        sut.outputs.editItemEvent.test {
+            assertDataEventValue(sampleId)
+        }
     }
 
     @Test
@@ -132,8 +137,10 @@ class HomeViewModelTest: BaseTest() {
 
         sut.inputs.deleteItem(sampleId)
 
-        assertEventFired(sut.outputs.deleteItemEvent)
         verify(mockCountdownConnector).delete(any())
+        sut.outputs.deleteItemEvent.test {
+            assertEventFired()
+        }
     }
 
     @AfterEach

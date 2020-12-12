@@ -89,9 +89,6 @@
     <string name="settings_widgets_refresh_refreshed">Widgets have been refreshed</string>
     <string name="settings_widgets_updated_title">Show widget updated date</string>
     <string name="settings_widgets_updated_description">Hide or show the \'Updated at\' label on your widgets.</string>
-    <string name="settings_customisation">Customisation</string>
-    <string name="settings_customisation_move_to_previous_title">Keep in now</string>
-    <string name="settings_customisation_move_to_previous_description">Change the number of days a countdown item appears in "Now" after it\'s finished</string>
     <string name="settings_reset">Reset</string>
     <string name="settings_reset_all_title">Delete all</string>
     <string name="settings_reset_all_description">Delete all the items that you have setup in the app</string>
@@ -104,6 +101,8 @@
     <string name="settings_privacy">Privacy</string>
     <string name="settings_help_about_title">About this app</string>
     <string name="settings_help_about_description">About the application and the developer</string>
+    <string name="settings_help_review_title">Rate</string>
+    <string name="settings_help_review_description">Review this app on the google play store</string>
     <string name="settings_help_release_notes_title">Release notes</string>
     <string name="settings_help_release_notes_description">See the release notes history</string>
     <string name="settings_help_crash_reporting_title">Crash Reporting</string>
@@ -145,7 +144,6 @@
     <string name="countdown_type_fahrenheit">Fahrenheit</string>
 
     <!-- Privacy Policy -->
-    <string name="privacy_policy_title">Privacy Policy</string>
     <string name="privacy_policy_data"><![CDATA[
     <p>Jordan Fisher built the Hour Glass app. This SERVICE is provided by Jordan Fisher at no cost and is intended for use as is.</p>
     <p>This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.</p>
@@ -191,8 +189,6 @@
     <string name="about_name">HourGlass</string>
     <string name="about_desc">Calendar-based countdowns</string>
     <string name="dependency_thank_you">A big thank you to everyone listed below for helping make this app possible! :)</string>
-    <string name="about_additional">Special thanks\n\n
-        - TODO</string>
 
     <!-- Menu -->
     <string name="menu_now">Now</string>
@@ -247,7 +243,6 @@
     <string name="widget_not_started">Not started. Tap to update</string>
     <string name="widget_progress">Updated at %s</string>
 
-    <string name="widget_finished_short">Done</string>
     <string name="widget_not_started_short">0</string>
 
     <string name="widget_migration_needed">Please open app</string>
