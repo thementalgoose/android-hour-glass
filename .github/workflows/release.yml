@@ -30,6 +30,7 @@ jobs:
           echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
 
       - run: ls
+      - run: echo $PWD
 
       # Unit tests
 #      - name: Unit tests
