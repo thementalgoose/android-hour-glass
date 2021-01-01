@@ -29,6 +29,8 @@ jobs:
           echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> hour-glass.keystore
           echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
 
+      - run: ls
+
       # Unit tests
 #      - name: Unit tests
 #        run: ./gradlew testLiveDebugUnitTest
