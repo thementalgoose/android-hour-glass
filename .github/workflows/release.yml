@@ -1,10 +1,7 @@
 name: Main
 'on':
-  pull_request:
-    branches:
-      - main
-#  release:
-#    types: [published]
+  release:
+    types: [published]
 jobs:
   build_test_deploy:
     runs-on: ubuntu-latest
@@ -29,12 +26,9 @@ jobs:
           echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> hour-glass.keystore
           echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
 
-      - run: ls
-      - run: echo $PWD
-
       # Unit tests
-#      - name: Unit tests
-#        run: ./gradlew testLiveDebugUnitTest
+      - name: Unit tests
+        run: ./gradlew testLiveDebugUnitTest
 
       # Release
       - name: Release to internal test track
