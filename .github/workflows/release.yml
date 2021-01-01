@@ -39,8 +39,8 @@ jobs:
       # Release
       - name: Release to internal test track
         env:
-          KEYSTORE: hour-glass.keystore
-          PRIVATE_KEY: deployment_private_key.json
+          KEYSTORE: $(echo $PWD)/hour-glass.keystore
+          PRIVATE_KEY: $(echo $PWD)/deployment_private_key.json
           KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         run: ./gradlew publishLiveReleaseBundle
