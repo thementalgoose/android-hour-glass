@@ -6,5 +6,36 @@ jobs:
   build_test_deploy:
     runs-on: ubuntu-latest
     steps:
+      # Checkout
       - uses: actions/checkout@v2
-      - run: echo "Releasing the app?!"
+
+      # Caching gradle
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # Environment
+      - name: Environment variables
+        run: |
+          ls $HOME
+          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_LIVE }} | base64 --decode >> app/src/live/google-services.json
+          echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> $HOME/hour-glass.keystore
+          echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> $HOME/deployment_private_key.json
+
+      # Unit tests
+      - name: Unit tests
+        run: ./gradlew testLiveDebugUnitTest
+
+      # Release
+      - name: Release to internal test track
+        env:
+          KEYSTORE: $HOME/hour-glass.keystore
+          PRIVATE_KEY: $HOME/deployment_private_key.json
+          KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: ./gradlew publishLiveReleaseBundle

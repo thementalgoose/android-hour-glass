@@ -21,4 +21,5 @@ jobs:
             ${{ runner.os }}-gradle-
 
       # Running unit tests
-      - run: ./gradlew testSandDebugUnitTest
+      - name: Unit tests
+        run: ./gradlew testSandDebugUnitTest
