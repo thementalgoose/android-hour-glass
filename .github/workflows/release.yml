@@ -23,16 +23,16 @@ jobs:
             ${{ runner.os }}-gradle-
 
       # Environment
-      - name: Environment variables
-        run: |
-          ls $HOME
-          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_LIVE }} | base64 --decode >> app/src/live/google-services.json
-          echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> $HOME/hour-glass.keystore
-          echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> $HOME/deployment_private_key.json
+#      - name: Environment variables
+      - run: ls
+      - run: ls $HOME
+      - run: echo ${{ secrets.ENCODED_GOOGLE_SERVICES_LIVE }} | base64 --decode >> app/src/live/google-services.json
+      - run: echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> $HOME/hour-glass.keystore
+      - run: echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> $HOME/deployment_private_key.json
 
       # Unit tests
-      - name: Unit tests
-        run: ./gradlew testLiveDebugUnitTest
+#      - name: Unit tests
+#        run: ./gradlew testLiveDebugUnitTest
 
       # Release
       - name: Release to internal test track
