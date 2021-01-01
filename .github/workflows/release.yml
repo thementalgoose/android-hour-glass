@@ -28,6 +28,8 @@ jobs:
           echo ${{ secrets.ENCODED_GOOGLE_SERVICES_LIVE }} | base64 --decode >> app/src/live/google-services.json
           echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> hour-glass.keystore
           echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
+          export PATH_KEYSTORE=$PWD/hour-glass.keystore
+          export PATH_DEPLOYMENT_KEY=$PWD/deployment_private_key.json
 
       - run: ls
       - run: echo $PWD
@@ -36,11 +38,19 @@ jobs:
 #      - name: Unit tests
 #        run: ./gradlew testLiveDebugUnitTest
 
+      - name: Check
+        env:
+          KEYSTORE: $PATH_KEYSTORE
+          PRIVATE_KEY: $PATH_DEPLOYMENT_KEY
+        run: |
+          echo $KEYSTORE
+          echo $PRIVATE_KEY
+
       # Release
       - name: Release to internal test track
         env:
-          KEYSTORE: $(echo $PWD)/hour-glass.keystore
-          PRIVATE_KEY: $(echo $PWD)/deployment_private_key.json
+          KEYSTORE: $PATH_KEYSTORE
+          PRIVATE_KEY: $PATH_DEPLOYMENT_KEY
           KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         run: ./gradlew publishLiveReleaseBundle
