@@ -4,8 +4,21 @@ name: Pull Request
     branches:
       - main
 jobs:
-  build_test_deploy:
+  pr_builder:
     runs-on: ubuntu-latest
     steps:
+      # Checkout
       - uses: actions/checkout@v2
+
+      # Caching gradle
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # Running unit tests
       - run: ./gradlew testSandDebugUnitTest
