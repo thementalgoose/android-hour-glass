@@ -1,11 +1,8 @@
 package tmg.hourglass.settings
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import org.junit.jupiter.api.AfterEach
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import tmg.components.prefs.AppPreferencesItem
@@ -20,12 +17,12 @@ import tmg.hourglass.testutils.assertEventFired
 import tmg.hourglass.testutils.test
 import tmg.hourglass.testutils.testObserve
 
-class SettingsViewModelTest: BaseTest() {
+internal class SettingsViewModelTest: BaseTest() {
 
     lateinit var sut: SettingsViewModel
 
-    private val mockCountdownConnector: CountdownConnector = mock()
-    private val mockPreferenceManager: PreferencesManager = mock()
+    private val mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
+    private val mockPreferenceManager: PreferencesManager = mockk(relaxed = true)
 
     private val keyTheme: String = "theme_app"
     private val keyKeepInNow: String = "keep_in_now"
@@ -119,12 +116,6 @@ class SettingsViewModelTest: BaseTest() {
         )
     )
 
-    @BeforeEach
-    internal fun setUp() {
-
-
-    }
-
     private fun initSUT() {
         sut = SettingsViewModel(mockCountdownConnector, mockPreferenceManager)
     }
@@ -142,7 +133,7 @@ class SettingsViewModelTest: BaseTest() {
     @Test
     fun `SettingsViewModel theme preference is set to the value set in shared prefs`() {
 
-        whenever(mockPreferenceManager.theme).thenReturn(DARK)
+        every { mockPreferenceManager.theme } returns DARK
 
         initSUT()
 
@@ -170,7 +161,7 @@ class SettingsViewModelTest: BaseTest() {
 
         sut.inputs.clickDeleteAll()
 
-        verify(mockCountdownConnector).deleteAll()
+        verify { mockCountdownConnector.deleteAll() }
         sut.outputs.deletedAll.test {
             assertEventFired()
         }
@@ -183,16 +174,16 @@ class SettingsViewModelTest: BaseTest() {
 
         sut.inputs.clickDeleteDone()
 
-        verify(mockCountdownConnector).deleteDone()
+        verify { mockCountdownConnector.deleteDone() }
         sut.outputs.deletedDone.test {
             assertEventFired()
         }
     }
 
     @Test
-    fun `SettingsViewModel clicking a theme triggeres theme updates`() {
+    fun `SettingsViewModel clicking a theme triggers theme updates`() {
 
-        whenever(mockPreferenceManager.theme).thenReturn(DARK)
+        every { mockPreferenceManager.theme } returns DARK
 
         initSUT()
 
@@ -204,19 +195,23 @@ class SettingsViewModelTest: BaseTest() {
         sut.outputs.themeUpdated.test {
             assertEventFired()
         }
-        verify(mockPreferenceManager).theme = LIGHT
+        verify {
+            mockPreferenceManager.theme = LIGHT
+        }
     }
 
     @Test
     fun `SettingsViewModel clicking widget update interacts with pref`() {
 
-        whenever(mockPreferenceManager.widgetShowUpdate).thenReturn(false)
+        every { mockPreferenceManager.widgetShowUpdate } returns false
 
         initSUT()
 
         sut.inputs.clickWidgetUpdate(true)
 
-        verify(mockPreferenceManager).widgetShowUpdate = true
+        verify {
+            mockPreferenceManager.widgetShowUpdate = true
+        }
     }
 
     @Test
@@ -258,7 +253,7 @@ class SettingsViewModelTest: BaseTest() {
     @Test
     fun `SettingsViewModel crash reporting initial value has show update to be false, clicking it shows crash reportings banner`() {
 
-        whenever(mockPreferenceManager.crashReporting).thenReturn(false)
+        every { mockPreferenceManager.crashReporting } returns false
 
         initSUT()
 
@@ -266,9 +261,9 @@ class SettingsViewModelTest: BaseTest() {
 
         crashReportingObserver.assertValue(Pair(false, second = false))
 
-        whenever(mockPreferenceManager.crashReporting).thenReturn(true)
+        every { mockPreferenceManager.crashReporting } returns true
         sut.inputs.clickCrashReporting(true)
-        verify(mockPreferenceManager).crashReporting = true
+        verify { mockPreferenceManager.crashReporting = true }
 
         crashReportingObserver.assertValue(Pair(true, second = true))
     }
@@ -288,7 +283,7 @@ class SettingsViewModelTest: BaseTest() {
     @Test
     fun `SettingsViewModel shake to report initial value has show update to be false, clicking it shows shake to report banner`() {
 
-        whenever(mockPreferenceManager.shakeToReport).thenReturn(false)
+        every { mockPreferenceManager.shakeToReport } returns false
 
         initSUT()
 
@@ -296,9 +291,9 @@ class SettingsViewModelTest: BaseTest() {
 
         shakeToReportObserver.assertValue(Pair(false, second = false))
 
-        whenever(mockPreferenceManager.shakeToReport).thenReturn(true)
+        every { mockPreferenceManager.shakeToReport } returns true
         sut.inputs.clickShakeToReport(true)
-        verify(mockPreferenceManager).shakeToReport = true
+        verify { mockPreferenceManager.shakeToReport = true }
 
         shakeToReportObserver.assertValue(Pair(true, second = true))
     }
@@ -313,12 +308,5 @@ class SettingsViewModelTest: BaseTest() {
         sut.outputs.privacyPolicy.test {
             assertEventFired()
         }
-    }
-
-
-    @AfterEach
-    internal fun tearDown() {
-
-
     }
 }

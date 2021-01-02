@@ -45,7 +45,6 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
 
     override fun arguments(bundle: Bundle) {
         passageId = bundle.getString(keyPassageId)
-        viewModel.inputs.initialise(passageId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -136,8 +135,9 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
             tvHeader.setText(if (it) R.string.modify_header_add else R.string.modify_header_edit)
         }
 
-
         observe(viewModel.outputs.showRange) { (from, to) -> showRange(from, to) }
+
+        viewModel.inputs.initialise(passageId)
     }
 
     private fun setupTypeBottomSheet() {

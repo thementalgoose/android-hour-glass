@@ -17,7 +17,7 @@ import org.junit.jupiter.api.extension.ExtensionContext
 // https://stackoverflow.com/questions/62332403/how-to-inject-viewmodelscope-for-android-unit-test-with-kotlin-coroutines
 
 @ExtendWith(TestingTaskExecutor::class)
-open class BaseTest {
+internal open class BaseTest {
 
     @get:Rule
     val coroutineScope = CoroutineRule()

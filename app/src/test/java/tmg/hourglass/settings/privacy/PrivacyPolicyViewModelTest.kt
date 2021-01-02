@@ -7,7 +7,7 @@ import tmg.hourglass.testutils.BaseTest
 import tmg.hourglass.testutils.assertEventFired
 import tmg.hourglass.testutils.test
 
-class PrivacyPolicyViewModelTest: BaseTest() {
+internal class PrivacyPolicyViewModelTest: BaseTest() {
 
     lateinit var sut: PrivacyPolicyViewModel
 
@@ -25,10 +25,5 @@ class PrivacyPolicyViewModelTest: BaseTest() {
         sut.outputs.goBack.test {
             assertEventFired()
         }
-    }
-
-    @AfterEach
-    internal fun tearDown() {
-
     }
 }

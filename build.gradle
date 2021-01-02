@@ -2,7 +2,7 @@
 buildscript {
     ext.kotlin_version = "1.4.21"
     ext.junit = "5.5.2"
-    ext.koin_version = "2.1.6"
+    ext.koin_version = "2.2.0"
     ext.threeten = "1.2.2"
     ext.threetenbp = "1.4.1"
     ext.coroutines = "1.3.9"
