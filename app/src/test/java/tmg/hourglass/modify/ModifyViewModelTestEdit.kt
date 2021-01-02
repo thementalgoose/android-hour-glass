@@ -1,7 +1,8 @@
 package tmg.hourglass.modify
 
-import com.nhaarman.mockitokotlin2.*
-import org.junit.jupiter.api.AfterEach
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.threeten.bp.LocalDateTime
@@ -21,8 +22,8 @@ class ModifyViewModelTestEdit: BaseTest() {
 
     lateinit var sut: ModifyViewModel
 
-    private val mockCountdownConnector: CountdownConnector = mock()
-    private val mockCrashReporter: CrashReporter = mock()
+    private val mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
+    private val mockCrashReporter: CrashReporter = mockk(relaxed = true)
 
     private val mockEditId: String = "123"
     private val mockName = "editName"
@@ -49,7 +50,7 @@ class ModifyViewModelTestEdit: BaseTest() {
     @BeforeEach
     internal fun setUp() {
 
-        whenever(mockCountdownConnector.getSync(mockEditId)).thenReturn(mockEditableItem)
+        every { mockCountdownConnector.getSync(mockEditId) } returns mockEditableItem
     }
 
     private fun initSUT() {
@@ -119,16 +120,12 @@ class ModifyViewModelTestEdit: BaseTest() {
 
         sut.inputs.clickDelete()
 
-        verify(mockCountdownConnector).delete(any())
+        verify {
+            mockCountdownConnector.delete(any())
+        }
 
         sut.outputs.closeEvent.test {
             assertEventFired()
         }
-    }
-
-    @AfterEach
-    internal fun tearDown() {
-
-        reset(mockCountdownConnector, mockCrashReporter)
     }
 }

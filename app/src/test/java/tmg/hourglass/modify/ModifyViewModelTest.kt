@@ -1,6 +1,8 @@
 package tmg.hourglass.modify
 
-import com.nhaarman.mockitokotlin2.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -26,8 +28,8 @@ class ModifyViewModelTest: BaseTest() {
 
     lateinit var sut: ModifyViewModel
 
-    private val mockCountdownConnector: CountdownConnector = mock()
-    private val mockCrashReporter: CrashReporter = mock()
+    private val mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
+    private val mockCrashReporter: CrashReporter = mockk(relaxed = true)
 
     @BeforeEach
     internal fun setUp() {
@@ -204,7 +206,7 @@ class ModifyViewModelTest: BaseTest() {
         }
     }
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "Valid inputs {9} - name={0}, desc={1}, colour={2}, type={3}, dates={4}-{5}, values={6}-{7}, interpolator={8}")
     @CsvSource(
         // Valid
         "name,desc,#123123,DAYS,01/01/2020,02/02/2020,0,1,linear,true",
@@ -275,7 +277,9 @@ class ModifyViewModelTest: BaseTest() {
 
         sut.inputs.clickSave()
 
-        verify(mockCountdownConnector).saveSync(any())
+        verify {
+            mockCountdownConnector.saveSync(any())
+        }
 
         sut.outputs.closeEvent.test {
             assertEventFired()
@@ -290,13 +294,15 @@ class ModifyViewModelTest: BaseTest() {
 
         sut.inputs.clickSave()
 
-        verify(mockCrashReporter).log(any())
+        verify {
+            mockCrashReporter.log(any())
+        }
     }
 
     @Test
     fun `ModifyViewModel connector save sync method throws a null pointer exception then isValid is reset and exception is silently logged`() {
 
-        whenever(mockCountdownConnector.saveSync(any())).thenThrow(NullPointerException::class.java)
+        every { mockCountdownConnector.saveSync(any()) } throws NullPointerException()
 
         initSUT()
         setupValidInputs(type = DAYS, addDates = true, addInputs = true)
@@ -306,15 +312,10 @@ class ModifyViewModelTest: BaseTest() {
         sut.outputs.isValid.test {
             assertValue(false)
         }
-        verify(mockCrashReporter).logException(any())
+        verify {
+            mockCrashReporter.logException(any())
+        }
     }
-
-    @AfterEach
-    internal fun tearDown() {
-
-        reset(mockCountdownConnector, mockCrashReporter)
-    }
-
 
 
     private fun setupValidInputs(addDates: Boolean = true, type: CountdownType = CountdownType.NUMBER, diffDays: Int = 10, addInputs: Boolean = true) {

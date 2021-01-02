@@ -1,10 +1,9 @@
 package tmg.hourglass.home
 
-import com.nhaarman.mockitokotlin2.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.flow.flow
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import tmg.hourglass.*
@@ -18,7 +17,7 @@ class HomeViewModelTest: BaseTest() {
 
     lateinit var sut: HomeViewModel
 
-    private var mockCountdownConnector: CountdownConnector = mock()
+    private var mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
 
     private val mockListNow: List<Countdown> = listOf(mockCountdownPrimary, mockCountdownSecondary)
     private val mockListPrevious: List<Countdown> = listOf(mockCountdownTertiary)
@@ -33,8 +32,8 @@ class HomeViewModelTest: BaseTest() {
 
     @BeforeEach
     internal fun setUp() {
-        whenever(mockCountdownConnector.allCurrent()).thenReturn(flow { emit(mockListNow)} )
-        whenever(mockCountdownConnector.allDone()).thenReturn(flow { emit(mockListPrevious)} )
+        every { mockCountdownConnector.allCurrent() } returns flow { emit(mockListNow) }
+        every { mockCountdownConnector.allDone() } returns flow { emit(mockListPrevious) }
     }
 
     private fun initSUT() {
@@ -44,7 +43,7 @@ class HomeViewModelTest: BaseTest() {
     @Test
     fun `HomeViewModel initial setup loads empty list if no items are stored`() = coroutineTest {
 
-        whenever(mockCountdownConnector.allCurrent()).thenReturn(flow { emit(emptyList<Countdown>()) })
+        every { mockCountdownConnector.allCurrent() } returns flow { emit(emptyList<Countdown>()) }
 
         val expected = listOf(
             HomeItemType.Placeholder
@@ -87,12 +86,16 @@ class HomeViewModelTest: BaseTest() {
         val testScope = sut.outputs.items.testObserve()
         testScope.assertValue(expectedNow)
 
-        verify(mockCountdownConnector).allCurrent()
+        verify {
+            mockCountdownConnector.allCurrent()
+        }
 
         sut.inputs.switchList(PREVIOUS)
 
         testScope.assertValue(expectedPrevious)
-        verify(mockCountdownConnector).allDone()
+        verify {
+            mockCountdownConnector.allDone()
+        }
 
         sut.inputs.switchList(NOW)
 
@@ -137,15 +140,12 @@ class HomeViewModelTest: BaseTest() {
 
         sut.inputs.deleteItem(sampleId)
 
-        verify(mockCountdownConnector).delete(any())
+        verify {
+            mockCountdownConnector.delete(any())
+        }
+
         sut.outputs.deleteItemEvent.test {
             assertEventFired()
         }
-    }
-
-    @AfterEach
-    internal fun tearDown() {
-
-        reset(mockCountdownConnector)
     }
 }

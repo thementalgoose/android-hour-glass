@@ -1,26 +1,22 @@
 package tmg.hourglass.utils
 
 import android.view.animation.Interpolator
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.reset
-import com.nhaarman.mockitokotlin2.whenever
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
+import io.mockk.every
+import io.mockk.mockk
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
-import tmg.hourglass.data.CountdownInterpolator
 import tmg.hourglass.data.CountdownInterpolator.LINEAR
 import tmg.hourglass.extensions.millis
 import tmg.hourglass.utils.ProgressUtils.Companion.getProgress
 
 class ProgressUtilsTest {
 
-    private var mockInterpolator: Interpolator = mock()
+    private var mockInterpolator: Interpolator = mockk(relaxed = true)
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "From {0} to {1}, current date is {2} meaning progress is {3}")
     @CsvSource(
         "01/01/2000 00:00,02/01/2000 00:00,01/01/2000 12:00,0.5",
         "23/01/2000 00:00,25/01/2000 00:00,24/01/2000 00:00,0.5",
@@ -36,13 +32,8 @@ class ProgressUtilsTest {
 
         val calculated = (((current.millis - start.millis).toFloat()) / (end.millis - start.millis).toFloat()).coerceIn(0.0f, 1.0f)
 
-        whenever(mockInterpolator.getInterpolation(calculated)).thenReturn(expected)
+        every { mockInterpolator.getInterpolation(calculated) } returns expected
 
         assertEquals(expected, getProgress(start, end, current = current, interpolator = LINEAR, mockInterpolator = mockInterpolator))
-    }
-
-    @AfterEach
-    internal fun tearDown() {
-        reset(mockInterpolator)
     }
 }
