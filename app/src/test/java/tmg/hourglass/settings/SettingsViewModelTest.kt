@@ -116,12 +116,6 @@ class SettingsViewModelTest: BaseTest() {
         )
     )
 
-    @BeforeEach
-    internal fun setUp() {
-
-
-    }
-
     private fun initSUT() {
         sut = SettingsViewModel(mockCountdownConnector, mockPreferenceManager)
     }
