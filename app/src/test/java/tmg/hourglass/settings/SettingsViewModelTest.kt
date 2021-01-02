@@ -187,7 +187,7 @@ class SettingsViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `SettingsViewModel clicking a theme triggeres theme updates`() {
+    fun `SettingsViewModel clicking a theme triggers theme updates`() {
 
         every { mockPreferenceManager.theme } returns DARK
 
