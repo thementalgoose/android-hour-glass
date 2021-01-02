@@ -24,17 +24,12 @@ import tmg.hourglass.testutils.assertEventFired
 import tmg.hourglass.testutils.test
 import tmg.hourglass.utils.Selected
 
-class ModifyViewModelTest: BaseTest() {
+internal class ModifyViewModelTest: BaseTest() {
 
     lateinit var sut: ModifyViewModel
 
     private val mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
     private val mockCrashReporter: CrashReporter = mockk(relaxed = true)
-
-    @BeforeEach
-    internal fun setUp() {
-
-    }
 
     private fun initSUT() {
         sut = ModifyViewModel(mockCountdownConnector, mockCrashReporter)

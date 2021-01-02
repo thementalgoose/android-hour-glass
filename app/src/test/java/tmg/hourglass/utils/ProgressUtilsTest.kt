@@ -12,7 +12,7 @@ import tmg.hourglass.data.CountdownInterpolator.LINEAR
 import tmg.hourglass.extensions.millis
 import tmg.hourglass.utils.ProgressUtils.Companion.getProgress
 
-class ProgressUtilsTest {
+internal class ProgressUtilsTest {
 
     private var mockInterpolator: Interpolator = mockk(relaxed = true)
 

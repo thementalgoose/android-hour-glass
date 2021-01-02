@@ -17,7 +17,7 @@ import tmg.hourglass.testutils.assertEventFired
 import tmg.hourglass.testutils.test
 import tmg.hourglass.testutils.testObserve
 
-class SettingsViewModelTest: BaseTest() {
+internal class SettingsViewModelTest: BaseTest() {
 
     lateinit var sut: SettingsViewModel
 

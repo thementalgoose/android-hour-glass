@@ -18,7 +18,7 @@ import tmg.hourglass.testutils.assertEventFired
 import tmg.hourglass.testutils.test
 import tmg.hourglass.utils.Selected
 
-class ModifyViewModelTestEdit: BaseTest() {
+internal class ModifyViewModelTestEdit: BaseTest() {
 
     lateinit var sut: ModifyViewModel
 

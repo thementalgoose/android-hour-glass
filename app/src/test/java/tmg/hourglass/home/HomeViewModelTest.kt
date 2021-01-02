@@ -13,7 +13,7 @@ import tmg.hourglass.home.HomeTab.NOW
 import tmg.hourglass.home.HomeTab.PREVIOUS
 import tmg.hourglass.testutils.*
 
-class HomeViewModelTest: BaseTest() {
+internal class HomeViewModelTest: BaseTest() {
 
     lateinit var sut: HomeViewModel
 

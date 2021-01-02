@@ -16,7 +16,7 @@ import tmg.hourglass.testutils.assertDataEventValue
 import tmg.hourglass.testutils.test
 import tmg.hourglass.testutils.testObserve
 
-class ItemWidgetPickerViewModelTest: BaseTest() {
+internal class ItemWidgetPickerViewModelTest: BaseTest() {
 
     lateinit var sut: ItemWidgetPickerViewModel
 

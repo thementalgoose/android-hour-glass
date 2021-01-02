@@ -7,7 +7,7 @@ import tmg.hourglass.data.CountdownInterpolator.LINEAR
 import tmg.hourglass.data.CountdownType.DAYS
 import tmg.hourglass.data.CountdownType.NUMBER
 
-class CountdownTest {
+internal class CountdownTest {
 
     @Test
     fun `Countdown startByType and endByType returns localdate at end of value when type is days`() {
