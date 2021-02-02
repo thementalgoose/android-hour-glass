@@ -77,6 +77,8 @@
     <br/>- Usual assortment of bug fixes and dependency updates]]></string>
     <string name="release_22"><![CDATA[3.1.3
     <br/>- Fixed edge case bug where sometimes last value in progress bar would not be accurate]]></string>
+    <string name="release_23"><![CDATA[3.1.4
+    <br/>- Minor bug fixes and dependency updates]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
