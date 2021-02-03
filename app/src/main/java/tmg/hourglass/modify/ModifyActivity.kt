@@ -13,7 +13,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
-import com.leavjenn.smoothdaterangepicker.date.SmoothDateRangePickerFragment
 import kotlinx.android.synthetic.main.activity_modify.*
 import kotlinx.android.synthetic.main.bottom_sheet_interpolator.*
 import kotlinx.android.synthetic.main.bottom_sheet_modify.*
