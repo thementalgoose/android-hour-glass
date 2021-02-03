@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">?attr/pBackgroundPrimary</item>
         <item name="colorAccent">#AD1457</item>
 
-        <item name="colorPrimaryAlpha">#88AD1457</item>
+        <item name="colorPrimaryAlpha">#44AD1457</item>
         <item name="android:windowLightStatusBar">true</item>
 
         <item name="pTextPrimary">#181818</item>
@@ -42,7 +42,7 @@
         <item name="colorPrimaryDark">?attr/pBackgroundPrimary</item>
         <item name="colorAccent">#AD1457</item>
 
-        <item name="colorPrimaryAlpha">#88AD1457</item>
+        <item name="colorPrimaryAlpha">#44AD1457</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:navigationBarColor">?attr/pBackgroundPrimary</item>
         <item name="android:windowLightNavigationBar">false</item>

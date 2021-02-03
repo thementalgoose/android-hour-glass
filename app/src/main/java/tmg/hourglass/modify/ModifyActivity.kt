@@ -247,7 +247,7 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
     override fun onPositiveButtonClick(selection: Pair<Long, Long>?) {
         if (selection?.first != null && selection.second != null) {
             val start = LocalDateTime.ofInstant(Instant.ofEpochMilli(selection.first!!), ZoneId.systemDefault())
-            val end = LocalDateTime.ofInstant(Instant.ofEpochMilli(selection.second!!), ZoneId.systemDefault())
+            val end = LocalDateTime.ofInstant(Instant.ofEpochMilli(selection.second!!), ZoneId.systemDefault()).plusDays(1).minusSeconds(1L)
             viewModel.inputs.inputDates(start, end)
         }
     }
