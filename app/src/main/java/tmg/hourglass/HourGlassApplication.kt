@@ -39,9 +39,6 @@ val releaseNotes: Map<Int, Int> = mapOf(
     1 to R.string.release_1
 )
 
-val currentEnv: Env
-    get() = Env.getById(BuildConfig.ENVIRONMENT)
-
 class HourGlassApplication : Application() {
 
     private val prefs: PreferencesManager by inject()

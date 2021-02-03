@@ -14,6 +14,7 @@ import tmg.hourglass.data.CountdownType.DAYS
 import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.data.models.Countdown
 import tmg.hourglass.testutils.BaseTest
+import tmg.hourglass.testutils.assertDataEventValue
 import tmg.hourglass.testutils.assertEventFired
 import tmg.hourglass.testutils.test
 import tmg.hourglass.utils.Selected
@@ -59,7 +60,7 @@ internal class ModifyViewModelTestEdit: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel initialise edit item preloads all the mock values into outputs`() = coroutineTest {
+    fun `initialise edit item preloads all the mock values into outputs`() = coroutineTest {
 
         initSUT()
 
@@ -114,7 +115,19 @@ internal class ModifyViewModelTestEdit: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel clicking delete deletes the item in the connector and fires close event`() {
+    fun `open date picker launches date picker event with stored value`() {
+
+        initSUT()
+
+        sut.inputs.clickDatePicker()
+
+        sut.outputs.showDatePicker.test {
+            assertDataEventValue(mockDates)
+        }
+    }
+
+    @Test
+    fun `clicking delete deletes the item in the connector and fires close event`() {
 
         initSUT()
 

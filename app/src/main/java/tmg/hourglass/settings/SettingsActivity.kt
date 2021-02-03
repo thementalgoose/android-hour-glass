@@ -293,20 +293,6 @@ class SettingsActivity : BaseActivity() {
             author = "Kristiyan Petrov",
             url = "https://github.com/kristiyanP/colorpicker",
             imageUrl = "https://avatars3.githubusercontent.com/u/5365351"
-        ),
-        AboutThisAppDependency(
-            order = 6,
-            dependencyName = "Utilities + Components",
-            author = "Jordan Fisher",
-            url = "https://github.com/thementalgoose/android-components",
-            imageUrl = "https://avatars2.githubusercontent.com/u/5982159"
-        ),
-        AboutThisAppDependency(
-            order = 7,
-            dependencyName = "SmoothDateRangePicker",
-            author = "Leav Jean",
-            url = "https://github.com/leavjenn/SmoothDateRangePicker",
-            imageUrl = "https://avatars2.githubusercontent.com/u/13175621"
         )
     )
 }

@@ -22,6 +22,7 @@
                 android:layout_marginStart="@dimen/paddingXSmall"
                 android:layout_marginTop="@dimen/paddingXSmall"
                 android:background="@null"
+                android:foreground="@drawable/rounded_ripple"
                 android:src="@drawable/ic_back"
                 android:tint="?attr/pTextPrimary"
                 app:layout_constraintStart_toStartOf="parent"

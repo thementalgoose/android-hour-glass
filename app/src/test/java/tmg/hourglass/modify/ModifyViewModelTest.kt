@@ -3,8 +3,6 @@ package tmg.hourglass.modify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -20,6 +18,7 @@ import tmg.hourglass.data.CountdownType.DAYS
 import tmg.hourglass.data.CountdownType.GRAMS
 import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.testutils.BaseTest
+import tmg.hourglass.testutils.assertDataEventValue
 import tmg.hourglass.testutils.assertEventFired
 import tmg.hourglass.testutils.test
 import tmg.hourglass.utils.Selected
@@ -37,7 +36,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel initialising vm sets is addition to true`() {
+    fun `initialising vm sets is addition to true`() {
 
         initSUT()
 
@@ -47,7 +46,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel input name registers name update`() {
+    fun `input name registers name update`() {
 
         val expectedInput= "test"
 
@@ -61,7 +60,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel input description registers description update`() {
+    fun `input description registers description update`() {
 
         val expectedInput= "desc"
 
@@ -74,7 +73,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel input colours registers colours update`() {
+    fun `input colours registers colours update`() {
 
         val expectedInput= "#123123"
 
@@ -87,7 +86,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel input type registers type update`() {
+    fun `input type registers type update`() {
 
         val expectedInput = GRAMS
         val expectedTypeList = CountdownType
@@ -112,7 +111,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel input type as days registers type update and shows range event`() {
+    fun `input type as days registers type update and shows range event`() {
 
         val expectedInput = DAYS
         val expectedTypeList = CountdownType
@@ -137,7 +136,19 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel input dates registers dates event`() {
+    fun `open date picker launches date picker event with blank value on first run`() {
+
+        initSUT()
+
+        sut.inputs.clickDatePicker()
+
+        sut.outputs.showDatePicker.test {
+            assertDataEventValue(null)
+        }
+    }
+
+    @Test
+    fun `input dates registers dates event`() {
 
         val expectedStart = LocalDateTime.now()
         val expectedEnd = LocalDateTime.now()
@@ -152,7 +163,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel input initial registers initial event`() {
+    fun `input initial registers initial event`() {
 
         val expectedInput = "0"
 
@@ -166,7 +177,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel input final registers final event`() {
+    fun `input final registers final event`() {
 
         val expectedInput = "0"
 
@@ -180,7 +191,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel input interpolator registers interpolator event`() {
+    fun `input interpolator registers interpolator event`() {
 
         val expectedInput = ACCELERATE_DECELERATE
         val expectedInterpolatorList = CountdownInterpolator
@@ -226,7 +237,7 @@ internal class ModifyViewModelTest: BaseTest() {
         // Valid
         "name,desc,#123123,DAYS,01/01/2020,02/02/2020,0,1,linear,true"
     )
-    fun `ModifyViewModel testing isValid is represented properly`(name: String?, desc: String?, color: String?, type: String, start: String?, end: String?, initial: String?, final: String?, interpolator: String, expectedIsValidValue: Boolean) {
+    fun `testing isValid is represented properly`(name: String?, desc: String?, color: String?, type: String, start: String?, end: String?, initial: String?, final: String?, interpolator: String, expectedIsValidValue: Boolean) {
 
         initSUT()
 
@@ -247,7 +258,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel clicking save when no date and type set to days it sets the values to be difference between dates`() {
+    fun `clicking save when no date and type set to days it sets the values to be difference between dates`() {
 
         val diffDays = 10
 
@@ -265,7 +276,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel clicking saves countdown item in countdown connector`() {
+    fun `clicking saves countdown item in countdown connector`() {
 
         initSUT()
         setupValidInputs(type = DAYS, addDates = true, addInputs = false)
@@ -282,7 +293,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel trying to save when dates are not added submits a crash report to the logger`() {
+    fun `trying to save when dates are not added submits a crash report to the logger`() {
 
         initSUT()
         setupValidInputs(type = DAYS, addDates = false, addInputs = false)
@@ -295,7 +306,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `ModifyViewModel connector save sync method throws a null pointer exception then isValid is reset and exception is silently logged`() {
+    fun `connector save sync method throws a null pointer exception then isValid is reset and exception is silently logged`() {
 
         every { mockCountdownConnector.saveSync(any()) } throws NullPointerException()
 

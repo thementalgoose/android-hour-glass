@@ -1,5 +1,6 @@
 package tmg.hourglass.modify
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.temporal.ChronoUnit
@@ -12,6 +13,7 @@ import tmg.hourglass.data.connectors.CountdownConnector
 import tmg.hourglass.data.models.Countdown
 import tmg.hourglass.extensions.format
 import tmg.hourglass.utils.Selected
+import tmg.utilities.lifecycle.DataEvent
 import tmg.utilities.lifecycle.Event
 import java.util.*
 
@@ -32,7 +34,10 @@ interface ModifyViewModelInputs {
     fun inputColour(colour: String)
 
     fun inputType(type: CountdownType)
+
+    fun clickDatePicker()
     fun inputDates(start: LocalDateTime, end: LocalDateTime)
+
     fun inputInitial(value: String)
     fun inputFinal(value: String)
     fun inputInterpolator(interpolator: CountdownInterpolator)
@@ -46,25 +51,27 @@ interface ModifyViewModelInputs {
 //region Outputs
 
 interface ModifyViewModelOutputs {
-    val closeEvent: MutableLiveData<Event>
-    val isAddition: MutableLiveData<Boolean>
+    val closeEvent: LiveData<Event>
+    val isAddition: LiveData<Boolean>
 
-    val isValid: MutableLiveData<Boolean>
+    val isValid: LiveData<Boolean>
 
-    val showRange: MutableLiveData<Pair<Boolean, Boolean>>
+    val showRange: LiveData<Pair<Boolean, Boolean>>
 
-    val type: MutableLiveData<CountdownType>
-    val typeList: MutableLiveData<List<Selected<CountdownType>>>
+    val type: LiveData<CountdownType>
+    val typeList: LiveData<List<Selected<CountdownType>>>
 
-    val name: MutableLiveData<String>
-    val description: MutableLiveData<String>
-    val colour: MutableLiveData<String>
-    val dates: MutableLiveData<Pair<LocalDateTime, LocalDateTime>>
-    val initial: MutableLiveData<String>
-    val final: MutableLiveData<String>
+    val name: LiveData<String>
+    val description: LiveData<String>
+    val colour: LiveData<String>
 
-    val interpolator: MutableLiveData<CountdownInterpolator>
-    val interpolatorList: MutableLiveData<List<Selected<CountdownInterpolator>>>
+    val showDatePicker: LiveData<DataEvent<Pair<LocalDateTime, LocalDateTime>?>>
+    val dates: LiveData<Pair<LocalDateTime, LocalDateTime>>
+    val initial: LiveData<String>
+    val final: LiveData<String>
+
+    val interpolator: LiveData<CountdownInterpolator>
+    val interpolatorList: LiveData<List<Selected<CountdownInterpolator>>>
 }
 
 //endregion
@@ -82,6 +89,8 @@ class ModifyViewModel(
 
     override val isValid: MutableLiveData<Boolean> = MutableLiveData()
     override val showRange: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
+
+    override val showDatePicker: MutableLiveData<DataEvent<Pair<LocalDateTime, LocalDateTime>?>> = MutableLiveData()
 
     override val name: MutableLiveData<String> = MutableLiveData()
     override val description: MutableLiveData<String> = MutableLiveData()
@@ -146,6 +155,10 @@ class ModifyViewModel(
     override fun inputType(type: CountdownType) {
         this.type.value = type
         this.updateTypeList(type)
+    }
+
+    override fun clickDatePicker() {
+        this.showDatePicker.value = DataEvent(this.dates.value)
     }
 
     override fun inputDates(start: LocalDateTime, end: LocalDateTime) {
