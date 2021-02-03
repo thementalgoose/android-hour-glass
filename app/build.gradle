@@ -188,9 +188,4 @@ dependencies {
 
     // ColorSheet
     implementation 'petrov.kristiyan:colorpicker-library:1.1.10'
-
-    // SmoothDateRangePicker
-    implementation 'com.leavjenn.smoothdaterangepicker:library:0.2.0'
-
-
 }

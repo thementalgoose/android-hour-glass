@@ -47,12 +47,20 @@ class HomeAdapter(
         private val oldList: List<HomeItemType>,
         private val newList: List<HomeItemType>
     ): DiffUtil.Callback() {
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = oldList[oldItemPosition] == newList[newItemPosition]
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = areItemsTheSame(oldItemPosition, newItemPosition)
 
         override fun getOldListSize(): Int = oldList.size
 
         override fun getNewListSize(): Int = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldList[oldItemPosition] == newList[newItemPosition] ||
+                    areSameItems(oldList[oldItemPosition], newList[newItemPosition])
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldList[oldItemPosition] == newList[newItemPosition]
+
+        private fun areSameItems(oldItem: HomeItemType, newItem: HomeItemType): Boolean {
+            return oldItem is HomeItemType.Item && newItem is HomeItemType.Item && oldItem.countdown.id == newItem.countdown.id
+        }
     }
 }

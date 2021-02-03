@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">?attr/pBackgroundPrimary</item>
         <item name="colorAccent">#AD1457</item>
 
-        <item name="colorPrimaryAlpha">#88AD1457</item>
+        <item name="colorPrimaryAlpha">#44AD1457</item>
         <item name="android:windowLightStatusBar">true</item>
 
         <item name="pTextPrimary">#181818</item>
@@ -42,7 +42,7 @@
         <item name="colorPrimaryDark">?attr/pBackgroundPrimary</item>
         <item name="colorAccent">#AD1457</item>
 
-        <item name="colorPrimaryAlpha">#88AD1457</item>
+        <item name="colorPrimaryAlpha">#44AD1457</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:navigationBarColor">?attr/pBackgroundPrimary</item>
         <item name="android:windowLightNavigationBar">false</item>
@@ -78,12 +78,15 @@
     </style>
 
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#000000</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#000000</item>
         <item name="android:windowIsTranslucent">false</item>
+        <item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
+        <item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen</item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
     </style>
 
 

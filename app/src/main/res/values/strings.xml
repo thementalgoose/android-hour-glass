@@ -229,6 +229,7 @@
     <string name="modify_field_interpolator_decelerate">Decelerate</string>
     <string name="modify_field_interpolator_linear">Linear</string>
     <string name="modify_field_dates">Dates</string>
+    <string name="modify_field_dates_title">Select a date range</string>
     <string name="modify_field_dates_desc">Pick the dates you want the two values above to line up with</string>
     <string name="modify_field_dates_format"><b>%s</b> ......... <b>%s</b></string>
     <string name="modify_field_dates_button">Pick dates</string>
