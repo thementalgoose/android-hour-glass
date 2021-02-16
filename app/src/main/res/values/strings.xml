@@ -82,6 +82,9 @@
     <string name="release_24"><![CDATA[3.2.0
     <br/>- Changed date range selector
     <br/>- Fixed minor theming and updating glitches throughout]]></string>
+    <string name="release_25"><![CDATA[3.2.1
+    <br/>- Tweaked settings options layout
+    <br/>- Minor bug fixes and dependency updates]]></string>
 
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
