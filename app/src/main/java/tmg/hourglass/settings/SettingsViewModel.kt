@@ -1,5 +1,6 @@
 package tmg.hourglass.settings
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import tmg.components.prefs.*
 import tmg.hourglass.BuildConfig
@@ -27,6 +28,7 @@ interface SettingsViewModelInputs {
     fun clickReview()
     fun clickReleaseNotes()
     fun clickCrashReporting(type: Boolean)
+    fun clickAnalytics(type: Boolean)
     fun clickSuggestions()
     fun clickShakeToReport(type: Boolean)
     fun clickPrivacyPolicy()
@@ -37,22 +39,23 @@ interface SettingsViewModelInputs {
 //region Outputs
 
 interface SettingsViewModelOutputs {
-    val list: MutableLiveData<List<AppPreferencesItem>>
-    val goBack: MutableLiveData<Event>
+    val list: LiveData<List<AppPreferencesItem>>
+    val goBack: LiveData<Event>
 
-    val deletedAll: MutableLiveData<Event>
-    val deletedDone: MutableLiveData<Event>
+    val deletedAll: LiveData<Event>
+    val deletedDone: LiveData<Event>
 
-    val themeUpdated: MutableLiveData<Event>
-    val themeSelected: MutableLiveData<ThemePref>
+    val themeUpdated: LiveData<Event>
+    val themeSelected: LiveData<ThemePref>
 
-    val openAbout: MutableLiveData<Event>
-    val openReview: MutableLiveData<DataEvent<String>>
-    val openReleaseNotes: MutableLiveData<Event>
-    val crashReporting: MutableLiveData<Pair<Boolean, Boolean>> // Show update, updated too
-    val openSuggestions: MutableLiveData<Event>
-    val shakeToReport: MutableLiveData<Pair<Boolean, Boolean>> // Show update, updated too
-    val privacyPolicy: MutableLiveData<Event>
+    val openAbout: LiveData<Event>
+    val openReview: LiveData<DataEvent<String>>
+    val openReleaseNotes: LiveData<Event>
+    val crashReporting: LiveData<Pair<Boolean, Boolean>> // Show update, updated too
+    val analyticsReporting: LiveData<Pair<Boolean, Boolean>> // Show update, updated too
+    val openSuggestions: LiveData<Event>
+    val shakeToReport: LiveData<Pair<Boolean, Boolean>> // Show update, updated too
+    val privacyPolicy: LiveData<Event>
 }
 
 //endregion
@@ -74,6 +77,7 @@ class SettingsViewModel(
     override val openReview: MutableLiveData<DataEvent<String>> = MutableLiveData()
     override val openReleaseNotes: MutableLiveData<Event> = MutableLiveData()
     override val crashReporting: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
+    override val analyticsReporting: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
     override val openSuggestions: MutableLiveData<Event> = MutableLiveData()
     override val shakeToReport: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
 
@@ -154,6 +158,12 @@ class SettingsViewModel(
                     isChecked = prefs.crashReporting
                 )
                 switch(
+                    PrefType.FEEDBACK_ANALYTICS.key,
+                    title = R.string.settings_help_analytics_title,
+                    description = R.string.settings_help_analytics_description,
+                    isChecked = prefs.analyticsEnabled
+                )
+                switch(
                     PrefType.FEEDBACK_SHAKE.key,
                     title = R.string.settings_help_shake_to_report_title,
                     description = R.string.settings_help_shake_to_report_description,
@@ -171,6 +181,7 @@ class SettingsViewModel(
 
         themeSelected.value = prefs.theme
         shakeToReport.value = Pair(false, prefs.shakeToReport)
+        analyticsReporting.value = Pair(false, prefs.analyticsEnabled)
         crashReporting.value = Pair(false, prefs.crashReporting)
     }
 
@@ -212,6 +223,11 @@ class SettingsViewModel(
         openReleaseNotes.value = Event()
     }
 
+    override fun clickAnalytics(type: Boolean) {
+        prefs.analyticsEnabled = type
+        analyticsReporting.value = Pair(true, prefs.analyticsEnabled)
+    }
+
     override fun clickCrashReporting(type: Boolean) {
         prefs.crashReporting = type
         crashReporting.value = Pair(true, prefs.crashReporting)
@@ -244,6 +260,7 @@ class SettingsViewModel(
         HELP_ABOUT("help_about"),
         HELP_REVIEW("help_review"),
         HELP_RELEASE("help_release"),
+        FEEDBACK_ANALYTICS("feedback_analytics"),
         FEEDBACK_CRASH_REPORTING("feedback_crash_reporting"),
         FEEDBACK_SUGGESTION("feedback_suggestions"),
         FEEDBACK_SHAKE("feedback_shake"),

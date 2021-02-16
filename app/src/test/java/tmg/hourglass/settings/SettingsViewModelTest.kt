@@ -34,6 +34,7 @@ internal class SettingsViewModelTest: BaseTest() {
     private val keyHelpReview: String = "help_review"
     private val keyHelpRelease: String = "help_release"
     private val keyFeedbackCrash: String = "feedback_crash_reporting"
+    private val keyFeedbackAnalytics: String = "feedback_analytics"
     private val keyFeedbackSuggestions: String = "feedback_suggestions"
     private val keyFeedbackShake: String = "feedback_shake"
     private val keyPrivacyPolicy: String = "privacy_policy"
@@ -99,6 +100,12 @@ internal class SettingsViewModelTest: BaseTest() {
             prefKey = keyFeedbackCrash,
             title = R.string.settings_help_crash_reporting_title,
             description = R.string.settings_help_crash_reporting_description,
+            isChecked = false
+        ),
+        AppPreferencesItem.SwitchPreference(
+            prefKey = keyFeedbackAnalytics,
+            title = R.string.settings_help_analytics_title,
+            description = R.string.settings_help_analytics_description,
             isChecked = false
         ),
         AppPreferencesItem.SwitchPreference(
@@ -264,6 +271,24 @@ internal class SettingsViewModelTest: BaseTest() {
         every { mockPreferenceManager.crashReporting } returns true
         sut.inputs.clickCrashReporting(true)
         verify { mockPreferenceManager.crashReporting = true }
+
+        crashReportingObserver.assertValue(Pair(true, second = true))
+    }
+
+    @Test
+    fun `SettingsViewModel analytics initial value has show update to be false, clicking it shows analytics banner`() {
+
+        every { mockPreferenceManager.analyticsEnabled } returns false
+
+        initSUT()
+
+        val crashReportingObserver = sut.outputs.analyticsReporting.testObserve()
+
+        crashReportingObserver.assertValue(Pair(false, second = false))
+
+        every { mockPreferenceManager.analyticsEnabled } returns true
+        sut.inputs.clickAnalytics(true)
+        verify { mockPreferenceManager.analyticsEnabled = true }
 
         crashReportingObserver.assertValue(Pair(true, second = true))
     }

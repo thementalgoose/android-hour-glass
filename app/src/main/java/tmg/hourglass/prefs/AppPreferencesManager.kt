@@ -3,8 +3,11 @@ package tmg.hourglass.prefs
 import android.content.Context
 import tmg.utilities.extensions.toEnum
 import tmg.utilities.prefs.SharedPrefManager
+import java.util.*
 
 private const val keyCrashReporting: String = "crashReporting"
+private const val keyAnalyticsReporting: String = "analyticsReporting"
+private const val keyDeviceUdid: String = "deviceUdid"
 private const val keyShakeToReport: String = "shakeToReport"
 private const val keyVersion: String = "version"
 private const val keyWidgetUpdated: String = "widgetUpdate"
@@ -17,6 +20,19 @@ class AppPreferencesManager(context: Context): SharedPrefManager(context), Prefe
     override var crashReporting: Boolean
         get() = getBoolean(keyCrashReporting, true)
         set(value) = save(keyCrashReporting, value)
+
+    override var analyticsEnabled: Boolean
+        get() = getBoolean(keyAnalyticsReporting, true)
+        set(value) = save(keyAnalyticsReporting, value)
+
+    override val deviceUdid: String
+        get() {
+            val existing = getString(keyDeviceUdid, "")
+            if (existing.isNullOrEmpty()) {
+                save(keyDeviceUdid, UUID.randomUUID().toString())
+            }
+            return getString(keyDeviceUdid, "") ?: UUID.randomUUID().toString()
+        }
 
     override var shakeToReport: Boolean
         get() = getBoolean(keyShakeToReport, true)

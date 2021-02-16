@@ -117,6 +117,9 @@
     <string name="settings_help_crash_reporting_title">Crash Reporting</string>
     <string name="settings_help_crash_reporting_description">Send device information and crash stack traces to the developer</string>
     <string name="settings_help_crash_reporting_after_app_restart">Your crash reporting preference will be applied once the app has restarted</string>
+    <string name="settings_help_analytics_title">Anonymous Analytics</string>
+    <string name="settings_help_analytics_description">Opt in to anonymous analytics about using the app </string>
+    <string name="settings_help_analytics_after_app_restart">Your analytic preference will be applied once the app has restarted</string>
     <string name="settings_help_suggestions_title">Have a suggestion?</string>
     <string name="settings_help_suggestions_description">Send the developer an email with any suggestions you may have. Alternately turn on shake to report and shake your device</string>
     <string name="send_email">Send email</string>

@@ -5,6 +5,7 @@ import tmg.utilities.extensions.toEnum
 import tmg.utilities.prefs.SharedPrefManager
 
 interface PreferencesManager {
+    var analyticsEnabled: Boolean
     var crashReporting: Boolean
     var shakeToReport: Boolean
     var version: Int
@@ -12,4 +13,6 @@ interface PreferencesManager {
     var widgetShowUpdate: Boolean
 
     var theme: ThemePref
+
+    val deviceUdid: String
 }

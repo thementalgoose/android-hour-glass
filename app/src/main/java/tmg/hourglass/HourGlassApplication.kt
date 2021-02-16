@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import com.github.stkent.bugshaker.BugShaker
 import com.github.stkent.bugshaker.flow.dialog.AlertDialogType
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.jakewharton.threetenabp.AndroidThreeTen
 import io.realm.Realm
@@ -82,5 +83,10 @@ class HourGlassApplication : Application() {
         if (!prefs.crashReporting) {
             FirebaseCrashlytics.getInstance().deleteUnsentReports()
         }
+
+        // Analytics
+        Log.i("HourGlass", "Analytics reporting ${if (prefs.analyticsEnabled) "enabled" else "disabled"}")
+        FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(prefs.analyticsEnabled)
+        FirebaseAnalytics.getInstance(this).setUserId(prefs.deviceUdid)
     }
 }

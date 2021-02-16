@@ -28,7 +28,6 @@ import tmg.hourglass.settings.release.ReleaseActivity
 import tmg.utilities.bottomsheet.BottomSheetFader
 import tmg.utilities.extensions.*
 
-
 class SettingsActivity : BaseActivity() {
 
     private val viewModel: SettingsViewModel by inject()
@@ -127,6 +126,16 @@ class SettingsActivity : BaseActivity() {
             }
         }
 
+        observe(viewModel.outputs.analyticsReporting) { (showUpdate, _) ->
+            if (showUpdate) {
+                Snackbar.make(
+                    rvSettings,
+                    getString(R.string.settings_help_analytics_after_app_restart),
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
+        }
+
         observeEvent(viewModel.outputs.openSuggestions) {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/html"
@@ -216,6 +225,9 @@ class SettingsActivity : BaseActivity() {
             }
             SettingsViewModel.PrefType.FEEDBACK_SHAKE -> {
                 viewModel.inputs.clickShakeToReport(toNewValue)
+            }
+            SettingsViewModel.PrefType.FEEDBACK_ANALYTICS -> {
+                viewModel.inputs.clickAnalytics(toNewValue)
             }
             else -> throw Error("Regular pref type $key not supported")
         }
