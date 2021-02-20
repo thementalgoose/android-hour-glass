@@ -15,8 +15,6 @@
 
     <TextView
         android:id="@+id/title"
-        android:lines="1"
-        android:ellipsize="end"
         style="@style/Text.Widget.Light.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,7 +23,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginEnd="@dimen/paddingSmall"
         android:layout_toStartOf="@id/value"
+        android:ellipsize="end"
         android:gravity="start|center"
+        android:lines="1"
         tools:text="Car mileage" />
 
     <TextView
@@ -37,22 +37,149 @@
         android:layout_alignParentEnd="true"
         tools:text="38,400 mi" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+    <RelativeLayout
+        android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:progressTint="@color/brand"
-        tools:progress="50" />
+        android:layout_below="@id/title">
+
+        <ProgressBar
+            android:id="@+id/progressBarDefault"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/brand"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_1"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_2"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar3"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_3"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar4"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_4"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar5"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_5"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar6"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_6"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar7"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_7"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar8"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_8"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar9"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_9"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar10"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_10"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar11"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_11"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar12"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_12"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar13"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_13"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar14"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_14"
+            tools:progress="50" />
+
+        <ProgressBar
+            android:id="@+id/progressBar15"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/widget_colour_15"
+            tools:progress="50" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/updatedAt"
+        style="@style/Text.Widget.Light.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/progressBar"
+        android:layout_below="@id/bar"
         android:layout_alignParentEnd="true"
-        style="@style/Text.Widget.Light.Subtitle"
         tools:text="Updated at 11:23 20th March 2019" />
 
 </RelativeLayout>

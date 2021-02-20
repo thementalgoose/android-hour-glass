@@ -5,11 +5,8 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.view.View
 import android.widget.RemoteViews
-import androidx.annotation.ColorInt
-import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.core.graphics.toColorInt
 import io.realm.exceptions.RealmMigrationNeededException
@@ -22,8 +19,8 @@ import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.realm.connectors.RealmCountdownConnector
 import tmg.hourglass.realm.connectors.RealmWidgetConnector
 import tmg.hourglass.utils.ProgressUtils
+import tmg.hourglass.widget.WidgetBarColours
 import tmg.hourglass.widget.setProgressBarColor
-import java.lang.reflect.Method
 import kotlin.math.floor
 
 inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdateBar(
@@ -50,13 +47,23 @@ inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdateBar(
                 val label =
                     countdownModel.countdownType.converter(floor((start + (progress * (end - start)))).toInt().toString())
 
+                // Text
                 remoteView.setTextViewText(R.id.value, label)
 
-                remoteView.setProgressBar(R.id.progressBar, 100, (progress * 100.0f).toInt(), false)
-                remoteView.setProgressBarColor(R.id.progressBar, countdownModel.colour.toColorInt())
+                // Progress Bar
+                val selectedProgressBar = WidgetBarColours.values().firstOrNull { it.colour == countdownModel.colour } ?: WidgetBarColours.COLOUR_DEFAULT
+                println("Colour is ${countdownModel.colour} ${selectedProgressBar}")
+                remoteView.setProgressBar(selectedProgressBar.viewId, 100, (progress * 100.0f).toInt(), false)
+                remoteView.setViewVisibility(selectedProgressBar.viewId, View.VISIBLE)
+                WidgetBarColours
+                    .values()
+                    .filter { it != selectedProgressBar }
+                    .forEach {
+                        remoteView.setViewVisibility(it.viewId, View.GONE)
+                    }
 
+                // Updated at
                 remoteView.setViewVisibility(R.id.updatedAt, if (prefs.widgetShowUpdate) View.VISIBLE else View.GONE)
-
                 when {
                     progress >= 1.0f -> {
                         remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_finished))
