@@ -208,6 +208,7 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
     //region OnFastChooseColorListener
 
     override fun setOnFastChooseColorListener(position: Int, color: Int) {
+        println("Colour picked $position - ${color.hexColor}")
         viewModel.inputs.inputColour(color.hexColor)
     }
 
