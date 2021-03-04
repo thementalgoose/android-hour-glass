@@ -21,7 +21,7 @@ class ModifyTypeAdapter<T>(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModifyTypeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ElementModifyTypeBinding.inflate(inflater, parent, false)
-        ModifyTypeViewHolder(binding, itemSelected)
+        return ModifyTypeViewHolder(binding, itemSelected)
     }
 
     override fun getItemCount(): Int = list.size
