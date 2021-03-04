@@ -6,12 +6,9 @@ import android.appwidget.AppWidgetProvider
 import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_item_widget_picker.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
+import tmg.hourglass.databinding.ActivityItemWidgetPickerBinding
 import tmg.hourglass.extensions.setOnClickListener
 import tmg.hourglass.extensions.updateWidget
 import tmg.hourglass.home.HomeAdapter
@@ -21,6 +18,8 @@ import tmg.utilities.extensions.views.show
 
 abstract class ItemWidgetPickerActivity<T : AppWidgetProvider> : BaseActivity() {
 
+    private lateinit var binding: ActivityItemWidgetPickerBinding
+
     abstract val zClass: Class<T>
 
     private val viewModel: ItemWidgetPickerViewModel by viewModel()
@@ -28,30 +27,30 @@ abstract class ItemWidgetPickerActivity<T : AppWidgetProvider> : BaseActivity() 
 
     private lateinit var adapter: HomeAdapter
 
-    override fun layoutId(): Int = R.layout.activity_item_widget_picker
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityItemWidgetPickerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         adapter = HomeAdapter(
             actionItem = { id, _ ->
                 viewModel.inputs.checkedItem(id)
             }
         )
-        list.adapter = adapter
-        list.layoutManager = LinearLayoutManager(this)
+        binding.list.adapter = adapter
+        binding.list.layoutManager = LinearLayoutManager(this)
 
         appWidgetId = getWidgetId()
         viewModel.inputs.supplyAppWidgetId(appWidgetId)
 
-        btnSave.setOnClickListener(viewModel.inputs::clickSave)
+        binding.btnSave.setOnClickListener(viewModel.inputs::clickSave)
 
         observe(viewModel.outputs.list) {
             adapter.list = it
         }
 
         observe(viewModel.outputs.isSavedEnabled) {
-            btnSave.show(it)
+            binding.btnSave.show(it)
         }
 
         observeEvent(viewModel.outputs.save) {

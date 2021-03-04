@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import tmg.hourglass.R
 import tmg.hourglass.data.CountdownType
+import tmg.hourglass.databinding.ElementModifyTypeBinding
 import tmg.hourglass.utils.Selected
 
 class ModifyTypeAdapter<T>(
@@ -17,7 +18,11 @@ class ModifyTypeAdapter<T>(
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ModifyTypeViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.element_modify_type, parent, false), itemSelected)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModifyTypeViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ElementModifyTypeBinding.inflate(inflater, parent, false)
+        ModifyTypeViewHolder(binding, itemSelected)
+    }
 
     override fun getItemCount(): Int = list.size
 

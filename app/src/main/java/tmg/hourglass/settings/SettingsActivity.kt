@@ -10,8 +10,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.bottom_sheet_theme.*
 import org.koin.android.ext.android.inject
 import tmg.components.about.AboutThisAppActivity
 import tmg.components.about.AboutThisAppConfiguration
@@ -19,7 +17,7 @@ import tmg.components.about.AboutThisAppDependency
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
-import tmg.hourglass.extensions.getTheme
+import tmg.hourglass.databinding.ActivitySettingsBinding
 import tmg.hourglass.extensions.setOnClickListener
 import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.prefs.ThemePref
@@ -30,33 +28,35 @@ import tmg.utilities.extensions.*
 
 class SettingsActivity : BaseActivity() {
 
+    private lateinit var binding: ActivitySettingsBinding
+
     private val viewModel: SettingsViewModel by inject()
     private lateinit var themeBottomSheet: BottomSheetBehavior<LinearLayout>
     private lateinit var adapter: SettingsAdapter
 
-    override fun layoutId(): Int = R.layout.activity_settings
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        themeBottomSheet = BottomSheetBehavior.from(bsTheme)
+        themeBottomSheet = BottomSheetBehavior.from(binding.bottomSheetTheme.bsTheme)
         themeBottomSheet.isHideable = true
-        themeBottomSheet.addBottomSheetCallback(BottomSheetFader(vBackground, "theme"))
+        themeBottomSheet.addBottomSheetCallback(BottomSheetFader(binding.vBackground, "theme"))
         themeBottomSheet.hidden()
-        vBackground.setOnClickListener { themeBottomSheet.hidden() }
+        binding.vBackground.setOnClickListener { themeBottomSheet.hidden() }
 
         adapter = SettingsAdapter(
             prefClicked = { prefClicked(it) },
             prefSwitchClicked = { key, value -> prefSwitched(key, value) }
         )
-        rvSettings.adapter = adapter
-        rvSettings.layoutManager = LinearLayoutManager(this)
+        binding.rvSettings.adapter = adapter
+        binding.rvSettings.layoutManager = LinearLayoutManager(this)
 
-        ibtnClose.setOnClickListener(viewModel.inputs::clickBack)
+        binding.ibtnClose.setOnClickListener(viewModel.inputs::clickBack)
 
-        clThemeAuto.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.AUTO) }
-        clThemeLight.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.LIGHT) }
-        clThemeDark.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.DARK) }
+        binding.bottomSheetTheme.clThemeAuto.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.AUTO) }
+        binding.bottomSheetTheme.clThemeLight.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.LIGHT) }
+        binding.bottomSheetTheme.clThemeDark.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.DARK) }
 
         observe(viewModel.outputs.list) {
             adapter.list = it
@@ -68,7 +68,7 @@ class SettingsActivity : BaseActivity() {
 
         observeEvent(viewModel.outputs.deletedAll) {
             Snackbar.make(
-                rvSettings,
+                binding.rvSettings,
                 getString(R.string.settings_reset_all_done),
                 Snackbar.LENGTH_LONG
             ).show()
@@ -77,7 +77,7 @@ class SettingsActivity : BaseActivity() {
 
         observeEvent(viewModel.outputs.deletedDone) {
             Snackbar.make(
-                rvSettings,
+                binding.rvSettings,
                 getString(R.string.settings_reset_done_done),
                 Snackbar.LENGTH_LONG
             ).show()
@@ -119,7 +119,7 @@ class SettingsActivity : BaseActivity() {
         observe(viewModel.outputs.crashReporting) { (showUpdate, _) ->
             if (showUpdate) {
                 Snackbar.make(
-                    rvSettings,
+                    binding.rvSettings,
                     getString(R.string.settings_help_crash_reporting_after_app_restart),
                     Snackbar.LENGTH_LONG
                 ).show()
@@ -129,7 +129,7 @@ class SettingsActivity : BaseActivity() {
         observe(viewModel.outputs.analyticsReporting) { (showUpdate, _) ->
             if (showUpdate) {
                 Snackbar.make(
-                    rvSettings,
+                    binding.rvSettings,
                     getString(R.string.settings_help_analytics_after_app_restart),
                     Snackbar.LENGTH_LONG
                 ).show()
@@ -147,7 +147,7 @@ class SettingsActivity : BaseActivity() {
         observe(viewModel.outputs.shakeToReport) { (showUpdate, _) ->
             if (showUpdate) {
                 Snackbar.make(
-                    rvSettings,
+                    binding.rvSettings,
                     getString(R.string.settings_help_shake_to_report_after_app_restart),
                     Snackbar.LENGTH_LONG
                 ).show()
@@ -191,7 +191,7 @@ class SettingsActivity : BaseActivity() {
             SettingsViewModel.PrefType.WIDGETS_REFRESH -> {
                 updateAllWidgets()
                 Snackbar.make(
-                    rvSettings,
+                    binding.rvSettings,
                     getString(R.string.settings_widgets_refresh_refreshed),
                     Snackbar.LENGTH_LONG
                 ).show()
@@ -238,12 +238,12 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun updateThemePicker(theme: ThemePref) {
-        imgAuto.setImageResource(if (theme == ThemePref.AUTO) R.drawable.ic_settings_check else 0)
-        imgAuto.setBackgroundResource(if (theme == ThemePref.AUTO) R.drawable.background_selected else R.drawable.background_edit_text)
-        imgLight.setImageResource(if (theme == ThemePref.LIGHT) R.drawable.ic_settings_check else 0)
-        imgLight.setBackgroundResource(if (theme == ThemePref.LIGHT) R.drawable.background_selected else R.drawable.background_edit_text)
-        imgDark.setImageResource(if (theme == ThemePref.DARK) R.drawable.ic_settings_check else 0)
-        imgDark.setBackgroundResource(if (theme == ThemePref.DARK) R.drawable.background_selected else R.drawable.background_edit_text)
+        binding.bottomSheetTheme.imgAuto.setImageResource(if (theme == ThemePref.AUTO) R.drawable.ic_settings_check else 0)
+        binding.bottomSheetTheme.imgAuto.setBackgroundResource(if (theme == ThemePref.AUTO) R.drawable.background_selected else R.drawable.background_edit_text)
+        binding.bottomSheetTheme.imgLight.setImageResource(if (theme == ThemePref.LIGHT) R.drawable.ic_settings_check else 0)
+        binding.bottomSheetTheme.imgLight.setBackgroundResource(if (theme == ThemePref.LIGHT) R.drawable.background_selected else R.drawable.background_edit_text)
+        binding.bottomSheetTheme.imgDark.setImageResource(if (theme == ThemePref.DARK) R.drawable.ic_settings_check else 0)
+        binding.bottomSheetTheme.imgDark.setBackgroundResource(if (theme == ThemePref.DARK) R.drawable.background_selected else R.drawable.background_edit_text)
     }
 
     private fun getAboutTheme(): Int {

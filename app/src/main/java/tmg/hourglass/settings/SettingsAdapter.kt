@@ -1,9 +1,6 @@
 package tmg.hourglass.settings
 
 import android.view.View
-import kotlinx.android.synthetic.main.element_settings_category.view.*
-import kotlinx.android.synthetic.main.element_settings_preference.view.*
-import kotlinx.android.synthetic.main.element_settings_preference_switch.view.*
 import tmg.components.prefs.AppPreferencesAdapter
 import tmg.components.prefs.AppPreferencesItem
 import tmg.hourglass.R

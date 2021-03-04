@@ -59,6 +59,7 @@
         android:background="@color/overlay"
         android:visibility="gone" />
 
-    <include layout="@layout/bottom_sheet_theme" />
+    <include layout="@layout/bottom_sheet_theme"
+        android:id="@+id/bottomSheetTheme"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
