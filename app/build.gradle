@@ -25,6 +25,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     signingConfigs {
         release {
             storeFile file(System.getenv("KEYSTORE") ?: "hour-glass.keystore")
