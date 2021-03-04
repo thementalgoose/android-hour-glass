@@ -4,9 +4,9 @@ import android.graphics.Color
 import android.view.View
 import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.element_countdown_item.view.*
 import tmg.hourglass.R
 import tmg.hourglass.data.models.Countdown
+import tmg.hourglass.databinding.ElementCountdownItemBinding
 import tmg.hourglass.extensions.format
 import tmg.hourglass.home.HomeItemAction
 import tmg.hourglass.home.HomeItemType
@@ -18,9 +18,9 @@ import tmg.utilities.extensions.views.show
 import kotlin.math.floor
 
 class ItemViewHolder(
-    itemView: View,
+    private val binding: ElementCountdownItemBinding,
     val actionItem: (id: String, action: HomeItemAction) -> Unit
-) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
     private lateinit var passageId: String
     private lateinit var action: HomeItemAction
@@ -32,24 +32,24 @@ class ItemViewHolder(
 
         itemView.apply {
             if (item.clickBackground) {
-                clMain.setOnClickListener(this@ItemViewHolder)
+                binding.clMain.setOnClickListener(this@ItemViewHolder)
             }
             else {
-                ibtnEdit.setOnClickListener(this@ItemViewHolder)
+                binding.ibtnEdit.setOnClickListener(this@ItemViewHolder)
             }
-            clMain.isClickable = item.clickBackground
-            clMain.isFocusable = item.clickBackground
-            ibtnEdit.isClickable = !item.clickBackground
-            ibtnEdit.isFocusable = !item.clickBackground
-            ibtnEdit.isEnabled = !item.clickBackground
-            tvTitle.text = countdown.name
+            binding.clMain.isClickable = item.clickBackground
+            binding.clMain.isFocusable = item.clickBackground
+            binding.ibtnEdit.isClickable = !item.clickBackground
+            binding.ibtnEdit.isFocusable = !item.clickBackground
+            binding.ibtnEdit.isEnabled = !item.clickBackground
+            binding.tvTitle.text = countdown.name
 
             val start: Int = countdown.initial.toIntOrNull() ?: 0
             val end: Int = countdown.finishing.toIntOrNull() ?: 100
 
-            tvDescription.show(item.showDescription)
+            binding.tvDescription.show(item.showDescription)
             if (countdown.description.isEmpty()) {
-                tvDescription.text = context.getString(
+                binding.tvDescription.text = context.getString(
                     R.string.home_no_description,
                     countdown.countdownType.converter(start.toString()),
                     countdown.start.format("dd MMM yyyy"),
@@ -57,7 +57,7 @@ class ItemViewHolder(
                     countdown.end.format("dd MMM yyyy")
                 ).fromHtml()
             } else {
-                tvDescription.text = context.getString(
+                binding.tvDescription.text = context.getString(
                     R.string.home_description,
                     countdown.description,
                     countdown.countdownType.converter(start.toString()),
@@ -67,30 +67,30 @@ class ItemViewHolder(
                 ).fromHtml()
             }
 
-            ibtnEdit.setImageResource(action.id)
+            binding.ibtnEdit.setImageResource(action.id)
             if (item.isEnabled) {
-                ibtnEdit.setBackgroundResource(R.drawable.background_selected)
+                binding.ibtnEdit.setBackgroundResource(R.drawable.background_selected)
             }
             else {
-                ibtnEdit.setBackgroundColor(itemView.context.theme.getColor(R.attr.pBackgroundPrimary))
+                binding.ibtnEdit.setBackgroundColor(itemView.context.theme.getColor(R.attr.pBackgroundPrimary))
             }
 
-            lpvMain.backgroundColour = itemView.context.theme.getColor(R.attr.pBackgroundSecondary)
-            lpvMain.progressColour = countdown.colour.toColorInt()
-            lpvMain.textBarColour = Color.WHITE
-            lpvMain.textBackgroundColour = itemView.context.theme.getColor(R.attr.pTextSecondary)
+            binding.lpvMain.backgroundColour = itemView.context.theme.getColor(R.attr.pBackgroundSecondary)
+            binding.lpvMain.progressColour = countdown.colour.toColorInt()
+            binding.lpvMain.textBarColour = Color.WHITE
+            binding.lpvMain.textBackgroundColour = itemView.context.theme.getColor(R.attr.pTextSecondary)
             val progress = getProgress(countdown.startByType, countdown.endByType, interpolator = countdown.interpolator)
             when {
                 progress == 0.0f -> {
-                    lpvMain.setProgress(0.01f) { countdown.countdownType.converter(start.toString()) }
+                    binding.lpvMain.setProgress(0.01f) { countdown.countdownType.converter(start.toString()) }
                 }
                 item.animateBar -> {
-                    lpvMain.animateProgress(progress) {
+                    binding.lpvMain.animateProgress(progress) {
                         countdown.countdownType.converter(floor((start + (it * (end - start)))).toInt().toString())
                     }
                 }
                 else -> {
-                    lpvMain.setProgress(progress) {
+                    binding.lpvMain.setProgress(progress) {
                         countdown.countdownType.converter(floor((start + (it * (end - start)))).toInt().toString())
                     }
                 }

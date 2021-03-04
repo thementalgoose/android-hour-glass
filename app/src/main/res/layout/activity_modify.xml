@@ -454,8 +454,10 @@
         android:background="@color/overlay"
         android:visibility="gone" />
 
-    <include layout="@layout/bottom_sheet_modify" />
+    <include layout="@layout/bottom_sheet_modify"
+        android:id="@+id/bottomSheetModify"/>
 
-    <include layout="@layout/bottom_sheet_interpolator" />
+    <include layout="@layout/bottom_sheet_interpolator"
+        android:id="@+id/bottomSheetInterpolator"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

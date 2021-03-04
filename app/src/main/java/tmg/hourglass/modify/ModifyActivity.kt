@@ -10,15 +10,10 @@ import androidx.core.util.Pair
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
-import kotlinx.android.synthetic.main.activity_modify.*
-import kotlinx.android.synthetic.main.bottom_sheet_interpolator.*
-import kotlinx.android.synthetic.main.bottom_sheet_modify.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.threeten.bp.Instant
-import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import petrov.kristiyan.colorpicker.ColorPicker
@@ -27,6 +22,7 @@ import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.data.CountdownInterpolator
 import tmg.hourglass.data.CountdownType
+import tmg.hourglass.databinding.ActivityModifyBinding
 import tmg.hourglass.extensions.*
 import tmg.utilities.bottomsheet.BottomSheetFader
 import tmg.utilities.extensions.*
@@ -36,6 +32,8 @@ import java.util.*
 
 class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
     MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>?> {
+
+    private lateinit var binding: ActivityModifyBinding
 
     private val viewModel: ModifyViewModel by viewModel()
     private var passageId: String? = null
@@ -48,97 +46,97 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
 
     private var currentColour: String? = null
 
-    override fun layoutId(): Int = R.layout.activity_modify
-
-    override fun arguments(bundle: Bundle) {
-        passageId = bundle.getString(keyPassageId)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityModifyBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        intent?.extras?.let {
+            passageId = it.getString(keyPassageId)
+        }
 
         setupTypeBottomSheet()
         setupInterpolatorBottomSheet()
-        bottomSheetBackground.setOnClickListener { hideAllBottomSheets() }
+        binding.bottomSheetBackground.setOnClickListener { hideAllBottomSheets() }
 
-        ibtnClose.setOnClickListener(viewModel.inputs::clickClose)
-        btnType.setOnClickListener {
+        binding.ibtnClose.setOnClickListener(viewModel.inputs::clickClose)
+        binding.btnType.setOnClickListener {
             typeBottomSheet.expand()
         }
-        btnInterpolator.setOnClickListener {
+        binding.btnInterpolator.setOnClickListener {
             interpolatorBottomSheet.expand()
         }
-        btnColour.setOnClickListener {
+        binding.btnColour.setOnClickListener {
             showColourPicker(currentColour ?: "#f84c44")
         }
-        btnDates.setOnClickListener(viewModel.inputs::clickDatePicker)
-        etFieldName.addTextUpdateListener(viewModel.inputs::inputName)
-        etFieldDescription.addTextUpdateListener(viewModel.inputs::inputDescription)
-        etInitial.addTextUpdateListener(viewModel.inputs::inputInitial)
-        etFinal.addTextUpdateListener(viewModel.inputs::inputFinal)
+        binding.btnDates.setOnClickListener(viewModel.inputs::clickDatePicker)
+        binding.etFieldName.addTextUpdateListener(viewModel.inputs::inputName)
+        binding.etFieldDescription.addTextUpdateListener(viewModel.inputs::inputDescription)
+        binding.etInitial.addTextUpdateListener(viewModel.inputs::inputInitial)
+        binding.etFinal.addTextUpdateListener(viewModel.inputs::inputFinal)
 
-        btnSave.setOnClickListener(viewModel.inputs::clickSave)
-        ibtnDelete.setOnClickListener(viewModel.inputs::clickDelete)
+        binding.btnSave.setOnClickListener(viewModel.inputs::clickSave)
+        binding.ibtnDelete.setOnClickListener(viewModel.inputs::clickDelete)
 
 
 
         observe(viewModel.outputs.name) {
-            if (!etFieldName.hasFocus()) {
-                etFieldName.setText(it.toString())
+            if (!binding.etFieldName.hasFocus()) {
+                binding.etFieldName.setText(it.toString())
             }
         }
         observe(viewModel.outputs.description) {
-            if (!etFieldDescription.hasFocus()) {
-                etFieldDescription.setText(it.toString())
+            if (!binding.etFieldDescription.hasFocus()) {
+                binding.etFieldDescription.setText(it.toString())
             }
         }
         observe(viewModel.outputs.initial) {
-            if (!etInitial.hasFocus()) {
-                etInitial.setText(it)
+            if (!binding.etInitial.hasFocus()) {
+                binding.etInitial.setText(it)
             }
         }
         observe(viewModel.outputs.final) {
-            if (!etFinal.hasFocus()) {
-                etFinal.setText(it)
+            if (!binding.etFinal.hasFocus()) {
+                binding.etFinal.setText(it)
             }
         }
 
         observe(viewModel.outputs.colour) {
             this.currentColour = it
-            vColour.setBackgroundColor(it.toColorInt())
+            binding.vColour.setBackgroundColor(it.toColorInt())
         }
 
         observe(viewModel.outputs.typeList) {
             typeAdapter.list = it
         }
         observe(viewModel.outputs.type) {
-            btnType.setText(it.label())
+            binding.btnType.setText(it.label())
         }
 
         observe(viewModel.outputs.interpolatorList) {
             interpolatorAdapter.list = it
         }
         observe(viewModel.outputs.interpolator) {
-            btnInterpolator.setText(it.label())
+            binding.btnInterpolator.setText(it.label())
         }
 
         observeEvent(viewModel.outputs.showDatePicker) { dates ->
             showRangePicker(dates?.first, dates?.second)
         }
         observe(viewModel.outputs.dates) {
-            btnDates.text = getString(R.string.modify_field_dates_format, it.first.format("dd MMM yyyy"), it.second.format("dd MMM yyyy"))
+            binding.btnDates.text = getString(R.string.modify_field_dates_format, it.first.format("dd MMM yyyy"), it.second.format("dd MMM yyyy"))
         }
 
         observe(viewModel.outputs.isValid) {
-            btnSave.isEnabled = it
+            binding.btnSave.isEnabled = it
         }
 
         observeEvent(viewModel.outputs.closeEvent) {
             finish()
         }
         observe(viewModel.outputs.isAddition) {
-            ibtnDelete.isGone = it
-            tvHeader.setText(if (it) R.string.modify_header_add else R.string.modify_header_edit)
+            binding.ibtnDelete.isGone = it
+            binding.tvHeader.setText(if (it) R.string.modify_header_add else R.string.modify_header_edit)
         }
 
         observe(viewModel.outputs.showRange) { (from, to) -> showRange(from, to) }
@@ -147,10 +145,10 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
     }
 
     private fun setupTypeBottomSheet() {
-        typeBottomSheet = BottomSheetBehavior.from(bsModifyType)
+        typeBottomSheet = BottomSheetBehavior.from(binding.bottomSheetModify.bsModifyType)
         typeBottomSheet.isHideable = true
         typeBottomSheet.hidden()
-        typeBottomSheet.addBottomSheetCallback(BottomSheetFader(bottomSheetBackground, "type"))
+        typeBottomSheet.addBottomSheetCallback(BottomSheetFader(binding.bottomSheetBackground, "type"))
 
         typeAdapter = ModifyTypeAdapter(
             itemSelected = {
@@ -158,15 +156,15 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
                 typeBottomSheet.hidden()
             }
         )
-        rvOptions.adapter = typeAdapter
-        rvOptions.layoutManager = LinearLayoutManager(this)
+        binding.bottomSheetModify.rvOptions.adapter = typeAdapter
+        binding.bottomSheetModify.rvOptions.layoutManager = LinearLayoutManager(this)
     }
 
     private fun setupInterpolatorBottomSheet() {
-        interpolatorBottomSheet = BottomSheetBehavior.from(bsInterpolator)
+        interpolatorBottomSheet = BottomSheetBehavior.from(binding.bottomSheetInterpolator.bsInterpolator)
         interpolatorBottomSheet.isHideable = true
         interpolatorBottomSheet.hidden()
-        interpolatorBottomSheet.addBottomSheetCallback(BottomSheetFader(bottomSheetBackground, "interpolator"))
+        interpolatorBottomSheet.addBottomSheetCallback(BottomSheetFader(binding.bottomSheetBackground, "interpolator"))
 
         interpolatorAdapter = ModifyTypeAdapter(
             itemSelected = {
@@ -174,8 +172,8 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
                 interpolatorBottomSheet.hidden()
             }
         )
-        rvInterpolatorOptions.adapter = interpolatorAdapter
-        rvInterpolatorOptions.layoutManager = LinearLayoutManager(this)
+        binding.bottomSheetInterpolator.rvInterpolatorOptions.adapter = interpolatorAdapter
+        binding.bottomSheetInterpolator.rvInterpolatorOptions.layoutManager = LinearLayoutManager(this)
     }
 
     private fun showColourPicker(withDefault: String) {
@@ -187,10 +185,10 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
     }
 
     private fun showRange(from: Boolean, to: Boolean) {
-        tvFieldRange.show(from || to)
-        tvFieldRangeDesc.show(from || to)
-        etInitial.show(from)
-        etFinal.show(to)
+        binding.tvFieldRange.show(from || to)
+        binding.tvFieldRangeDesc.show(from || to)
+        binding.etInitial.show(from)
+        binding.etFinal.show(to)
     }
 
     private fun showRangePicker(from: LocalDateTime?, to: LocalDateTime?) {

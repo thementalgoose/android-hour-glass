@@ -6,6 +6,9 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import tmg.hourglass.R
+import tmg.hourglass.databinding.ElementCountdownHeaderBinding
+import tmg.hourglass.databinding.ElementCountdownItemBinding
+import tmg.hourglass.databinding.ElementCountdownPlaceholderBinding
 import tmg.hourglass.home.views.HeaderViewHolder
 import tmg.hourglass.home.views.ItemViewHolder
 import tmg.hourglass.home.views.PlaceholderViewHolder
@@ -23,11 +26,11 @@ class HomeAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+        val layoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            R.layout.element_countdown_header -> HeaderViewHolder(view)
-            R.layout.element_countdown_item -> ItemViewHolder(view, actionItem)
-            R.layout.element_countdown_placeholder -> PlaceholderViewHolder(view)
+            R.layout.element_countdown_header -> HeaderViewHolder(ElementCountdownHeaderBinding.inflate(layoutInflater, parent, false))
+            R.layout.element_countdown_item -> ItemViewHolder(ElementCountdownItemBinding.inflate(layoutInflater, parent, false), actionItem)
+            R.layout.element_countdown_placeholder -> PlaceholderViewHolder(ElementCountdownPlaceholderBinding.inflate(layoutInflater, parent, false))
             else -> throw RuntimeException("View type not supported")
         }
     }

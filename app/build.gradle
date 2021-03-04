@@ -2,7 +2,6 @@ import com.github.triplet.gradle.androidpublisher.ResolutionStrategy
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 apply plugin: 'com.google.gms.google-services'
@@ -23,6 +22,10 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     signingConfigs {
@@ -182,8 +185,8 @@ dependencies {
     implementation "org.koin:koin-androidx-fragment:$koin_version"
 
     // TMG
-    implementation 'com.github.thementalgoose:android-components:3.0.1'
-    implementation 'com.github.thementalgoose:android-utilities:2.0.1'
+    implementation 'com.github.thementalgoose:android-components:4.0.0'
+    implementation 'com.github.thementalgoose:android-utilities:2.1.0'
     implementation 'com.github.thementalgoose:android-labelled-progress-bar:1.0.6'
 
     // ColorSheet

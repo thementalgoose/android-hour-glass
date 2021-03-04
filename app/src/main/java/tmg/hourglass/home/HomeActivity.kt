@@ -3,11 +3,10 @@ package tmg.hourglass.home
 import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.analytics.FirebaseAnalytics
-import kotlinx.android.synthetic.main.activity_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
+import tmg.hourglass.databinding.ActivityHomeBinding
 import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.modify.ModifyActivity
 import tmg.hourglass.settings.SettingsActivity
@@ -16,13 +15,15 @@ import tmg.utilities.extensions.observeEvent
 
 class HomeActivity: BaseActivity() {
 
+    private lateinit var binding: ActivityHomeBinding
+
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var adapter: HomeAdapter
 
-    override fun layoutId(): Int = R.layout.activity_home
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         adapter = HomeAdapter(
             actionItem = { id, action ->
@@ -33,10 +34,10 @@ class HomeActivity: BaseActivity() {
                 }
             }
         )
-        list.adapter = adapter
-        list.layoutManager = LinearLayoutManager(this)
+        binding.list.adapter = adapter
+        binding.list.layoutManager = LinearLayoutManager(this)
 
-        bnvNavigation.setOnNavigationItemSelectedListener {
+        binding.bnvNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_now -> {
                     viewModel.inputs.switchList(HomeTab.NOW)
@@ -54,7 +55,7 @@ class HomeActivity: BaseActivity() {
             }
         }
 
-        ibtnAdd.setOnClickListener {
+        binding.ibtnAdd.setOnClickListener {
             viewModel.inputs.clickAdd()
         }
 
