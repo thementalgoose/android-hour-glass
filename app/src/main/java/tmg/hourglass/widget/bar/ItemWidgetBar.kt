@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
@@ -52,7 +53,9 @@ inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdateBar(
 
                 // Progress Bar
                 val selectedProgressBar = WidgetBarColours.values().firstOrNull { it.colour == countdownModel.colour } ?: WidgetBarColours.COLOUR_DEFAULT
-                println("Colour is ${countdownModel.colour} ${selectedProgressBar}")
+                if (BuildConfig.DEBUG) {
+                    Log.i("Hourglass", "Colour is ${countdownModel.colour} $selectedProgressBar")
+                }
                 remoteView.setProgressBar(selectedProgressBar.viewId, 100, (progress * 100.0f).toInt(), false)
                 remoteView.setViewVisibility(selectedProgressBar.viewId, View.VISIBLE)
                 WidgetBarColours
