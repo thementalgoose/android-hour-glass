@@ -85,8 +85,9 @@
     <string name="release_25"><![CDATA[3.2.1
     <br/>- Tweaked settings options layout
     <br/>- Minor bug fixes and dependency updates]]></string>
-    <string name="release_26"><![CDATA[3.2.2
+    <string name="release_27"><![CDATA[3.2.3
     <br/>- Adds support for colour of the progress bar for widget
+    <br/>- Minor stability improvements
     <br/>- Minor theming fixes for widget flow]]></string>
 
     <!-- Placeholder -->
