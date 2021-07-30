@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
-import tmg.hourglass.base.BaseViewModel
-import tmg.hourglass.data.connectors.CountdownConnector
-import tmg.hourglass.data.connectors.WidgetConnector
+import tmg.hourglass.ui.base.BaseViewModel
+import tmg.hourglass.domain.data.connectors.CountdownConnector
+import tmg.hourglass.domain.data.connectors.WidgetConnector
 import tmg.hourglass.home.HomeItemAction
 import tmg.hourglass.home.HomeItemType
 import tmg.utilities.extensions.combinePair

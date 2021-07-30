@@ -3,12 +3,11 @@ package tmg.hourglass.settings
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import tmg.components.prefs.AppPreferencesItem
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
-import tmg.hourglass.data.connectors.CountdownConnector
+import tmg.hourglass.domain.data.connectors.CountdownConnector
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref.DARK
 import tmg.hourglass.prefs.ThemePref.LIGHT

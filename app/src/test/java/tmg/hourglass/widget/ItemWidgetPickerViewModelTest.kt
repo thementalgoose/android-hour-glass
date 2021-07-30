@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import tmg.hourglass.*
-import tmg.hourglass.data.connectors.CountdownConnector
-import tmg.hourglass.data.connectors.WidgetConnector
-import tmg.hourglass.data.models.Countdown
+import tmg.hourglass.domain.data.connectors.CountdownConnector
+import tmg.hourglass.domain.data.connectors.WidgetConnector
+import tmg.hourglass.domain.data.models.Countdown
 import tmg.hourglass.home.HomeItemType
 import tmg.hourglass.testutils.BaseTest
 import tmg.hourglass.testutils.assertDataEventValue

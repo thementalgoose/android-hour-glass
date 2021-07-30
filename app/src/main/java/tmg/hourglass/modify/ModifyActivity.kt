@@ -19,15 +19,14 @@ import org.threeten.bp.ZoneId
 import petrov.kristiyan.colorpicker.ColorPicker
 import petrov.kristiyan.colorpicker.ColorPicker.OnFastChooseColorListener
 import tmg.hourglass.R
-import tmg.hourglass.base.BaseActivity
-import tmg.hourglass.data.CountdownInterpolator
-import tmg.hourglass.data.CountdownType
+import tmg.hourglass.ui.base.BaseActivity
+import tmg.hourglass.domain.data.CountdownInterpolator
+import tmg.hourglass.domain.data.CountdownType
 import tmg.hourglass.databinding.ActivityModifyBinding
 import tmg.hourglass.extensions.*
 import tmg.utilities.bottomsheet.BottomSheetFader
 import tmg.utilities.extensions.*
 import tmg.utilities.extensions.views.show
-import java.util.*
 
 
 class ModifyActivity : BaseActivity(), OnFastChooseColorListener,

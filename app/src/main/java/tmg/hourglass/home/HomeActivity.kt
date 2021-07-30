@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tmg.hourglass.R
-import tmg.hourglass.base.BaseActivity
+import tmg.hourglass.ui.base.BaseActivity
 import tmg.hourglass.databinding.ActivityHomeBinding
 import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.modify.ModifyActivity

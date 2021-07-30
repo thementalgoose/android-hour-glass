@@ -1,7 +1,7 @@
 package tmg.hourglass.settings.release
 
 import androidx.lifecycle.MutableLiveData
-import tmg.hourglass.base.BaseViewModel
+import tmg.hourglass.ui.base.BaseViewModel
 import tmg.hourglass.releaseNotes
 import tmg.utilities.lifecycle.Event
 

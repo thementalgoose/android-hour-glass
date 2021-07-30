@@ -2,7 +2,7 @@ package tmg.hourglass.settings.release
 
 import android.os.Bundle
 import org.koin.android.ext.android.inject
-import tmg.hourglass.base.BaseActivity
+import tmg.hourglass.ui.base.BaseActivity
 import tmg.hourglass.databinding.ActivityReleaseNotesBinding
 import tmg.hourglass.extensions.setOnClickListener
 import tmg.utilities.extensions.fromHtml

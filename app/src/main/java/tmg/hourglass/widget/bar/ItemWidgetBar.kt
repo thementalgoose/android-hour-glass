@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
-import androidx.core.graphics.toColorInt
 import io.realm.exceptions.RealmMigrationNeededException
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.BuildConfig
@@ -17,11 +16,10 @@ import tmg.hourglass.R
 import tmg.hourglass.extensions.format
 import tmg.hourglass.prefs.AppPreferencesManager
 import tmg.hourglass.prefs.PreferencesManager
-import tmg.hourglass.realm.connectors.RealmCountdownConnector
-import tmg.hourglass.realm.connectors.RealmWidgetConnector
+import tmg.hourglass.domain.realm.connectors.RealmCountdownConnector
+import tmg.hourglass.domain.realm.connectors.RealmWidgetConnector
 import tmg.hourglass.utils.ProgressUtils
 import tmg.hourglass.widget.WidgetBarColours
-import tmg.hourglass.widget.setProgressBarColor
 import kotlin.math.floor
 
 inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdateBar(

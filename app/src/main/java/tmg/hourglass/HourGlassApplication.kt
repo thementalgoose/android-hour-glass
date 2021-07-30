@@ -14,7 +14,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import tmg.hourglass.di.hourGlassModule
 import tmg.hourglass.prefs.PreferencesManager
-import tmg.hourglass.realm.RealmDBMigration
+import tmg.hourglass.domain.realm.RealmDBMigration
 
 val releaseNotes: Map<Int, Int> = mapOf(
     27 to R.string.release_27,

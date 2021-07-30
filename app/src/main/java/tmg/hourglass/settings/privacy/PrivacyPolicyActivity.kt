@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tmg.hourglass.R
-import tmg.hourglass.base.BaseActivity
+import tmg.hourglass.ui.base.BaseActivity
 import tmg.hourglass.databinding.ActivityPrivacyPolicyBinding
 import tmg.utilities.extensions.fromHtml
 import tmg.utilities.extensions.observeEvent

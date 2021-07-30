@@ -1,9 +1,9 @@
 package tmg.hourglass
 
 import org.threeten.bp.LocalDateTime
-import tmg.hourglass.data.CountdownInterpolator
-import tmg.hourglass.data.CountdownType
-import tmg.hourglass.data.models.Countdown
+import tmg.hourglass.domain.data.CountdownInterpolator
+import tmg.hourglass.domain.data.CountdownType
+import tmg.hourglass.domain.data.models.Countdown
 import tmg.hourglass.home.HomeItemAction
 import tmg.hourglass.home.HomeItemType
 

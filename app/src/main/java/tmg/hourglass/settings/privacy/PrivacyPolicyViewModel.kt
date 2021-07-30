@@ -1,7 +1,7 @@
 package tmg.hourglass.settings.privacy
 
 import androidx.lifecycle.MutableLiveData
-import tmg.hourglass.base.BaseViewModel
+import tmg.hourglass.ui.base.BaseViewModel
 import tmg.utilities.lifecycle.Event
 
 //region Inputs

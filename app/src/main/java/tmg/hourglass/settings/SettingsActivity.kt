@@ -16,7 +16,7 @@ import tmg.components.about.AboutThisAppConfiguration
 import tmg.components.about.AboutThisAppDependency
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
-import tmg.hourglass.base.BaseActivity
+import tmg.hourglass.ui.base.BaseActivity
 import tmg.hourglass.databinding.ActivitySettingsBinding
 import tmg.hourglass.extensions.setOnClickListener
 import tmg.hourglass.extensions.updateAllWidgets

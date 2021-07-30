@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import tmg.components.prefs.*
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
-import tmg.hourglass.base.BaseViewModel
-import tmg.hourglass.data.connectors.CountdownConnector
+import tmg.hourglass.ui.base.BaseViewModel
+import tmg.hourglass.domain.data.connectors.CountdownConnector
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
 import tmg.utilities.lifecycle.DataEvent
