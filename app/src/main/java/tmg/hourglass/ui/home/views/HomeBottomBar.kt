@@ -6,6 +6,8 @@ import androidx.compose.material.icons.filled.RunCircle
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import tmg.hourglass.R
@@ -19,9 +21,11 @@ enum class Tab {
 @Composable
 fun HomeBottomBar(
     selection: Tab,
+    cutoutShape: Shape? = null,
     tabClicked: (Tab) -> Unit
 ) {
     BottomAppBar(
+        cutoutShape = cutoutShape,
         content = {
             BottomNavigation {
                 BottomNavigationItem(
@@ -40,14 +44,14 @@ fun HomeBottomBar(
                     onClick = { tabClicked(Tab.PREVIOUS) },
                     selected = selection == Tab.PREVIOUS
                 )
-                BottomNavigationItem(
-                    icon = {
-                        Icon(Icons.Filled.Settings, stringResource(R.string.menu_settings))
-                    },
-                    label = { Text(stringResource(R.string.menu_settings)) },
-                    onClick = { tabClicked(Tab.SETTINGS) },
-                    selected = selection == Tab.SETTINGS
-                )
+//                BottomNavigationItem(
+//                    icon = {
+//                        Icon(Icons.Filled.Settings, stringResource(R.string.menu_settings))
+//                    },
+//                    label = { Text(stringResource(R.string.menu_settings)) },
+//                    onClick = { tabClicked(Tab.SETTINGS) },
+//                    selected = selection == Tab.SETTINGS,
+//                )
             }
         }
     )
@@ -56,5 +60,5 @@ fun HomeBottomBar(
 @Composable
 @Preview
 private fun Preview() {
-    HomeBottomBar(selection = Tab.NOW, tabClicked = { })
+    HomeBottomBar(selection = Tab.PREVIOUS, tabClicked = { })
 }

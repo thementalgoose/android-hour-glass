@@ -214,10 +214,15 @@
     <string name="menu_previous">Previous</string>
     <string name="menu_settings">Settings</string>
 
+    <!-- Home -->
+    <string name="home_item_start" formatted="false">Starts at %s on %s</string>
+    <string name="home_item_end" formatted="false">Ends at %s on %s</string>
+
     <!-- Modify -->
     <string name="modify_header_add">Add a countdown</string>
     <string name="modify_header_edit">Edit your countdown</string>
     <string name="modify_header_save">Save</string>
+
     <string name="home_description"><![CDATA[%s<br/>
     ▲ Starts at %s on <b>%s</b><br/>
     ▼ Ends at %s on <b>%s</b>]]></string>
