@@ -14,8 +14,7 @@ import tmg.hourglass.R
 
 enum class Tab {
     NOW,
-    PREVIOUS,
-    SETTINGS
+    PREVIOUS
 }
 
 @Composable
@@ -44,14 +43,6 @@ fun HomeBottomBar(
                     onClick = { tabClicked(Tab.PREVIOUS) },
                     selected = selection == Tab.PREVIOUS
                 )
-//                BottomNavigationItem(
-//                    icon = {
-//                        Icon(Icons.Filled.Settings, stringResource(R.string.menu_settings))
-//                    },
-//                    label = { Text(stringResource(R.string.menu_settings)) },
-//                    onClick = { tabClicked(Tab.SETTINGS) },
-//                    selected = selection == Tab.SETTINGS,
-//                )
             }
         }
     )

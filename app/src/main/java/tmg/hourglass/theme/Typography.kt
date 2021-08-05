@@ -32,7 +32,7 @@ val Typography = Typography(
 val Typography.hero: TextStyle by lazy {
     TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Light,
+        fontWeight = FontWeight.Medium,
         fontSize = 26.sp
     )
 }

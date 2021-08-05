@@ -29,6 +29,8 @@
 
         <activity android:name="tmg.hourglass.modify.ModifyActivity" />
 
+        <activity android:name="tmg.hourglass.ui.modify.ModifyActivity" />
+
         <activity android:name="tmg.hourglass.settings.SettingsActivity" />
 
         <activity android:name="tmg.hourglass.settings.release.ReleaseActivity" />

@@ -20,7 +20,7 @@ private val LightPallette = lightColors(
 )
 
 @Composable
-fun AppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun AppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = when (darkTheme) {
         true -> DarkPallette
         false -> LightPallette

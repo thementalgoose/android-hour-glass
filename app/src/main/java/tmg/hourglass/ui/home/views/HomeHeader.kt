@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,15 +13,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import tmg.hourglass.R
-import tmg.hourglass.theme.PaddingMedium
-import tmg.hourglass.theme.Typography
-import tmg.hourglass.theme.brand
-import tmg.hourglass.theme.hero
+import tmg.hourglass.theme.*
 
 @Composable
 fun HomeHeader() {
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(
                 top = PaddingMedium,
                 start = PaddingMedium,
@@ -45,5 +44,9 @@ fun HomeHeader() {
 @Composable
 @Preview
 private fun Preview() {
-    HomeHeader()
+    AppTheme {
+        Surface {
+            HomeHeader()
+        }
+    }
 }

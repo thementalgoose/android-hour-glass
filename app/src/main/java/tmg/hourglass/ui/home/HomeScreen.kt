@@ -1,5 +1,6 @@
 package tmg.hourglass.ui.home
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role.Companion.Image
@@ -24,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.R
 import tmg.hourglass.domain.data.CountdownInterpolator
@@ -38,6 +41,7 @@ import tmg.hourglass.ui.home.views.HomeHeader
 import tmg.hourglass.ui.home.views.HomeItem
 import tmg.hourglass.ui.home.views.Tab
 import tmg.hourglass.ui.home.views.Tab.NOW
+import tmg.hourglass.ui.modify.ModifyActivity
 import tmg.utilities.lifecycle.DataEvent
 import tmg.utilities.lifecycle.Event
 
@@ -49,21 +53,23 @@ fun HomeScreen(
     val items = outputs.items.observeAsState(emptyList())
     val currentTab = outputs.currentTab.observeAsState(NOW)
 
+    val context = LocalContext.current
+
     Scaffold(
         floatingActionButtonPosition = FabPosition.Center,
         isFloatingActionButtonDocked = true,
         floatingActionButton = {
-            Button(
-                modifier = Modifier.clip(RoundedCornerShape(RadiusSmall)),
-                onClick = { inputs.clickAdd() }
+            FloatingActionButton(
+                onClick = {
+                    context.startActivity(Intent(context, ModifyActivity::class.java))
+                }
             ) {
                 Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.ab_add))
-                Text(text = stringResource(id = R.string.ab_add))
             }
         },
         bottomBar = {
             HomeBottomBar(
-                cutoutShape = RoundedCornerShape(RadiusSmall),
+                cutoutShape = CircleShape,
                 selection = currentTab.value,
                 tabClicked = {
                     inputs.switchList(it)
@@ -80,11 +86,12 @@ fun HomeScreen(
                 itemsIndexed(items.value) { index, item ->
                     HomeItem(
                         item = item,
-                        itemClicked = {
-
-                        },
                         iconClicked = {
-
+                            when (it) {
+                                HomeItemAction.EDIT -> inputs.editItem(item.countdown.id)
+                                HomeItemAction.DELETE -> inputs.deleteItem(item.countdown.id)
+                                else -> { /* Do nothing */ }
+                            }
                         }
                     )
                 }

@@ -46,12 +46,10 @@ class HomeViewModel(
 
     override val items: LiveData<List<HomeItemType.Item>> = viewTab
         .asStateFlow()
-        .filter { it != Tab.SETTINGS }
         .flatMapLatest {
             when (it) {
                 Tab.NOW -> countdownConnector.allCurrent()
                 Tab.PREVIOUS -> countdownConnector.allDone()
-                Tab.SETTINGS -> throw RuntimeException("View tab can not be settings value")
             }
         }
         .map { list ->
@@ -59,7 +57,6 @@ class HomeViewModel(
                 val action: HomeItemAction = when (viewTab.value) {
                     Tab.NOW -> HomeItemAction.EDIT
                     Tab.PREVIOUS -> HomeItemAction.DELETE
-                    else -> HomeItemAction.EDIT
                 }
                 HomeItemType.Item(countdown = it, action = action, isEnabled = false)
             }

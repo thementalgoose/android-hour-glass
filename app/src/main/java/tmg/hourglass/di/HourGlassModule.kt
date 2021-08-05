@@ -21,11 +21,13 @@ import tmg.hourglass.widget.ItemWidgetPickerViewModel
 
 val hourGlassModule = module {
     viewModel { HomeViewModel(get()) }
-    viewModel { tmg.hourglass.ui.home.HomeViewModel(get()) }
     viewModel { ModifyViewModel(get(), get()) }
     viewModel { SettingsViewModel(get(), get()) }
     viewModel { ReleaseViewModel() }
     viewModel { PrivacyPolicyViewModel() }
+
+    viewModel { tmg.hourglass.ui.home.HomeViewModel(get()) }
+    viewModel { tmg.hourglass.ui.modify.ModifyViewModel() }
 
     viewModel { ItemWidgetPickerViewModel(get(), get()) }
 

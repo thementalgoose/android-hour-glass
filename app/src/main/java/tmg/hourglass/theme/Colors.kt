@@ -2,8 +2,10 @@ package tmg.hourglass.theme
 
 import androidx.compose.ui.graphics.Color
 
-val brand = Color(0xFFAD1457)
-val brandDark = Color(0xFF5E1B3A)
+
+
+val brand = Color(0xFFFEA235)
+val brandDark = Color(0xFFCB812A)
 
 val overlay = Color(0x88000000)
 

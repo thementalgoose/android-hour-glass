@@ -5,4 +5,6 @@
     <string name="ab_delete">Delete</string>
     <string name="ab_selected">Selected</string>
     <string name="ab_not_selected">Not selected</string>
+
+    <string name="ab_back">Back</string>
 </resources>
