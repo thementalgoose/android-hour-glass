@@ -7,6 +7,8 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
+// https://gustav-karlsson.medium.com/extending-the-jetpack-compose-material-theme-with-more-colors-e1b849390d50
+
 private val DarkPallette = darkColors(
     primary = brand,
     primaryVariant = brand,
