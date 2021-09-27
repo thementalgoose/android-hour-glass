@@ -16,6 +16,15 @@ jobs:
         with:
           pattern: "\\.json$"
 
+      - name: Release information
+        run: |
+          echo "versionCode=$(echo `sh ./scripts/getVersionCode.sh`)" >> $GITHUB_ENV
+          echo "versionName=$(echo `sh ./scripts/getVersionName.sh`)" >> $GITHUB_ENV
+
+      - name: Next step
+        run: |
+          echo "Hey! ${{ env.versionName }} (${{ env.versionCode }})"
+
   unit_tests:
     runs-on: ubuntu-latest
     steps:
