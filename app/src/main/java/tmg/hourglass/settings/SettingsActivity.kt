@@ -259,7 +259,7 @@ class SettingsActivity : BaseActivity() {
             themeRes = getAboutTheme(),
             name = getString(R.string.about_name),
             nameDesc = getString(R.string.about_desc),
-            imageUrl = "https://lh3.googleusercontent.com/DcgSFsCSPOmXW8fEP32cZ44B1KqX_gk-8prh7Qd7nXhnugYE6Nhl1FE_aKaF9q62B6w",
+            imageRes = R.mipmap.ic_launcher,
             subtitle = getString(R.string.dependency_thank_you),
             footnote = "", // getString(R.string.about_additional),
             appVersion = BuildConfig.VERSION_NAME,
