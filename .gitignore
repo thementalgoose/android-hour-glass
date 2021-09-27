@@ -17,3 +17,6 @@
 .externalNativeBuild
 .cxx
 **.keystore
+
+/app/src/main/java/tmg/hourglass/ReleaseNotes.kt
+/app/src/main/res/values/release-notes.xml

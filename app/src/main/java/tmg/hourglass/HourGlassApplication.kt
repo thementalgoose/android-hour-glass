@@ -16,33 +16,6 @@ import tmg.hourglass.di.hourGlassModule
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.realm.RealmDBMigration
 
-val releaseNotes: Map<Int, Int> = mapOf(
-    27 to R.string.release_27,
-    25 to R.string.release_25,
-    24 to R.string.release_24,
-    23 to R.string.release_23,
-    22 to R.string.release_22,
-    20 to R.string.release_20,
-    19 to R.string.release_19,
-    18 to R.string.release_18,
-    16 to R.string.release_16,
-    15 to R.string.release_15,
-    14 to R.string.release_14,
-    13 to R.string.release_13,
-    12 to R.string.release_12,
-    11 to R.string.release_11,
-    10 to R.string.release_10,
-    9 to R.string.release_9,
-    8 to R.string.release_8,
-    7 to R.string.release_7,
-    6 to R.string.release_6,
-    5 to R.string.release_5,
-    4 to R.string.release_4,
-    3 to R.string.release_3,
-    2 to R.string.release_2,
-    1 to R.string.release_1
-)
-
 class HourGlassApplication : Application() {
 
     private val prefs: PreferencesManager by inject()
@@ -53,7 +26,7 @@ class HourGlassApplication : Application() {
         // Realm
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-            .schemaVersion(2L)
+            .schemaVersion(3L)
             .migration(RealmDBMigration())
             .allowWritesOnUiThread(true)
             .build()
