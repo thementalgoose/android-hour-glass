@@ -117,5 +117,16 @@
       "Tweaked settings options layout",
       "Minor theming fixes for widget flow"
     ]
+  },
+  {
+    "versionCode": 30,
+    "versionName": "3.3.0",
+    "isMajor": true,
+    "title": "Android 12 support",
+    "notes": [
+      "Adds android 12 support",
+      "Dependency updates to help support android 12",
+      "Updates release notes layout"
+    ]
   }
 ]
