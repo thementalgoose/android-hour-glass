@@ -12,8 +12,8 @@ jobs:
 
       - name: Release information
         run: |
-          echo "versionCode=$(echo `sh ./scripts/getVersionCode.sh`)" >> $GITHUB_ENV
-          echo "versionName=$(echo `sh ./scripts/getVersionName.sh`)" >> $GITHUB_ENV
+          echo "versionCode=$(echo `sh scripts/getVersionCode.sh`)" >> $GITHUB_ENV
+          echo "versionName=$(echo `sh scripts/getVersionName.sh`)" >> $GITHUB_ENV
 
       - name: Notify discord of failure
         uses: sarisia/actions-status-discord@v1
