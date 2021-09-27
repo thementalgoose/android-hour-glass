@@ -4,7 +4,40 @@ name: Release
     types: [published]
   workflow_dispatch:
 jobs:
-  build_test_deploy:
+
+  json_checker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: json-syntax-check
+        uses: limitusus/json-syntax-check@v1
+        with:
+          pattern: "\\.json$"
+
+  unit_test:
+    runs-on: ubuntu-latest
+    needs: json_checker
+    steps:
+      # Checkout
+      - uses: actions/checkout@v2
+
+      # Caching gradle
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # Unit tests
+      - name: Unit tests
+        run: ./gradlew testSandDebugUnitTest
+
+  deploy:
     runs-on: ubuntu-latest
     steps:
       # Checkout
@@ -27,10 +60,6 @@ jobs:
           echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> hour-glass.keystore
           echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
 
-      # Unit tests
-      - name: Unit tests
-        run: ./gradlew testLiveDebugUnitTest
-
       # Release
       - name: Release to internal test track
         env:
@@ -39,3 +68,37 @@ jobs:
           KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         run: ./gradlew publishLiveReleaseBundle
+
+  discord_notify:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: always()
+    steps:
+
+      - name: Release information
+        run: |
+          content=`cat releases.json`
+          echo "versionCode=$(echo `sh ./scripts/getVersionCode.sh`)" >> $GITHUB_ENV
+          echo "versionName=$(echo `sh ./scripts/getVersionName.sh`)" >> $GITHUB_ENV
+
+      - name: Notify discord of failure
+        uses: sarisia/actions-status-discord@v1
+        if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          nodetail: true
+          title: "Release ${{ env.versionName }} (${{ env.versionCode }}) deployment to internal test track failed"
+          description: "Run number ${{ github.run_number }} [Actions](https://github.com/thementalgoose/android-hour-glass/actions)"
+          color: 0xff91a4
+
+      - name: Notify discord of success
+        uses: sarisia/actions-status-discord@v1
+        if: success()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          nodetail: true
+          title: "Release ${{ env.versionName }} (${{ env.versionCode }}) deployment to internal test track successful"
+          description: "Run number ${{ github.run_number }} [Actions](https://github.com/thementalgoose/android-hour-glass/actions)"
+          color: 0x35a55f
