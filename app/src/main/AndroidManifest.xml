@@ -14,6 +14,7 @@
         android:theme="@style/LightTheme">
 
         <activity
+            android:exported="true"
             android:name="tmg.hourglass.SplashActivity"
             android:theme="@style/LightTheme.Launcher">
             <intent-filter>
@@ -33,20 +34,24 @@
 
         <activity android:name="tmg.hourglass.settings.privacy.PrivacyPolicyActivity" />
 
-        <activity android:name="tmg.components.about.AboutThisAppActivity"
+        <activity
+            android:name="tmg.components.about.AboutThisAppActivity"
             android:theme="@style/DarkTheme" />
 
         <!-- Widget -->
 
         <!-- Bar Dark -->
 
-        <activity android:name=".widget.bar.dark.WidgetBarDarkPickerActivity">
+        <activity
+            android:name=".widget.bar.dark.WidgetBarDarkPickerActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
         <receiver
+            android:exported="false"
             android:name=".widget.bar.dark.WidgetBarDarkProvider"
             android:label="@string/widget_bar_label_dark">
             <intent-filter>
@@ -59,13 +64,16 @@
 
         <!-- Bar Light -->
 
-        <activity android:name="tmg.hourglass.widget.bar.light.WidgetBarLightPickerActivity">
+        <activity
+            android:exported="true"
+            android:name="tmg.hourglass.widget.bar.light.WidgetBarLightPickerActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
         <receiver
+            android:exported="false"
             android:name="tmg.hourglass.widget.bar.light.WidgetBarLightProvider"
             android:label="@string/widget_bar_label_light">
             <intent-filter>
@@ -78,13 +86,16 @@
 
         <!-- Circle Dark -->
 
-        <activity android:name="tmg.hourglass.widget.circle.light.WidgetCircleLightPickerActivity">
+        <activity
+            android:exported="true"
+            android:name="tmg.hourglass.widget.circle.light.WidgetCircleLightPickerActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
         <receiver
+            android:exported="false"
             android:name="tmg.hourglass.widget.circle.light.WidgetCircleLightProvider"
             android:label="@string/widget_circle_label_light">
             <intent-filter>
@@ -97,13 +108,16 @@
 
         <!-- Circle Light -->
 
-        <activity android:name="tmg.hourglass.widget.circle.dark.WidgetCircleDarkPickerActivity">
+        <activity
+            android:exported="true"
+            android:name="tmg.hourglass.widget.circle.dark.WidgetCircleDarkPickerActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
         <receiver
+            android:exported="false"
             android:name="tmg.hourglass.widget.circle.dark.WidgetCircleDarkProvider"
             android:label="@string/widget_circle_label_dark">
             <intent-filter>
