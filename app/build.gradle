@@ -27,6 +27,11 @@ private static def getVersionCode() {
     return getLastNote().versionCode as Integer
 }
 
+ext {
+    generatedVersionCode = getVersionCode()
+    generatedVersionName = getVersionName()
+}
+
 
 android {
     compileSdkVersion 31
@@ -35,8 +40,8 @@ android {
         applicationId "tmg.hourglass"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode getVersionCode()
-        versionName getVersionName()
+        versionCode project.ext.generatedVersionCode
+        versionName project.ext.generatedVersionName
 
         multiDexEnabled true
 
@@ -59,7 +64,6 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            useProguard false
             firebaseCrashlytics {
                 mappingFileUploadEnabled false
             }
@@ -138,6 +142,10 @@ android {
                 }
             }
         }
+    }
+
+    packagingOptions {
+        exclude "META-INF/LICENSE*"
     }
 }
 
