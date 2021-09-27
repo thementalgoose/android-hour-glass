@@ -16,7 +16,7 @@ jobs:
         with:
           pattern: "\\.json$"
 
-  unit_test:
+  unit_tests:
     runs-on: ubuntu-latest
     needs: json_checker
     steps:
@@ -39,6 +39,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    needs: unit_tests
     steps:
       # Checkout
       - uses: actions/checkout@v2
