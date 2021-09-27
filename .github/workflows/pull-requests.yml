@@ -5,25 +5,26 @@ name: Pull Request
       - main
 jobs:
 
-  json_checker:
+  discord_test:
     runs-on: ubuntu-latest
+    if: always()
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: json-syntax-check
-        uses: limitusus/json-syntax-check@v1
-        with:
-          pattern: "\\.json$"
 
       - name: Release information
         run: |
           echo "versionCode=$(echo `sh ./scripts/getVersionCode.sh`)" >> $GITHUB_ENV
           echo "versionName=$(echo `sh ./scripts/getVersionName.sh`)" >> $GITHUB_ENV
 
-      - name: Next step
-        run: |
-          echo "Hey! ${{ env.versionName }} (${{ env.versionCode }})"
+      - name: Notify discord of failure
+        uses: sarisia/actions-status-discord@v1
+        if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          nodetail: true
+          title: "Release ${{ env.versionName }} (${{ env.versionCode }}) deployment to internal test track failed"
+          description: "Run number ${{ github.run_number }} [Actions](https://github.com/thementalgoose/android-hour-glass/actions)"
+          color: 0xff91a4
 
       - name: Notify discord of success
         uses: sarisia/actions-status-discord@v1
@@ -35,6 +36,17 @@ jobs:
           title: "Release ${{ env.versionName }} (${{ env.versionCode }}) deployment to internal test track successful"
           description: "Run number ${{ github.run_number }} [Actions](https://github.com/thementalgoose/android-hour-glass/actions)"
           color: 0x35a55f
+
+  json_checker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: json-syntax-check
+        uses: limitusus/json-syntax-check@v1
+        with:
+          pattern: "\\.json$"
 
   unit_tests:
     runs-on: ubuntu-latest
