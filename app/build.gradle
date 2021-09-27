@@ -1,4 +1,5 @@
 import com.github.triplet.gradle.androidpublisher.ResolutionStrategy
+import groovy.json.JsonSlurper
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -9,6 +10,29 @@ apply plugin: 'de.mannodermaus.android-junit5'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.github.triplet.play'
 
+apply from: rootDir.absolutePath + "/gradle/script-releasenotes.gradle"
+
+private static def getLastNote() {
+    def releaseNotes = "releases.json"
+    def json = new File(releaseNotes)
+    def parsedJson = new JsonSlurper().parseText(json.text)
+    return parsedJson[parsedJson.size - 1]
+}
+
+private static def getVersionName() {
+    return getLastNote().versionName as String
+}
+
+private static def getVersionCode() {
+    return getLastNote().versionCode as Integer
+}
+
+ext {
+    generatedVersionCode = getVersionCode()
+    generatedVersionName = getVersionName()
+}
+
+
 android {
     compileSdkVersion 31
 
@@ -16,8 +40,8 @@ android {
         applicationId "tmg.hourglass"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 27
-        versionName "3.2.3"
+        versionCode project.ext.generatedVersionCode
+        versionName project.ext.generatedVersionName
 
         multiDexEnabled true
 
@@ -40,7 +64,6 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            useProguard false
             firebaseCrashlytics {
                 mappingFileUploadEnabled false
             }
@@ -120,6 +143,10 @@ android {
             }
         }
     }
+
+    packagingOptions {
+        exclude "META-INF/LICENSE*"
+    }
 }
 
 play {
@@ -127,6 +154,13 @@ play {
     serviceAccountCredentials = file(System.getenv("PRIVATE_KEY") ?: "hour-glass.json")
     defaultToAppBundles = true
     resolutionStrategy = ResolutionStrategy.IGNORE
+}
+
+// Adds generate tasks to assemble
+tasks.whenTaskAdded { task ->
+    if (task.name.contains("assemble")) {
+        task.dependsOn generateReleaseNotes
+    }
 }
 
 dependencies {
@@ -146,7 +180,7 @@ dependencies {
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation "io.mockk:mockk:1.10.6"
     //noinspection LifecycleAnnotationProcessorWithJava8
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.3.1"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.3.1"
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:26.8.0')

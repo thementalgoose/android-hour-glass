@@ -1,0 +1,121 @@
+[
+  {
+    "versionCode": 1,
+    "versionName": "1.0.0",
+    "isMajor": true,
+    "title": "Initial release",
+    "notes": [
+      "Create \"Countdowns\" that you want to track across a given time frame",
+      "Not much more too it than that but I hope it can be useful for you"
+    ]
+  },
+  {
+    "versionCode": 2,
+    "versionName": "1.1.0",
+    "isMajor": true,
+    "title": "Formality",
+    "notes": [
+      "Added privacy policy links in the app",
+      "Usual bug fixes and improvements"
+    ]
+  },
+  {
+    "versionCode": 3,
+    "versionName": "1.2.0",
+    "isMajor": true,
+    "title": "Dark Mode",
+    "notes": [
+      "Added support for dark mode",
+      "Usual bug fixes and improvements"
+    ]
+  },
+  {
+    "versionCode": 7,
+    "versionName": "2.0.0",
+    "isMajor": true,
+    "title": "Widgets",
+    "notes": [
+      "Widget support! From your home screen see a snapshot of the current progress. Dark and light mode supported",
+      "Updated some settings wording",
+      "Updated about this app information"
+    ]
+  },
+  {
+    "versionCode": 8,
+    "versionName": "2.1.0",
+    "isMajor": false,
+    "title": "",
+    "notes": [
+      "Fixed minimum widget size for home screen on some phones",
+      "Updated dependencies"
+    ]
+  },
+  {
+    "versionCode": 9,
+    "versionName": "2.2.0",
+    "isMajor": false,
+    "title": "",
+    "notes": [
+      "Added widget update date to widgets",
+      "Added settings toggle for new widget update date to customise",
+      "Fixed some typos throughout the modify screen",
+      "Fixes days countdown type edge cases with some dates showing incorrect rounded number of days",
+      "Fixed widget label for light mode / dark mode"
+    ]
+  },
+  {
+    "versionCode": 12,
+    "versionName": "2.5.0",
+    "isMajor": false,
+    "title": "",
+    "notes": [
+      "Added yen, kg, g, l, ml, s, mm as countdown types",
+      "Added progress type switcher! Now choose between linear, accelerate, decelerate, and accelerate-decelerate progression types",
+      "Fixed theming issues in about this app section",
+      "Added temperature scales",
+      "Fixed some typos throughout the settings"
+    ]
+  },
+  {
+    "versionCode": 16,
+    "versionName": "3.0.0",
+    "isMajor": true,
+    "title": "Android R support",
+    "notes": [
+      "Supports Android R",
+      "New about this app screen",
+      "Dependency updates"
+    ]
+  },
+  {
+    "versionCode": 17,
+    "versionName": "3.1.0",
+    "isMajor": true,
+    "title": "Bye bye Lollipop",
+    "notes": [
+      "Increases minimum support version to Android Lollipop (API 23)",
+      "Adds circular progress widget!",
+      "Usual assortment of bug fixes and dependency updates"
+    ]
+  },
+  {
+    "versionCode": 22,
+    "versionName": "3.1.3",
+    "isMajor": false,
+    "title": "",
+    "notes": [
+      "Fixed edge case bug where sometimes last value in progress bar would not be accurate"
+    ]
+  },
+  {
+    "versionCode": 27,
+    "versionName": "3.2.3",
+    "isMajor": false,
+    "title": "",
+    "notes": [
+      "Adds support for colour of the progress bar for widget",
+      "Tweaked settings options layout",
+      "Minor theming fixes for widget flow"
+    ]
+  }
+]
