@@ -18,7 +18,6 @@ jobs:
 
   unit_tests:
     runs-on: ubuntu-latest
-    needs: json_checker
     steps:
       # Checkout
       - uses: actions/checkout@v2
@@ -39,7 +38,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: unit_tests
+    needs: [unit_tests,json_checker]
     steps:
       # Checkout
       - uses: actions/checkout@v2
