@@ -15,6 +15,8 @@ import tmg.hourglass.prefs.AppPreferencesManager
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.realm.connectors.RealmCountdownConnector
 import tmg.hourglass.realm.connectors.RealmWidgetConnector
+import tmg.hourglass.realm.mappers.RealmCountdownMapper
+import tmg.hourglass.realm.mappers.RealmWidgetMapper
 import tmg.hourglass.utils.ProgressUtils
 import tmg.hourglass.widget.WidgetCircleProgress
 import tmg.hourglass.widget.WidgetSquareProgress
@@ -32,7 +34,7 @@ inline fun <reified T: AppWidgetProvider> AppWidgetProvider.onUpdateCircle(
         val remoteView = RemoteViews(BuildConfig.APPLICATION_ID, layoutId)
 
         try {
-            val countdownModel = RealmWidgetConnector(RealmCountdownConnector()).getCountdownModelSync(widgetId)
+            val countdownModel = RealmWidgetConnector(RealmCountdownConnector(RealmCountdownMapper()), RealmWidgetMapper()).getCountdownModelSync(widgetId)
             if (countdownModel != null) {
 
 
@@ -70,7 +72,7 @@ inline fun <reified T: AppWidgetProvider> AppWidgetProvider.onUpdateCircle(
         intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
         val pendingIntent =
-            PendingIntent.getBroadcast(context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         remoteView.setOnClickPendingIntent(R.id.container, pendingIntent)
         appWidgetManager?.updateAppWidget(widgetId, remoteView)
     }

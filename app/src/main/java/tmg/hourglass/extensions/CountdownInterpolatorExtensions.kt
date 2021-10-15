@@ -2,7 +2,7 @@ package tmg.hourglass.extensions
 
 import android.view.animation.*
 import tmg.hourglass.R
-import tmg.hourglass.data.CountdownInterpolator
+import tmg.hourglass.domain.enums.CountdownInterpolator
 
 fun CountdownInterpolator.label(): Int {
     return when (this) {

@@ -1,4 +1,6 @@
 package tmg.hourglass.domain.model
 
-class WidgetReference {
-}
+data class WidgetReference(
+    val appWidgetId: Int,
+    val countdownId: String
+)

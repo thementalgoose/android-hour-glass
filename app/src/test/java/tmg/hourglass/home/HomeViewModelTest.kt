@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import tmg.hourglass.*
-import tmg.hourglass.data.connectors.CountdownConnector
-import tmg.hourglass.data.models.Countdown
+import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.home.HomeTab.NOW
 import tmg.hourglass.home.HomeTab.PREVIOUS
 import tmg.hourglass.testutils.*

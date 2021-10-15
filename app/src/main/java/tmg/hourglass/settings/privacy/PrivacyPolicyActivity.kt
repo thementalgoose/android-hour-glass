@@ -2,7 +2,7 @@ package tmg.hourglass.settings.privacy
 
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.databinding.ActivityPrivacyPolicyBinding

@@ -2,52 +2,76 @@ package tmg.hourglass.settings
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.viewbinding.ViewBinding
-import tmg.components.prefs.AppPreferencesAdapter
-import tmg.components.prefs.AppPreferencesItem
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import tmg.hourglass.R
 import tmg.hourglass.databinding.ElementSettingsCategoryBinding
 import tmg.hourglass.databinding.ElementSettingsPreferenceBinding
 import tmg.hourglass.databinding.ElementSettingsPreferenceSwitchBinding
 
 class SettingsAdapter(
-    prefClicked: (prefKey: String) -> Unit = { _ -> },
-    prefSwitchClicked: (prefKey: String, newState: Boolean) -> Unit = { _, _ -> }
-): AppPreferencesAdapter(prefClicked, prefSwitchClicked) {
+    private val clickPref: (model: SettingsModel) -> Unit
+): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun categoryLayoutId(viewGroup: ViewGroup) =
-        ElementSettingsCategoryBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+    var list: List<SettingsModel> = emptyList()
+        set(value) {
+            val result = DiffUtil.calculateDiff(DiffCallback(field, value))
+            field = value
+            result.dispatchUpdatesTo(this)
+        }
 
-    override fun preferenceLayoutId(viewGroup: ViewGroup) =
-        ElementSettingsPreferenceBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-
-    override fun preferenceSwitchLayoutId(viewGroup: ViewGroup) =
-        ElementSettingsPreferenceSwitchBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-
-    override fun bindCategory(binding: ViewBinding, model: AppPreferencesItem.Category) {
-        (binding as? ElementSettingsCategoryBinding)?.apply {
-            tvHeader.setText(model.title)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            R.layout.element_settings_category -> SettingsHeaderViewHolder(
+                ElementSettingsCategoryBinding.inflate(layoutInflater, parent, false)
+            )
+            R.layout.element_settings_preference -> SettingsPreferenceViewHolder(
+                ElementSettingsPreferenceBinding.inflate(layoutInflater, parent, false),
+                clickPref
+            )
+            R.layout.element_settings_preference_switch -> SettingsPreferenceSwitchViewHolder(
+                ElementSettingsPreferenceSwitchBinding.inflate(layoutInflater, parent, false),
+                clickPref,
+            )
+            else -> throw RuntimeException("View type is not supported!")
         }
     }
 
-    override fun bindPreference(binding: ViewBinding, model: AppPreferencesItem.Preference) {
-        (binding as? ElementSettingsPreferenceBinding)?.apply {
-            llMain.setOnClickListener {
-                prefClicked(model.prefKey)
-            }
-            tvTitle.setText(model.title)
-            tvDescription.setText(model.description)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (val item = list[position]) {
+            is SettingsModel.Header -> (holder as SettingsHeaderViewHolder).bind(item)
+            is SettingsModel.Pref -> (holder as SettingsPreferenceViewHolder).bind(item)
+            is SettingsModel.SwitchPref -> (holder as SettingsPreferenceSwitchViewHolder).bind(item)
         }
     }
 
-    override fun bindPreferenceSwitch(binding: ViewBinding, model: AppPreferencesItem.SwitchPreference) {
-        (binding as? ElementSettingsPreferenceSwitchBinding)?.apply {
-            llPrefSwitchMain.setOnClickListener {
-                switchChecked(model.prefKey, !model.isChecked)
-            }
+    override fun getItemCount() = list.size
 
-            tvPrefSwitchTitle.setText(model.title)
-            tvPrefSwitchDesc.setText(model.description)
-            checkbox.isChecked = model.isChecked
+    override fun getItemViewType(position: Int) = list[position].layoutId
+
+    inner class DiffCallback(
+        private val oldList: List<SettingsModel>,
+        private val newList: List<SettingsModel>
+    ): DiffUtil.Callback() {
+        override fun getOldListSize() = oldList.size
+
+        override fun getNewListSize() = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].id == newList[newItemPosition].id
         }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return areItemsTheSame(oldItemPosition, newItemPosition) &&
+                    areContentsTheSameSwitch(oldItemPosition, newItemPosition)
+        }
+
+        private fun areContentsTheSameSwitch(old: Int, new: Int): Boolean {
+            val oldItem = oldList[old] as? SettingsModel.SwitchPref
+            val newItem = newList[new] as? SettingsModel.SwitchPref
+            return oldItem == null || newItem == null || oldItem.initialState == newItem.initialState
+        }
+
     }
 }

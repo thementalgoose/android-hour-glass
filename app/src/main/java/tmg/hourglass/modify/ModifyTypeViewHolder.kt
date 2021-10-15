@@ -3,8 +3,8 @@ package tmg.hourglass.modify
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import tmg.hourglass.R
-import tmg.hourglass.data.CountdownInterpolator
-import tmg.hourglass.data.CountdownType
+import tmg.hourglass.domain.enums.CountdownInterpolator
+import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.databinding.ElementModifyTypeBinding
 import tmg.hourglass.extensions.label
 import tmg.hourglass.utils.Selected

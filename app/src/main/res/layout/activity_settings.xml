@@ -24,7 +24,7 @@
                 android:background="@null"
                 android:foreground="@drawable/rounded_ripple"
                 android:src="@drawable/ic_back"
-                android:tint="?attr/pTextPrimary"
+                app:tint="?attr/pTextPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,8 +44,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSettings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false" />
 
         </LinearLayout>

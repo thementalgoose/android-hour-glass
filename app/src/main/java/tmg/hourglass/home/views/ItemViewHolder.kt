@@ -5,15 +5,14 @@ import android.view.View
 import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import tmg.hourglass.R
-import tmg.hourglass.data.models.Countdown
+import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.databinding.ElementCountdownItemBinding
-import tmg.hourglass.extensions.format
 import tmg.hourglass.home.HomeItemAction
 import tmg.hourglass.home.HomeItemType
 import tmg.hourglass.utils.ProgressUtils.Companion.getProgress
+import tmg.utilities.extensions.format
 import tmg.utilities.extensions.fromHtml
 import tmg.utilities.extensions.getColor
-import tmg.utilities.extensions.toDecimalPlacesString
 import tmg.utilities.extensions.views.show
 import kotlin.math.floor
 

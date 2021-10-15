@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
-import tmg.hourglass.data.CountdownInterpolator.LINEAR
+import tmg.hourglass.domain.enums.CountdownInterpolator.LINEAR
 import tmg.hourglass.extensions.millis
 import tmg.hourglass.utils.ProgressUtils.Companion.getProgress
 

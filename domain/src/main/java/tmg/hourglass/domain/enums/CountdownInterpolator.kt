@@ -1,4 +1,10 @@
 package tmg.hourglass.domain.enums
 
-class CountdownInterpolator {
+enum class CountdownInterpolator(
+    val key: String
+) {
+    LINEAR("linear"),
+    ACCELERATE("accelerate"),
+    DECELERATE("decelerate"),
+    ACCELERATE_DECELERATE("accelerateDecelerate")
 }

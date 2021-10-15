@@ -2,7 +2,7 @@ package tmg.hourglass.utils
 
 import android.view.animation.Interpolator
 import org.threeten.bp.LocalDateTime
-import tmg.hourglass.data.CountdownInterpolator
+import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.extensions.millis
 import tmg.hourglass.extensions.valueInterpolator
 

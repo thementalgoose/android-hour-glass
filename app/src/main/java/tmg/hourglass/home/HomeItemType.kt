@@ -3,7 +3,7 @@ package tmg.hourglass.home
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import tmg.hourglass.R
-import tmg.hourglass.data.models.Countdown
+import tmg.hourglass.domain.model.Countdown
 
 enum class HomeItemAction(
     @DrawableRes val id: Int

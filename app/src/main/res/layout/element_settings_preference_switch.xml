@@ -23,6 +23,7 @@
         android:paddingTop="@dimen/paddingSmall"
         android:paddingEnd="@dimen/paddingSmall"
         android:paddingBottom="@dimen/paddingSmall"
+        app:buttonTint="?attr/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@id/tvPrefSwitchDesc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvPrefSwitchTitle"
