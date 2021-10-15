@@ -11,10 +11,10 @@ import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.connectors.WidgetConnector
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.home.HomeItemType
-import tmg.hourglass.testutils.BaseTest
-import tmg.hourglass.testutils.assertDataEventValue
-import tmg.hourglass.testutils.test
-import tmg.hourglass.testutils.testObserve
+import tmg.testutils.BaseTest
+import tmg.testutils.livedata.assertDataEventValue
+import tmg.testutils.livedata.test
+import tmg.testutils.livedata.testObserve
 
 internal class ItemWidgetPickerViewModelTest: BaseTest() {
 

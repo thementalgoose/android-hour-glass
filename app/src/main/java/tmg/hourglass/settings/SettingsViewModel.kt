@@ -83,6 +83,7 @@ class SettingsViewModel(
 
     override val list: MutableLiveData<List<SettingsModel>> = MutableLiveData(getModels())
 
+    var modelList: List<SettingsModel> = getModels()
     private fun getModels() = mutableListOf<SettingsModel>().apply {
         add(SettingsModel.Header(R.string.settings_theme))
         add(SettingsModel.Pref(
@@ -227,11 +228,9 @@ class SettingsViewModel(
 
     override fun clickDeleteAll() {
         countdownConnector.deleteAll()
-        deletedAll.value = Event()
     }
 
     override fun clickDeleteDone() {
         countdownConnector.deleteDone()
-        deletedDone.value = Event()
     }
 }

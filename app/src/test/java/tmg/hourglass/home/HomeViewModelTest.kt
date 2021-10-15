@@ -11,7 +11,11 @@ import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.home.HomeTab.NOW
 import tmg.hourglass.home.HomeTab.PREVIOUS
-import tmg.hourglass.testutils.*
+import tmg.testutils.BaseTest
+import tmg.testutils.livedata.assertDataEventValue
+import tmg.testutils.livedata.assertEventFired
+import tmg.testutils.livedata.test
+import tmg.testutils.livedata.testObserve
 
 internal class HomeViewModelTest: BaseTest() {
 

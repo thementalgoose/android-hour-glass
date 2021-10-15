@@ -45,15 +45,15 @@ enum class CountdownType(
     ),
     KILOGRAMS(
         key = "KILOGRAMS",
-        converter = { "${it}kg"}
+        converter = { "${it}kg" }
     ),
     GRAMS(
         key = "GRAMS",
-        converter = { "${it}g"}
+        converter = { "${it}g" }
     ),
     LITRES(
         key = "LITRES",
-        converter = { "${it}ml"}
+        converter = { "${it}l" }
     ),
     MILLILITRES(
         key = "MILLILITRES",
