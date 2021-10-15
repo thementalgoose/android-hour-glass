@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.CsvSource
 
 internal class CountdownTypeTest {
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "Countdown type of {0} converts {1} to {2}")
     @CsvSource(
         "NUMBER,1,1",
         "DAYS,1,1 days",
