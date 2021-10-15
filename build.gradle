@@ -42,6 +42,14 @@ allprojects {
     }
 }
 
+task testModules {
+    dependsOn ':app:testSandDebugUnitTest',
+            ':realm:testDebugUnitTest',
+            ':domain:testDebugUnitTest',
+            'clean'
+    print "Tests passed successfully!"
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
