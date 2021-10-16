@@ -119,8 +119,8 @@
     ]
   },
   {
-    "versionCode": 32,
-    "versionName": "3.3.2",
+    "versionCode": 34,
+    "versionName": "3.3.4",
     "isMajor": true,
     "title": "Android 12 support",
     "notes": [
