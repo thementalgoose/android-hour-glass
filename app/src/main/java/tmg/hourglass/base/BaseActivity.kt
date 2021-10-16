@@ -13,18 +13,6 @@ abstract class BaseActivity: AppCompatActivity() {
     val prefs: PreferencesManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        when (prefs.theme) {
-            ThemePref.LIGHT -> setTheme(R.style.LightTheme)
-            ThemePref.AUTO -> {
-                if (isInDayMode()) {
-                    setTheme(R.style.LightTheme)
-                }
-                else {
-                    setTheme(R.style.DarkTheme)
-                }
-            }
-            ThemePref.DARK -> setTheme(R.style.DarkTheme)
-        }
         super.onCreate(savedInstanceState)
     }
 }

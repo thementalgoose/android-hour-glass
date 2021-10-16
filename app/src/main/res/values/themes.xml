@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <!-- Customize your theme here. -->
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
+        <item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen</item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
+
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#AD1457</item>
+        <item name="colorPrimaryDark">?attr/pBackgroundPrimary</item>
+        <item name="colorAccent">#AD1457</item>
+
+        <item name="colorPrimaryAlpha">#44AD1457</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <item name="pTextPrimary">#181818</item>
+        <item name="pTextSecondary">#383838</item>
+        <item name="pTextInversePrimary">#fbfbfb</item>
+        <item name="pTextInverseSecondary">#e8e8e8</item>
+
+        <item name="pBackgroundPrimary">#ffffff</item>
+        <item name="pBackgroundSecondary">#f8f8f8</item>
+        <item name="pBackgroundInversePrimary">#181818</item>
+        <item name="pBackgroundInverseSecondary">#383838</item>
+
+        <item name="pEditTextBackground">#e8e8e8</item>
+
+    </style>
+
+    <style name="AppTheme.AboutThisApp" parent="AppTheme">
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimaryDark">@color/brand_dark</item>
+
+        <item name="aboutThisApp_header">@color/brand_dark</item>
+        <item name="aboutThisApp_textPrimary">#181818</item>
+        <item name="aboutThisApp_textSecondary">#383838</item>
+        <item name="aboutThisApp_textToolbar">#f8f8f8</item>
+        <item name="aboutThisApp_iconPrimary">?attr/aboutThisApp_textPrimary</item>
+        <item name="aboutThisApp_backgroundPrimary">#fbfbfb</item>
+        <item name="aboutThisApp_backgroundSecondary">#f2f2f2</item>
+
+    </style>
+
+</resources>

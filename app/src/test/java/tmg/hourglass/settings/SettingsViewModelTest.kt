@@ -3,19 +3,20 @@ package tmg.hourglass.settings
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import tmg.components.prefs.AppPreferencesItem
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
-import tmg.hourglass.data.connectors.CountdownConnector
+import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.prefs.PreferencesManager
+import tmg.hourglass.prefs.ThemePref
 import tmg.hourglass.prefs.ThemePref.DARK
 import tmg.hourglass.prefs.ThemePref.LIGHT
 import tmg.hourglass.testutils.*
-import tmg.hourglass.testutils.assertEventFired
-import tmg.hourglass.testutils.test
-import tmg.hourglass.testutils.testObserve
+import tmg.testutils.BaseTest
+import tmg.testutils.livedata.assertEventFired
+import tmg.testutils.livedata.test
 
 internal class SettingsViewModelTest: BaseTest() {
 
@@ -24,136 +25,219 @@ internal class SettingsViewModelTest: BaseTest() {
     private val mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
     private val mockPreferenceManager: PreferencesManager = mockk(relaxed = true)
 
-    private val keyTheme: String = "theme_app"
-    private val keyKeepInNow: String = "keep_in_now"
-    private val keyDeleteAll: String = "delete_all"
-    private val keyDeleteDone: String = "delete_done"
-    private val keyWidgetsRefresh: String = "widget_refresh"
-    private val keyWidgetsUpdated: String = "widget_updated"
-    private val keyHelpAbout: String = "help_about"
-    private val keyHelpReview: String = "help_review"
-    private val keyHelpRelease: String = "help_release"
-    private val keyFeedbackCrash: String = "feedback_crash_reporting"
-    private val keyFeedbackAnalytics: String = "feedback_analytics"
-    private val keyFeedbackSuggestions: String = "feedback_suggestions"
-    private val keyFeedbackShake: String = "feedback_shake"
-    private val keyPrivacyPolicy: String = "privacy_policy"
-
-
-    private var expectedList: List<AppPreferencesItem> = listOf(
-        AppPreferencesItem.Category(R.string.settings_theme),
-        AppPreferencesItem.Preference(
-            prefKey = keyTheme,
-            title = R.string.settings_theme_theme_title,
-            description = R.string.settings_theme_theme_description
-        ),
-
-        AppPreferencesItem.Category(R.string.settings_widgets),
-        AppPreferencesItem.Preference(
-            prefKey = keyWidgetsRefresh,
-            title = R.string.settings_widgets_refresh_title,
-            description = R.string.settings_widgets_refresh_description
-        ),
-        AppPreferencesItem.SwitchPreference(
-            prefKey = keyWidgetsUpdated,
-            title = R.string.settings_widgets_updated_title,
-            description = R.string.settings_widgets_updated_description,
-            isChecked = false
-        ),
-
-        AppPreferencesItem.Category(R.string.settings_reset),
-        AppPreferencesItem.Preference(
-            prefKey = keyDeleteAll,
-            title = R.string.settings_reset_all_title,
-            description = R.string.settings_reset_all_description
-        ),
-        AppPreferencesItem.Preference(
-            prefKey = keyDeleteDone,
-            title = R.string.settings_reset_done_title,
-            description = R.string.settings_reset_done_description
-        ),
-
-        AppPreferencesItem.Category(R.string.settings_help),
-        AppPreferencesItem.Preference(
-            prefKey = keyHelpAbout,
-            title = R.string.settings_help_about_title,
-            description = R.string.settings_help_about_description
-        ),
-        AppPreferencesItem.Preference(
-            prefKey = keyHelpReview,
-            title = R.string.settings_help_review_title,
-            description = R.string.settings_help_review_description
-        ),
-        AppPreferencesItem.Preference(
-            prefKey = keyHelpRelease,
-            title = R.string.settings_help_release_notes_title,
-            description = R.string.settings_help_release_notes_description
-        ),
-
-        AppPreferencesItem.Category(R.string.settings_feedback),
-        AppPreferencesItem.Preference(
-            prefKey = keyFeedbackSuggestions,
-            title = R.string.settings_help_suggestions_title,
-            description = R.string.settings_help_suggestions_description
-        ),
-        AppPreferencesItem.SwitchPreference(
-            prefKey = keyFeedbackCrash,
-            title = R.string.settings_help_crash_reporting_title,
-            description = R.string.settings_help_crash_reporting_description,
-            isChecked = false
-        ),
-        AppPreferencesItem.SwitchPreference(
-            prefKey = keyFeedbackAnalytics,
-            title = R.string.settings_help_analytics_title,
-            description = R.string.settings_help_analytics_description,
-            isChecked = false
-        ),
-        AppPreferencesItem.SwitchPreference(
-            prefKey = keyFeedbackShake,
-            title = R.string.settings_help_shake_to_report_title,
-            description = R.string.settings_help_shake_to_report_description,
-            isChecked = false
-        ),
-
-        AppPreferencesItem.Category(R.string.settings_privacy),
-        AppPreferencesItem.Preference(
-            prefKey = keyPrivacyPolicy,
-            title = R.string.settings_help_privacy_policy_title,
-            description = R.string.settings_help_privacy_policy_description
-        )
+    private val expectedList = listOf(
+        Pair(R.string.settings_theme, null),
+        Pair(R.string.settings_theme_theme_title, R.string.settings_theme_theme_description),
+        Pair(R.string.settings_widgets, null),
+        Pair(R.string.settings_widgets_refresh_title, R.string.settings_widgets_refresh_description),
+        Pair(R.string.settings_widgets_updated_title, R.string.settings_widgets_updated_description),
+        Pair(R.string.settings_reset, null),
+        Pair(R.string.settings_reset_all_title, R.string.settings_reset_all_description),
+        Pair(R.string.settings_reset_done_title, R.string.settings_reset_done_description),
+        Pair(R.string.settings_help, null),
+        Pair(R.string.settings_help_about_title, R.string.settings_help_about_description),
+        Pair(R.string.settings_help_review_title, R.string.settings_help_review_description),
+        Pair(R.string.settings_help_release_notes_title, R.string.settings_help_release_notes_description),
+        Pair(R.string.settings_feedback, null),
+        Pair(R.string.settings_help_suggestions_title, R.string.settings_help_suggestions_description),
+        Pair(R.string.settings_help_crash_reporting_title, R.string.settings_help_crash_reporting_description),
+        Pair(R.string.settings_help_analytics_title, R.string.settings_help_analytics_description),
+        Pair(R.string.settings_help_shake_to_report_title, R.string.settings_help_shake_to_report_description),
+        Pair(R.string.settings_privacy, null),
+        Pair(R.string.settings_help_privacy_policy_title, R.string.settings_help_privacy_policy_description)
     )
 
     private fun initSUT() {
         sut = SettingsViewModel(mockCountdownConnector, mockPreferenceManager)
     }
 
-    @Test
-    fun `SettingsViewModel initial list of settings is emitted with all set to false`() {
-
-        initSUT()
-
-        sut.outputs.list.test {
-            assertValue(expectedList)
-        }
+    @BeforeEach
+    internal fun setUp() {
+        every { mockPreferenceManager.theme } returns ThemePref.DARK
+        every { mockPreferenceManager.widgetShowUpdate } returns false
+        every { mockPreferenceManager.analyticsEnabled } returns false
+        every { mockPreferenceManager.crashReporting } returns false
+        every { mockPreferenceManager.shakeToReport } returns false
     }
 
     @Test
-    fun `SettingsViewModel theme preference is set to the value set in shared prefs`() {
-
-        every { mockPreferenceManager.theme } returns DARK
-
+    fun `initialising the VM sets default theme to pref value`() {
+        every { mockPreferenceManager.theme } returns ThemePref.DARK
         initSUT()
-
-        sut.outputs.themeSelected.test {
+        sut.outputs.currentThemePref.test {
             assertValue(DARK)
         }
     }
 
     @Test
-    fun `SettingsViewModel clicking back event emits back behavior`() {
+    fun `initial settings list is expected`() {
+        initSUT()
+        sut.outputs.list.test {
+            latestValue!!.assertExpectedOrder(expectedList)
+        }
+    }
+
+    @Test
+    fun `clicking setting for pref model invokes onclick`() {
+        var invoker = 0
+        val mockSetting = SettingsModel.Pref(
+            title = 0,
+            description = 0,
+            onClick = {
+                invoker += 1
+            }
+        )
 
         initSUT()
 
+        sut.clickSetting(mockSetting)
+
+        assertEquals(1, invoker)
+    }
+
+    @Test
+    fun `clicking setting for switch pref model inverts state`() {
+        var invoker = 0
+        val mockSetting = SettingsModel.SwitchPref(
+            title = 0,
+            description = 0,
+            getState = { false },
+            saveState = { if (it) invoker += 1 }
+
+        )
+
+        initSUT()
+
+        sut.clickSetting(mockSetting)
+
+        assertEquals(1, invoker)
+    }
+
+
+    @Test
+    fun `clicking theme app pref opens theme event`() {
+        initSUT()
+        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_theme_theme_title))
+        sut.openTheme.test {
+            assertEventFired()
+        }
+    }
+
+    @Test
+    fun `clicking refresh widgets updates widget event`() {
+        initSUT()
+        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_widgets_refresh_title))
+        sut.updateWidget.test {
+            assertEventFired()
+        }
+    }
+
+    @Test
+    fun `clicking show date time in widgets updates widget event and updates pref value`() {
+        initSUT()
+        sut.clickSetting(sut.list.value!!.findSwitch(R.string.settings_widgets_updated_title))
+        verify {
+            mockPreferenceManager.widgetShowUpdate = true
+        }
+        sut.updateWidget.test {
+            assertEventFired()
+        }
+    }
+
+    @Test
+    fun `clicking reset all fires delete all event`() {
+        initSUT()
+        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_reset_all_title))
+        sut.deletedAll.test {
+            assertEventFired()
+        }
+    }
+
+    @Test
+    fun `clicking reset done fires delete done event`() {
+        initSUT()
+        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_reset_done_title))
+        sut.deletedDone.test {
+            assertEventFired()
+        }
+    }
+
+    @Test
+    fun `clicking review fires open review event`() {
+        initSUT()
+        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_help_review_title))
+        sut.openReview.test {
+            assertEventFired()
+        }
+    }
+
+    @Test
+    fun `clicking release notes fires open release notes event`() {
+        initSUT()
+        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_help_release_notes_title))
+        sut.openReleaseNotes.test {
+            assertEventFired()
+        }
+    }
+
+    @Test
+    fun `clicking suggestions fires open suggestions event`() {
+        initSUT()
+        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_help_suggestions_title))
+        sut.openSuggestions.test {
+            assertEventFired()
+        }
+    }
+
+    @Test
+    fun `clicking crash reporting fires open event`() {
+        initSUT()
+        sut.clickSetting(sut.list.value!!.findSwitch(R.string.settings_help_crash_reporting_title))
+        verify {
+            mockPreferenceManager.crashReporting = true
+        }
+        sut.crashReporting.test {
+            assertValue(Pair(first = true, second = false))
+        }
+    }
+
+    @Test
+    fun `clicking analytics fires open event`() {
+        initSUT()
+        sut.clickSetting(sut.list.value!!.findSwitch(R.string.settings_help_analytics_title))
+        verify {
+            mockPreferenceManager.analyticsEnabled = true
+        }
+        sut.analyticsReporting.test {
+            assertValue(Pair(first = true, second = false))
+        }
+    }
+
+    @Test
+    fun `clicking shake to report fires open event`() {
+        initSUT()
+        sut.clickSetting(sut.list.value!!.findSwitch(R.string.settings_help_shake_to_report_title))
+        verify {
+            mockPreferenceManager.shakeToReport = true
+        }
+        sut.shakeToReport.test {
+            assertValue(Pair(first = true, second = false))
+        }
+    }
+
+    @Test
+    fun `clicking privacy policy fires open event`() {
+        initSUT()
+        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_help_privacy_policy_title))
+        sut.privacyPolicy.test {
+            assertEventFired()
+        }
+    }
+
+
+    @Test
+    fun `clicking back fires go back event`() {
+        initSUT()
         sut.inputs.clickBack()
 
         sut.outputs.goBack.test {
@@ -162,176 +246,37 @@ internal class SettingsViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `SettingsViewModel delete all emits deletion event and calls delete all in connector`() {
-
+    fun `clicking theme updates pref`() {
         initSUT()
-
-        sut.inputs.clickDeleteAll()
-
-        verify { mockCountdownConnector.deleteAll() }
-        sut.outputs.deletedAll.test {
-            assertEventFired()
-        }
-    }
-
-    @Test
-    fun `SettingsViewModel delete done emits deletion event and calls delete done in connector`() {
-
-        initSUT()
-
-        sut.inputs.clickDeleteDone()
-
-        verify { mockCountdownConnector.deleteDone() }
-        sut.outputs.deletedDone.test {
-            assertEventFired()
-        }
-    }
-
-    @Test
-    fun `SettingsViewModel clicking a theme triggers theme updates`() {
-
-        every { mockPreferenceManager.theme } returns DARK
-
-        initSUT()
-
         sut.inputs.clickTheme(LIGHT)
 
-        sut.outputs.themeSelected.test {
-            assertValue(LIGHT)
-        }
-        sut.outputs.themeUpdated.test {
-            assertEventFired()
-        }
         verify {
             mockPreferenceManager.theme = LIGHT
         }
+        sut.outputs.currentThemePref.test {
+            assertValue(LIGHT)
+        }
     }
 
+
     @Test
-    fun `SettingsViewModel clicking widget update interacts with pref`() {
-
-        every { mockPreferenceManager.widgetShowUpdate } returns false
-
+    fun `clicking delete all deletes all items`() {
         initSUT()
-
-        sut.inputs.clickWidgetUpdate(true)
+        sut.inputs.clickDeleteAll()
 
         verify {
-            mockPreferenceManager.widgetShowUpdate = true
+            mockCountdownConnector.deleteAll()
         }
     }
 
-    @Test
-    fun `SettingsViewModel clicking about fires about event`() {
-
-        initSUT()
-
-        sut.inputs.clickAbout()
-
-        sut.outputs.openAbout.test {
-            assertEventFired()
-        }
-    }
 
     @Test
-    fun `SettingsViewModel clicking review fires review event`() {
-
+    fun `clicking delete done deletes the done items`() {
         initSUT()
+        sut.inputs.clickDeleteDone()
 
-        sut.inputs.clickReview()
-
-        sut.outputs.openReview.test {
-            assertDataEventValue("https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID)
-        }
-    }
-
-    @Test
-    fun `SettingsViewModel clicking release notes fires release event`() {
-
-        initSUT()
-
-        sut.inputs.clickReleaseNotes()
-
-        sut.outputs.openReleaseNotes.test {
-            assertEventFired()
-        }
-    }
-
-    @Test
-    fun `SettingsViewModel crash reporting initial value has show update to be false, clicking it shows crash reportings banner`() {
-
-        every { mockPreferenceManager.crashReporting } returns false
-
-        initSUT()
-
-        val crashReportingObserver = sut.outputs.crashReporting.testObserve()
-
-        crashReportingObserver.assertValue(Pair(false, second = false))
-
-        every { mockPreferenceManager.crashReporting } returns true
-        sut.inputs.clickCrashReporting(true)
-        verify { mockPreferenceManager.crashReporting = true }
-
-        crashReportingObserver.assertValue(Pair(true, second = true))
-    }
-
-    @Test
-    fun `SettingsViewModel analytics initial value has show update to be false, clicking it shows analytics banner`() {
-
-        every { mockPreferenceManager.analyticsEnabled } returns false
-
-        initSUT()
-
-        val crashReportingObserver = sut.outputs.analyticsReporting.testObserve()
-
-        crashReportingObserver.assertValue(Pair(false, second = false))
-
-        every { mockPreferenceManager.analyticsEnabled } returns true
-        sut.inputs.clickAnalytics(true)
-        verify { mockPreferenceManager.analyticsEnabled = true }
-
-        crashReportingObserver.assertValue(Pair(true, second = true))
-    }
-
-    @Test
-    fun `SettingsViewModel click suggestions fires open suggestions event`() {
-
-        initSUT()
-
-        sut.inputs.clickSuggestions()
-
-        sut.outputs.openSuggestions.test {
-            assertEventFired()
-        }
-    }
-
-    @Test
-    fun `SettingsViewModel shake to report initial value has show update to be false, clicking it shows shake to report banner`() {
-
-        every { mockPreferenceManager.shakeToReport } returns false
-
-        initSUT()
-
-        val shakeToReportObserver = sut.outputs.shakeToReport.testObserve()
-
-        shakeToReportObserver.assertValue(Pair(false, second = false))
-
-        every { mockPreferenceManager.shakeToReport } returns true
-        sut.inputs.clickShakeToReport(true)
-        verify { mockPreferenceManager.shakeToReport = true }
-
-        shakeToReportObserver.assertValue(Pair(true, second = true))
-    }
-
-    @Test
-    fun `SettingsViewModel click privacy policy fires open privacy policy event`() {
-
-        initSUT()
-
-        sut.inputs.clickPrivacyPolicy()
-
-        sut.outputs.privacyPolicy.test {
-            assertEventFired()
+        verify {
+            mockCountdownConnector.deleteDone()
         }
     }
 }

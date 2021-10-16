@@ -41,7 +41,11 @@
         <entry key="../../../../layout/compose-model-1628195546744.xml" value="0.4641047297297297" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.2261904761904762" />
         <entry key="app/src/main/res/layout/activity_release_notes.xml" value="0.254981884057971" />
+        <entry key="app/src/main/res/layout/activity_settings.xml" value="0.16261398176291794" />
         <entry key="app/src/main/res/layout/element_release_notes.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/element_settings_category.xml" value="0.15881458966565348" />
+        <entry key="app/src/main/res/layout/element_settings_preference.xml" value="0.26570415400202635" />
+        <entry key="app/src/main/res/layout/element_settings_preference_switch.xml" value="0.1935185185185185" />
         <entry key="app/src/main/res/menu/home.xml" value="0.46979166666666666" />
       </map>
     </option>

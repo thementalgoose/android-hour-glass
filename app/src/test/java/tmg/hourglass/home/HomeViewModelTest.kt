@@ -7,11 +7,15 @@ import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import tmg.hourglass.*
-import tmg.hourglass.data.connectors.CountdownConnector
-import tmg.hourglass.data.models.Countdown
+import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.home.HomeTab.NOW
 import tmg.hourglass.home.HomeTab.PREVIOUS
-import tmg.hourglass.testutils.*
+import tmg.testutils.BaseTest
+import tmg.testutils.livedata.assertDataEventValue
+import tmg.testutils.livedata.assertEventFired
+import tmg.testutils.livedata.test
+import tmg.testutils.livedata.testObserve
 
 internal class HomeViewModelTest: BaseTest() {
 

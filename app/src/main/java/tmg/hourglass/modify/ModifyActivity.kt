@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
@@ -20,8 +20,8 @@ import petrov.kristiyan.colorpicker.ColorPicker
 import petrov.kristiyan.colorpicker.ColorPicker.OnFastChooseColorListener
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
-import tmg.hourglass.data.CountdownInterpolator
-import tmg.hourglass.data.CountdownType
+import tmg.hourglass.domain.enums.CountdownInterpolator
+import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.databinding.ActivityModifyBinding
 import tmg.hourglass.extensions.*
 import tmg.utilities.bottomsheet.BottomSheetFader

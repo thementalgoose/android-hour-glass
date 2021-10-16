@@ -9,19 +9,19 @@ import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
-import androidx.core.graphics.toColorInt
 import io.realm.exceptions.RealmMigrationNeededException
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
-import tmg.hourglass.extensions.format
 import tmg.hourglass.prefs.AppPreferencesManager
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.realm.connectors.RealmCountdownConnector
 import tmg.hourglass.realm.connectors.RealmWidgetConnector
+import tmg.hourglass.realm.mappers.RealmCountdownMapper
+import tmg.hourglass.realm.mappers.RealmWidgetMapper
 import tmg.hourglass.utils.ProgressUtils
 import tmg.hourglass.widget.WidgetBarColours
-import tmg.hourglass.widget.setProgressBarColor
+import tmg.utilities.extensions.format
 import kotlin.math.floor
 
 inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdateBar(
@@ -37,7 +37,7 @@ inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdateBar(
         val remoteView = RemoteViews(BuildConfig.APPLICATION_ID, layoutId)
 
         try {
-            val countdownModel = RealmWidgetConnector(RealmCountdownConnector()).getCountdownModelSync(widgetId)
+            val countdownModel = RealmWidgetConnector(RealmCountdownConnector(RealmCountdownMapper()), RealmWidgetMapper()).getCountdownModelSync(widgetId)
             if (countdownModel != null) {
                 remoteView.setTextViewText(R.id.title, countdownModel.name)
 
@@ -93,7 +93,7 @@ inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdateBar(
         intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
         val pendingIntent =
-            PendingIntent.getBroadcast(context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         remoteView.setOnClickPendingIntent(R.id.container, pendingIntent)
         appWidgetManager?.updateAppWidget(widgetId, remoteView)
     }

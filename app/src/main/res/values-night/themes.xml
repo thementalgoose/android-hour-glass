@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <!-- Customize your theme here. -->
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
+        <item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen</item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
+
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#AD1457</item>
+        <item name="colorPrimaryDark">?attr/pBackgroundPrimary</item>
+        <item name="colorAccent">#AD1457</item>
+
+        <item name="colorPrimaryAlpha">#44AD1457</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">?attr/pBackgroundPrimary</item>
+        <item name="android:windowLightNavigationBar">false</item>
+
+        <item name="pTextPrimary">#fbfbfb</item>
+        <item name="pTextSecondary">#e8e8e8</item>
+        <item name="pTextInversePrimary">#181818</item>
+        <item name="pTextInverseSecondary">#383838</item>
+
+        <item name="pBackgroundPrimary">#181818</item>
+        <item name="pBackgroundSecondary">#383838</item>
+        <item name="pBackgroundInversePrimary">#ffffff</item>
+        <item name="pBackgroundInverseSecondary">#f8f8f8</item>
+
+        <item name="pEditTextBackground">#282828</item>
+
+    </style>
+
+    <style name="AppTheme.AboutThisApp" parent="AppTheme">
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimaryDark">@color/brand_dark</item>
+
+        <item name="aboutThisApp_header">@color/brand_dark</item>
+        <item name="aboutThisApp_textPrimary">#f8f8f8</item>
+        <item name="aboutThisApp_textSecondary">#e8e8e8</item>
+        <item name="aboutThisApp_textToolbar">#f8f8f8</item>
+        <item name="aboutThisApp_iconPrimary">?attr/aboutThisApp_textPrimary</item>
+        <item name="aboutThisApp_backgroundPrimary">#181818</item>
+        <item name="aboutThisApp_backgroundSecondary">#383838</item>
+
+    </style>
+
+</resources>

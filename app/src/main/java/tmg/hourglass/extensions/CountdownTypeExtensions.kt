@@ -1,7 +1,7 @@
 package tmg.hourglass.extensions
 
 import tmg.hourglass.R
-import tmg.hourglass.data.CountdownType
+import tmg.hourglass.domain.enums.CountdownType
 
 fun CountdownType.label(): Int {
     return when (this) {

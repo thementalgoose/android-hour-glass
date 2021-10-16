@@ -1,0 +1,67 @@
+apply plugin: 'de.mannodermaus.android-junit5'
+
+android {
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        androidTest.resources.srcDirs += 'src/androidTest/res'
+        test.java.srcDirs += 'src/test/java'
+    }
+
+    testOptions {
+        junitPlatform {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+            }
+        }
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+            all {
+                afterSuite { desc, result ->
+                    if (!desc.parent) {
+                        println "\n======================================================================="
+                        println "${desc.displayName}"
+                        println "Test result: ${result.resultType}"
+                        println "Test summary: ${result.testCount} tests, " +
+                                "${result.successfulTestCount} succeeded, " +
+                                "${result.failedTestCount} failed, " +
+                                "${result.skippedTestCount} skipped"
+                        println "======================================================================="
+                    }
+                }
+                useJUnitPlatform()
+                testLogging {
+                    showStandardStreams = true
+                    events "passed", "skipped", "failed", "standardOut", "standardError"
+                }
+            }
+        }
+    }
+}
+
+tasks.withType(Test) {
+    testLogging {
+        exceptionFormat 'full'
+        showCauses true
+        showExceptions true
+        showStackTraces true
+        showStandardStreams true
+    }
+}
+
+dependencies {
+    testImplementation depsTest.junit5.api
+    testImplementation depsTest.junit5.engine
+    testImplementation depsTest.junit5.params
+    testRuntimeOnly depsTest.junit5.engine
+
+    testImplementation depsTest.mockk
+
+    testImplementation depsTest.tmg.testutils
+
+    testImplementation depsTest.androidx.core
+    testImplementation depsTest.androidx.core_testing
+    kaptTest depsTest.androidx.lifecycle
+}

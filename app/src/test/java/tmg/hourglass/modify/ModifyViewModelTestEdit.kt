@@ -7,17 +7,17 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.crash.CrashReporter
-import tmg.hourglass.data.CountdownInterpolator
-import tmg.hourglass.data.CountdownInterpolator.LINEAR
-import tmg.hourglass.data.CountdownType
-import tmg.hourglass.data.CountdownType.DAYS
-import tmg.hourglass.data.connectors.CountdownConnector
-import tmg.hourglass.data.models.Countdown
-import tmg.hourglass.testutils.BaseTest
-import tmg.hourglass.testutils.assertDataEventValue
-import tmg.hourglass.testutils.assertEventFired
-import tmg.hourglass.testutils.test
+import tmg.hourglass.domain.enums.CountdownInterpolator
+import tmg.hourglass.domain.enums.CountdownInterpolator.LINEAR
+import tmg.hourglass.domain.enums.CountdownType
+import tmg.hourglass.domain.enums.CountdownType.DAYS
+import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.utils.Selected
+import tmg.testutils.BaseTest
+import tmg.testutils.livedata.assertDataEventValue
+import tmg.testutils.livedata.assertEventFired
+import tmg.testutils.livedata.test
 
 internal class ModifyViewModelTestEdit: BaseTest() {
 

@@ -7,19 +7,21 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
-import tmg.components.about.AboutThisAppActivity
-import tmg.components.about.AboutThisAppConfiguration
-import tmg.components.about.AboutThisAppDependency
+import tmg.aboutthisapp.AboutThisAppActivity
+import tmg.aboutthisapp.AboutThisAppConfiguration
+import tmg.aboutthisapp.AboutThisAppDependency
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.databinding.ActivitySettingsBinding
 import tmg.hourglass.extensions.setOnClickListener
 import tmg.hourglass.extensions.updateAllWidgets
+import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
 import tmg.hourglass.settings.privacy.PrivacyPolicyActivity
 import tmg.hourglass.settings.release.ReleaseActivity
@@ -31,6 +33,9 @@ class SettingsActivity : BaseActivity() {
     private lateinit var binding: ActivitySettingsBinding
 
     private val viewModel: SettingsViewModel by inject()
+
+    private val prefManager: PreferencesManager by inject()
+
     private lateinit var themeBottomSheet: BottomSheetBehavior<LinearLayout>
     private lateinit var adapter: SettingsAdapter
 
@@ -46,17 +51,35 @@ class SettingsActivity : BaseActivity() {
         binding.vBackground.setOnClickListener { themeBottomSheet.hidden() }
 
         adapter = SettingsAdapter(
-            prefClicked = { prefClicked(it) },
-            prefSwitchClicked = { key, value -> prefSwitched(key, value) }
+            clickPref = viewModel.inputs::clickSetting
         )
         binding.rvSettings.adapter = adapter
         binding.rvSettings.layoutManager = LinearLayoutManager(this)
 
         binding.ibtnClose.setOnClickListener(viewModel.inputs::clickBack)
 
-        binding.bottomSheetTheme.clThemeAuto.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.AUTO) }
-        binding.bottomSheetTheme.clThemeLight.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.LIGHT) }
-        binding.bottomSheetTheme.clThemeDark.setOnClickListener { viewModel.inputs.clickTheme(ThemePref.DARK) }
+        binding.bottomSheetTheme.clThemeAuto.setOnClickListener {
+            viewModel.inputs.clickTheme(
+                ThemePref.AUTO
+            )
+        }
+        binding.bottomSheetTheme.clThemeLight.setOnClickListener {
+            viewModel.inputs.clickTheme(
+                ThemePref.LIGHT
+            )
+        }
+        binding.bottomSheetTheme.clThemeDark.setOnClickListener {
+            viewModel.inputs.clickTheme(
+                ThemePref.DARK
+            )
+        }
+
+        observe(viewModel.outputs.updateWidget) {
+            updateAllWidgets()
+            Snackbar
+                .make(binding.rvSettings, getString(R.string.settings_widgets_refresh_refreshed), Snackbar.LENGTH_LONG)
+                .show()
+        }
 
         observe(viewModel.outputs.list) {
             adapter.list = it
@@ -67,49 +90,61 @@ class SettingsActivity : BaseActivity() {
         }
 
         observeEvent(viewModel.outputs.deletedAll) {
-            Snackbar.make(
-                binding.rvSettings,
-                getString(R.string.settings_reset_all_done),
-                Snackbar.LENGTH_LONG
-            ).show()
-            finish()
+            AlertDialog.Builder(this)
+                .setTitle(R.string.settings_reset_all_confirm_title)
+                .setMessage(R.string.settings_reset_all_confirm_description)
+                .setPositiveButton(R.string.settings_reset_all_confirm_confirm) { _, _ ->
+                    viewModel.inputs.clickDeleteAll()
+                    Snackbar.make(binding.rvSettings, getString(R.string.settings_reset_all_done), Snackbar.LENGTH_LONG)
+                        .show()
+                    finish()
+                }
+                .setNegativeButton(R.string.settings_reset_all_confirm_cancel) { _, _ -> }
+                .setCancelable(false)
+                .create()
+                .show()
         }
 
         observeEvent(viewModel.outputs.deletedDone) {
-            Snackbar.make(
-                binding.rvSettings,
-                getString(R.string.settings_reset_done_done),
-                Snackbar.LENGTH_LONG
-            ).show()
-            finish()
+            AlertDialog.Builder(this)
+                .setTitle(R.string.settings_reset_done_confirm_title)
+                .setMessage(R.string.settings_reset_done_confirm_description)
+                .setPositiveButton(R.string.settings_reset_done_confirm_confirm) { _, _ ->
+                    viewModel.inputs.clickDeleteDone()
+                    Snackbar.make(binding.rvSettings, getString(R.string.settings_reset_done_done), Snackbar.LENGTH_LONG)
+                        .show()
+                    finish()
+                }
+                .setNegativeButton(R.string.settings_reset_done_confirm_cancel) { _, _ -> }
+                .setCancelable(false)
+                .create()
+                .show()
         }
 
 
-        observe(viewModel.outputs.themeSelected) {
+        observeEvent(viewModel.outputs.openTheme) {
+            themeBottomSheet.expand()
+        }
+
+        observe(viewModel.outputs.currentThemePref) {
             updateThemePicker(it)
-            themeBottomSheet.hidden()
+            when (it) {
+                ThemePref.AUTO -> setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
+                ThemePref.LIGHT -> setDefaultNightMode(MODE_NIGHT_NO)
+                ThemePref.DARK -> setDefaultNightMode(MODE_NIGHT_YES)
+            }
         }
-
-        observeEvent(viewModel.outputs.themeUpdated) {
-            Toast.makeText(
-                applicationContext,
-                getString(R.string.settings_theme_applied_later),
-                Toast.LENGTH_LONG
-            ).show()
-        }
-
-
-
 
         observeEvent(viewModel.outputs.openAbout) {
-            openAbout()
+            startActivity(AboutThisAppActivity.intent(this, aboutThisAppConfiguration))
         }
 
         observeEvent(viewModel.outputs.openReview) {
             try {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
                 startActivity(intent)
-            } catch (e: ActivityNotFoundException) { }
+            } catch (e: ActivityNotFoundException) {
+            }
         }
 
         observeEvent(viewModel.outputs.openReleaseNotes) {
@@ -159,84 +194,6 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    private fun prefClicked(key: String) {
-        when (key.toEnum<SettingsViewModel.PrefType> { it.key }) {
-            SettingsViewModel.PrefType.THEME_APP -> {
-                themeBottomSheet.expand()
-            }
-            SettingsViewModel.PrefType.DELETE_ALL -> {
-                AlertDialog.Builder(this)
-                    .setTitle(R.string.settings_reset_all_confirm_title)
-                    .setMessage(R.string.settings_reset_all_confirm_description)
-                    .setPositiveButton(R.string.settings_reset_all_confirm_confirm) { _, _ ->
-                        viewModel.inputs.clickDeleteAll()
-                    }
-                    .setNegativeButton(R.string.settings_reset_all_confirm_cancel) { _, _ -> }
-                    .setCancelable(false)
-                    .create()
-                    .show()
-            }
-            SettingsViewModel.PrefType.DELETE_DONE -> {
-                AlertDialog.Builder(this)
-                    .setTitle(R.string.settings_reset_done_confirm_title)
-                    .setMessage(R.string.settings_reset_done_confirm_description)
-                    .setPositiveButton(R.string.settings_reset_done_confirm_confirm) { _, _ ->
-                        viewModel.inputs.clickDeleteDone()
-                    }
-                    .setNegativeButton(R.string.settings_reset_done_confirm_cancel) { _, _ -> }
-                    .setCancelable(false)
-                    .create()
-                    .show()
-            }
-            SettingsViewModel.PrefType.WIDGETS_REFRESH -> {
-                updateAllWidgets()
-                Snackbar.make(
-                    binding.rvSettings,
-                    getString(R.string.settings_widgets_refresh_refreshed),
-                    Snackbar.LENGTH_LONG
-                ).show()
-            }
-            SettingsViewModel.PrefType.HELP_ABOUT -> {
-                viewModel.inputs.clickAbout()
-            }
-            SettingsViewModel.PrefType.HELP_REVIEW -> {
-                viewModel.inputs.clickReview()
-            }
-            SettingsViewModel.PrefType.HELP_RELEASE -> {
-                viewModel.inputs.clickReleaseNotes()
-            }
-            SettingsViewModel.PrefType.FEEDBACK_SUGGESTION -> {
-                viewModel.inputs.clickSuggestions()
-            }
-            SettingsViewModel.PrefType.PRIVACY_PRIVACY -> {
-                viewModel.inputs.clickPrivacyPolicy()
-            }
-            else -> throw Error("Regular pref type $key not supported")
-        }
-    }
-
-    private fun prefSwitched(key: String, toNewValue: Boolean) {
-        when (key.toEnum<SettingsViewModel.PrefType> { it.key }) {
-            SettingsViewModel.PrefType.FEEDBACK_CRASH_REPORTING -> {
-                viewModel.inputs.clickCrashReporting(toNewValue)
-            }
-            SettingsViewModel.PrefType.WIDGETS_UPDATED -> {
-                viewModel.inputs.clickWidgetUpdate(toNewValue)
-            }
-            SettingsViewModel.PrefType.FEEDBACK_SHAKE -> {
-                viewModel.inputs.clickShakeToReport(toNewValue)
-            }
-            SettingsViewModel.PrefType.FEEDBACK_ANALYTICS -> {
-                viewModel.inputs.clickAnalytics(toNewValue)
-            }
-            else -> throw Error("Regular pref type $key not supported")
-        }
-    }
-
-    private fun openAbout() {
-        startActivity(AboutThisAppActivity.intent(this,aboutThisAppConfiguration))
-    }
-
     private fun updateThemePicker(theme: ThemePref) {
         binding.bottomSheetTheme.imgAuto.setImageResource(if (theme == ThemePref.AUTO) R.drawable.ic_settings_check else 0)
         binding.bottomSheetTheme.imgAuto.setBackgroundResource(if (theme == ThemePref.AUTO) R.drawable.background_selected else R.drawable.background_edit_text)
@@ -246,17 +203,9 @@ class SettingsActivity : BaseActivity() {
         binding.bottomSheetTheme.imgDark.setBackgroundResource(if (theme == ThemePref.DARK) R.drawable.background_selected else R.drawable.background_edit_text)
     }
 
-    private fun getAboutTheme(): Int {
-        return when (prefs.theme) {
-            ThemePref.AUTO -> if (isInNightMode()) R.style.DarkTheme_AboutThisApp else R.style.LightTheme_AboutThisApp
-            ThemePref.LIGHT -> R.style.LightTheme_AboutThisApp
-            ThemePref.DARK -> R.style.DarkTheme_AboutThisApp
-        }
-    }
-
     private val aboutThisAppConfiguration
         get() = AboutThisAppConfiguration(
-            themeRes = getAboutTheme(),
+            themeRes = R.style.AppTheme_AboutThisApp,
             name = getString(R.string.about_name),
             nameDesc = getString(R.string.about_desc),
             imageRes = R.mipmap.ic_launcher,
@@ -267,7 +216,9 @@ class SettingsActivity : BaseActivity() {
             appName = getString(R.string.app_name),
             play = "https://play.google.com/store/apps/details?id=tmg.hourglass",
             email = "thementalgoose@gmail.com",
-            dependencies = projectDependencies()
+            dependencies = projectDependencies(),
+            guid = prefManager.deviceUdid,
+            guidLongClickCopy = true
         )
 
     private fun projectDependencies(): List<AboutThisAppDependency> = listOf(

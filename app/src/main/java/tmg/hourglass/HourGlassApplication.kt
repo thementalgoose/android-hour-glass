@@ -2,6 +2,7 @@ package tmg.hourglass
 
 import android.app.Application
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate.*
 import com.github.stkent.bugshaker.BugShaker
 import com.github.stkent.bugshaker.flow.dialog.AlertDialogType
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -14,7 +15,9 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import tmg.hourglass.di.hourGlassModule
 import tmg.hourglass.prefs.PreferencesManager
-import tmg.hourglass.realm.RealmDBMigration
+import tmg.hourglass.prefs.ThemePref
+import tmg.hourglass.realm.di.realmModule
+import tmg.hourglass.realm.migrations.RealmDBMigration
 
 class HourGlassApplication : Application() {
 
@@ -36,6 +39,14 @@ class HourGlassApplication : Application() {
         startKoin {
             androidContext(this@HourGlassApplication)
             modules(hourGlassModule)
+            modules(realmModule)
+        }
+
+        // Night mode
+        when (prefs.theme) {
+            ThemePref.AUTO -> setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
+            ThemePref.LIGHT -> setDefaultNightMode(MODE_NIGHT_NO)
+            ThemePref.DARK -> setDefaultNightMode(MODE_NIGHT_YES)
         }
 
         // ThreeTen

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="countdown_type_number">Number</string>
+    <string name="countdown_type_days">Days</string>
+    <string name="countdown_type_money_gbp">Money (£)</string>
+    <string name="countdown_type_money_usd">Money ($)</string>
+    <string name="countdown_type_money_eur">Money (€)</string>
+    <string name="countdown_type_money_yen">Money (¥)</string>
+    <string name="countdown_type_millimetres">Millimetres</string>
+    <string name="countdown_type_metres">Metres</string>
+    <string name="countdown_type_kilometres">Kilometres</string>
+    <string name="countdown_type_miles">Miles</string>
+    <string name="countdown_type_grams">Grams</string>
+    <string name="countdown_type_kilograms">Kilograms</string>
+    <string name="countdown_type_millilitres">Millilitres</string>
+    <string name="countdown_type_litres">Litres</string>
+    <string name="countdown_type_seconds">Seconds</string>
+    <string name="countdown_type_celsius">Celsuis</string>
+    <string name="countdown_type_fahrenheit">Fahrenheit</string>
+
+</resources>

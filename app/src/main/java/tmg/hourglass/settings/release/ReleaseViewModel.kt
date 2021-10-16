@@ -32,7 +32,10 @@ class ReleaseViewModel: BaseViewModel(), ReleaseViewModelInputs, ReleaseViewMode
     override val goBack: MutableLiveData<Event> = MutableLiveData()
 
     init {
-        content.value = ReleaseNotes.values().toList()
+        content.value = ReleaseNotes
+            .values()
+            .reversed()
+            .toList()
     }
 
     //region Inputs

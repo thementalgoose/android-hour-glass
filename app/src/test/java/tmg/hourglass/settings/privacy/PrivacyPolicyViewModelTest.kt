@@ -3,9 +3,9 @@ package tmg.hourglass.settings.privacy
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import tmg.hourglass.testutils.BaseTest
-import tmg.hourglass.testutils.assertEventFired
-import tmg.hourglass.testutils.test
+import tmg.testutils.BaseTest
+import tmg.testutils.livedata.assertEventFired
+import tmg.testutils.livedata.test
 
 internal class PrivacyPolicyViewModelTest: BaseTest() {
 

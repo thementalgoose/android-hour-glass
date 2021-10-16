@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import tmg.hourglass.base.BaseViewModel
-import tmg.hourglass.data.connectors.CountdownConnector
+import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.utilities.lifecycle.DataEvent
 import tmg.utilities.lifecycle.Event
 
