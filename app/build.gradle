@@ -6,6 +6,7 @@ apply from: rootDir.absolutePath + "/gradle/config-android.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-util.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-junit5.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-koin.gradle"
+apply from: rootDir.absolutePath + "/gradle/config-compose.gradle"
 
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
@@ -90,6 +91,7 @@ dependencies {
     // Modules
     implementation project(path: ":realm")
     implementation project(path: ":domain")
+    implementation project(path: ":presentation")
 
     // Firebase
     implementation platform(deps.firebase.bom)

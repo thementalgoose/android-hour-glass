@@ -1,5 +1,6 @@
 package tmg.hourglass.settings.release
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import tmg.hourglass.ReleaseNotes
 import tmg.hourglass.base.BaseViewModel
@@ -16,8 +17,8 @@ interface ReleaseViewModelInputs {
 //region Outputs
 
 interface ReleaseViewModelOutputs {
-    val content: MutableLiveData<List<ReleaseNotes>>
-    val goBack: MutableLiveData<Event>
+    val content: LiveData<List<ReleaseNotes>>
+    val goBack: LiveData<Event>
 }
 
 //endregion

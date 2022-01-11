@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.sp
 
 data class AppTypography(
     val h1: TextStyle = TextStyle(
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Bold,
         fontSize = 28.sp
     ),
     val h2: TextStyle = TextStyle(
