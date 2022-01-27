@@ -11,13 +11,17 @@ import tmg.hourglass.presentation.AppThemePreview
 @Composable
 fun TextHeader1(
     text: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    brand: Boolean = false
 ) {
     Text(
         text,
         modifier = modifier.fillMaxWidth(),
         style = AppTheme.typography.h1.copy(
-            color = AppTheme.colors.textPrimary
+            color = when (brand) {
+                true -> AppTheme.colors.primary
+                false -> AppTheme.colors.textPrimary
+            }
         )
     )
 }
@@ -38,6 +42,17 @@ private fun PreviewDark() {
     AppThemePreview(isLight = false) {
         TextHeader1(
             text = "Headline 1"
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewBrand() {
+    AppThemePreview(isLight = true) {
+        TextHeader1(
+            text = "Headline 1",
+            brand = true
         )
     }
 }

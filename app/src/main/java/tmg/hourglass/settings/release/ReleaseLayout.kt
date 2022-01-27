@@ -10,12 +10,19 @@ import tmg.hourglass.R
 import tmg.hourglass.ReleaseNotes
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.layouts.TitleBar
+import tmg.hourglass.presentation.views.ProgressBar
 
 @Composable
 fun ReleaseLayout(
     content: List<ReleaseNotes>,
     backClicked: () -> Unit
 ) {
+//    ProgressBar(
+//        endProgress = 0.58f,
+//        label = { progress ->
+//            "$progress"
+//        }
+//    )
     LazyColumn {
         item {
             TitleBar(
