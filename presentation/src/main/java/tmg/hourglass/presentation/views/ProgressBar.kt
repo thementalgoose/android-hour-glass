@@ -23,7 +23,8 @@ fun ProgressBar(
     endProgress: Float,
     label: (Float) -> String,
     modifier: Modifier = Modifier,
-    animationDuration: Int = 40000,
+    height: Dp = 36.dp,
+    animationDuration: Int = 400,
     textPadding: Dp = AppTheme.dimensions.paddingSmall,
     barColor: Color = AppTheme.colors.primary,
     barOnColor: Color = Color.White,
@@ -34,16 +35,19 @@ fun ProgressBar(
     BoxWithConstraints(
         modifier = modifier
             .fillMaxWidth()
-            .height(48.dp)
+            .height(height)
             .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
     ) {
-        val progress by animateFloatAsState(
+        val progressState = remember { mutableStateOf(0f) }
+        val progress = animateFloatAsState(
             visibilityThreshold = 0.0f,
-            targetValue = endProgress,
-            animationSpec = tween(durationMillis = animationDuration, easing = LinearEasing, delayMillis = 5000)
-        )
-
-        LinearProgressIndicator()
+            targetValue = progressState.value,
+            animationSpec = tween(
+                durationMillis = animationDuration,
+                easing = FastOutSlowInEasing,
+                delayMillis = 0
+            )
+        ).value
 
         Box(
             modifier = Modifier
@@ -92,6 +96,10 @@ fun ProgressBar(
                         }
                     )
             )
+        }
+
+        LaunchedEffect(null) {
+            progressState.value = endProgress
         }
     }
 }

@@ -17,12 +17,6 @@ fun ReleaseLayout(
     content: List<ReleaseNotes>,
     backClicked: () -> Unit
 ) {
-//    ProgressBar(
-//        endProgress = 0.58f,
-//        label = { progress ->
-//            "$progress"
-//        }
-//    )
     LazyColumn {
         item {
             TitleBar(

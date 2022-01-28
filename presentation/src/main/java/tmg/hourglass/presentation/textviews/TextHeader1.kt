@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
@@ -12,17 +13,18 @@ import tmg.hourglass.presentation.AppThemePreview
 fun TextHeader1(
     text: String,
     modifier: Modifier = Modifier,
-    brand: Boolean = false
+    brand: Boolean = false,
+    style: TextStyle = AppTheme.typography.h1.copy(
+        color = when (brand) {
+            true -> AppTheme.colors.primary
+            false -> AppTheme.colors.textPrimary
+        }
+    )
 ) {
     Text(
         text,
         modifier = modifier.fillMaxWidth(),
-        style = AppTheme.typography.h1.copy(
-            color = when (brand) {
-                true -> AppTheme.colors.primary
-                false -> AppTheme.colors.textPrimary
-            }
-        )
+        style = style
     )
 }
 

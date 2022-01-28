@@ -4,6 +4,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,20 +17,21 @@ fun TextBody2(
     modifier: Modifier = Modifier,
     bold: Boolean = false,
     textColor: Color? = null,
-    maxLines: Int? = null
+    maxLines: Int? = null,
+    style: TextStyle = AppTheme.typography.body2.copy(
+        fontWeight = when (bold) {
+            true -> FontWeight.Bold
+            false -> FontWeight.Normal
+        },
+        color = textColor ?: AppTheme.colors.textPrimary
+    )
 ) {
     Text(
         text,
         modifier = modifier,
         maxLines = maxLines ?: Int.MAX_VALUE,
         overflow = if (maxLines != null) TextOverflow.Ellipsis else TextOverflow.Clip,
-        style = AppTheme.typography.body2.copy(
-            fontWeight = when (bold) {
-                true -> FontWeight.Bold
-                false -> FontWeight.Normal
-            },
-            color = textColor ?: AppTheme.colors.textPrimary
-        )
+        style = style
     )
 }
 

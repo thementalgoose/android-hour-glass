@@ -3,11 +3,22 @@ package tmg.hourglass.utils
 import android.view.animation.Interpolator
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.domain.enums.CountdownInterpolator
+import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.extensions.millis
 import tmg.hourglass.extensions.valueInterpolator
 
 class ProgressUtils {
     companion object {
+
+        fun getProgress(countdown: Countdown, current: LocalDateTime = LocalDateTime.now()): Float {
+            return getProgress(
+                start = countdown.start,
+                end = countdown.end,
+                current = current,
+                interpolator = countdown.interpolator
+            )
+        }
+
         fun getProgress(start: LocalDateTime, end: LocalDateTime, current: LocalDateTime = LocalDateTime.now(), interpolator: CountdownInterpolator, mockInterpolator: Interpolator? = null): Float {
             val startMillis: Long = start.millis
             val endMillis: Long = end.millis

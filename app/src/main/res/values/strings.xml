@@ -100,6 +100,9 @@
     <string name="about_desc">Calendar-based countdowns</string>
     <string name="dependency_thank_you">A big thank you to everyone listed below for helping make this app possible! :)</string>
 
+    <string name="dashboard_title_upcoming">Upcoming</string>
+    <string name="dashboard_title_previous">Previous</string>
+
     <!-- Menu -->
     <string name="menu_now">Now</string>
     <string name="menu_previous">Previous</string>
@@ -109,12 +112,11 @@
     <string name="modify_header_add">Add a countdown</string>
     <string name="modify_header_edit">Edit your countdown</string>
     <string name="modify_header_save">Save</string>
-    <string name="home_description"><![CDATA[%s<br/>
+
+    <string name="home_description">%s<br/>
     ▲ Starts at %s on <b>%s</b><br/>
-    ▼ Ends at %s on <b>%s</b>]]></string>
-    <string name="home_no_description"><![CDATA[
-    ▲ Starts at %s on <b>%s</b><br/>
-    ▼ Ends at %s on <b>%s</b>]]></string>
+    ▼ Ends at %s on <b>%s</b></string>
+    <string name="home_no_description">▲ Starts at %s on <b>%s</b>\n▼ Ends at %s on <b>%s</b></string>
     <string name="modify_field_name">Personalise</string>
     <string name="modify_field_name_desc">Pick a name, a description, and a colour for your countdown item below</string>
     <string name="modify_field_name_hint">Name</string>
