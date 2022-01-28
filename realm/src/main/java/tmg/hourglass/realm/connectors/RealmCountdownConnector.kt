@@ -39,7 +39,10 @@ class RealmCountdownConnector(
         realmClass = RealmCountdown::class.java,
         where = { it },
         convert = { countdownMapper.deserialize(it) }
-    )
+    ).map { list ->
+        list.sortedBy { it.end }
+            .sortedBy { it.isFinished }
+    }
 
     override fun getSync(id: String): Countdown? = realmGet { realm ->
         val model: RealmCountdown? = realm

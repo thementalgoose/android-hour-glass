@@ -20,6 +20,9 @@ data class Countdown(
     val interpolator: CountdownInterpolator
 ) {
 
+    val isFinished: Boolean
+        get() = end <= LocalDateTime.now()
+
     val startByType: LocalDateTime
         get() = when (countdownType) {
             CountdownType.DAYS -> start.toLocalDate().atTime(23, 59, 59)
@@ -36,7 +39,7 @@ data class Countdown(
         val start: Int = initial.toIntOrNull() ?: 0
         val end: Int = finishing.toIntOrNull() ?: 100
 
-        return floor((start + (progress * (end - start)))).toInt().toString()
+        return countdownType.converter(floor((start + (progress * (end - start)))).toInt().toString())
     }
 
     companion object

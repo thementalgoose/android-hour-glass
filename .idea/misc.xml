@@ -72,6 +72,9 @@
         <entry key="../../../../layout/compose-model-1643366364248.xml" value="0.335" />
         <entry key="../../../../layout/compose-model-1643367503406.xml" value="0.1" />
         <entry key="../../../../layout/compose-model-1643367524021.xml" value="0.34444444444444444" />
+        <entry key="../../../../layout/compose-model-1643373026586.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1643373654278.xml" value="0.39444444444444443" />
+        <entry key="../../../../layout/compose-model-1643380280080.xml" value="0.23015202702702703" />
         <entry key="app/src/main/res/drawable/background_selected.xml" value="0.1195" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1415" />
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.1415" />
@@ -80,6 +83,7 @@
         <entry key="app/src/main/res/layout/activity_release_notes.xml" value="0.254981884057971" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.16261398176291794" />
         <entry key="app/src/main/res/layout/bottom_sheet_theme.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/element_countdown_placeholder.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/element_release_notes.xml" value="0.67" />
         <entry key="app/src/main/res/layout/element_settings_category.xml" value="0.15881458966565348" />
         <entry key="app/src/main/res/layout/element_settings_preference.xml" value="0.26570415400202635" />

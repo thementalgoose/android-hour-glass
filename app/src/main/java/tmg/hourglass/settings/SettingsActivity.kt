@@ -2,6 +2,7 @@ package tmg.hourglass.settings
 
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -258,4 +259,10 @@ class SettingsActivity : BaseActivity() {
             imageUrl = "https://avatars3.githubusercontent.com/u/5365351"
         )
     )
+
+    companion object {
+        fun intent(context: Context): Intent {
+            return Intent(context, SettingsActivity::class.java)
+        }
+    }
 }
