@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import tmg.hourglass.R
-import tmg.hourglass.dashboard.view.*
+import tmg.hourglass.dashboard.layout.*
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.preview
 import tmg.hourglass.presentation.AppThemePreview

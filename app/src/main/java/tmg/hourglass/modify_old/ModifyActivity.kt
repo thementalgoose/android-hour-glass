@@ -27,7 +27,6 @@ import tmg.hourglass.extensions.*
 import tmg.utilities.bottomsheet.BottomSheetFader
 import tmg.utilities.extensions.*
 import tmg.utilities.extensions.views.show
-import java.util.*
 
 
 class ModifyActivity : BaseActivity(), OnFastChooseColorListener,

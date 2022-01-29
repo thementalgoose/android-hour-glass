@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import org.koin.android.viewmodel.ext.android.viewModel
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
-import tmg.hourglass.dashboard.view.DeleteDialog
+import tmg.hourglass.dashboard.layout.DeleteDialog
 import tmg.hourglass.modify_old.ModifyActivity
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.settings.SettingsActivity
