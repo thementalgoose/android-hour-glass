@@ -7,7 +7,7 @@ import tmg.hourglass.analytics.FirebaseAnalyticsManager
 import tmg.hourglass.crash.CrashReporter
 import tmg.hourglass.crash.FirebaseCrashReporter
 import tmg.hourglass.dashboard.DashboardViewModel
-import tmg.hourglass.modify.ModifyViewModel
+import tmg.hourglass.modify_old.ModifyViewModel
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.AppPreferencesManager
 import tmg.hourglass.settings.SettingsViewModel
