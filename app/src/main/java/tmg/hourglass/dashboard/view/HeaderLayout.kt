@@ -33,7 +33,7 @@ fun DashboardHeaderLayout(
         Column(
             modifier = Modifier
                 .padding(
-                    top = AppTheme.dimensions.paddingSmall
+                    top = AppTheme.dimensions.paddingMedium
                 )
                 .align(Alignment.End)
         ) {

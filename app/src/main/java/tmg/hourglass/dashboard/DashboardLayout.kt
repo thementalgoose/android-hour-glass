@@ -10,10 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import tmg.hourglass.R
-import tmg.hourglass.dashboard.view.DashboardCountdownLayout
-import tmg.hourglass.dashboard.view.DashboardHeaderLayout
-import tmg.hourglass.dashboard.view.DashboardSectionLayout
-import tmg.hourglass.dashboard.view.PlaceholderLayout
+import tmg.hourglass.dashboard.view.*
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.preview
 import tmg.hourglass.presentation.AppThemePreview
@@ -33,6 +30,9 @@ fun DashboardLayout(
                 DashboardHeaderLayout(
                     clickSettings = clickSettings
                 )
+            }
+            item {
+                DashboardFavouriteLayout(countdown = Countdown.preview(), editClicked = {}, deleteClicked = {})
             }
 
             if (items.value?.isNotEmpty() == true) {
