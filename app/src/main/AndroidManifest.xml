@@ -23,8 +23,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="tmg.hourglass.home.HomeActivity" />
-
         <activity android:name="tmg.hourglass.dashboard.DashboardActivity" />
 
         <activity android:name="tmg.hourglass.modify.ModifyActivity" />
