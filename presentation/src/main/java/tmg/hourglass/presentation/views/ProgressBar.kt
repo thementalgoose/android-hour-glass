@@ -91,7 +91,7 @@ fun ProgressBar(
                     .align(Alignment.CenterStart)
                     .offset(
                         x = when (onBar) {
-                            true -> (maxWidth * progress) - (textPadding + textWidth)
+                            true -> (maxWidth * progress) - textWidth
                             false -> (textPadding * 3) + textWidth
                         }
                     )

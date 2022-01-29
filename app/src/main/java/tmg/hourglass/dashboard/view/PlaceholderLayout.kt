@@ -2,10 +2,13 @@ package tmg.hourglass.dashboard.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.R
@@ -27,11 +30,11 @@ fun PlaceholderLayout(
                 bottom = AppTheme.dimensions.paddingMedium
             )
     ) {
-        Image(
-            painter = painterResource(
+        Icon(
+            imageVector = ImageVector.vectorResource(
                 id = R.drawable.ic_no_items,
             ),
-            alpha = 0.8f,
+            tint = AppTheme.colors.textSecondary,
             contentDescription = null
         )
         Spacer(modifier = Modifier.height(8.dp))

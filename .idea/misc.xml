@@ -78,14 +78,20 @@
         <entry key="../../../../layout/compose-model-1643479774844.xml" value="0.39444444444444443" />
         <entry key="../../../../layout/compose-model-1643479775789.xml" value="0.1" />
         <entry key="../../../../layout/compose-model-1643480017561.xml" value="0.23902027027027026" />
+        <entry key="../../../../layout/compose-model-1643486629361.xml" value="0.375" />
+        <entry key="../../../../layout/compose-model-1643487236602.xml" value="0.39444444444444443" />
+        <entry key="../../../../layout/compose-model-1643487863108.xml" value="0.2611111111111111" />
         <entry key="app/src/main/res/drawable/background_selected.xml" value="0.1195" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1415" />
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/ic_no_items.xml" value="0.213" />
         <entry key="app/src/main/res/drawable/ic_settings_check.xml" value="0.119" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.2261904761904762" />
         <entry key="app/src/main/res/layout/activity_release_notes.xml" value="0.254981884057971" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.16261398176291794" />
         <entry key="app/src/main/res/layout/bottom_sheet_theme.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/element_countdown_header.xml" value="0.30570652173913043" />
+        <entry key="app/src/main/res/layout/element_countdown_item.xml" value="0.30570652173913043" />
         <entry key="app/src/main/res/layout/element_countdown_placeholder.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/element_release_notes.xml" value="0.67" />
         <entry key="app/src/main/res/layout/element_settings_category.xml" value="0.15881458966565348" />

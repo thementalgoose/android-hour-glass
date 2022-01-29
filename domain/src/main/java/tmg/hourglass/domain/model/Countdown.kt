@@ -56,7 +56,7 @@ fun Countdown.Companion.preview(
         start = LocalDateTime
             .of(2022, 1, 23, 0, 0),
         end = LocalDateTime
-            .of(2022, 2, 5, 0, 0),
+            .of(2022, 2, 12, 0, 0),
         initial = "0",
         finishing = "1000",
         countdownType = CountdownType.DAYS,

@@ -56,15 +56,17 @@ fun DashboardFavouriteLayout(
                 .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
                 .background(Color(countdown.colour.toColorInt()))
                 .padding(
-                    start = AppTheme.dimensions.paddingMedium,
-                    end = AppTheme.dimensions.paddingMedium,
                     top = AppTheme.dimensions.paddingMedium,
                     bottom = 20.dp
                 )
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(
+                        start = AppTheme.dimensions.paddingMedium,
+                        end = 4.dp
+                    ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(
@@ -94,6 +96,12 @@ fun DashboardFavouriteLayout(
             }
             Spacer(modifier = Modifier.height(4.dp))
             TextBody1(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = AppTheme.dimensions.paddingMedium,
+                        end = AppTheme.dimensions.paddingMedium
+                    ),
                 text = countdown.description,
                 style = AppTheme.typography.body1.copy(
                     color = Color.White
@@ -101,7 +109,12 @@ fun DashboardFavouriteLayout(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = AppTheme.dimensions.paddingMedium,
+                        end = AppTheme.dimensions.paddingMedium
+                    ),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 TextBody2(
@@ -118,7 +131,12 @@ fun DashboardFavouriteLayout(
                 )
             }
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = AppTheme.dimensions.paddingMedium,
+                        end = AppTheme.dimensions.paddingMedium
+                    ),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 TextBody2(
@@ -136,6 +154,10 @@ fun DashboardFavouriteLayout(
             }
             Spacer(modifier = Modifier.height(8.dp))
             ProgressBar(
+                modifier = Modifier.padding(
+                    start = AppTheme.dimensions.paddingMedium,
+                    end = AppTheme.dimensions.paddingMedium
+                ),
                 height = 48.dp,
                 backgroundColor = Color(darken(countdown.colour.toColorInt())),
                 backgroundOnColor = Color(0xFFE8E8E8),
