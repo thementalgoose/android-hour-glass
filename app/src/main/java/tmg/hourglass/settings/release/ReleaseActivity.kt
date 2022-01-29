@@ -2,6 +2,7 @@ package tmg.hourglass.settings.release
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.livedata.observeAsState
 import org.koin.android.ext.android.inject
 import tmg.hourglass.base.BaseActivity
@@ -16,11 +17,13 @@ class ReleaseActivity: BaseActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                val content = viewModel.outputs.content.observeAsState()
-                ReleaseLayout(
-                    content = content.value ?: emptyList(),
-                    backClicked = viewModel.inputs::clickBack
-                )
+                Scaffold(content = {
+                    val content = viewModel.outputs.content.observeAsState()
+                    ReleaseLayout(
+                        content = content.value ?: emptyList(),
+                        backClicked = viewModel.inputs::clickBack
+                    )
+                })
             }
         }
 
