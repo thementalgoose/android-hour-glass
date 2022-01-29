@@ -31,10 +31,6 @@ fun DashboardLayout(
                     clickSettings = clickSettings
                 )
             }
-            item {
-                DashboardFavouriteLayout(countdown = Countdown.preview(), editClicked = {}, deleteClicked = {})
-            }
-
             if (items.value?.isNotEmpty() == true) {
                 if (items.value!!.any { !it.isFinished}) {
                     item {
