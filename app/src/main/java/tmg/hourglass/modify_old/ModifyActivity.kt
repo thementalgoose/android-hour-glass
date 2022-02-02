@@ -144,35 +144,35 @@ class ModifyActivity : BaseActivity(), OnFastChooseColorListener,
     }
 
     private fun setupTypeBottomSheet() {
-        typeBottomSheet = BottomSheetBehavior.from(binding.bottomSheetModify.bsModifyType)
-        typeBottomSheet.isHideable = true
-        typeBottomSheet.hidden()
-        typeBottomSheet.addBottomSheetCallback(BottomSheetFader(binding.bottomSheetBackground, "type"))
-
-        typeAdapter = ModifyTypeAdapter(
-            itemSelected = {
-                viewModel.inputs.inputType(it.toEnum<CountdownType> { it.key }!!)
-                typeBottomSheet.hidden()
-            }
-        )
-        binding.bottomSheetModify.rvOptions.adapter = typeAdapter
-        binding.bottomSheetModify.rvOptions.layoutManager = LinearLayoutManager(this)
+//        typeBottomSheet = BottomSheetBehavior.from(binding.bottomSheetModify.bsModifyType)
+//        typeBottomSheet.isHideable = true
+//        typeBottomSheet.hidden()
+//        typeBottomSheet.addBottomSheetCallback(BottomSheetFader(binding.bottomSheetBackground, "type"))
+//
+//        typeAdapter = ModifyTypeAdapter(
+//            itemSelected = {
+//                viewModel.inputs.inputType(it.toEnum<CountdownType> { it.key }!!)
+//                typeBottomSheet.hidden()
+//            }
+//        )
+//        binding.bottomSheetModify.rvOptions.adapter = typeAdapter
+//        binding.bottomSheetModify.rvOptions.layoutManager = LinearLayoutManager(this)
     }
 
     private fun setupInterpolatorBottomSheet() {
-        interpolatorBottomSheet = BottomSheetBehavior.from(binding.bottomSheetInterpolator.bsInterpolator)
-        interpolatorBottomSheet.isHideable = true
-        interpolatorBottomSheet.hidden()
-        interpolatorBottomSheet.addBottomSheetCallback(BottomSheetFader(binding.bottomSheetBackground, "interpolator"))
-
-        interpolatorAdapter = ModifyTypeAdapter(
-            itemSelected = {
-                viewModel.inputs.inputInterpolator(it.toEnum<CountdownInterpolator> { it.key }!!)
-                interpolatorBottomSheet.hidden()
-            }
-        )
-        binding.bottomSheetInterpolator.rvInterpolatorOptions.adapter = interpolatorAdapter
-        binding.bottomSheetInterpolator.rvInterpolatorOptions.layoutManager = LinearLayoutManager(this)
+//        interpolatorBottomSheet = BottomSheetBehavior.from(binding.bottomSheetInterpolator.bsInterpolator)
+//        interpolatorBottomSheet.isHideable = true
+//        interpolatorBottomSheet.hidden()
+//        interpolatorBottomSheet.addBottomSheetCallback(BottomSheetFader(binding.bottomSheetBackground, "interpolator"))
+//
+//        interpolatorAdapter = ModifyTypeAdapter(
+//            itemSelected = {
+//                viewModel.inputs.inputInterpolator(it.toEnum<CountdownInterpolator> { it.key }!!)
+//                interpolatorBottomSheet.hidden()
+//            }
+//        )
+//        binding.bottomSheetInterpolator.rvInterpolatorOptions.adapter = interpolatorAdapter
+//        binding.bottomSheetInterpolator.rvInterpolatorOptions.layoutManager = LinearLayoutManager(this)
     }
 
     private fun showColourPicker(withDefault: String) {

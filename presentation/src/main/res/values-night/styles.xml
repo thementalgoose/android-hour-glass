@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CalenderViewCustom" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="android:textColor">#f8f8f8</item>
+        <item name="colorAccent">@color/brand</item>
+        <item name="android:textColorPrimary">#f8f8f8</item>
+        <item name="colorSecondary">#f2f2f2</item>
+        <item name="colorOnPrimary">#f8f8f8</item>
+        <item name="android:textColorPrimaryInverse">#f8f8f8</item>
+        <item name="colorSurface">#181818</item>
+    </style>
+</resources>

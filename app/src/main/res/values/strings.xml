@@ -144,6 +144,8 @@
     <string name="modify_field_dates_desc">Pick the dates you want the two values above to line up with</string>
     <string name="modify_field_dates_format"><b>%s</b> ......... <b>%s</b></string>
     <string name="modify_field_dates_button">Pick dates</string>
+    <string name="modify_field_dates_start">Start date</string>
+    <string name="modify_field_dates_end">End date</string>
     <string name="modify_field_colour_hint">Colour</string>
     <string name="settings_theme_applied_later">Theme will be applied when the app is restarted</string>
     <string name="modify_type_title">Countdown type</string>

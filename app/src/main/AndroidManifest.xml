@@ -25,6 +25,8 @@
 
         <activity android:name="tmg.hourglass.dashboard.DashboardActivity" />
 
+        <activity android:name="tmg.hourglass.modify.ModifyActivity" />
+
         <activity android:name="tmg.hourglass.modify_old.ModifyActivity" />
 
         <activity android:name="tmg.hourglass.settings.SettingsActivity" />

@@ -7,7 +7,7 @@ import tmg.hourglass.analytics.FirebaseAnalyticsManager
 import tmg.hourglass.crash.CrashReporter
 import tmg.hourglass.crash.FirebaseCrashReporter
 import tmg.hourglass.dashboard.DashboardViewModel
-import tmg.hourglass.modify_old.ModifyViewModel
+import tmg.hourglass.modify.ModifyViewModel
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.AppPreferencesManager
 import tmg.hourglass.settings.SettingsViewModel
@@ -17,8 +17,9 @@ import tmg.hourglass.widget.ItemWidgetPickerViewModel
 
 val hourGlassModule = module {
     viewModel { DashboardViewModel(get()) }
-
     viewModel { ModifyViewModel(get(), get()) }
+
+    viewModel { tmg.hourglass.modify_old.ModifyViewModel(get(), get()) }
     viewModel { SettingsViewModel(get(), get()) }
     viewModel { ReleaseViewModel() }
     viewModel { PrivacyPolicyViewModel() }
