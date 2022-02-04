@@ -3,6 +3,7 @@ package tmg.hourglass.modify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.threeten.bp.LocalDateTime
@@ -59,7 +60,9 @@ internal class ModifyViewModelTestEdit: BaseTest() {
     @Test
     fun `initialise edit item preloads all the mock values into outputs`() = coroutineTest {
 
-        initSUT()
+        runBlockingTest {
+            initSUT()
+        }
 
         sut.outputs.isEdit.test { assertValue(true) }
 

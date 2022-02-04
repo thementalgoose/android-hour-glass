@@ -34,7 +34,7 @@ jobs:
 
       # Running unit tests
       - name: Unit tests
-        run: ./gradlew testModules
+        run: ./gradlew testDebugUnitTest
 
       # Publish test reports
       - name: Publish Test Report

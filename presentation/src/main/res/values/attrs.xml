@@ -13,4 +13,14 @@
     <attr name="pBackgroundInverseSecondary" format="color" />
 
     <attr name="pEditTextBackground" format="color" />
+
+    <!-- About this app -->
+    <attr name="aboutThisApp_textPrimary" />
+    <attr name="aboutThisApp_header" />
+    <attr name="aboutThisApp_textSecondary" />
+    <attr name="aboutThisApp_textToolbar" />
+    <attr name="aboutThisApp_iconPrimary" />
+    <attr name="aboutThisApp_backgroundPrimary" />
+    <attr name="aboutThisApp_backgroundSecondary" />
+
 </resources>
