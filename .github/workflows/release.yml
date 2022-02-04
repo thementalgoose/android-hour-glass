@@ -36,7 +36,7 @@ jobs:
 
       # Unit tests
       - name: Unit tests
-        run: ./gradlew testDebugUnitTest
+        run: ./gradlew clean testSandDebugUnitTest testDebugUnitTest
 
   deploy:
     runs-on: ubuntu-latest
