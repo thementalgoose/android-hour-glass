@@ -3,7 +3,7 @@ package tmg.hourglass.settings.privacy
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.material.Scaffold
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.presentation.AppTheme
 import tmg.utilities.extensions.observeEvent

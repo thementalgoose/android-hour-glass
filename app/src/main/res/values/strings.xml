@@ -151,6 +151,10 @@
     <string name="modify_type_title">Countdown type</string>
 
     <!-- Widgets -->
+
+    <string name="widget_label">Countdown Widget</string>
+
+    <!-- Widgets LEGACY-->
     <string name="widget_error">Item not found</string>
     <string name="widget_value">N/A</string>
 

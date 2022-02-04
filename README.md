@@ -9,7 +9,6 @@
 Hour Glass is a calendar countdown application to help you map values between two dates
 
 - MVVM
-- Koin
 - Realm
 - Kotlin Coroutines
 - Firebase (Analytics + Crashlytics)

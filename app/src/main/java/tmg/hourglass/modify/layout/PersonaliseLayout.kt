@@ -29,7 +29,6 @@ import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.inputs.Input
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextHeader2
-import tmg.hourglass.widget.WidgetBarColours
 
 @Composable
 fun PersonaliseLayout(

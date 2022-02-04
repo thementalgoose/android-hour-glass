@@ -23,7 +23,6 @@ buildscript {
         classpath "com.github.triplet.gradle:play-publisher:3.7.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.realm:realm-gradle-plugin:10.8.0"
-        classpath "org.koin:koin-gradle-plugin:$koin_version"
         classpath 'com.google.gms:google-services:4.3.10'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1'
         classpath "de.mannodermaus.gradle.plugins:android-junit5:1.7.1.1"
@@ -53,7 +52,6 @@ task testModules {
             ':realm:testDebugUnitTest',
             ':domain:testDebugUnitTest',
             'clean'
-    print "Tests passed successfully!"
 }
 
 task clean(type: Delete) {

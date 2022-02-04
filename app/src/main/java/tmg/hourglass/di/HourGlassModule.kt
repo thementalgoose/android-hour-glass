@@ -1,6 +1,6 @@
 package tmg.hourglass.di
 
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import tmg.hourglass.analytics.AnalyticsManager
 import tmg.hourglass.analytics.FirebaseAnalyticsManager
@@ -13,7 +13,6 @@ import tmg.hourglass.prefs.AppPreferencesManager
 import tmg.hourglass.settings.SettingsViewModel
 import tmg.hourglass.settings.privacy.PrivacyPolicyViewModel
 import tmg.hourglass.settings.release.ReleaseViewModel
-import tmg.hourglass.widget.ItemWidgetPickerViewModel
 
 val hourGlassModule = module {
     viewModel { DashboardViewModel(get()) }
@@ -22,8 +21,6 @@ val hourGlassModule = module {
     viewModel { SettingsViewModel(get(), get()) }
     viewModel { ReleaseViewModel() }
     viewModel { PrivacyPolicyViewModel() }
-
-    viewModel { ItemWidgetPickerViewModel(get(), get()) }
 
     single<PreferencesManager> { AppPreferencesManager(get()) }
     single<AnalyticsManager> { FirebaseAnalyticsManager(get()) }

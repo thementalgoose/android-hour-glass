@@ -11,7 +11,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.res.stringResource
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.domain.enums.CountdownColors

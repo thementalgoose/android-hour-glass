@@ -14,8 +14,8 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:exported="true"
-            android:name="tmg.hourglass.SplashActivity">
+            android:name="tmg.hourglass.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,8 +27,6 @@
 
         <activity android:name="tmg.hourglass.modify.ModifyActivity" />
 
-        <activity android:name="tmg.hourglass.modify_old.ModifyActivity" />
-
         <activity android:name="tmg.hourglass.settings.SettingsActivity" />
 
         <activity android:name="tmg.hourglass.settings.release.ReleaseActivity" />
@@ -39,95 +37,24 @@
             android:name="tmg.aboutthisapp.AboutThisAppActivity"
             android:theme="@style/AppTheme.AboutThisApp" />
 
-        <!-- Widget -->
+        <!--region Widget -->
 
-        <!-- Bar Dark -->
-
-        <activity
-            android:name=".widget.bar.dark.WidgetBarDarkPickerActivity"
+        <receiver
+            android:name="tmg.hourglass.widgets.WidgetReceiver"
+            android:label="@string/widget_label"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
 
-        <receiver
-            android:exported="false"
-            android:name=".widget.bar.dark.WidgetBarDarkProvider"
-            android:label="@string/widget_bar_label_dark">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_dark" />
+                android:resource="@xml/widget" />
+
         </receiver>
 
-        <!-- Bar Light -->
-
-        <activity
-            android:exported="true"
-            android:name="tmg.hourglass.widget.bar.light.WidgetBarLightPickerActivity">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
-
-        <receiver
-            android:exported="false"
-            android:name="tmg.hourglass.widget.bar.light.WidgetBarLightProvider"
-            android:label="@string/widget_bar_label_light">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_light" />
-        </receiver>
-
-        <!-- Circle Dark -->
-
-        <activity
-            android:exported="true"
-            android:name="tmg.hourglass.widget.circle.light.WidgetCircleLightPickerActivity">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
-
-        <receiver
-            android:exported="false"
-            android:name="tmg.hourglass.widget.circle.light.WidgetCircleLightProvider"
-            android:label="@string/widget_circle_label_light">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_circle_light" />
-        </receiver>
-
-        <!-- Circle Light -->
-
-        <activity
-            android:exported="true"
-            android:name="tmg.hourglass.widget.circle.dark.WidgetCircleDarkPickerActivity">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
-
-        <receiver
-            android:exported="false"
-            android:name="tmg.hourglass.widget.circle.dark.WidgetCircleDarkProvider"
-            android:label="@string/widget_circle_label_dark">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_circle_dark" />
-        </receiver>
+        <!--endregion -->
 
 
     </application>

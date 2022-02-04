@@ -27,6 +27,7 @@ allprojects {
                         runtime                                 : "androidx.compose.runtime:runtime-livedata:$android_compose",
                         viewmodel                               : "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07",
                         theme_adapter                           : "com.google.android.material:compose-theme-adapter:1.0.5",
+                        glance                                  : "androidx.glance:glance-appwidget:1.0.0-alpha02"
                 ],
                 kotlin : [
                         stdlib                                  : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
@@ -38,12 +39,6 @@ allprojects {
                         bom                                     : "com.google.firebase:firebase-bom:$firebase_bom",
                         analytics                               : "com.google.firebase:firebase-analytics",
                         crashlytics                             : "com.google.firebase:firebase-crashlytics",
-                ],
-                koin : [
-                        koin                                    : "io.insert-koin:koin-android:$koin_version",
-                        koin_scope                              : "io.insert-koin:koin-android-scope:$koin_version",
-                        koin_viewmodel                          : "io.insert-koin:koin-android-viewmodel:$koin_version",
-                        koin_ext                                : "io.insert-koin:koin-android-ext:$koin_version"
                 ],
                 threeten : [
                         threeten                                : "org.threeten:threetenbp:$threetenbp",
