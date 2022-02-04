@@ -1,8 +1,6 @@
 package tmg.hourglass.modify.layout
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,10 +23,12 @@ fun SaveLayout(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .height(IntrinsicSize.Min)
     ) {
         if (isEdit) {
             PrimaryIconButton(
                 modifier = Modifier
+                    .fillMaxHeight()
                     .padding(
                         top = AppTheme.dimensions.paddingMedium,
                         bottom = AppTheme.dimensions.paddingMedium,
@@ -41,6 +41,7 @@ fun SaveLayout(
         PrimaryButton(
             modifier = Modifier
                 .weight(1f)
+                .fillMaxHeight()
                 .padding(
                     top = AppTheme.dimensions.paddingMedium,
                     start = AppTheme.dimensions.paddingMedium,

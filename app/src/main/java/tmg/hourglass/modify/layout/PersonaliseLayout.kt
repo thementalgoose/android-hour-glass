@@ -33,9 +33,9 @@ import tmg.hourglass.widget.WidgetBarColours
 
 @Composable
 fun PersonaliseLayout(
-    name: State<TextFieldValue>,
+    name: String,
     nameUpdated: (String) -> Unit,
-    description: State<TextFieldValue>,
+    description: String,
     descriptionUpdated: (String) -> Unit,
     color: String,
     colorPicked: (String) -> Unit,
@@ -59,13 +59,13 @@ fun PersonaliseLayout(
         TextBody1(text = stringResource(id = R.string.modify_field_name_desc))
         Spacer(modifier = Modifier.height(8.dp))
         Input(
-            input = name,
+            initial = name,
             inputUpdated = nameUpdated,
             hint = stringResource(id = R.string.modify_field_name_hint)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Input(
-            input = description,
+            initial = description,
             inputUpdated = descriptionUpdated,
             hint = stringResource(id = R.string.modify_field_description_hint)
         )
@@ -173,9 +173,9 @@ private fun ColorPicker(
 private fun Preview() {
     AppThemePreview {
         PersonaliseLayout(
-            name = remember { mutableStateOf(TextFieldValue()) },
+            name = "name",
             nameUpdated = { },
-            description = remember { mutableStateOf(TextFieldValue())},
+            description = "description",
             descriptionUpdated = { },
             color = "#263892",
             colorPicked = { }

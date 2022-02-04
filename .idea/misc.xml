@@ -114,6 +114,12 @@
         <entry key="../../../../layout/compose-model-1643822657893.xml" value="0.32037037037037036" />
         <entry key="../../../../layout/compose-model-1643823658241.xml" value="0.2518518518518518" />
         <entry key="../../../../layout/compose-model-1643824973391.xml" value="0.2518518518518518" />
+        <entry key="../../../../layout/compose-model-1643997271242.xml" value="0.2518518518518518" />
+        <entry key="../../../../layout/compose-model-1643997287426.xml" value="0.2518518518518518" />
+        <entry key="../../../../layout/compose-model-1643998414023.xml" value="0.2518518518518518" />
+        <entry key="../../../../layout/compose-model-1644000145986.xml" value="0.2518518518518518" />
+        <entry key="../../../../layout/compose-model-1644004465267.xml" value="0.2657407407407407" />
+        <entry key="../../../../layout/compose-model-1644004991571.xml" value="0.2657407407407407" />
         <entry key="app/src/main/res/drawable/background_selected.xml" value="0.1195" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1415" />
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.1415" />
@@ -121,8 +127,10 @@
         <entry key="app/src/main/res/drawable/ic_settings_check.xml" value="0.119" />
         <entry key="app/src/main/res/drawable/widget_circle_05.xml" value="0.136" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.2261904761904762" />
+        <entry key="app/src/main/res/layout/activity_modify.xml" value="0.1140625" />
         <entry key="app/src/main/res/layout/activity_release_notes.xml" value="0.254981884057971" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.16261398176291794" />
+        <entry key="app/src/main/res/layout/bottom_sheet_modify.xml" value="0.11005434782608696" />
         <entry key="app/src/main/res/layout/bottom_sheet_theme.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/element_countdown_header.xml" value="0.30570652173913043" />
         <entry key="app/src/main/res/layout/element_countdown_item.xml" value="0.30570652173913043" />

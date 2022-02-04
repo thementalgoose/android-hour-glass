@@ -1,8 +1,10 @@
-package tmg.hourglass.modify_old
+package tmg.hourglass.modify
 
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -10,13 +12,10 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import tmg.hourglass.crash.CrashReporter
-import tmg.hourglass.domain.enums.CountdownInterpolator
-import tmg.hourglass.domain.enums.CountdownInterpolator.ACCELERATE_DECELERATE
-import tmg.hourglass.domain.enums.CountdownInterpolator.LINEAR
-import tmg.hourglass.domain.enums.CountdownType
-import tmg.hourglass.domain.enums.CountdownType.DAYS
-import tmg.hourglass.domain.enums.CountdownType.GRAMS
 import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.enums.CountdownInterpolator
+import tmg.hourglass.domain.enums.CountdownType
+import tmg.hourglass.modify.ModifyViewModel
 import tmg.hourglass.utils.Selected
 import tmg.testutils.BaseTest
 import tmg.testutils.livedata.assertDataEventValue
@@ -36,11 +35,22 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `initialising vm sets is addition to true`() {
+    fun `initialising vm sets isEdit to false`() {
 
         initSUT()
 
-        sut.outputs.isAddition.test {
+        sut.outputs.isEdit.test {
+            assertValue(false)
+        }
+    }
+
+    @Test
+    fun `initialising vm with isEdit to true`() {
+
+        initSUT()
+
+        sut.inputs.initialise("my-id")
+        sut.outputs.isEdit.test {
             assertValue(true)
         }
     }
@@ -52,7 +62,7 @@ internal class ModifyViewModelTest: BaseTest() {
 
         initSUT()
 
-        sut.inputs.inputName(expectedInput)
+        sut.inputs.name(expectedInput)
 
         sut.outputs.name.test {
             assertValue(expectedInput)
@@ -66,7 +76,7 @@ internal class ModifyViewModelTest: BaseTest() {
 
         initSUT()
 
-        sut.inputs.inputDescription(expectedInput)
+        sut.inputs.description(expectedInput)
         sut.outputs.description.test {
             assertValue(expectedInput)
         }
@@ -79,8 +89,8 @@ internal class ModifyViewModelTest: BaseTest() {
 
         initSUT()
 
-        sut.inputs.inputColour(expectedInput)
-        sut.outputs.colour.test {
+        sut.inputs.color(expectedInput)
+        sut.outputs.color.test {
             assertValue(expectedInput)
         }
     }
@@ -88,77 +98,61 @@ internal class ModifyViewModelTest: BaseTest() {
     @Test
     fun `input type registers type update`() {
 
-        val expectedInput = GRAMS
-        val expectedTypeList = CountdownType
-            .values()
-            .map {
-                Selected(it, it == GRAMS)
-            }
+        val expectedInput = CountdownType.GRAMS
 
         initSUT()
 
-        sut.inputs.inputType(expectedInput)
+        sut.inputs.type(expectedInput)
 
         sut.outputs.type.test {
             assertValue(expectedInput)
-        }
-        sut.outputs.showRange.test {
-            assertValue(Pair(true, second = true))
-        }
-        sut.outputs.typeList.test {
-            assertValue(expectedTypeList)
         }
     }
 
     @Test
     fun `input type as days registers type update and shows range event`() {
 
-        val expectedInput = DAYS
+        val expectedInput = CountdownType.DAYS
         val expectedTypeList = CountdownType
             .values()
             .map {
-                Selected(it, it == DAYS)
+                Selected(it, it == CountdownType.DAYS)
             }
 
         initSUT()
 
-        sut.inputs.inputType(expectedInput)
+        sut.inputs.type(expectedInput)
 
         sut.outputs.type.test {
             assertValue(expectedInput)
         }
-        sut.outputs.showRange.test {
-            assertValue(Pair(false, second = false))
-        }
-        sut.outputs.typeList.test {
-            assertValue(expectedTypeList)
-        }
     }
 
     @Test
-    fun `open date picker launches date picker event with blank value on first run`() {
+    fun `input start dates registers dates event`() {
+
+        val expectedStart = LocalDateTime.now()
 
         initSUT()
 
-        sut.inputs.clickDatePicker()
+        sut.inputs.startDate(expectedStart)
 
-        sut.outputs.showDatePicker.test {
-            assertDataEventValue(null)
+        sut.outputs.startDate.test {
+            assertValue(expectedStart)
         }
     }
 
     @Test
-    fun `input dates registers dates event`() {
+    fun `input end dates registers dates event`() {
 
-        val expectedStart = LocalDateTime.now()
         val expectedEnd = LocalDateTime.now()
 
         initSUT()
 
-        sut.inputs.inputDates(expectedStart, expectedEnd)
+        sut.inputs.endDate(expectedEnd)
 
-        sut.outputs.dates.test {
-            assertValue(Pair(expectedStart, expectedEnd))
+        sut.outputs.endDate.test {
+            assertValue(expectedEnd)
         }
     }
 
@@ -169,7 +163,7 @@ internal class ModifyViewModelTest: BaseTest() {
 
         initSUT()
 
-        sut.inputs.inputInitial(expectedInput)
+        sut.inputs.initial(expectedInput)
 
         sut.outputs.initial.test {
             assertValue(expectedInput)
@@ -183,9 +177,9 @@ internal class ModifyViewModelTest: BaseTest() {
 
         initSUT()
 
-        sut.inputs.inputFinal(expectedInput)
+        sut.inputs.finish(expectedInput)
 
-        sut.outputs.final.test {
+        sut.outputs.finished.test {
             assertValue(expectedInput)
         }
     }
@@ -193,22 +187,19 @@ internal class ModifyViewModelTest: BaseTest() {
     @Test
     fun `input interpolator registers interpolator event`() {
 
-        val expectedInput = ACCELERATE_DECELERATE
+        val expectedInput = CountdownInterpolator.ACCELERATE_DECELERATE
         val expectedInterpolatorList = CountdownInterpolator
             .values()
             .map {
-                Selected(it, it == ACCELERATE_DECELERATE)
+                Selected(it, it == CountdownInterpolator.ACCELERATE_DECELERATE)
             }
 
         initSUT()
 
-        sut.inputs.inputInterpolator(expectedInput)
+        sut.inputs.interpolator(expectedInput)
 
         sut.outputs.interpolator.test {
             assertValue(expectedInput)
-        }
-        sut.outputs.interpolatorList.test {
-            assertValue(expectedInterpolatorList)
         }
     }
 
@@ -241,18 +232,17 @@ internal class ModifyViewModelTest: BaseTest() {
 
         initSUT()
 
-        sut.inputs.inputName(name ?: "")
-        sut.inputs.inputDescription(desc ?: "")
-        sut.inputs.inputColour(color ?: "")
-        if (start != null && end != null) {
-            sut.inputs.inputDates(start.localDateTime, end.localDateTime)
-        }
-        sut.inputs.inputType(getType(type))
-        sut.inputs.inputInitial(initial ?: "")
-        sut.inputs.inputFinal(final ?: "")
-        sut.inputs.inputInterpolator(getInterpolator(interpolator))
+        sut.inputs.name(name ?: "")
+        sut.inputs.description(desc ?: "")
+        sut.inputs.color(color ?: "")
+        start?.localDateTime?.let { sut.inputs.startDate(it) }
+        end?.localDateTime?.let { sut.inputs.endDate(it) }
+        sut.inputs.type(getType(type))
+        sut.inputs.initial(initial ?: "")
+        sut.inputs.finish(final ?: "")
+        sut.inputs.interpolator(getInterpolator(interpolator))
 
-        sut.outputs.isValid.test {
+        sut.outputs.saveEnabled.test {
             assertValue(expectedIsValidValue)
         }
     }
@@ -263,14 +253,14 @@ internal class ModifyViewModelTest: BaseTest() {
         val diffDays = 10
 
         initSUT()
-        setupValidInputs(type = DAYS, addDates = true, addInputs = false, diffDays = diffDays)
+        setupValidInputs(type = CountdownType.DAYS, addDates = true, addInputs = false, diffDays = diffDays)
 
-        sut.inputs.clickSave()
+        sut.inputs.saveClicked()
 
         sut.outputs.initial.test {
             assertValue(diffDays.toString())
         }
-        sut.outputs.final.test {
+        sut.outputs.finished.test {
             assertValue("0")
         }
     }
@@ -279,15 +269,15 @@ internal class ModifyViewModelTest: BaseTest() {
     fun `clicking saves countdown item in countdown connector`() {
 
         initSUT()
-        setupValidInputs(type = DAYS, addDates = true, addInputs = false)
+        setupValidInputs(type = CountdownType.DAYS, addDates = true, addInputs = false)
 
-        sut.inputs.clickSave()
+        sut.inputs.saveClicked()
 
         verify {
             mockCountdownConnector.saveSync(any())
         }
 
-        sut.outputs.closeEvent.test {
+        sut.outputs.close.test {
             assertEventFired()
         }
     }
@@ -296,9 +286,9 @@ internal class ModifyViewModelTest: BaseTest() {
     fun `trying to save when dates are not added submits a crash report to the logger`() {
 
         initSUT()
-        setupValidInputs(type = DAYS, addDates = false, addInputs = false)
+        setupValidInputs(type = CountdownType.DAYS, addDates = false, addInputs = false)
 
-        sut.inputs.clickSave()
+        sut.inputs.saveClicked()
 
         verify {
             mockCrashReporter.log(any())
@@ -311,11 +301,11 @@ internal class ModifyViewModelTest: BaseTest() {
         every { mockCountdownConnector.saveSync(any()) } throws NullPointerException()
 
         initSUT()
-        setupValidInputs(type = DAYS, addDates = true, addInputs = true)
+        setupValidInputs(type = CountdownType.DAYS, addDates = true, addInputs = true)
 
-        sut.inputs.clickSave()
+        sut.inputs.saveClicked()
 
-        sut.outputs.isValid.test {
+        sut.outputs.saveEnabled.test {
             assertValue(false)
         }
         verify {
@@ -325,21 +315,19 @@ internal class ModifyViewModelTest: BaseTest() {
 
 
     private fun setupValidInputs(addDates: Boolean = true, type: CountdownType = CountdownType.NUMBER, diffDays: Int = 10, addInputs: Boolean = true) {
-        sut.inputs.inputName("name")
-        sut.inputs.inputDescription("desc")
-        sut.inputs.inputColour("#123123")
+        sut.inputs.name("name")
+        sut.inputs.description("desc")
+        sut.inputs.color("#123123")
         if (addDates) {
-            sut.inputs.inputDates(
-                LocalDateTime.of(2020, 1, 2, 12, 0),
-                LocalDateTime.of(2020, 1, 2, 12, 0).plusDays(diffDays.toLong())
-            )
+            sut.inputs.startDate(LocalDateTime.of(2020, 1, 2, 12, 0))
+            sut.inputs.endDate(LocalDateTime.of(2020, 1, 2, 12, 0).plusDays(diffDays.toLong()))
         }
-        sut.inputs.inputType(type)
+        sut.inputs.type(type)
         if (addInputs) {
-            sut.inputs.inputInitial("0")
-            sut.inputs.inputFinal("1")
+            sut.inputs.initial("0")
+            sut.inputs.finish("1")
         }
-        sut.inputs.inputInterpolator(LINEAR)
+        sut.inputs.interpolator(CountdownInterpolator.LINEAR)
     }
 
     private val String.localDateTime: LocalDateTime

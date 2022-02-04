@@ -25,14 +25,15 @@ fun DashboardHeaderLayout(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                start = AppTheme.dimensions.paddingMedium,
-                end = AppTheme.dimensions.paddingMedium
+                bottom = AppTheme.dimensions.paddingSmall
             )
     ) {
         Column(
             modifier = Modifier
                 .padding(
-                    top = AppTheme.dimensions.paddingMedium
+                    top = AppTheme.dimensions.paddingMedium,
+                    start = AppTheme.dimensions.paddingMedium,
+                    end = AppTheme.dimensions.paddingXSmall
                 )
                 .align(Alignment.End)
         ) {
@@ -43,7 +44,14 @@ fun DashboardHeaderLayout(
             }
         }
         Spacer(modifier = Modifier.height(32.dp))
-        TextHeader1(text = stringResource(id = R.string.app_name))
+        TextHeader1(
+            modifier = Modifier
+                .padding(
+                    start = AppTheme.dimensions.paddingMedium,
+                    end = AppTheme.dimensions.paddingMedium
+                ),
+            text = stringResource(id = R.string.app_name)
+        )
     }
 }
 

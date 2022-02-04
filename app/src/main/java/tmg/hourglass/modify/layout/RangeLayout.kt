@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -16,9 +17,9 @@ import tmg.hourglass.presentation.textviews.TextHeader2
 
 @Composable
 fun RangeLayout(
-    initial: State<TextFieldValue>,
+    initial: String,
     initialUpdated: (String) -> Unit,
-    finished: State<TextFieldValue>,
+    finished: String,
     finishedUpdated: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -41,15 +42,17 @@ fun RangeLayout(
         ) {
             Input(
                 modifier = Modifier.weight(1f),
-                input = initial,
+                initial = initial,
                 inputUpdated = initialUpdated,
+                keyboardType = KeyboardType.Number,
                 hint = stringResource(id = R.string.modify_field_range_initial)
             )
             Spacer(modifier = Modifier.width(AppTheme.dimensions.paddingMedium))
             Input(
                 modifier = Modifier.weight(1f),
-                input = finished,
+                initial = finished,
                 inputUpdated = finishedUpdated,
+                keyboardType = KeyboardType.Number,
                 hint = stringResource(id = R.string.modify_field_range_final)
             )
         }
@@ -61,9 +64,9 @@ fun RangeLayout(
 private fun Preview() {
     AppThemePreview {
         RangeLayout(
-            initial = remember { mutableStateOf(TextFieldValue()) },
+            initial = "",
             initialUpdated = { },
-            finished = remember { mutableStateOf(TextFieldValue()) },
+            finished = "",
             finishedUpdated = { }
         )
     }

@@ -4,15 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.core.graphics.toColorInt
-import androidx.lifecycle.map
 import org.koin.android.viewmodel.ext.android.viewModel
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
@@ -31,6 +29,7 @@ class ModifyActivity: BaseActivity() {
         super.onCreate(savedInstanceState)
 
         val id = intent?.extras?.getString(keyCountdownId)
+        viewModel.inputs.initialise(id)
 
         setContent(id != null)
 
@@ -58,17 +57,15 @@ class ModifyActivity: BaseActivity() {
 
                         // Personalise
                         val name = viewModel.outputs.name
-                            .map { TextFieldValue(it) }
-                            .observeAsState(TextFieldValue())
+                            .observeAsState("")
                         val description = viewModel.outputs.description
-                            .map { TextFieldValue(it) }
-                            .observeAsState(TextFieldValue())
+                            .observeAsState("")
                         val color = viewModel.outputs.color
                             .observeAsState(CountdownColors.COLOUR_1.hex)
                         PersonaliseLayout(
-                            name = name,
+                            name = name.value,
                             nameUpdated = viewModel.inputs::name,
-                            description = description,
+                            description = description.value,
                             descriptionUpdated = viewModel.inputs::description,
                             color = color.value,
                             colorPicked = viewModel.inputs::color
@@ -83,15 +80,13 @@ class ModifyActivity: BaseActivity() {
 
                         // Range
                         val initial = viewModel.outputs.initial
-                            .map { TextFieldValue(it) }
-                            .observeAsState(TextFieldValue())
+                            .observeAsState("")
                         val finished = viewModel.outputs.finished
-                            .map { TextFieldValue(it) }
-                            .observeAsState(TextFieldValue())
+                            .observeAsState("")
                         RangeLayout(
-                            initial = initial,
+                            initial = initial.value,
                             initialUpdated = viewModel.inputs::initial,
-                            finished = finished,
+                            finished = finished.value,
                             finishedUpdated = viewModel.inputs::finish
                         )
 

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.map
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.crash.CrashReporter
 import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
@@ -28,6 +29,7 @@ interface ModifyViewModelInputs {
     fun type(value: CountdownType)
     fun initial(value: String)
     fun finish(value: String)
+    fun interpolator(countdownInterpolator: CountdownInterpolator)
     fun startDate(date: LocalDateTime)
     fun endDate(date: LocalDateTime)
 
@@ -51,6 +53,8 @@ interface ModifyViewModelOutputs {
 
     val initial: LiveData<String>
     val finished: LiveData<String>
+
+    val interpolator: LiveData<CountdownInterpolator>
 
     val startDate: LiveData<LocalDateTime?>
     val endDate: LiveData<LocalDateTime?>
@@ -77,10 +81,11 @@ class ModifyViewModel(
 
     override val name: MutableLiveData<String> = MutableLiveData("")
     override val description: MutableLiveData<String> = MutableLiveData("")
-    override val color: MutableLiveData<String> = MutableLiveData()
+    override val color: MutableLiveData<String> = MutableLiveData(CountdownColors.COLOUR_1.hex)
     override val type: MutableLiveData<CountdownType> = MutableLiveData(CountdownType.NUMBER)
     override val initial: MutableLiveData<String> = MutableLiveData("")
     override val finished: MutableLiveData<String> = MutableLiveData("")
+    override val interpolator: MutableLiveData<CountdownInterpolator> = MutableLiveData(CountdownInterpolator.LINEAR)
     override val startDate: MutableLiveData<LocalDateTime?> = MutableLiveData()
     override val endDate: MutableLiveData<LocalDateTime?> = MutableLiveData()
 
@@ -93,6 +98,7 @@ class ModifyViewModel(
         type.asFlow(),
         initial.asFlow(),
         finished.asFlow(),
+        interpolator.asFlow(),
         startDate.asFlow(),
         endDate.asFlow()
     ) {
@@ -102,8 +108,9 @@ class ModifyViewModel(
         val _type: CountdownType = (it[3] as? CountdownType) ?: CountdownType.NUMBER
         val _initial: String = (it[4] as? String) ?: ""
         val _finished: String = (it[5] as? String) ?: ""
-        val _startDate: LocalDateTime? = it[6] as? LocalDateTime
-        val _endDate: LocalDateTime? = it[7] as? LocalDateTime
+        val _interpolator: CountdownInterpolator = (it[6] as? CountdownInterpolator) ?: CountdownInterpolator.LINEAR
+        val _startDate: LocalDateTime? = it[7] as? LocalDateTime
+        val _endDate: LocalDateTime? = it[8] as? LocalDateTime
 
         if (_name.isBlank()) {
             return@combine null
@@ -114,7 +121,13 @@ class ModifyViewModel(
         if (_initial.isBlank()) {
             return@combine null
         }
+        if (_initial.toIntOrNull() == null || _initial.toFloatOrNull() == null) {
+            return@combine null
+        }
         if (_finished.isBlank()) {
+            return@combine null
+        }
+        if (_finished.toIntOrNull() == null || _finished.toFloatOrNull() == null) {
             return@combine null
         }
         if (_startDate == null) {
@@ -137,7 +150,7 @@ class ModifyViewModel(
             finishing = _finished,
             start = _startDate,
             end = _endDate,
-            interpolator = CountdownInterpolator.LINEAR
+            interpolator = _interpolator
         )
     }
 
@@ -191,6 +204,10 @@ class ModifyViewModel(
         finished.value = value
     }
 
+    override fun interpolator(countdownInterpolator: CountdownInterpolator) {
+        interpolator.value = countdownInterpolator
+    }
+
     override fun startDate(date: LocalDateTime) {
         startDate.value = date
         endDate.value = null
@@ -212,7 +229,7 @@ class ModifyViewModel(
                 initial = initial.value!!,
                 finishing = finished.value!!,
                 countdownType = type.value!!,
-                interpolator = CountdownInterpolator.LINEAR
+                interpolator = interpolator.value!!
             )
             countdownConnector.saveSync(countdown)
             close.value = Event()

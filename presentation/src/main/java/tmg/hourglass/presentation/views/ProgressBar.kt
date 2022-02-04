@@ -91,14 +91,14 @@ fun ProgressBar(
                     .align(Alignment.CenterStart)
                     .offset(
                         x = when (onBar) {
-                            true -> (maxWidth * progress) - textWidth
-                            false -> (textPadding * 3) + textWidth
+                            true -> (maxWidth * progress) - (textWidth + textPadding)
+                            false -> (maxWidth * progress) + textPadding
                         }
                     )
             )
         }
 
-        LaunchedEffect(null) {
+        LaunchedEffect(endProgress) {
             progressState.value = endProgress
         }
     }

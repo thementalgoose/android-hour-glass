@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,6 +63,7 @@ fun DatesLayout(
                     .weight(1f)
                     .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
                     .background(AppTheme.colors.backgroundSecondary)
+                    .alpha(if (startDate == null) 0.6f else 1f)
                     .clickable(
                         onClick = {
                             showDialog.value = DateDialogType.START
@@ -84,6 +86,7 @@ fun DatesLayout(
                     .weight(1f)
                     .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
                     .background(AppTheme.colors.backgroundSecondary)
+                    .alpha(if (endDate == null) 0.6f else 1f)
                     .clickable(
                         onClick = {
                             showDialog.value = DateDialogType.END

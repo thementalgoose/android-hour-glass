@@ -35,7 +35,7 @@ fun TitleBar(
             .fillMaxWidth()
             .height(54.dp)
         ) {
-            Spacer(modifier = Modifier.width(AppTheme.dimensions.paddingSmall))
+            Spacer(modifier = Modifier.width(AppTheme.dimensions.paddingXSmall))
             IconButton(
                 onClick = backClicked
             ) {
@@ -54,6 +54,7 @@ fun TitleBar(
                 bottom = AppTheme.dimensions.paddingMedium
             )
         ) {
+            Spacer(modifier = Modifier.height(AppTheme.dimensions.paddingMedium))
             TextHeader1(text = title)
         }
     }
