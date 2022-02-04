@@ -23,3 +23,10 @@ jobs:
       # Running unit tests
       - name: Unit tests
         run: ./gradlew clean testSandDebugUnitTest testDebugUnitTest
+
+      # Publish test report
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v2
+        if: always()
+        with:
+          report_paths: '**/build/test-results/**/TEST-*.xml'
