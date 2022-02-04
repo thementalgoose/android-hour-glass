@@ -128,5 +128,14 @@
       "Dependency updates to help support android 12",
       "Updates release notes layout"
     ]
+  },
+  {
+    "versionCode": 37,
+    "versionName": "4.0.37",
+    "isMajor": false,
+    "title": "",
+    "notes": [
+      "Redesigned home screen and addition screen!"
+    ]
   }
 ]
