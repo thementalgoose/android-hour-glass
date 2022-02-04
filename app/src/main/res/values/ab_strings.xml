@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ab_add">Add</string>
+
+    <string name="ab_settings">Settings</string>
+
+    <string name="ab_edit">Edit</string>
+    <string name="ab_delete">Delete</string>
+    <string name="ab_favourite">Favourite</string>
 </resources>

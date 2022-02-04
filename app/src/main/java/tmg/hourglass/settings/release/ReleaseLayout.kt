@@ -10,6 +10,7 @@ import tmg.hourglass.R
 import tmg.hourglass.ReleaseNotes
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.layouts.TitleBar
+import tmg.hourglass.presentation.views.ProgressBar
 
 @Composable
 fun ReleaseLayout(

@@ -1,14 +1,11 @@
 package tmg.hourglass.settings.privacy
 
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import androidx.activity.compose.setContent
+import androidx.compose.material.Scaffold
 import org.koin.android.viewmodel.ext.android.viewModel
-import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
-import tmg.hourglass.databinding.ActivityPrivacyPolicyBinding
 import tmg.hourglass.presentation.AppTheme
-import tmg.utilities.extensions.fromHtml
 import tmg.utilities.extensions.observeEvent
 
 class PrivacyPolicyActivity: BaseActivity() {
@@ -19,9 +16,11 @@ class PrivacyPolicyActivity: BaseActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                PrivacyPolicyLayout(
-                    backClicked = viewModel.inputs::clickBack
-                )
+                Scaffold(content = {
+                    PrivacyPolicyLayout(
+                        backClicked = viewModel.inputs::clickBack
+                    )
+                })
             }
         }
 

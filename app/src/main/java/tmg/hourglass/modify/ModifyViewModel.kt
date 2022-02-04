@@ -1,49 +1,40 @@
 package tmg.hourglass.modify
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.temporal.ChronoUnit
-import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.crash.CrashReporter
+import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
-import tmg.hourglass.domain.enums.CountdownType.*
-import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.utils.Selected
 import tmg.utilities.extensions.format
-import tmg.utilities.lifecycle.DataEvent
 import tmg.utilities.lifecycle.Event
 import java.util.*
-
-private val requiresStart: List<CountdownType> = CountdownType.values()
-    .filter { it != DAYS }
-private val requiresEnd: List<CountdownType> = CountdownType.values()
-    .filter { it != DAYS }
 
 //region Inputs
 
 interface ModifyViewModelInputs {
-    fun initialise(id: String?)
 
-    fun clickClose()
+    fun backClicked()
 
-    fun inputName(name: String)
-    fun inputDescription(name: String)
-    fun inputColour(colour: String)
+    fun initialise(id: String? = null)
 
-    fun inputType(type: CountdownType)
+    fun name(text: String)
+    fun description(text: String)
+    fun color(text: String)
+    fun type(value: CountdownType)
+    fun initial(value: String)
+    fun finish(value: String)
+    fun interpolator(countdownInterpolator: CountdownInterpolator)
+    fun startDate(date: LocalDateTime)
+    fun endDate(date: LocalDateTime)
 
-    fun clickDatePicker()
-    fun inputDates(start: LocalDateTime, end: LocalDateTime)
-
-    fun inputInitial(value: String)
-    fun inputFinal(value: String)
-    fun inputInterpolator(interpolator: CountdownInterpolator)
-
-    fun clickSave()
-    fun clickDelete()
+    fun saveClicked()
+    fun deleteClicked()
 }
 
 //endregion
@@ -51,230 +42,209 @@ interface ModifyViewModelInputs {
 //region Outputs
 
 interface ModifyViewModelOutputs {
-    val closeEvent: LiveData<Event>
-    val isAddition: LiveData<Boolean>
 
-    val isValid: LiveData<Boolean>
-
-    val showRange: LiveData<Pair<Boolean, Boolean>>
-
-    val type: LiveData<CountdownType>
-    val typeList: LiveData<List<Selected<CountdownType>>>
+    val isEdit: LiveData<Boolean>
 
     val name: LiveData<String>
     val description: LiveData<String>
-    val colour: LiveData<String>
+    val color: LiveData<String>
 
-    val showDatePicker: LiveData<DataEvent<Pair<LocalDateTime, LocalDateTime>?>>
-    val dates: LiveData<Pair<LocalDateTime, LocalDateTime>>
+    val type: LiveData<CountdownType>
+
     val initial: LiveData<String>
-    val final: LiveData<String>
+    val finished: LiveData<String>
 
     val interpolator: LiveData<CountdownInterpolator>
-    val interpolatorList: LiveData<List<Selected<CountdownInterpolator>>>
+
+    val startDate: LiveData<LocalDateTime?>
+    val endDate: LiveData<LocalDateTime?>
+
+    val saveEnabled: LiveData<Boolean>
+
+    val close: LiveData<Event>
 }
 
 //endregion
 
 class ModifyViewModel(
-    private val connector: CountdownConnector,
+    private val countdownConnector: CountdownConnector,
     private val crashReporter: CrashReporter
-) : BaseViewModel(), ModifyViewModelInputs, ModifyViewModelOutputs {
+): ViewModel(), ModifyViewModelInputs, ModifyViewModelOutputs {
 
-    var inputs: ModifyViewModelInputs = this
-    var outputs: ModifyViewModelOutputs = this
+    val inputs: ModifyViewModelInputs = this
+    val outputs: ModifyViewModelOutputs = this
 
-    private var id: String? = null
-    override val isAddition: MutableLiveData<Boolean> = MutableLiveData()
+    private val id: MutableLiveData<String?> = MutableLiveData()
 
-    override val isValid: MutableLiveData<Boolean> = MutableLiveData()
-    override val showRange: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
+    override val isEdit: LiveData<Boolean> = id
+        .map { it != null}
 
-    override val showDatePicker: MutableLiveData<DataEvent<Pair<LocalDateTime, LocalDateTime>?>> = MutableLiveData()
+    override val name: MutableLiveData<String> = MutableLiveData("")
+    override val description: MutableLiveData<String> = MutableLiveData("")
+    override val color: MutableLiveData<String> = MutableLiveData(CountdownColors.COLOUR_1.hex)
+    override val type: MutableLiveData<CountdownType> = MutableLiveData(CountdownType.NUMBER)
+    override val initial: MutableLiveData<String> = MutableLiveData("")
+    override val finished: MutableLiveData<String> = MutableLiveData("")
+    override val interpolator: MutableLiveData<CountdownInterpolator> = MutableLiveData(CountdownInterpolator.LINEAR)
+    override val startDate: MutableLiveData<LocalDateTime?> = MutableLiveData()
+    override val endDate: MutableLiveData<LocalDateTime?> = MutableLiveData()
 
-    override val name: MutableLiveData<String> = MutableLiveData()
-    override val description: MutableLiveData<String> = MutableLiveData()
-    override val colour: MutableLiveData<String> = MutableLiveData()
-    override val dates: MutableLiveData<Pair<LocalDateTime, LocalDateTime>> = MutableLiveData()
-    override val initial: MutableLiveData<String> = MutableLiveData()
-    override val final: MutableLiveData<String> = MutableLiveData()
+    override val close: MutableLiveData<Event> = MutableLiveData()
 
-    override val type: MutableLiveData<CountdownType> = MutableLiveData()
-    override val typeList: MutableLiveData<List<Selected<CountdownType>>> = MutableLiveData()
+    private val model: Flow<Countdown?> = combine(
+        name.asFlow(),
+        description.asFlow(),
+        color.asFlow(),
+        type.asFlow(),
+        initial.asFlow(),
+        finished.asFlow(),
+        interpolator.asFlow(),
+        startDate.asFlow(),
+        endDate.asFlow()
+    ) {
+        val _name: String = (it[0] as? String) ?: ""
+        val _description: String = (it[1] as? String) ?: ""
+        val _color: String = (it[2] as? String) ?: ""
+        val _type: CountdownType = (it[3] as? CountdownType) ?: CountdownType.NUMBER
+        val _initial: String = (it[4] as? String) ?: ""
+        val _finished: String = (it[5] as? String) ?: ""
+        val _interpolator: CountdownInterpolator = (it[6] as? CountdownInterpolator) ?: CountdownInterpolator.LINEAR
+        val _startDate: LocalDateTime? = it[7] as? LocalDateTime
+        val _endDate: LocalDateTime? = it[8] as? LocalDateTime
 
-    override val interpolator: MutableLiveData<CountdownInterpolator> = MutableLiveData()
-    override val interpolatorList: MutableLiveData<List<Selected<CountdownInterpolator>>> = MutableLiveData()
+        if (_name.isBlank()) {
+            return@combine null
+        }
+        if (_color.isBlank()) {
+            return@combine null
+        }
+        if (_initial.isBlank()) {
+            return@combine null
+        }
+        if (_initial.toIntOrNull() == null || _initial.toFloatOrNull() == null) {
+            return@combine null
+        }
+        if (_finished.isBlank()) {
+            return@combine null
+        }
+        if (_finished.toIntOrNull() == null || _finished.toFloatOrNull() == null) {
+            return@combine null
+        }
+        if (_startDate == null) {
+            return@combine null
+        }
+        if (_endDate == null) {
+            return@combine null
+        }
+        if (_startDate == _endDate) {
+            return@combine null
+        }
+        if (_endDate < _startDate) {
+            return@combine null
+        }
 
-    override val closeEvent: MutableLiveData<Event> = MutableLiveData()
-
-    init {
-        interpolator.value = CountdownInterpolator.LINEAR
+        return@combine Countdown(
+            id = "",
+            name = _name,
+            description = _description,
+            colour = _color,
+            countdownType = _type,
+            initial = _initial,
+            finishing = _finished,
+            start = _startDate,
+            end = _endDate,
+            interpolator = _interpolator
+        )
     }
 
-    //region Inputs
+    override val saveEnabled: LiveData<Boolean> = model
+        .map { it != null  }
+        .asLiveData(viewModelScope.coroutineContext)
 
     override fun initialise(id: String?) {
-        this.id = id
-        this.isAddition.value = id == null
-        this.type.value = NUMBER
+        this.id.value = id
         if (id != null) {
-            connector.getSync(id)?.let {
-                name.value = it.name
-                description.value = it.description
-                colour.value = it.colour
-                dates.value = Pair(it.start, it.end)
-                initial.value = it.initial
-                final.value = it.finishing
-                type.value = it.countdownType
-                interpolator.value = it.interpolator
-            }
+            val model = countdownConnector.getSync(id)
+            name.value = model?.name ?: ""
+            description.value = model?.description ?: ""
+            color.value = model?.colour ?: "#283793"
+
+            type.value = model?.countdownType
+
+            initial.value = model?.initial
+            finished.value = model?.finishing
+
+            startDate.value = model?.start
+            endDate.value = model?.end
         }
-        updateTypeList(this.type.value!!)
-        updateInterpolatorList(this.interpolator.value!!)
-        validate()
     }
 
-    override fun clickClose() {
-        closeEvent.value = Event()
+    override fun backClicked() {
+        close.value = Event()
     }
 
-    override fun inputName(name: String) {
-        this.name.value = name
-        validate()
+    override fun name(text: String) {
+        name.value = text
     }
 
-    override fun inputDescription(name: String) {
-        this.description.value = name
+    override fun description(text: String) {
+        description.value = text
     }
 
-    override fun inputColour(colour: String) {
-        this.colour.value = colour
-        validate()
+    override fun color(text: String) {
+        color.value = text
     }
 
-    override fun inputType(type: CountdownType) {
-        this.type.value = type
-        this.updateTypeList(type)
+    override fun type(value: CountdownType) {
+        type.value = value
     }
 
-    override fun clickDatePicker() {
-        this.showDatePicker.value = DataEvent(this.dates.value)
+    override fun initial(value: String) {
+        initial.value = value
     }
 
-    override fun inputDates(start: LocalDateTime, end: LocalDateTime) {
-        this.dates.value = Pair(start, end)
-        validate()
+    override fun finish(value: String) {
+        finished.value = value
     }
 
-    override fun inputInitial(value: String) {
-        this.initial.value = value
-        validate()
+    override fun interpolator(countdownInterpolator: CountdownInterpolator) {
+        interpolator.value = countdownInterpolator
     }
 
-    override fun inputFinal(value: String) {
-        this.final.value = value
-        validate()
+    override fun startDate(date: LocalDateTime) {
+        startDate.value = date
+        endDate.value = null
     }
 
-    override fun inputInterpolator(interpolator: CountdownInterpolator) {
-        this.interpolator.value = interpolator
-        this.updateInterpolatorList(interpolator)
+    override fun endDate(date: LocalDateTime) {
+        endDate.value = date
     }
 
-    override fun clickSave() {
+    override fun saveClicked() {
         try {
-            updatePartialValues(type.value!!)
             val countdown = Countdown(
-                id = id ?: UUID.randomUUID().toString(),
+                id = id.value ?: UUID.randomUUID().toString(),
                 name = name.value!!,
                 description = description.value ?: "",
-                colour = colour.value!!,
-                start = dates.value?.first!!,
-                end = dates.value?.second!!,
+                colour = color.value!!,
+                start = startDate.value!!,
+                end = endDate.value!!,
                 initial = initial.value!!,
-                finishing = final.value!!,
+                finishing = finished.value!!,
                 countdownType = type.value!!,
                 interpolator = interpolator.value!!
             )
-            connector.saveSync(countdown)
-            closeEvent.value = Event()
+            countdownConnector.saveSync(countdown)
+            close.value = Event()
         } catch (e: NullPointerException) {
-            validate()
-            isValid.value = false
             crashReporter.logException(e)
         }
     }
 
-    override fun clickDelete() {
-        id?.let {
-            connector.delete(it)
+    override fun deleteClicked() {
+        id.value?.let {
+            countdownConnector.delete(it)
         }
-        closeEvent.value = Event()
-    }
-
-    //endregion
-
-    private fun updatePartialValues(type: CountdownType) {
-        when (type) {
-            DAYS -> {
-                val startDate: LocalDateTime? = dates.value?.first
-                val endDate: LocalDateTime? = dates.value?.second
-                if (startDate != null && endDate != null) {
-                    val days = ChronoUnit.DAYS.between(startDate, endDate)
-                    initial.value = days.toString()
-                    final.value = "0"
-                }
-                else {
-                    crashReporter.log("Validation error occurred - Days selected and save attempted before date range is configured")
-                }
-            }
-            else -> {}
-        }
-    }
-
-    private fun updateTypeList(type: CountdownType) {
-        when (type) {
-            DAYS -> showRange.value = Pair(false, second = false)
-            else -> showRange.value = Pair(true, second = true)
-        }
-        typeList.value = CountdownType
-            .values()
-            .map {
-                Selected(it, it == type)
-            }
-    }
-
-    private fun updateInterpolatorList(interpolator: CountdownInterpolator) {
-        interpolatorList.value = CountdownInterpolator
-            .values()
-            .map {
-                Selected(it, it == interpolator)
-            }
-    }
-
-    private fun validate() {
-        val startDate: String? = dates.value?.first?.format("yyyy/MM/dd")
-        val endDate: String? = dates.value?.second?.format("yyyy/MM/dd")
-        when {
-            name.value.isNullOrEmpty() -> isValid.value = false
-            colour.value.isNullOrEmpty() -> isValid.value = false
-            initial.value.isNullOrEmpty() && type.value.hasStartValue() -> isValid.value = false
-            initial.value?.toIntOrNull() == null && type.value.hasStartValue() -> isValid.value = false
-            final.value.isNullOrEmpty() && type.value.hasEndValue() -> isValid.value = false
-            final.value?.toIntOrNull() == null && type.value.hasEndValue() -> isValid.value = false
-            type.value.hasStartValue() && type.value.hasEndValue() && initial.value == final.value -> isValid.value = false
-            dates.value == null -> isValid.value = false
-            startDate == endDate -> isValid.value = false
-            ((startDate?.compareTo(endDate ?: "1970/01/01") ?: -1) >= 0) -> isValid.value = false
-            else -> isValid.value = true
-        }
-    }
-
-    private fun CountdownType?.hasStartValue(): Boolean {
-        return requiresStart.contains(this ?: NUMBER)
-    }
-
-    private fun CountdownType?.hasEndValue(): Boolean {
-        return requiresEnd.contains(this ?: NUMBER)
+        close.value = Event()
     }
 }

@@ -7,15 +7,11 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.crash.CrashReporter
-import tmg.hourglass.domain.enums.CountdownInterpolator
-import tmg.hourglass.domain.enums.CountdownInterpolator.LINEAR
-import tmg.hourglass.domain.enums.CountdownType
-import tmg.hourglass.domain.enums.CountdownType.DAYS
 import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.enums.CountdownInterpolator
+import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.utils.Selected
 import tmg.testutils.BaseTest
-import tmg.testutils.livedata.assertDataEventValue
 import tmg.testutils.livedata.assertEventFired
 import tmg.testutils.livedata.test
 
@@ -30,18 +26,19 @@ internal class ModifyViewModelTestEdit: BaseTest() {
     private val mockName = "editName"
     private val mockDescription = "editDescription"
     private val mockColour = "#123312"
-    private val mockDates = Pair(LocalDateTime.now(), LocalDateTime.now())
+    private val mockDateStart = LocalDateTime.now()
+    private val mockDateEnd = LocalDateTime.now()
     private val mockInitial = "0"
     private val mockFinal = "100"
-    private val mockType = DAYS
-    private val mockInterpolator = LINEAR
+    private val mockType = CountdownType.DAYS
+    private val mockInterpolator = CountdownInterpolator.LINEAR
     private val mockEditableItem: Countdown = Countdown(
         id = mockEditId,
         name = mockName,
         description = mockDescription,
         colour = mockColour,
-        start = mockDates.first,
-        end = mockDates.second,
+        start = mockDateStart,
+        end = mockDateEnd,
         initial = mockInitial,
         finishing = mockFinal,
         countdownType = mockType,
@@ -64,7 +61,7 @@ internal class ModifyViewModelTestEdit: BaseTest() {
 
         initSUT()
 
-        sut.outputs.isAddition.test { assertValue(false) }
+        sut.outputs.isEdit.test { assertValue(true) }
 
         sut.outputs.name.test {
             assertValue(mockName)
@@ -72,16 +69,19 @@ internal class ModifyViewModelTestEdit: BaseTest() {
         sut.outputs.description.test {
             assertValue(mockDescription)
         }
-        sut.outputs.colour.test {
+        sut.outputs.color.test {
             assertValue(mockColour)
         }
-        sut.outputs.dates.test {
-            assertValue(mockDates)
+        sut.outputs.startDate.test {
+            assertValue(mockDateStart)
+        }
+        sut.outputs.endDate.test {
+            assertValue(mockDateEnd)
         }
         sut.outputs.initial.test {
             assertValue(mockInitial)
         }
-        sut.outputs.final.test {
+        sut.outputs.finished.test {
             assertValue(mockFinal)
         }
         sut.outputs.type.test {
@@ -91,38 +91,8 @@ internal class ModifyViewModelTestEdit: BaseTest() {
             assertValue(mockInterpolator)
         }
 
-        sut.outputs.typeList.test {
-            val expectedTypeList = CountdownType
-                .values()
-                .map {
-                    Selected(it, it == mockType)
-                }
-            assertValue(expectedTypeList)
-        }
-
-        sut.outputs.interpolatorList.test {
-            val expectedInterpolatorList = CountdownInterpolator
-                .values()
-                .map {
-                    Selected(it, it == mockInterpolator)
-                }
-            assertValue(expectedInterpolatorList)
-        }
-
-        sut.outputs.isValid.test {
+        sut.outputs.saveEnabled.test {
             assertValue(false)
-        }
-    }
-
-    @Test
-    fun `open date picker launches date picker event with stored value`() {
-
-        initSUT()
-
-        sut.inputs.clickDatePicker()
-
-        sut.outputs.showDatePicker.test {
-            assertDataEventValue(mockDates)
         }
     }
 
@@ -131,13 +101,13 @@ internal class ModifyViewModelTestEdit: BaseTest() {
 
         initSUT()
 
-        sut.inputs.clickDelete()
+        sut.inputs.deleteClicked()
 
         verify {
             mockCountdownConnector.delete(any())
         }
 
-        sut.outputs.closeEvent.test {
+        sut.outputs.close.test {
             assertEventFired()
         }
     }
