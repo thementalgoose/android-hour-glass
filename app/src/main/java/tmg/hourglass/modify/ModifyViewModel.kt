@@ -115,7 +115,7 @@ class ModifyViewModel(
         if (_name.isBlank()) {
             return@combine null
         }
-        if (_description.isBlank()) {
+        if (_color.isBlank()) {
             return@combine null
         }
         if (_initial.isBlank()) {
@@ -136,7 +136,10 @@ class ModifyViewModel(
         if (_endDate == null) {
             return@combine null
         }
-        if (_endDate < LocalDateTime.now()) {
+        if (_startDate == _endDate) {
+            return@combine null
+        }
+        if (_endDate < _startDate) {
             return@combine null
         }
 

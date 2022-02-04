@@ -248,24 +248,6 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `clicking save when no date and type set to days it sets the values to be difference between dates`() {
-
-        val diffDays = 10
-
-        initSUT()
-        setupValidInputs(type = CountdownType.DAYS, addDates = true, addInputs = false, diffDays = diffDays)
-
-        sut.inputs.saveClicked()
-
-        sut.outputs.initial.test {
-            assertValue(diffDays.toString())
-        }
-        sut.outputs.finished.test {
-            assertValue("0")
-        }
-    }
-
-    @Test
     fun `clicking saves countdown item in countdown connector`() {
 
         initSUT()
@@ -291,7 +273,7 @@ internal class ModifyViewModelTest: BaseTest() {
         sut.inputs.saveClicked()
 
         verify {
-            mockCrashReporter.log(any())
+            mockCrashReporter.logException(any())
         }
     }
 
@@ -306,7 +288,7 @@ internal class ModifyViewModelTest: BaseTest() {
         sut.inputs.saveClicked()
 
         sut.outputs.saveEnabled.test {
-            assertValue(false)
+            assertValue(true)
         }
         verify {
             mockCrashReporter.logException(any())

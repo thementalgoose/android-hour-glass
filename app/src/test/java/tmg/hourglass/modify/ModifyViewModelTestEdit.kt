@@ -61,7 +61,7 @@ internal class ModifyViewModelTestEdit: BaseTest() {
 
         initSUT()
 
-        sut.outputs.isEdit.test { assertValue(false) }
+        sut.outputs.isEdit.test { assertValue(true) }
 
         sut.outputs.name.test {
             assertValue(mockName)

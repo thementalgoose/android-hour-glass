@@ -19,7 +19,6 @@ val hourGlassModule = module {
     viewModel { DashboardViewModel(get()) }
     viewModel { ModifyViewModel(get(), get()) }
 
-    viewModel { tmg.hourglass.modify_old.ModifyViewModel(get(), get()) }
     viewModel { SettingsViewModel(get(), get()) }
     viewModel { ReleaseViewModel() }
     viewModel { PrivacyPolicyViewModel() }
