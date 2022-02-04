@@ -22,4 +22,4 @@ jobs:
 
       # Running unit tests
       - name: Unit tests
-        run: ./gradlew testDebugUnitTest
+        run: ./gradlew clean testSandDebugUnitTest testDebugUnitTest
