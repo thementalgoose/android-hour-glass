@@ -34,7 +34,6 @@ interface SettingsViewModelOutputs {
     val goBack: LiveData<Event>
 
     val deletedAll: LiveData<Event>
-    val deletedDone: LiveData<Event>
 
     val updateWidget: LiveData<Event>
 
@@ -61,7 +60,6 @@ class SettingsViewModel(
     override val goBack: MutableLiveData<Event> = MutableLiveData()
 
     override val deletedAll: MutableLiveData<Event> = MutableLiveData()
-    override val deletedDone: MutableLiveData<Event> = MutableLiveData()
 
     override val updateWidget: MutableLiveData<Event> = MutableLiveData()
 
@@ -116,13 +114,6 @@ class SettingsViewModel(
             description = R.string.settings_reset_all_description,
             onClick = {
                 deletedAll.value = Event()
-            }
-        ))
-        add(SettingsModel.Pref(
-            title = R.string.settings_reset_done_title,
-            description = R.string.settings_reset_done_description,
-            onClick = {
-                deletedDone.value = Event()
             }
         ))
         add(SettingsModel.Header(R.string.settings_help))

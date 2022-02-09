@@ -18,9 +18,8 @@
     <string name="settings_reset_all_title">Delete all</string>
     <string name="settings_reset_all_description">Delete all the items that you have setup in the app</string>
     <string name="settings_reset_all_done">Items have been cleared</string>
-    <string name="settings_reset_done_title">Delete done</string>
-    <string name="settings_reset_done_description">Delete all the items that are in your previous tab</string>
-    <string name="settings_reset_done_done">Items have been cleared</string>
+    <string name="settings_reset_all_confirm">Yes</string>
+    <string name="settings_reset_all_cancel">No</string>
     <string name="settings_help">About</string>
     <string name="settings_feedback">Feedback</string>
     <string name="settings_privacy">Privacy</string>
