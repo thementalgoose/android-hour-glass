@@ -51,7 +51,7 @@ open class RealmBaseConnector {
         val realm: Realm = realm()
         val query = where(realm.where(realmClass))
         val listener = RealmChangeListener<RealmResults<E>> { t ->
-            offer(t.map { convert(it) })
+            trySend(t.map { convert(it) })
         }
         val results = query.findAllAsync()
         results.addChangeListener(listener)
@@ -71,9 +71,9 @@ open class RealmBaseConnector {
         @Suppress("SENSELESS_COMPARISON")
         val listener = RealmChangeListener<E> { t ->
             if (t != null) {
-                offer(convert(t))
+                trySend(convert(t))
             } else {
-                offer(null)
+                trySend(null)
             }
         }
         val results = query.findFirstAsync()

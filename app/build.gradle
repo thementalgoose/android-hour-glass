@@ -102,6 +102,9 @@ dependencies {
     implementation deps.tmg.aboutthisapp
     implementation deps.tmg.labelledprogressbar
 
+    // Accompanist
+    implementation deps.accompanist.systemuicontroller
+
     // BugShaker
     implementation deps.bugshaker
 

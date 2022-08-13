@@ -33,7 +33,6 @@ internal class SettingsViewModelTest: BaseTest() {
         Pair(R.string.settings_widgets_updated_title, R.string.settings_widgets_updated_description),
         Pair(R.string.settings_reset, null),
         Pair(R.string.settings_reset_all_title, R.string.settings_reset_all_description),
-        Pair(R.string.settings_reset_done_title, R.string.settings_reset_done_description),
         Pair(R.string.settings_help, null),
         Pair(R.string.settings_help_about_title, R.string.settings_help_about_description),
         Pair(R.string.settings_help_review_title, R.string.settings_help_review_description),
@@ -115,15 +114,6 @@ internal class SettingsViewModelTest: BaseTest() {
 
 
     @Test
-    fun `clicking theme app pref opens theme event`() {
-        initSUT()
-        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_theme_theme_title))
-        sut.openTheme.test {
-            assertEventFired()
-        }
-    }
-
-    @Test
     fun `clicking refresh widgets updates widget event`() {
         initSUT()
         sut.clickSetting(sut.list.value!!.findPref(R.string.settings_widgets_refresh_title))
@@ -140,24 +130,6 @@ internal class SettingsViewModelTest: BaseTest() {
             mockPreferenceManager.widgetShowUpdate = true
         }
         sut.updateWidget.test {
-            assertEventFired()
-        }
-    }
-
-    @Test
-    fun `clicking reset all fires delete all event`() {
-        initSUT()
-        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_reset_all_title))
-        sut.deletedAll.test {
-            assertEventFired()
-        }
-    }
-
-    @Test
-    fun `clicking reset done fires delete done event`() {
-        initSUT()
-        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_reset_done_title))
-        sut.deletedDone.test {
             assertEventFired()
         }
     }

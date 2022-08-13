@@ -41,7 +41,9 @@ fun RangeLayout(
             modifier = Modifier.fillMaxWidth()
         ) {
             Input(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .imePadding(),
                 initial = initial,
                 inputUpdated = initialUpdated,
                 keyboardType = KeyboardType.Number,
@@ -49,7 +51,9 @@ fun RangeLayout(
             )
             Spacer(modifier = Modifier.width(AppTheme.dimensions.paddingMedium))
             Input(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .imePadding(),
                 initial = finished,
                 inputUpdated = finishedUpdated,
                 keyboardType = KeyboardType.Number,

@@ -18,7 +18,7 @@ import tmg.hourglass.presentation.textviews.TextHeader1
 
 @Composable
 fun DashboardHeaderLayout(
-    clickSettings: () -> Unit,
+    clickSettings: (() -> Unit)?,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -37,10 +37,10 @@ fun DashboardHeaderLayout(
                 )
                 .align(Alignment.End)
         ) {
-            IconButton(
-                onClick = clickSettings
-            ) {
-                Icon(Icons.Default.Settings, contentDescription = stringResource(id = R.string.ab_settings))
+            clickSettings?.let {
+                IconButton(onClick = it) {
+                    Icon(Icons.Default.Settings, contentDescription = stringResource(id = R.string.ab_settings))
+                }
             }
         }
         Spacer(modifier = Modifier.height(32.dp))

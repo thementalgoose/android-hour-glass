@@ -1,6 +1,7 @@
 package tmg.hourglass.di
 
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
 import tmg.hourglass.analytics.AnalyticsManager
 import tmg.hourglass.analytics.FirebaseAnalyticsManager
