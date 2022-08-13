@@ -94,8 +94,14 @@ fun ModifyScreenVM(
                 SaveLayout(
                     isEdit = isEdit,
                     saveEnabled = viewModel.outputs.saveEnabled.observeAsState(false).value,
-                    saveClicked = viewModel.inputs::saveClicked,
-                    deleteClicked = viewModel.inputs::deleteClicked
+                    saveClicked = {
+                        viewModel.inputs.saveClicked()
+                        actionUpClicked()
+                    },
+                    deleteClicked = {
+                        viewModel.inputs.deleteClicked()
+                        actionUpClicked()
+                    }
                 )
             }
         })
