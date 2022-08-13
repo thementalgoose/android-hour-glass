@@ -13,7 +13,9 @@ class RealmWidgetMapper {
     }
 
     fun serialize(model: RealmWidgetReference, data: WidgetReference) {
-        model.appWidgetId = data.appWidgetId
+        if (model.appWidgetId != data.appWidgetId) {
+            model.appWidgetId = data.appWidgetId
+        }
         model.countdownId = data.countdownId
     }
 }

@@ -23,7 +23,7 @@ fun RemoteViews.setProgressBarColor(@IdRes progressBar: Int, @ColorInt color: In
         )
     } catch (e: Exception) {  // SecurityException, NoSuchMethodException
         if (BuildConfig.DEBUG) {
-            e.printStackTrace()
+            throw e
         }
         /* Do nothing */
     }
@@ -36,7 +36,7 @@ fun RemoteViews.setProgressBarColor(@IdRes progressBar: Int, @ColorInt color: In
             )
         } catch (e: Exception) { // IllegalAccessException, InvocationTargetException
             if (BuildConfig.DEBUG) {
-                e.printStackTrace()
+                throw e
             }
             /* Do nothing */
         }
