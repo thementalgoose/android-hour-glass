@@ -137,5 +137,16 @@
     "notes": [
       "Redesigned home screen and addition screen!"
     ]
+  },
+  {
+    "versionCode": 38,
+    "versionName": "4.0.38",
+    "isMajor": false,
+    "title": "",
+    "notes": [
+      "Redesigned settings and widget select screen",
+      "Lots of dependency updates and bringing the project up to date",
+      "General bugfixes around the modify screen"
+    ]
   }
 ]
