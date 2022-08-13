@@ -95,7 +95,7 @@ internal class ModifyViewModelTestEdit: BaseTest() {
         }
 
         sut.outputs.saveEnabled.test {
-            assertValue(true)
+            assertValue(false)
         }
     }
 
