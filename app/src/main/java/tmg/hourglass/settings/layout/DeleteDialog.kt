@@ -27,12 +27,12 @@ fun DeleteDialog(
         onDismissRequest = dismissed,
         dismissButton = {
             Button(onClick = dismissed) {
-                Text(text = stringResource(id = R.string.settings_reset_all_confirm))
+                Text(text = stringResource(id = R.string.settings_reset_all_cancel))
             }
         },
         confirmButton = {
             Button(onClick = confirmed) {
-                Text(text = stringResource(id = R.string.settings_reset_all_cancel))
+                Text(text = stringResource(id = R.string.settings_reset_all_confirm))
             }
         }
     )

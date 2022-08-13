@@ -28,6 +28,12 @@ allprojects {
                         viewmodel                               : "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07",
                         theme_adapter                           : "com.google.android.material:compose-theme-adapter:1.0.5",
                 ],
+                accompanist: [
+                        swiperefresh                            : "com.google.accompanist:accompanist-swiperefresh:$android_accompanist",
+                        horizontalpager                         : "com.google.accompanist:accompanist-pager:$android_accompanist",
+                        systemuicontroller                      : "com.google.accompanist:accompanist-systemuicontroller:$android_accompanist",
+                        placeholder                             : "com.google.accompanist:accompanist-placeholder-material:$android_accompanist",
+                ],
                 kotlin : [
                         stdlib                                  : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
                         core                                    : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",

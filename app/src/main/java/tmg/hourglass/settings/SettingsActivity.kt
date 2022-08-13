@@ -1,11 +1,13 @@
 package tmg.hourglass.settings
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,13 +18,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tmg.aboutthisapp.AboutThisAppActivity
 import tmg.aboutthisapp.AboutThisAppConfiguration
 import tmg.aboutthisapp.AboutThisAppDependency
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
+import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
 import tmg.hourglass.presentation.AppTheme
@@ -63,6 +66,10 @@ class SettingsActivity: BaseActivity() {
             startActivity(ReleaseActivity.intent(this))
         }
 
+        observeEvent(viewModel.outputs.updateWidget) {
+            this.updateAllWidgets()
+        }
+
         observeEvent(viewModel.outputs.openSuggestions) {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/html"
@@ -81,12 +88,9 @@ class SettingsActivity: BaseActivity() {
         observeEvent(viewModel.outputs.privacyPolicy) {
             startActivity(Intent(this, PrivacyPolicyActivity::class.java))
         }
-
-        observeEvent(viewModel.outputs.openTheme) {
-
-        }
     }
 
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     private fun setContent() {
         setContent {
             AppTheme {
@@ -100,6 +104,19 @@ class SettingsActivity: BaseActivity() {
 
                         SettingsLayout(
                             list = settingsItems.value,
+                            modelClicked = {
+                                when (it.id) {
+                                    R.string.settings_theme_theme_title -> {
+                                        openThemeDialog.value = true
+                                    }
+                                    R.string.settings_reset_all_title -> {
+                                        openDeleteAllDialog.value = true
+                                    }
+                                    else -> {
+                                        viewModel.inputs.clickSetting(it)
+                                    }
+                                }
+                            },
                             clickBack = viewModel.inputs::clickBack
                         )
 
@@ -107,6 +124,8 @@ class SettingsActivity: BaseActivity() {
                             DeleteDialog(
                                 confirmed = {
                                     viewModel.inputs.clickDeleteAll()
+                                    openDeleteAllDialog.value = false
+                                    Toast.makeText(applicationContext, R.string.settings_all_deleted, Toast.LENGTH_LONG).show()
                                 },
                                 dismissed = {
                                     openDeleteAllDialog.value = false

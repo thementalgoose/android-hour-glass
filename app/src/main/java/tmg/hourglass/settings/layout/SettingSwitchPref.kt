@@ -6,7 +6,6 @@ import androidx.compose.material.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,20 +18,20 @@ import tmg.hourglass.presentation.textviews.TextBody2
 fun SettingSwitchPref(
     title: String,
     subtitle: String,
-    checkboxState: Boolean,
+    checkbox: Boolean,
     onClick: (newState: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
-    val checkbox = remember { mutableStateOf(checkboxState) }
+    val checkboxVal = remember { mutableStateOf(checkbox) }
 
     Row(
         modifier = modifier
             .fillMaxWidth()
             .clickable(
                 onClick = {
-                    onClick(!checkboxState)
-                    checkbox.value = !checkboxState
+                    onClick(!checkbox)
+                    checkboxVal.value = !checkbox
                 }
             )
             .padding(
@@ -54,7 +53,7 @@ fun SettingSwitchPref(
             TextBody2(text = subtitle)
         }
         Checkbox(
-            checked = checkbox.value,
+            checked = checkboxVal.value,
             onCheckedChange = null
         )
     }
@@ -67,7 +66,7 @@ private fun Preview() {
         SettingSwitchPref(
             title = "App Theme",
             subtitle = "Some kind of app theme preference that you need to click",
-            checkboxState = true,
+            checkbox = true,
             onClick = { }
         )
     }

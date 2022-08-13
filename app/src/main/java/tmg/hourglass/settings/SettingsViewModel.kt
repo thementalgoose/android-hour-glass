@@ -33,12 +33,9 @@ interface SettingsViewModelOutputs {
     val list: LiveData<List<SettingsModel>>
     val goBack: LiveData<Event>
 
-    val deletedAll: LiveData<Event>
-
     val updateWidget: LiveData<Event>
 
     val currentThemePref: LiveData<ThemePref>
-    val openTheme: LiveData<Event>
 
     val openAbout: LiveData<Event>
     val openReview: LiveData<DataEvent<String>>
@@ -59,12 +56,9 @@ class SettingsViewModel(
 
     override val goBack: MutableLiveData<Event> = MutableLiveData()
 
-    override val deletedAll: MutableLiveData<Event> = MutableLiveData()
-
     override val updateWidget: MutableLiveData<Event> = MutableLiveData()
 
     override val currentThemePref: MutableLiveData<ThemePref> = MutableLiveData()
-    override val openTheme: MutableLiveData<Event> = MutableLiveData()
 
     override val openAbout: MutableLiveData<Event> = MutableLiveData()
     override val openReview: MutableLiveData<DataEvent<String>> = MutableLiveData()
@@ -87,9 +81,7 @@ class SettingsViewModel(
         add(SettingsModel.Pref(
             title = R.string.settings_theme_theme_title,
             description = R.string.settings_theme_theme_description,
-            onClick = {
-                openTheme.value = Event()
-            }
+            onClick = {}
         ))
         add(SettingsModel.Header(R.string.settings_widgets))
         add(SettingsModel.Pref(
@@ -112,9 +104,7 @@ class SettingsViewModel(
         add(SettingsModel.Pref(
             title = R.string.settings_reset_all_title,
             description = R.string.settings_reset_all_description,
-            onClick = {
-                deletedAll.value = Event()
-            }
+            onClick = {}
         ))
         add(SettingsModel.Header(R.string.settings_help))
         add(SettingsModel.Pref(

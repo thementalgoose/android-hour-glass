@@ -57,8 +57,8 @@ fun ThemeDialog(
                     TextButton(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {
-                            themePicked(it)
                             dismissed()
+                            themePicked(it)
                         }
                     ) {
                         TextBody1(

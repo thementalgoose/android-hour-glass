@@ -14,6 +14,7 @@ import tmg.hourglass.settings.layout.SettingSwitchPref
 @Composable
 fun SettingsLayout(
     list: List<SettingsModel>,
+    modelClicked: (SettingsModel) -> Unit,
     clickBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -25,7 +26,7 @@ fun SettingsLayout(
                     backClicked = clickBack
                 )
             }
-            items(list) { item ->
+            items(list, key = { it.id }) { item ->
                 when (item) {
                     is SettingsModel.Header -> {
                         SettingHeader(text = stringResource(item.title))
@@ -35,7 +36,7 @@ fun SettingsLayout(
                             title = stringResource(id = item.title),
                             subtitle = stringResource(id = item.description),
                             onClick = {
-                                item.onClick?.invoke()
+                                modelClicked(item)
                             }
                         )
                     }
@@ -43,9 +44,9 @@ fun SettingsLayout(
                         SettingSwitchPref(
                             title = stringResource(id = item.title),
                             subtitle = stringResource(id = item.description),
-                            checkboxState = item.getState(),
+                            checkbox = item.getState(),
                             onClick = {
-                                item.saveState(!item.getState())
+                                modelClicked(item)
                             }
                         )
                     }

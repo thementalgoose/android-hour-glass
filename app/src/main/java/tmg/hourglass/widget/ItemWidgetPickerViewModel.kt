@@ -82,11 +82,11 @@ class ItemWidgetPickerViewModel(
     //region Inputs
 
     override fun supplyAppWidgetId(id: Int) {
-        appWidgetId.offer(id)
+        appWidgetId.trySend(id)
     }
 
     override fun checkedItem(itemId: String) {
-        checkedId.offer(itemId)
+        checkedId.trySend(itemId)
     }
 
     override fun clickSave() {
