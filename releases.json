@@ -148,5 +148,14 @@
       "Lots of dependency updates and bringing the project up to date",
       "General bugfixes around the modify screen"
     ]
+  },
+  {
+    "versionCode": 39,
+    "versionName": "4.0.39",
+    "isMajor": false,
+    "title": "",
+    "notes": [
+      "Minor theming updates"
+    ]
   }
 ]
