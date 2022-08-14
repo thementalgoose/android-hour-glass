@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.material.Scaffold
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.extensions.updateWidget
 import tmg.hourglass.presentation.AppTheme
@@ -22,16 +23,18 @@ abstract class ItemWidgetPickerActivity<T : AppWidgetProvider> : BaseActivity() 
         appWidgetId = getWidgetId()
         setContent {
             AppTheme {
-                ItemWidgetPickerScreenVM(
-                    appWidgetId = appWidgetId,
-                    actionUpClicked = {
-                        finish()
-                    },
-                    saveClicked = {
-                        updateWidget(it)
-                        finish()
-                    }
-                )
+                Scaffold(content = {
+                    ItemWidgetPickerScreenVM(
+                        appWidgetId = appWidgetId,
+                        actionUpClicked = {
+                            finish()
+                        },
+                        saveClicked = {
+                            updateWidget(it)
+                            finish()
+                        }
+                    )
+                })
             }
         }
     }
