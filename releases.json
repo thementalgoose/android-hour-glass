@@ -157,5 +157,15 @@
     "notes": [
       "Minor theming updates"
     ]
+  },
+  {
+    "versionCode": 40,
+    "versionName": "4.0.40",
+    "isMajor": false,
+    "title": "",
+    "notes": [
+      "Targets Android 13",
+      "Lots of dependency updates and backend QoL fixes"
+    ]
   }
 ]

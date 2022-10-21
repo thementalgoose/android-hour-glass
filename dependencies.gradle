@@ -44,6 +44,7 @@ allprojects {
                         bom                                     : "com.google.firebase:firebase-bom:$firebase_bom",
                         analytics                               : "com.google.firebase:firebase-analytics",
                         crashlytics                             : "com.google.firebase:firebase-crashlytics",
+                        perf                                    : "com.google.firebase:firebase-perf"
                 ],
                 koin : [
                         koin                                    : "io.insert-koin:koin-android:$koin_version",
