@@ -43,9 +43,9 @@ ext {
     android_accompanist = "0.26.5-rc"
     swipe_refresh = "1.1.0"
 
-    tmg_utils = "2.4.2"
-    tmg_about_this_app = "5.3.1"
-    tmg_labelled_progressbar = "1.0.7"
+    tmg_utils = "2.4.4"
+    tmg_about_this_app = "5.3.2"
+    tmg_labelled_progressbar = "1.0.0"
     tmg_test_utils = "1.1.0"
 
     lottie = "5.2.0"
