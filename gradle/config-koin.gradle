@@ -1,4 +1,3 @@
 dependencies {
-    implementation "io.insert-koin:koin-android:$koin_version"
-    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
+    implementation libs.bundles.koin
 }

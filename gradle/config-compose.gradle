@@ -5,17 +5,27 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion "$android_compose_compiler"
+        kotlinCompilerExtensionVersion libs.versions.composecompiler.get()
     }
 }
 
 dependencies {
-    // Compose
-    implementation deps.compose.activity
-    implementation deps.compose.material
-    implementation deps.compose.animation
-    implementation deps.compose.tooling
-    implementation deps.compose.viewmodel
-    implementation deps.compose.runtime
-    implementation deps.compose.theme_adapter
+    implementation platform(libs.compose.bom)
+    implementation libs.compose.material
+    implementation libs.compose.material3
+    implementation libs.compose.windowsize
+    implementation libs.compose.animation
+    implementation libs.compose.ui.tooling
+    implementation libs.compose.ui.viewbinding
+    implementation libs.compose.livedata
+
+    implementation libs.compose.activity
+    implementation libs.compose.theme.adapter
+    implementation libs.compose.navigation
+    implementation libs.compose.viewmodel
+
+    implementation libs.androidx.window
+    implementation libs.coil
+
+    implementation libs.bundles.accompanist
 }

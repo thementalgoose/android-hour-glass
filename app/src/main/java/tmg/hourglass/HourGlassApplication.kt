@@ -3,11 +3,11 @@ package tmg.hourglass
 import android.app.Application
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate.*
-import com.github.stkent.bugshaker.BugShaker
-import com.github.stkent.bugshaker.flow.dialog.AlertDialogType
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.linkedin.android.shaky.EmailShakeDelegate
+import com.linkedin.android.shaky.Shaky
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import org.koin.android.ext.android.inject
@@ -54,13 +54,12 @@ class HourGlassApplication : Application() {
 
         // Shake to report a bug
         if (prefs.shakeToReport) {
-            BugShaker.get(this)
-                .setEmailAddresses("thementalgoose@gmail.com")
-                .setEmailSubjectLine("${getString(R.string.app_name)} - App Feedback")
-                .setAlertDialogType(AlertDialogType.APP_COMPAT)
-                .setLoggingEnabled(BuildConfig.DEBUG)
-                .assemble()
-                .start()
+            Log.i("Startup", "Enabling shake to report")
+
+            Shaky.with(this, object : EmailShakeDelegate("thementalgoose@gmail.com") {
+                override fun getTheme() = super.getTheme()
+                override fun getPopupTheme() = super.getPopupTheme()
+            })
         }
 
         // Crash Reporting
