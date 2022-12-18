@@ -150,6 +150,9 @@
     <string name="settings_theme_applied_later">Theme will be applied when the app is restarted</string>
     <string name="modify_type_title">Countdown type</string>
 
+
+    <string name="error_activity_not_found">Sorry, an error occurred</string>
+
     <!-- Widgets -->
     <string name="widget_error">Item not found</string>
     <string name="widget_value">N/A</string>

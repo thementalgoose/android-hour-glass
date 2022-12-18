@@ -82,7 +82,9 @@ class SettingsActivity: BaseActivity() {
             try {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
                 startActivity(intent)
-            } catch (e: ActivityNotFoundException) { }
+            } catch (e: ActivityNotFoundException) {
+                Toast.makeText(applicationContext, getString(R.string.error_activity_not_found), Toast.LENGTH_LONG).show()
+            }
         }
 
         observeEvent(viewModel.outputs.privacyPolicy) {
