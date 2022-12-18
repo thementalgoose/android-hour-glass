@@ -184,10 +184,10 @@ class SettingsActivity: BaseActivity() {
         ),
         AboutThisAppDependency(
             order = 3,
-            dependencyName = "BugShaker Android",
-            author = "Stuart Kent",
-            url = "https://github.com/stkent/bugshaker-android",
-            imageUrl = "https://avatars0.githubusercontent.com/u/6463980"
+            dependencyName = "Shaky",
+            author = "Linked In",
+            url = "https://github.com/linkedin/shaky-android",
+            imageUrl = "https://avatars.githubusercontent.com/u/357098"
         ),
         AboutThisAppDependency(
             order = 4,
