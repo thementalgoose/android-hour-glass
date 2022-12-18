@@ -25,7 +25,6 @@ import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextHeader2
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TypeLayout(
     type: CountdownType,

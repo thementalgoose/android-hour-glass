@@ -10,7 +10,6 @@ import org.threeten.bp.ZoneOffset
 open class RealmBaseConnector {
 
     //region Utils
-
     protected val now: Long
         get() = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
 
