@@ -6,17 +6,23 @@
 
 ![HourGlass](res/feature.png)
 
-Hour Glass is a calendar countdown application to help you map values between two dates
+### Screenshots
 
-- MVVM
-- Koin
-- Realm
-- Kotlin Coroutines
-- Firebase (Analytics + Crashlytics)
-- View models unit tests
+| | | |
+|---|---|---|---|
+| <img src="res/screenshots/raw/hourglass-1.png" width="160" /> | <img src="res/screenshots/raw/hourglass-2.png" width="160" /> | <img src="res/screenshots/raw/hourglass-3.png" width="160" /> | <img src="res/screenshots/raw/hourglass-4.png" width="160" /> |
+
+### Play store listing
+
+HourGlass is a small app to be able to track something between two dates so you know what the value should be. You can use this to track how much you should have saved towards a holiday, or how many miles a rental car should be on when you drop it off if you have a quota
+
+HourGlass now supports widget! See the countdown progress right from your home screen
+
+No ads, no purchases required.
+
 
 ```
-Copyright 2020 Jordan Fisher
+Copyright 2022 Jordan Fisher
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
