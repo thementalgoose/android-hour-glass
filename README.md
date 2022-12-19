@@ -8,7 +8,7 @@
 
 ### Screenshots
 
-| | | |
+| 1 | 2 | 3 | 4 |
 |---|---|---|---|
 | <img src="res/screenshots/raw/hourglass-1.png" width="160" /> | <img src="res/screenshots/raw/hourglass-2.png" width="160" /> | <img src="res/screenshots/raw/hourglass-3.png" width="160" /> | <img src="res/screenshots/raw/hourglass-4.png" width="160" /> |
 
