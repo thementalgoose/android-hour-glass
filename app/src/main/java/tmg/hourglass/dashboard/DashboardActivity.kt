@@ -1,5 +1,7 @@
 package tmg.hourglass.dashboard
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,6 +15,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
@@ -22,13 +26,21 @@ import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.settings.SettingsActivity
 import tmg.utilities.extensions.observeEvent
 
-class DashboardActivity: BaseActivity() {
+class DashboardActivity: BaseActivity(), SplashScreen.KeepOnScreenCondition {
 
     private val viewModel: DashboardViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            splashScreen.setSplashScreenTheme(R.style.AppTheme)
+        }
+        val splashScreen = installSplashScreen()
+
         setContent()
+
+        splashScreen.setKeepOnScreenCondition(this)
 
         observeEvent(viewModel.outputs.goToAdd) {
             startActivity(ModifyActivity.intent(this))
@@ -43,6 +55,7 @@ class DashboardActivity: BaseActivity() {
         }
     }
 
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     private fun setContent() {
         setContent {
             AppTheme {
@@ -90,5 +103,9 @@ class DashboardActivity: BaseActivity() {
                 )
             }
         }
+    }
+
+    override fun shouldKeepOnScreen(): Boolean {
+        return false
     }
 }
