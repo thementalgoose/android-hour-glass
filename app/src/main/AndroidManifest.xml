@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="tmg.hourglass.HourGlassApplication"
+        android:name=".HourGlassApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,9 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:exported="true"
-            android:name="tmg.hourglass.SplashActivity">
+        <activity android:name=".dashboard.DashboardActivity"
+            android:theme="@style/Launcher"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,19 +24,22 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="tmg.hourglass.dashboard.DashboardActivity" />
-
-        <activity android:name="tmg.hourglass.modify.ModifyActivity"
+        <activity android:name=".modify.ModifyActivity"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
-        <activity android:name="tmg.hourglass.settings.SettingsActivity" />
+        <activity android:name=".settings.SettingsActivity"
+            android:exported="false" />
 
-        <activity android:name="tmg.hourglass.settings.release.ReleaseActivity" />
+        <activity android:name=".settings.release.ReleaseActivity"
+            android:exported="false" />
 
-        <activity android:name="tmg.hourglass.settings.privacy.PrivacyPolicyActivity" />
+        <activity android:name=".settings.privacy.PrivacyPolicyActivity"
+            android:exported="false" />
 
         <activity
             android:name="tmg.aboutthisapp.AboutThisAppActivity"
+            android:exported="false"
             android:theme="@style/AppTheme.AboutThisApp" />
 
         <!-- Widget -->
@@ -66,7 +70,7 @@
 
         <activity
             android:exported="true"
-            android:name="tmg.hourglass.widget.bar.light.WidgetBarLightPickerActivity">
+            android:name=".widget.bar.light.WidgetBarLightPickerActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -74,7 +78,7 @@
 
         <receiver
             android:exported="false"
-            android:name="tmg.hourglass.widget.bar.light.WidgetBarLightProvider"
+            android:name=".widget.bar.light.WidgetBarLightProvider"
             android:label="@string/widget_bar_label_light">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -88,7 +92,7 @@
 
         <activity
             android:exported="true"
-            android:name="tmg.hourglass.widget.circle.light.WidgetCircleLightPickerActivity">
+            android:name=".widget.circle.light.WidgetCircleLightPickerActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -96,7 +100,7 @@
 
         <receiver
             android:exported="false"
-            android:name="tmg.hourglass.widget.circle.light.WidgetCircleLightProvider"
+            android:name=".widget.circle.light.WidgetCircleLightProvider"
             android:label="@string/widget_circle_label_light">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -110,7 +114,7 @@
 
         <activity
             android:exported="true"
-            android:name="tmg.hourglass.widget.circle.dark.WidgetCircleDarkPickerActivity">
+            android:name=".widget.circle.dark.WidgetCircleDarkPickerActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -118,7 +122,7 @@
 
         <receiver
             android:exported="false"
-            android:name="tmg.hourglass.widget.circle.dark.WidgetCircleDarkProvider"
+            android:name=".widget.circle.dark.WidgetCircleDarkProvider"
             android:label="@string/widget_circle_label_dark">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
