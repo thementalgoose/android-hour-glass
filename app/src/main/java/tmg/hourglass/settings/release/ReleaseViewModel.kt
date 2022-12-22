@@ -2,9 +2,11 @@ package tmg.hourglass.settings.release
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import tmg.hourglass.ReleaseNotes
-import tmg.hourglass.base.BaseViewModel
 import tmg.utilities.lifecycle.Event
+import javax.inject.Inject
 
 //region Inputs
 
@@ -23,7 +25,8 @@ interface ReleaseViewModelOutputs {
 
 //endregion
 
-class ReleaseViewModel: BaseViewModel(), ReleaseViewModelInputs, ReleaseViewModelOutputs {
+@HiltViewModel
+class ReleaseViewModel @Inject constructor(): ViewModel(), ReleaseViewModelInputs, ReleaseViewModelOutputs {
 
     var inputs: ReleaseViewModelInputs = this
     var outputs: ReleaseViewModelOutputs = this

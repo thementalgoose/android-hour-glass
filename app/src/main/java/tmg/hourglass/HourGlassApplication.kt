@@ -2,26 +2,28 @@ package tmg.hourglass
 
 import android.app.Application
 import android.util.Log
-import androidx.appcompat.app.AppCompatDelegate.*
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.linkedin.android.shaky.EmailShakeDelegate
 import com.linkedin.android.shaky.Shaky
+import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import org.koin.android.ext.android.inject
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
-import tmg.hourglass.di.hourGlassModule
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
-import tmg.hourglass.realm.di.realmModule
 import tmg.hourglass.realm.migrations.RealmDBMigration
+import javax.inject.Inject
 
+@HiltAndroidApp
 class HourGlassApplication : Application() {
 
-    private val prefs: PreferencesManager by inject()
+    @Inject
+    protected lateinit var prefs: PreferencesManager
 
     override fun onCreate() {
         super.onCreate()
@@ -34,13 +36,6 @@ class HourGlassApplication : Application() {
             .allowWritesOnUiThread(true)
             .build()
         Realm.setDefaultConfiguration(config)
-
-        // Koin
-        startKoin {
-            androidContext(this@HourGlassApplication)
-            modules(hourGlassModule)
-            modules(realmModule)
-        }
 
         // Night mode
         when (prefs.theme) {

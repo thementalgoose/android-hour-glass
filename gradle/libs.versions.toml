@@ -1,6 +1,8 @@
 [versions]  # ===========================================================================
 kotlin = "1.7.21"
-koin = "3.2.2"
+hilt = "2.44"
+dagger = "2.44"
+androidx_hilt = "1.0.0"
 androidx_navigation = "2.5.3"
 androidx_lifecycle = "2.5.1"
 androidx_room = "2.4.2"
@@ -31,8 +33,11 @@ androidx_workmanager_ktx = { module = "androidx.work:work-runtime-ktx", version.
 
 material = "com.google.android.material:material:1.7.0"
 
-koin_android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin_androidx_compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+hilt_android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
+hilt_compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
+hilt_compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidx_hilt" }
+hilt_kapt_compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidx_hilt" }
+hilt_workmanager = { module = "androidx.hilt:hilt-work", version.ref = "androidx_hilt" }
 
 kotlin_stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin_reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
@@ -143,10 +148,6 @@ androidx = [
 androidx_workmanager = [
     "androidx_workmanager_runtime",
     "androidx_workmanager_ktx"
-]
-koin = [
-    "koin_android",
-    "koin_androidx_compose"
 ]
 kotlin = [
     "kotlin_stdlib",

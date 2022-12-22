@@ -2,8 +2,9 @@ package tmg.hourglass.realm.mappers
 
 import tmg.hourglass.domain.model.WidgetReference
 import tmg.hourglass.realm.models.RealmWidgetReference
+import javax.inject.Inject
 
-class RealmWidgetMapper {
+class RealmWidgetMapper @Inject constructor() {
 
     fun deserialize(input: RealmWidgetReference): WidgetReference {
         return WidgetReference(

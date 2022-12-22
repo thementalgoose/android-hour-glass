@@ -3,8 +3,11 @@ package tmg.hourglass.crash
 import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import tmg.hourglass.BuildConfig
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class FirebaseCrashReporter: CrashReporter {
+@Singleton
+class FirebaseCrashReporter @Inject constructor(): CrashReporter {
     override fun log(msg: String) {
         if (!BuildConfig.DEBUG) {
             FirebaseCrashlytics.getInstance().log(msg)

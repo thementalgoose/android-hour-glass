@@ -11,8 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import org.koin.androidx.compose.koinViewModel
-import org.koin.androidx.compose.viewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import tmg.hourglass.R
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownType
@@ -26,7 +25,7 @@ fun ModifyScreenVM(
     isEdit: Boolean,
     actionUpClicked: () -> Unit,
 ) {
-    val viewModel = koinViewModel<ModifyViewModel>()
+    val viewModel = viewModel<ModifyViewModel>()
     viewModel.inputs.initialise(id)
 
     Scaffold(

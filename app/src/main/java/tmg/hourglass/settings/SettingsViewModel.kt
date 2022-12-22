@@ -2,14 +2,16 @@ package tmg.hourglass.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
-import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
 import tmg.utilities.lifecycle.DataEvent
 import tmg.utilities.lifecycle.Event
+import javax.inject.Inject
 
 //region Inputs
 
@@ -49,10 +51,11 @@ interface SettingsViewModelOutputs {
 
 //endregion
 
-class SettingsViewModel(
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
     private val countdownConnector: CountdownConnector,
     private val prefs: PreferencesManager
-) : BaseViewModel(), SettingsViewModelInputs, SettingsViewModelOutputs {
+) : ViewModel(), SettingsViewModelInputs, SettingsViewModelOutputs {
 
     override val goBack: MutableLiveData<Event> = MutableLiveData()
 
