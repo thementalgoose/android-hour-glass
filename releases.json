@@ -130,40 +130,16 @@
     ]
   },
   {
-    "versionCode": 37,
-    "versionName": "4.0.37",
+    "versionCode": 43,
+    "versionName": "4.0.X",
     "isMajor": false,
     "title": "",
     "notes": [
-      "Redesigned home screen and addition screen!"
-    ]
-  },
-  {
-    "versionCode": 38,
-    "versionName": "4.0.38",
-    "isMajor": false,
-    "title": "",
-    "notes": [
+      "Redesigned home screen and addition screen!",
       "Redesigned settings and widget select screen",
       "Lots of dependency updates and bringing the project up to date",
-      "General bugfixes around the modify screen"
-    ]
-  },
-  {
-    "versionCode": 39,
-    "versionName": "4.0.39",
-    "isMajor": false,
-    "title": "",
-    "notes": [
-      "Minor theming updates"
-    ]
-  },
-  {
-    "versionCode": 43,
-    "versionName": "4.0.43",
-    "isMajor": false,
-    "title": "",
-    "notes": [
+      "General bugfixes around the modify screen",
+      "Minor theming updates",
       "Targets Android 13",
       "Lots of dependency updates and backend QoL fixes"
     ]
