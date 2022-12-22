@@ -71,6 +71,16 @@ jobs:
           echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> hour-glass.keystore
           echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
 
+      # Version tag
+      - name: Version Name
+        id: get_version_name
+        run: echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
+
+      # Version code
+      - name: Version Code
+        id: get_version_code
+        run: echo "VERSION=$(echo $GITHUB_REF | cut -d . -f 3)" >> $GITHUB_OUTPUT
+
       # Release
       - name: Release to internal test track
         env:
@@ -78,7 +88,9 @@ jobs:
           PRIVATE_KEY: ${{ github.workspace }}/deployment_private_key.json
           KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        run: ./gradlew publishLiveReleaseBundle
+          VERSION_CODE: ${{ steps.get_version_code.outputs.VERSION }}
+          VERSION_NAME: ${{ steps.get_version_name.outputs.VERSION }}
+        run: ./gradlew publishLiveReleaseBundle uploadCrashlyticsMappingFileLiveRelease
 
   update_versions:
     runs-on: ubuntu-latest
