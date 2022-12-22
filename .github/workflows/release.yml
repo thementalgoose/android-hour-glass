@@ -30,7 +30,7 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/*.toml*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
@@ -60,7 +60,7 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/*.toml*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
@@ -71,6 +71,16 @@ jobs:
           echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> hour-glass.keystore
           echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
 
+      # Version tag
+      - name: Version Name
+        id: get_version_name
+        run: echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
+
+      # Version code
+      - name: Version Code
+        id: get_version_code
+        run: echo "VERSION=$(echo $GITHUB_REF | cut -d . -f 3)" >> $GITHUB_OUTPUT
+
       # Release
       - name: Release to internal test track
         env:
@@ -78,11 +88,49 @@ jobs:
           PRIVATE_KEY: ${{ github.workspace }}/deployment_private_key.json
           KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        run: ./gradlew publishLiveReleaseBundle
+          VERSION_CODE: ${{ steps.get_version_code.outputs.VERSION }}
+          VERSION_NAME: ${{ steps.get_version_name.outputs.VERSION }}
+        run: ./gradlew publishLiveReleaseBundle uploadCrashlyticsMappingFileLiveRelease
+
+  update_versions:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+
+      # Checkout
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Setup Python
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      # Version tag
+      - name: Version Name
+        id: get_version_name
+        run: echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
+      - name: Output version name
+        run: echo ${{ steps.get_version_name.outputs.VERSION }} > version-name.txt
+
+      # Version code
+      - name: Version Code
+        id: get_version_code
+        run: echo "VERSION=$(echo $GITHUB_REF | cut -d . -f 3)" >> $GITHUB_OUTPUT
+      - name: Output version code
+        run: echo ${{ steps.get_version_code.outputs.VERSION }} > version-code.txt
+
+      # Commits changes to README
+      - name: Commit and push changes
+        uses: actions-js/push@master
+        with:
+          message: Updates version to ${{ steps.get_version_name.outputs.VERSION }} (${{ steps.get_version_code.outputs.VERSION }})
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   discord_notify:
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: [update_versions]
     if: always()
     steps:
 

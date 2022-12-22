@@ -1,18 +1,25 @@
 import groovy.json.JsonSlurper
 
-private static def getLastNote() {
-    def releaseNotes = "releases.json"
-    def json = new File(releaseNotes)
-    def parsedJson = new JsonSlurper().parseText(json.text)
-    return parsedJson[parsedJson.size - 1]
-}
-
 private static def getVersionName() {
-    return getLastNote().versionName as String
+    def value = System.getenv("VERSION_NAME") as String
+    if (value == null || value == "") {
+        def file = "version-name.txt"
+        def localValue = new File(file).text.trim() as String
+        value = localValue
+    }
+    println("getVersionName = '$value'")
+    return value
 }
 
 private static def getVersionCode() {
-    return getLastNote().versionCode as Integer
+    def value = System.getenv("VERSION_CODE") as Integer
+    if (value == null || value == "") {
+        def file = "version-code.txt"
+        def localValue = new File(file).text.trim() as Integer
+        value = localValue
+    }
+    println("getVersionCode = '$value'")
+    return value
 }
 
 ext {
