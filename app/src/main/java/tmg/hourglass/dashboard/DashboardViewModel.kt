@@ -1,10 +1,12 @@
 package tmg.hourglass.dashboard
 
 import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
 import tmg.utilities.lifecycle.DataEvent
 import tmg.utilities.lifecycle.Event
+import javax.inject.Inject
 
 //region Inputs
 
@@ -30,7 +32,8 @@ interface DashboardViewModelOutputs {
 
 //endregion
 
-class DashboardViewModel(
+@HiltViewModel
+class DashboardViewModel @Inject constructor(
     private val countdownConnector: CountdownConnector
 ): ViewModel(), DashboardViewModelInputs, DashboardViewModelOutputs {
 

@@ -2,17 +2,19 @@
 package tmg.hourglass.widget
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
-import tmg.hourglass.base.BaseViewModel
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.connectors.WidgetConnector
 import tmg.utilities.extensions.combinePair
+import javax.inject.Inject
 
 //region Inputs
 
@@ -33,12 +35,12 @@ interface ItemWidgetPickerViewModelOutputs {
 
 //endregion
 
-@OptIn(ExperimentalCoroutinesApi::class, ObsoleteCoroutinesApi::class)
 @Suppress("EXPERIMENTAL_API_USAGE")
-class ItemWidgetPickerViewModel(
+@HiltViewModel
+class ItemWidgetPickerViewModel @Inject constructor(
     private val widgetReferenceConnector: WidgetConnector,
     countdownConnector: CountdownConnector,
-): BaseViewModel(), ItemWidgetPickerViewModelInputs, ItemWidgetPickerViewModelOutputs {
+): ViewModel(), ItemWidgetPickerViewModelInputs, ItemWidgetPickerViewModelOutputs {
 
     var inputs: ItemWidgetPickerViewModelInputs = this
     var outputs: ItemWidgetPickerViewModelOutputs = this

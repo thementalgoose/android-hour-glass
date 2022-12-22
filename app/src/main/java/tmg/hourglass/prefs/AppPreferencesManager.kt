@@ -1,9 +1,12 @@
 package tmg.hourglass.prefs
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import tmg.utilities.extensions.toEnum
 import tmg.utilities.prefs.SharedPrefManager
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
 private const val keyCrashReporting: String = "crashReporting"
 private const val keyAnalyticsReporting: String = "analyticsReporting"
@@ -13,7 +16,10 @@ private const val keyVersion: String = "version"
 private const val keyWidgetUpdated: String = "widgetUpdate"
 private const val keyThemePref: String = "themePref"
 
-class AppPreferencesManager(context: Context): SharedPrefManager(context), PreferencesManager {
+@Singleton
+class AppPreferencesManager @Inject constructor(
+    @ApplicationContext context: Context
+): SharedPrefManager(context), PreferencesManager {
 
     override val prefsKey: String = "tmg.passage"
 

@@ -1,19 +1,23 @@
 package tmg.hourglass.settings.release
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.livedata.observeAsState
-import org.koin.android.ext.android.inject
+import dagger.hilt.android.AndroidEntryPoint
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.presentation.AppTheme
 import tmg.utilities.extensions.observeEvent
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ReleaseActivity: BaseActivity() {
 
-    private val viewModel: ReleaseViewModel by inject()
+    private val viewModel: ReleaseViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

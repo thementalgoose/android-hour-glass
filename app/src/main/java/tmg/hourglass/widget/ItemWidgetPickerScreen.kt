@@ -20,8 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
-import org.koin.androidx.compose.koinViewModel
-import org.koin.androidx.compose.viewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.R
 import tmg.hourglass.dashboard.layout.DashboardHeaderLayout
@@ -40,7 +39,7 @@ fun ItemWidgetPickerScreenVM(
     actionUpClicked: () -> Unit,
     saveClicked: (String) -> Unit,
 ) {
-    val viewModel = koinViewModel<ItemWidgetPickerViewModel>()
+    val viewModel = viewModel<ItemWidgetPickerViewModel>()
     viewModel.inputs.supplyAppWidgetId(appWidgetId)
     val list = viewModel.outputs.list.observeAsState(emptyList())
 

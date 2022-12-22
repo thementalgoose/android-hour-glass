@@ -1,6 +1,7 @@
 package tmg.hourglass.modify
 
 import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -14,6 +15,7 @@ import tmg.hourglass.domain.model.Countdown
 import tmg.utilities.extensions.format
 import tmg.utilities.lifecycle.Event
 import java.util.*
+import javax.inject.Inject
 
 //region Inputs
 
@@ -66,7 +68,8 @@ interface ModifyViewModelOutputs {
 
 //endregion
 
-class ModifyViewModel(
+@HiltViewModel
+class ModifyViewModel @Inject constructor(
     private val countdownConnector: CountdownConnector,
     private val crashReporter: CrashReporter
 ): ViewModel(), ModifyViewModelInputs, ModifyViewModelOutputs {

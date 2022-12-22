@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,8 +19,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import tmg.aboutthisapp.AboutThisAppActivity
 import tmg.aboutthisapp.AboutThisAppConfiguration
 import tmg.aboutthisapp.AboutThisAppDependency
@@ -35,11 +36,15 @@ import tmg.hourglass.settings.privacy.PrivacyPolicyActivity
 import tmg.hourglass.settings.release.ReleaseActivity
 import tmg.utilities.extensions.observe
 import tmg.utilities.extensions.observeEvent
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingsActivity: BaseActivity() {
 
-    private val viewModel: SettingsViewModel by viewModel()
-    private val prefManager: PreferencesManager by inject()
+    private val viewModel: SettingsViewModel by viewModels()
+
+    @Inject
+    protected lateinit var prefManager: PreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -171,18 +176,27 @@ class SettingsActivity: BaseActivity() {
 
     private fun projectDependencies(): List<AboutThisAppDependency> = listOf(
         AboutThisAppDependency(
+            order = 0,
+            dependencyName = "Jetpack",
+            author = "Google",
+            url = "https://developer.android.com/jetpack",
+            backgroundColor = Color.WHITE,
+            imageUrl = "https://avatars.githubusercontent.com/u/6955922?s=200&v=4"
+        ),
+        AboutThisAppDependency(
             order = 1,
+            dependencyName = "Firebase",
+            author = "Google",
+            url = "https://firebase.google.com/",
+            backgroundColor = Color.TRANSPARENT,
+            imageUrl = "https://avatars2.githubusercontent.com/u/1335026"
+        ),
+        AboutThisAppDependency(
+            order = 2,
             dependencyName = "Realm",
             author = "Realm",
             url = "https://realm.io",
             imageUrl = "https://avatars1.githubusercontent.com/u/7575099"
-        ),
-        AboutThisAppDependency(
-            order = 2,
-            dependencyName = "Koin",
-            author = "Koin",
-            url = "https://github.com/InsertKoinIO/koin",
-            imageUrl = "https://avatars1.githubusercontent.com/u/38280958"
         ),
         AboutThisAppDependency(
             order = 3,

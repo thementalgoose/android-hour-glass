@@ -8,8 +8,11 @@ import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.realm.mappers.RealmCountdownMapper
 import tmg.hourglass.realm.models.RealmCountdown
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RealmCountdownConnector(
+@Singleton
+class RealmCountdownConnector @Inject constructor(
     private val countdownMapper: RealmCountdownMapper
 ): RealmBaseConnector(), CountdownConnector {
 

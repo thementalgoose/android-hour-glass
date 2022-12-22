@@ -8,8 +8,9 @@ import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.realm.models.RealmCountdown
 import tmg.utilities.extensions.toEnum
+import javax.inject.Inject
 
-class RealmCountdownMapper {
+class RealmCountdownMapper @Inject constructor() {
 
     fun deserialize(input: RealmCountdown): Countdown {
         return Countdown(

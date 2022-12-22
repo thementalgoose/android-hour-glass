@@ -1,18 +1,21 @@
 package tmg.hourglass.realm.di
 
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.connectors.WidgetConnector
 import tmg.hourglass.realm.connectors.RealmCountdownConnector
 import tmg.hourglass.realm.connectors.RealmWidgetConnector
-import tmg.hourglass.realm.mappers.RealmCountdownMapper
-import tmg.hourglass.realm.mappers.RealmWidgetMapper
 
-val realmModule = module {
+@Module
+@InstallIn(SingletonComponent::class)
+class RealmModule {
 
-    single<CountdownConnector> { RealmCountdownConnector(get()) }
-    single<WidgetConnector> { RealmWidgetConnector(get(), get()) }
+    @Provides
+    fun providesCountdownConnector(impl: RealmCountdownConnector): CountdownConnector = impl
 
-    single { RealmWidgetMapper() }
-    single { RealmCountdownMapper() }
+    @Provides
+    fun providesWidgetConnector(impl: RealmWidgetConnector): WidgetConnector = impl
 }

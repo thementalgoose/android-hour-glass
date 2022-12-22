@@ -7,9 +7,12 @@ import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.WidgetReference
 import tmg.hourglass.realm.mappers.RealmWidgetMapper
 import tmg.hourglass.realm.models.RealmWidgetReference
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Suppress("EXPERIMENTAL_API_USAGE")
-class RealmWidgetConnector(
+@Singleton
+class RealmWidgetConnector @Inject constructor(
     private val countdownConnector: CountdownConnector,
     private val widgetMapper: RealmWidgetMapper
 ): RealmBaseConnector(), WidgetConnector {
