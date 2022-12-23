@@ -4,6 +4,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
@@ -65,9 +66,8 @@ internal class ModifyViewModelTestEdit: BaseTest() {
         runBlocking {
             initSUT()
         }
+        advanceTimeBy(100)
         advanceUntilIdle()
-
-        sut.outputs.isEdit.test { assertValue(true) }
 
         sut.outputs.name.test {
             assertValue(mockName)
@@ -96,6 +96,8 @@ internal class ModifyViewModelTestEdit: BaseTest() {
         sut.outputs.interpolator.test {
             assertValue(mockInterpolator)
         }
+
+        sut.outputs.isEdit.test { assertValue(true) }
 
         sut.outputs.saveEnabled.test {
             assertValueWasEmitted(false)
