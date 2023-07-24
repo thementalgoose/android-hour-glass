@@ -51,6 +51,14 @@ android {
     }
 
     flavorDimensions 'version'
+    packagingOptions {
+        jniLibs {
+            excludes += ['META-INF/*']
+        }
+        resources {
+            excludes += ['win32-x86-64/attach_hotspot_windows.dll', 'win32-x86/attach_hotspot_windows.dll', 'META-INF/LGPL2.1', 'META-INF/AL2.0', 'META-INF/licenses/ASM', 'META-INF/*']
+        }
+    }
     productFlavors {
         sand {
             dimension 'version'
