@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import tmg.hourglass.domain.connectors.CountdownConnector
@@ -45,18 +46,17 @@ class ItemWidgetPickerViewModel @Inject constructor(
     var inputs: ItemWidgetPickerViewModelInputs = this
     var outputs: ItemWidgetPickerViewModelOutputs = this
 
-    private val appWidgetId: ConflatedBroadcastChannel<Int?> = ConflatedBroadcastChannel(null)
-    private val checkedId: ConflatedBroadcastChannel<String?> = ConflatedBroadcastChannel(null)
+    private val appWidgetId: MutableStateFlow<Int?> = MutableStateFlow(null)
+    private val checkedId: MutableStateFlow<String?> = MutableStateFlow(null)
 
     override val isSavedEnabled: LiveData<Boolean> = checkedId
-        .asFlow()
-        .combinePair(appWidgetId.asFlow())
+        .combinePair(appWidgetId)
         .map { it.first != null && it.second != null }
         .asLiveData(viewModelScope.coroutineContext)
 
     override val list: LiveData<List<ItemWidgetPickerItem>> = countdownConnector
         .all()
-        .combinePair(checkedId.asFlow())
+        .combinePair(checkedId)
         .map { (list, checkedId) ->
             mutableListOf<ItemWidgetPickerItem>()
                 .apply {
@@ -78,16 +78,16 @@ class ItemWidgetPickerViewModel @Inject constructor(
     //region Inputs
 
     override fun supplyAppWidgetId(id: Int) {
-        appWidgetId.trySend(id)
+        appWidgetId.value = id
     }
 
     override fun checkedItem(itemId: String) {
-        checkedId.trySend(itemId)
+        checkedId.value = itemId
     }
 
     override fun clickSave() {
-        val aId = appWidgetId.valueOrNull
-        val cId = checkedId.valueOrNull
+        val aId = appWidgetId.value
+        val cId = checkedId.value
         if (aId != null && cId != null) {
             widgetReferenceConnector.saveSync(aId, cId)
         }
