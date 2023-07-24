@@ -133,7 +133,7 @@ mockk = "io.mockk:mockk:1.13.5"
 
 tmg_testutils = "com.github.thementalgoose:android-test-utilities:1.2.2"
 
-[bundles] # ===========================================================================
+[bundles] # ============================================================================
 androidx = [
     "androidx_core",
     "androidx_appcompat",
