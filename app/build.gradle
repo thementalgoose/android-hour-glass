@@ -8,7 +8,6 @@ apply from: rootDir.absolutePath + "/gradle/config-junit5.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-hilt.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-compose.gradle"
 
-apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.github.triplet.play'
@@ -16,7 +15,7 @@ apply plugin: 'com.github.triplet.play'
 apply from: rootDir.absolutePath + "/gradle/script-releasenotes.gradle"
 
 android {
-    compileSdkVersion project.ext.compileSdkVersion
+    compileSdk project.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "tmg.hourglass"
@@ -24,8 +23,6 @@ android {
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.versionCode // generatedVersionCode
         versionName project.ext.versionName // generatedVersionName
-
-        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,35 +47,46 @@ android {
         }
     }
 
-    flavorDimensions 'version'
     packagingOptions {
         jniLibs {
             excludes += ['META-INF/*']
         }
         resources {
-            excludes += ['win32-x86-64/attach_hotspot_windows.dll', 'win32-x86/attach_hotspot_windows.dll', 'META-INF/LGPL2.1', 'META-INF/AL2.0', 'META-INF/licenses/ASM', 'META-INF/*']
+            excludes += [
+                    'win32-x86-64/attach_hotspot_windows.dll',
+                    'win32-x86/attach_hotspot_windows.dll',
+                    'META-INF/LGPL2.1',
+                    'META-INF/AL2.0',
+                    'META-INF/licenses/ASM',
+                    "META-INF/LICENSE*",
+                    'META-INF/*',
+                    "META-INF/library_release.kotlin_module",
+                    "lib/arm64-v8a/librealm-jni.so"
+            ]
         }
     }
+    flavorDimensions ['version']
     productFlavors {
         sand {
+            isDefault.set(true)
             dimension 'version'
             applicationIdSuffix '.sand'
             versionNameSuffix '-sand'
 
             buildConfigField "int", "ENVIRONMENT", '1'
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
         }
 
         live {
             dimension 'version'
 
             buildConfigField "int", "ENVIRONMENT", '0'
+            firebaseCrashlytics {
+                mappingFileUploadEnabled true
+            }
         }
-    }
-
-    packagingOptions {
-        exclude "META-INF/LICENSE*"
-        exclude "META-INF/library_release.kotlin_module"
-        exclude "lib/arm64-v8a/librealm-jni.so"
     }
 }
 
@@ -126,3 +134,5 @@ dependencies {
     // ColorSheet
     implementation libs.colorsheet
 }
+
+apply plugin: 'com.google.gms.google-services'
