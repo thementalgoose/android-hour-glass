@@ -6,6 +6,9 @@ apply from: rootDir.absolutePath + "/gradle/config-hilt.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-compose.gradle"
 
 android {
+
+    namespace "tmg.hourglass.presentation"
+
     compileSdk project.ext.compileSdkVersion
 
     defaultConfig {
