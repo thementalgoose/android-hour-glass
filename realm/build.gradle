@@ -1,4 +1,6 @@
 apply plugin:  'com.android.library'
+apply plugin: 'kotlin-kapt'
+
 apply from: rootDir.absolutePath + "/gradle/config-android.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-util.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-junit5.gradle"
@@ -7,6 +9,9 @@ apply from: rootDir.absolutePath + "/gradle/config-hilt.gradle"
 apply plugin: 'realm-android'
 
 android {
+
+    namespace "tmg.hourglass.realm"
+
     compileSdk project.ext.compileSdkVersion
 
     defaultConfig {

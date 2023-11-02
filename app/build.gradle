@@ -2,6 +2,7 @@ import com.github.triplet.gradle.androidpublisher.ResolutionStrategy
 import groovy.json.JsonSlurper
 
 apply plugin: 'com.android.application'
+
 apply from: rootDir.absolutePath + "/gradle/config-android.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-util.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-junit5.gradle"
@@ -88,6 +89,8 @@ android {
             }
         }
     }
+
+    namespace 'tmg.hourglass'
 }
 
 play {
