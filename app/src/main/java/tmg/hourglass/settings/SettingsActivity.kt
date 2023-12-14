@@ -15,10 +15,15 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.toArgb
 import dagger.hilt.android.AndroidEntryPoint
 import tmg.aboutthisapp.AboutThisAppActivity
-import tmg.aboutthisapp.AboutThisAppConfiguration
-import tmg.aboutthisapp.AboutThisAppDependency
+import tmg.aboutthisapp.ConfigurationColours
+import tmg.aboutthisapp.configuration.Configuration
+import tmg.aboutthisapp.configuration.Dependency
+import tmg.aboutthisapp.configuration.DependencyIcon
+import tmg.hourglass.presentation.lightColors
+import tmg.hourglass.presentation.darkColors
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
@@ -152,67 +157,94 @@ class SettingsActivity: BaseActivity() {
 
 
     private val aboutThisAppConfiguration
-        get() = AboutThisAppConfiguration(
-            themeRes = R.style.AppTheme_AboutThisApp,
-            name = getString(R.string.about_name),
-            nameDesc = getString(R.string.about_desc),
+        get() = Configuration(
             imageRes = R.mipmap.ic_launcher,
-            subtitle = getString(R.string.dependency_thank_you),
-            footnote = "", // getString(R.string.about_additional),
+            appName = getString(R.string.app_name),
             appVersion = BuildConfig.VERSION_NAME,
             appPackageName = "tmg.hourglass",
-            appName = getString(R.string.app_name),
-            play = "https://play.google.com/store/apps/details?id=tmg.hourglass",
-            email = "thementalgoose@gmail.com",
             dependencies = projectDependencies(),
-            guid = prefManager.deviceUdid,
-            guidLongClickCopy = true
+            header = getString(R.string.dependency_thank_you),
+            footnote = "",
+            email = "thementalgoose@gmail.com",
+            github = "https://www.github.com/thementalgoose",
+            debugInfo = prefManager.deviceUdid,
+            lightColors = lightColours,
+            darkColors = darkColours
         )
 
-    private fun projectDependencies(): List<AboutThisAppDependency> = listOf(
-        AboutThisAppDependency(
-            order = 0,
+    //region Colours
+
+    private val lightColours = ConfigurationColours(
+        colorPrimary = lightColors.primary.toArgb(),
+        background = lightColors.backgroundPrimary.toArgb(),
+        surface = lightColors.backgroundSecondary.toArgb(),
+        primary = lightColors.backgroundSecondary.toArgb(),
+        onBackground = lightColors.textPrimary.toArgb(),
+        onSurface = lightColors.textSecondary.toArgb(),
+        onPrimary = lightColors.textSecondary.toArgb(),
+    )
+    private val darkColours = ConfigurationColours(
+        colorPrimary = darkColors.primary.toArgb(),
+        background = darkColors.backgroundPrimary.toArgb(),
+        surface = darkColors.backgroundSecondary.toArgb(),
+        primary = darkColors.backgroundSecondary.toArgb(),
+        onBackground = darkColors.textPrimary.toArgb(),
+        onSurface = darkColors.textSecondary.toArgb(),
+        onPrimary = darkColors.textSecondary.toArgb(),
+    )
+
+    //endregion
+
+    private fun projectDependencies(): List<Dependency> = listOf(
+        Dependency(
             dependencyName = "Jetpack",
             author = "Google",
             url = "https://developer.android.com/jetpack",
-            backgroundColor = Color.WHITE,
-            imageUrl = "https://avatars.githubusercontent.com/u/6955922?s=200&v=4"
+            icon = DependencyIcon.Image(
+                url = "https://avatars.githubusercontent.com/u/6955922?s=200&v=4",
+                backgroundColor = Color.WHITE
+            )
         ),
-        AboutThisAppDependency(
-            order = 1,
+        Dependency(
             dependencyName = "Firebase",
             author = "Google",
             url = "https://firebase.google.com/",
-            backgroundColor = Color.TRANSPARENT,
-            imageUrl = "https://avatars2.githubusercontent.com/u/1335026"
+            icon = DependencyIcon.Image(
+                url = "https://avatars2.githubusercontent.com/u/1335026",
+                backgroundColor = Color.TRANSPARENT
+            )
         ),
-        AboutThisAppDependency(
-            order = 2,
+        Dependency(
             dependencyName = "Realm",
             author = "Realm",
             url = "https://realm.io",
-            imageUrl = "https://avatars1.githubusercontent.com/u/7575099"
+            icon = DependencyIcon.Image(
+                url = "https://avatars1.githubusercontent.com/u/7575099"
+            )
         ),
-        AboutThisAppDependency(
-            order = 3,
+        Dependency(
             dependencyName = "Shaky",
             author = "Linked In",
             url = "https://github.com/linkedin/shaky-android",
-            imageUrl = "https://avatars.githubusercontent.com/u/357098"
+            icon = DependencyIcon.Image(
+                url = "https://avatars.githubusercontent.com/u/357098"
+            )
         ),
-        AboutThisAppDependency(
-            order = 4,
+        Dependency(
             dependencyName = "ThreeTen",
             author = "Jake Wharton",
             url = "https://github.com/JakeWharton/ThreeTenABP",
-            imageUrl = "https://avatars0.githubusercontent.com/u/66577"
+            icon = DependencyIcon.Image(
+                url = "https://avatars0.githubusercontent.com/u/66577"
+            )
         ),
-        AboutThisAppDependency(
-            order = 5,
+        Dependency(
             dependencyName = "ColorSheet",
             author = "Kristiyan Petrov",
             url = "https://github.com/kristiyanP/colorpicker",
-            imageUrl = "https://avatars3.githubusercontent.com/u/5365351"
+            icon = DependencyIcon.Image(
+                url = "https://avatars3.githubusercontent.com/u/5365351"
+            )
         )
     )
 
