@@ -16,7 +16,7 @@
     <string name="countdown_type_millilitres">Millilitres</string>
     <string name="countdown_type_litres">Litres</string>
     <string name="countdown_type_seconds">Seconds</string>
-    <string name="countdown_type_celsius">Celsuis</string>
+    <string name="countdown_type_celsius">Celsius</string>
     <string name="countdown_type_fahrenheit">Fahrenheit</string>
 
 </resources>

@@ -7,18 +7,14 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.res.stringResource
 import dagger.hilt.android.AndroidEntryPoint
 import tmg.aboutthisapp.AboutThisAppActivity
 import tmg.aboutthisapp.AboutThisAppConfiguration
@@ -30,7 +26,6 @@ import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
 import tmg.hourglass.presentation.AppTheme
-import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.settings.layout.*
 import tmg.hourglass.settings.privacy.PrivacyPolicyActivity
 import tmg.hourglass.settings.release.ReleaseActivity

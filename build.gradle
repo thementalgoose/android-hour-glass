@@ -18,6 +18,7 @@ buildscript {
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
     dependencies {
+        classpath libs.r8
         classpath libs.gradle.agp
         classpath libs.play.publisher
         classpath libs.gradle.kotlin
