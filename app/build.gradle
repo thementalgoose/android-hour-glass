@@ -48,6 +48,7 @@ android {
         }
     }
 
+
     packagingOptions {
         jniLibs {
             excludes += ['META-INF/*']
@@ -59,9 +60,7 @@ android {
                     'META-INF/LGPL2.1',
                     'META-INF/AL2.0',
                     'META-INF/licenses/ASM',
-                    "META-INF/LICENSE*",
                     'META-INF/*',
-                    "META-INF/library_release.kotlin_module",
                     "lib/arm64-v8a/librealm-jni.so"
             ]
         }

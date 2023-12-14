@@ -36,11 +36,6 @@
         <activity android:name=".settings.privacy.PrivacyPolicyActivity"
             android:exported="false" />
 
-        <activity
-            android:name="tmg.aboutthisapp.AboutThisAppActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme.AboutThisApp" />
-
         <!-- Widget -->
 
         <!-- Bar Dark -->
