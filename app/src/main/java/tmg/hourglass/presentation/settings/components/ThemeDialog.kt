@@ -1,4 +1,4 @@
-package tmg.hourglass.settings.layout
+package tmg.hourglass.presentation.settings.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

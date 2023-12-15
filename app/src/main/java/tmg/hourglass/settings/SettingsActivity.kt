@@ -32,6 +32,8 @@ import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
 import tmg.hourglass.presentation.AppTheme
+import tmg.hourglass.presentation.settings.components.DeleteDialog
+import tmg.hourglass.presentation.settings.components.ThemeDialog
 import tmg.hourglass.settings.layout.*
 import tmg.hourglass.settings.privacy.PrivacyPolicyActivity
 import tmg.hourglass.settings.release.ReleaseActivity

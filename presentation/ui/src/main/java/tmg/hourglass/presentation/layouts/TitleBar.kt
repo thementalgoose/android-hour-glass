@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
+import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.R
 import tmg.hourglass.presentation.textviews.TextHeader1
 import tmg.hourglass.strings.R.string
@@ -23,8 +24,37 @@ import tmg.hourglass.strings.R.string
 @Composable
 fun TitleBar(
     title: String,
-    backClicked: () -> Unit = { },
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .height(54.dp)
+        ) {
+            Spacer(modifier = Modifier.width(AppTheme.dimensions.paddingXSmall))
+        }
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = AppTheme.dimensions.paddingMedium,
+                end = AppTheme.dimensions.paddingMedium,
+                bottom = AppTheme.dimensions.paddingMedium
+            )
+        ) {
+            Spacer(modifier = Modifier.height(AppTheme.dimensions.paddingMedium))
+            TextHeader1(text = title)
+        }
+    }
+}
+
+@Composable
+fun TitleBar(
+    title: String,
     modifier: Modifier = Modifier,
+    backClicked: () -> Unit = { },
     @DrawableRes
     backIcon: Int = R.drawable.ic_back,
 ) {
@@ -61,10 +91,10 @@ fun TitleBar(
     }
 }
 
-@Preview
+@PreviewTheme
 @Composable
-private fun PreviewLight() {
-    AppThemePreview(isLight = true) {
+private fun PreviewWithIcon() {
+    AppThemePreview {
         TitleBar(
             title = "Settings",
             backClicked = { }
@@ -72,13 +102,12 @@ private fun PreviewLight() {
     }
 }
 
-@Preview
+@PreviewTheme
 @Composable
-private fun PreviewDark() {
-    AppThemePreview(isLight = false) {
+private fun PreviewNoIcon() {
+    AppThemePreview {
         TitleBar(
-            title = "Settings",
-            backClicked = { }
+            title = "Settings"
         )
     }
 }

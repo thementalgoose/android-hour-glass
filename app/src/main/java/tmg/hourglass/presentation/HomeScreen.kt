@@ -35,7 +35,7 @@ fun HomeScreen(
 internal fun HomeScreen(
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
-    tabClicked: (HomeTab) -> Unit
+    tabClicked: (HomeTab) -> Unit,
 ) {
     val tabs = HomeTab.entries
         .map { it.toNavigationItem(it == uiState.tab) }
@@ -51,17 +51,15 @@ internal fun HomeScreen(
                     )
                 }
                 Box(Modifier.weight(1f)) {
-                    when (uiState) {
-                        is UiState.Dashboard -> {
+                    when (uiState.tab) {
+                        HomeTab.DASHBOARD -> {
                             DashboardScreen(
                                 windowSizeClass = windowSizeClass,
-                                uiState = uiState
                             )
                         }
-                        is UiState.Settings -> {
+                        HomeTab.SETTINGS -> {
                             SettingsScreen(
                                 windowSizeClass = windowSizeClass,
-                                uiState = uiState
                             )
                         }
                     }
