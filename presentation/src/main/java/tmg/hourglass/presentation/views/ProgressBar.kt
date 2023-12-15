@@ -38,7 +38,7 @@ fun ProgressBar(
             .height(height)
             .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
     ) {
-        val progressState = remember { mutableStateOf(0f) }
+        val progressState = remember { mutableFloatStateOf(0f) }
         val progress = animateFloatAsState(
             visibilityThreshold = 0.0f,
             targetValue = progressState.value,
@@ -46,7 +46,7 @@ fun ProgressBar(
                 durationMillis = animationDuration,
                 easing = FastOutSlowInEasing,
                 delayMillis = 0
-            )
+            ), label = "progress_bar"
         ).value
 
         Box(
@@ -99,7 +99,7 @@ fun ProgressBar(
         }
 
         LaunchedEffect(endProgress) {
-            progressState.value = endProgress
+            progressState.floatValue = endProgress
         }
     }
 }

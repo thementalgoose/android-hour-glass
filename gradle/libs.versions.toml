@@ -83,6 +83,7 @@ compose_material3 = { module = "androidx.compose.material3:material3" }
 compose_windowsize = { module = "androidx.compose.material3:material3-window-size-class" }
 compose_animation = { module = "androidx.compose.animation:animation" }
 compose_ui_tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose_ui_toolingpreview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose_ui_viewbinding = { module = "androidx.compose.ui:ui-viewbinding" }
 compose_livedata = { module = "androidx.compose.runtime:runtime-livedata" }
 
