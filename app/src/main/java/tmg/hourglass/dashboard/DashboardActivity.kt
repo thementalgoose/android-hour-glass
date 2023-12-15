@@ -36,7 +36,7 @@ class DashboardActivity: BaseActivity(), SplashScreen.KeepOnScreenCondition {
         super.onCreate(savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            splashScreen.setSplashScreenTheme(R.style.AppTheme)
+            splashScreen.setSplashScreenTheme(tmg.hourglass.presentation.R.style.AppTheme)
         }
         val splashScreen = installSplashScreen()
 

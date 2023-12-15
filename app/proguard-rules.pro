@@ -105,6 +105,10 @@
 -keep public class * extends java.lang.Exception
 
 -dontwarn androidx.appcompat.view.ContextThemeWrapper
+-dontwarn androidx.window.extensions.embedding.ActivityEmbeddingComponent
+-dontwarn androidx.window.extensions.layout.WindowLayoutComponent
+-dontwarn androidx.window.sidecar.SidecarDeviceState
+-dontwarn androidx.window.sidecar.SidecarInterface
 
 -keep class com.newrelic.** { *; }
 -dontwarn com.newrelic.**

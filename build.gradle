@@ -8,7 +8,8 @@ buildscript {
             "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
             "-Xopt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
             "-Xopt-in=kotlinx.coroutines.FlowPreview",
-            "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
+            "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi",
+            "-Xopt-in=androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi"
     ]
 
     repositories {
@@ -18,7 +19,6 @@ buildscript {
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
     dependencies {
-        classpath libs.r8
         classpath libs.gradle.agp
         classpath libs.play.publisher
         classpath libs.gradle.kotlin
@@ -27,6 +27,7 @@ buildscript {
         classpath libs.gradle.crashlytics
         classpath libs.gradle.junit5
         classpath libs.gradle.hilt
+        classpath libs.r8
         classpath libs.firebase.perf.plugin
     }
 }
@@ -39,12 +40,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter() {
-            content {
-                // Marked read only by owner, not around forever
-                includeModule("petrov.kristiyan", "colorpicker-library")
-            }
-        }
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
         maven { url 'https://jitpack.io' }
     }

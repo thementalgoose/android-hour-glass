@@ -132,9 +132,6 @@ dependencies {
 
     // Accompanist
     implementation libs.accompanist.systemuicontroller
-
-    // ColorSheet
-    implementation libs.colorsheet
 }
 
 apply plugin: 'com.google.gms.google-services'

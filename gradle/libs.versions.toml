@@ -68,11 +68,8 @@ accompanist_systemuicontroller = { module = "com.google.accompanist:accompanist-
 accompanist_placeholder = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "compose_accompanist" }
 
 coil = "io.coil-kt:coil-compose:2.5.0"
-circleimageview = "de.hdodenhof:circleimageview:3.1.0"
 
-colorsheet = "petrov.kristiyan:colorpicker-library:1.1.10"
-
-compose_activity = "androidx.activity:activity-compose:1.8.2"
+compose_activity = { module = "androidx.activity:activity-compose", version.ref = "androidx_activity" }
 compose_theme_adapter = "com.google.android.material:compose-theme-adapter:1.2.1"
 compose_navigation = { module = "androidx.navigation:navigation-compose", version.ref = "androidx_navigation" }
 compose_viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx_lifecycle" }
