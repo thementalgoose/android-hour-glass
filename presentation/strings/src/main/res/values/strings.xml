@@ -112,8 +112,7 @@
     <string name="dashboard_delete_confirmation_cancel">No</string>
 
     <!-- Menu -->
-    <string name="menu_now">Now</string>
-    <string name="menu_previous">Previous</string>
+    <string name="menu_dashboard">Home</string>
     <string name="menu_settings">Settings</string>
 
     <!-- Modify -->
