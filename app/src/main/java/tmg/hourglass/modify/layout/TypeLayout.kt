@@ -17,7 +17,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.extensions.label
 import tmg.hourglass.presentation.AppTheme
@@ -43,9 +43,9 @@ fun TypeLayout(
                 bottom = AppTheme.dimensions.paddingMedium
             )
     ) {
-        TextHeader2(text = stringResource(id = R.string.modify_field_type))
+        TextHeader2(text = stringResource(id = string.modify_field_type))
         Spacer(modifier = Modifier.height(8.dp))
-        TextBody1(text = stringResource(id = R.string.modify_field_type_desc))
+        TextBody1(text = stringResource(id = string.modify_field_type_desc))
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
@@ -112,7 +112,7 @@ private fun TypeDialog(
                             bottom = AppTheme.dimensions.paddingMedium,
                             end = AppTheme.dimensions.paddingMedium
                         ),
-                    text = stringResource(id = R.string.modify_field_type)
+                    text = stringResource(id = string.modify_field_type)
                 )
                 CountdownType.values().forEach {
                     TextButton(

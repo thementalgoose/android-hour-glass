@@ -10,6 +10,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.textviews.TextBody1
@@ -36,7 +37,7 @@ fun PlaceholderLayout(
             contentDescription = null
         )
         Spacer(modifier = Modifier.height(8.dp))
-        TextBody1(text = stringResource(id = R.string.placeholder_title))
+        TextBody1(text = stringResource(id = string.placeholder_title))
     }
 }
 

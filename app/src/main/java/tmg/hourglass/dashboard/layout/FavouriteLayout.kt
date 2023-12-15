@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import org.threeten.bp.LocalDateTime
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.preview
 import tmg.hourglass.presentation.AppTheme
@@ -83,14 +83,14 @@ fun DashboardFavouriteLayout(
                         editClicked(countdown.id)
                     }
                 ) {
-                    Icon(Icons.Outlined.Edit, tint = Color.White, contentDescription = stringResource(id = R.string.ab_edit))
+                    Icon(Icons.Outlined.Edit, tint = Color.White, contentDescription = stringResource(id = string.ab_edit))
                 }
                 IconButton(
                     onClick = {
                         deleteClicked(countdown.id)
                     }
                 ) {
-                    Icon(Icons.Outlined.Delete, tint = Color.White, contentDescription = stringResource(id = R.string.ab_delete))
+                    Icon(Icons.Outlined.Delete, tint = Color.White, contentDescription = stringResource(id = string.ab_delete))
                 }
             }
             Spacer(modifier = Modifier.height(4.dp))

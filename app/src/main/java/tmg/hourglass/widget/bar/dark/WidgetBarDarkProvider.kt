@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.widget.bar.onUpdateBar
 
 

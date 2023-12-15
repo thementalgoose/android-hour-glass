@@ -107,11 +107,14 @@ tasks.configureEach { task ->
 }
 
 dependencies {
+    implementation project(path: ':core:metrics:googleanalytics')
+    implementation project(path: ':core:metrics:crashlytics')
 
     // Modules
     implementation project(path: ":realm")
     implementation project(path: ":domain")
-    implementation project(path: ":presentation")
+    implementation project(path: ":presentation:ui")
+    implementation project(path: ":presentation:strings")
 
     implementation libs.androidx.splashscreen
 

@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.layouts.TitleBar
@@ -33,7 +33,7 @@ fun PrivacyPolicyLayout(
             .verticalScroll(scrollState)
     ) {
         TitleBar(
-            title = stringResource(id = R.string.settings_help_privacy_policy_title),
+            title = stringResource(id = string.settings_help_privacy_policy_title),
             backClicked = backClicked
         )
         Box(modifier = Modifier
@@ -47,7 +47,7 @@ fun PrivacyPolicyLayout(
             AndroidView(factory = { context ->
                 TextView(context).apply {
                     setTextColor(textColor)
-                    text = HtmlCompat.fromHtml(context.getString(R.string.privacy_policy_data), HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    text = HtmlCompat.fromHtml(context.getString(string.privacy_policy_data), HtmlCompat.FROM_HTML_MODE_LEGACY)
                     movementMethod = LinkMovementMethod.getInstance()
                 }
             })

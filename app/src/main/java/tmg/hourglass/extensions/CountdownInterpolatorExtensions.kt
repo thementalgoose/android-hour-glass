@@ -1,15 +1,15 @@
 package tmg.hourglass.extensions
 
 import android.view.animation.*
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.enums.CountdownInterpolator
 
 fun CountdownInterpolator.label(): Int {
     return when (this) {
-        CountdownInterpolator.LINEAR -> R.string.modify_field_interpolator_linear
-        CountdownInterpolator.ACCELERATE -> R.string.modify_field_interpolator_accelerate
-        CountdownInterpolator.DECELERATE -> R.string.modify_field_interpolator_decelerate
-        CountdownInterpolator.ACCELERATE_DECELERATE -> R.string.modify_field_interpolator_accelerate_decelerate
+        CountdownInterpolator.LINEAR -> string.modify_field_interpolator_linear
+        CountdownInterpolator.ACCELERATE -> string.modify_field_interpolator_accelerate
+        CountdownInterpolator.DECELERATE -> string.modify_field_interpolator_decelerate
+        CountdownInterpolator.ACCELERATE_DECELERATE -> string.modify_field_interpolator_accelerate_decelerate
     }
 }
 

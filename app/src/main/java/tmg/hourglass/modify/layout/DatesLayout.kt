@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.threeten.bp.LocalDateTime
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.pickers.DatePicker
@@ -47,16 +47,16 @@ fun DatesLayout(
                 bottom = AppTheme.dimensions.paddingMedium
             )
     ) {
-        TextHeader2(text = stringResource(id = R.string.modify_field_dates))
+        TextHeader2(text = stringResource(id = string.modify_field_dates))
         Spacer(modifier = Modifier.height(8.dp))
-        TextBody1(text = stringResource(id = R.string.modify_field_dates_desc))
+        TextBody1(text = stringResource(id = string.modify_field_dates_desc))
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
             TextBody1(
                 text = when (startDate) {
-                    null -> stringResource(id = R.string.modify_field_dates_start)
+                    null -> stringResource(id = string.modify_field_dates_start)
                     else -> startDate.format("dd MMM yyyy")
                 },
                 modifier = Modifier
@@ -79,7 +79,7 @@ fun DatesLayout(
             Spacer(modifier = Modifier.width(AppTheme.dimensions.paddingMedium))
             TextBody1(
                 text = when (endDate) {
-                    null -> stringResource(id = R.string.modify_field_dates_end)
+                    null -> stringResource(id = string.modify_field_dates_end)
                     else -> endDate.format("dd MMM yyyy")
                 },
                 modifier = Modifier

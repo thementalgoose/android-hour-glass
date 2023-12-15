@@ -8,7 +8,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.inputs.Input
@@ -33,9 +33,9 @@ fun RangeLayout(
                 bottom = AppTheme.dimensions.paddingMedium
             )
     ) {
-        TextHeader2(text = stringResource(id = R.string.modify_field_range))
+        TextHeader2(text = stringResource(id = string.modify_field_range))
         Spacer(modifier = Modifier.height(8.dp))
-        TextBody1(text = stringResource(id = R.string.modify_field_range_desc))
+        TextBody1(text = stringResource(id = string.modify_field_range_desc))
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier.fillMaxWidth()
@@ -47,7 +47,7 @@ fun RangeLayout(
                 initial = initial,
                 inputUpdated = initialUpdated,
                 keyboardType = KeyboardType.Number,
-                hint = stringResource(id = R.string.modify_field_range_initial)
+                hint = stringResource(id = string.modify_field_range_initial)
             )
             Spacer(modifier = Modifier.width(AppTheme.dimensions.paddingMedium))
             Input(
@@ -57,7 +57,7 @@ fun RangeLayout(
                 initial = finished,
                 inputUpdated = finishedUpdated,
                 keyboardType = KeyboardType.Number,
-                hint = stringResource(id = R.string.modify_field_range_final)
+                hint = stringResource(id = string.modify_field_range_final)
             )
         }
     }

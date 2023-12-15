@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import tmg.hourglass.BuildConfig
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
@@ -80,68 +80,68 @@ class SettingsViewModel @Inject constructor(
 
     var modelList: List<SettingsModel> = getModels()
     private fun getModels() = mutableListOf<SettingsModel>().apply {
-        add(SettingsModel.Header(R.string.settings_theme))
+        add(SettingsModel.Header(string.settings_theme))
         add(SettingsModel.Pref(
-            title = R.string.settings_theme_theme_title,
-            description = R.string.settings_theme_theme_description,
+            title = string.settings_theme_theme_title,
+            description = string.settings_theme_theme_description,
             onClick = {}
         ))
-        add(SettingsModel.Header(R.string.settings_widgets))
+        add(SettingsModel.Header(string.settings_widgets))
         add(SettingsModel.Pref(
-            title = R.string.settings_widgets_refresh_title,
-            description = R.string.settings_widgets_refresh_description,
+            title = string.settings_widgets_refresh_title,
+            description = string.settings_widgets_refresh_description,
             onClick = {
                 updateWidget.value = Event()
             }
         ))
         add(SettingsModel.SwitchPref(
-            title = R.string.settings_widgets_updated_title,
-            description = R.string.settings_widgets_updated_description,
+            title = string.settings_widgets_updated_title,
+            description = string.settings_widgets_updated_description,
             getState = { prefs.widgetShowUpdate },
             saveState = { value ->
                 prefs.widgetShowUpdate = value
                 updateWidget.value = Event()
             }
         ))
-        add(SettingsModel.Header(R.string.settings_reset))
+        add(SettingsModel.Header(string.settings_reset))
         add(SettingsModel.Pref(
-            title = R.string.settings_reset_all_title,
-            description = R.string.settings_reset_all_description,
+            title = string.settings_reset_all_title,
+            description = string.settings_reset_all_description,
             onClick = {}
         ))
-        add(SettingsModel.Header(R.string.settings_help))
+        add(SettingsModel.Header(string.settings_help))
         add(SettingsModel.Pref(
-            title = R.string.settings_help_about_title,
-            description = R.string.settings_help_about_description,
+            title = string.settings_help_about_title,
+            description = string.settings_help_about_description,
             onClick = {
                 openAbout.value = Event()
             }
         ))
         add(SettingsModel.Pref(
-            title = R.string.settings_help_review_title,
-            description = R.string.settings_help_review_description,
+            title = string.settings_help_review_title,
+            description = string.settings_help_review_description,
             onClick = {
                 openReview.value = DataEvent("https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID)
             }
         ))
         add(SettingsModel.Pref(
-            title = R.string.settings_help_release_notes_title,
-            description = R.string.settings_help_release_notes_description,
+            title = string.settings_help_release_notes_title,
+            description = string.settings_help_release_notes_description,
             onClick = {
                 openReleaseNotes.value = Event()
             }
         ))
-        add(SettingsModel.Header(R.string.settings_feedback))
+        add(SettingsModel.Header(string.settings_feedback))
         add(SettingsModel.Pref(
-            title = R.string.settings_help_suggestions_title,
-            description = R.string.settings_help_suggestions_description,
+            title = string.settings_help_suggestions_title,
+            description = string.settings_help_suggestions_description,
             onClick = {
                 openSuggestions.value = Event()
             }
         ))
         add(SettingsModel.SwitchPref(
-            title = R.string.settings_help_crash_reporting_title,
-            description = R.string.settings_help_crash_reporting_description,
+            title = string.settings_help_crash_reporting_title,
+            description = string.settings_help_crash_reporting_description,
             getState = { prefs.crashReporting },
             saveState = { value ->
                 prefs.crashReporting = value
@@ -149,8 +149,8 @@ class SettingsViewModel @Inject constructor(
             }
         ))
         add(SettingsModel.SwitchPref(
-            title = R.string.settings_help_analytics_title,
-            description = R.string.settings_help_analytics_description,
+            title = string.settings_help_analytics_title,
+            description = string.settings_help_analytics_description,
             getState = { prefs.analyticsEnabled },
             saveState = { value ->
                 prefs.analyticsEnabled = value
@@ -158,18 +158,18 @@ class SettingsViewModel @Inject constructor(
             }
         ))
         add(SettingsModel.SwitchPref(
-            title = R.string.settings_help_shake_to_report_title,
-            description = R.string.settings_help_shake_to_report_description,
+            title = string.settings_help_shake_to_report_title,
+            description = string.settings_help_shake_to_report_description,
             getState = { prefs.shakeToReport },
             saveState = { value ->
                 prefs.shakeToReport = value
                 shakeToReport.value = Pair(true, prefs.shakeToReport)
             }
         ))
-        add(SettingsModel.Header(R.string.settings_privacy))
+        add(SettingsModel.Header(string.settings_privacy))
         add(SettingsModel.Pref(
-            title = R.string.settings_help_privacy_policy_title,
-            description = R.string.settings_help_privacy_policy_description,
+            title = string.settings_help_privacy_policy_title,
+            description = string.settings_help_privacy_policy_description,
             onClick = {
                 privacyPolicy.value = Event()
             }

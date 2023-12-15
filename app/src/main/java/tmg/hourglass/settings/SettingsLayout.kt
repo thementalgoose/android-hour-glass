@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.settings.layout.SettingHeader
 import tmg.hourglass.settings.layout.SettingPref
@@ -22,7 +22,7 @@ fun SettingsLayout(
         content = {
             item {
                 TitleBar(
-                    title = stringResource(id = R.string.settings_title),
+                    title = stringResource(id = string.settings_title),
                     backClicked = clickBack
                 )
             }

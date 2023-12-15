@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.textviews.TextHeader1
@@ -39,7 +40,7 @@ fun DashboardHeaderLayout(
         ) {
             clickSettings?.let {
                 IconButton(onClick = it) {
-                    Icon(Icons.Default.Settings, contentDescription = stringResource(id = R.string.ab_settings))
+                    Icon(Icons.Default.Settings, contentDescription = stringResource(id = string.ab_settings))
                 }
             }
         }

@@ -7,6 +7,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import java.lang.reflect.Method
 
 /**

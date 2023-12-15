@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.ReleaseNotes
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.layouts.TitleBar
@@ -20,7 +20,7 @@ fun ReleaseLayout(
     LazyColumn {
         item {
             TitleBar(
-                title = stringResource(id = R.string.settings_help_release_notes_title),
+                title = stringResource(id = string.settings_help_release_notes_title),
                 backClicked = backClicked
             )
         }

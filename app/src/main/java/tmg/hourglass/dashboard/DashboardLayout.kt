@@ -9,11 +9,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import tmg.hourglass.R
 import tmg.hourglass.dashboard.layout.*
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.preview
 import tmg.hourglass.presentation.AppThemePreview
+import tmg.hourglass.strings.R.string
 
 @Composable
 fun DashboardLayout(
@@ -34,7 +34,7 @@ fun DashboardLayout(
             if (items.value?.isNotEmpty() == true) {
                 if (items.value!!.any { !it.isFinished}) {
                     item {
-                        DashboardSectionLayout(text = stringResource(id = R.string.dashboard_title_upcoming))
+                        DashboardSectionLayout(text = stringResource(id = string.dashboard_title_upcoming))
                     }
                     items(items.value!!.filter { !it.isFinished }) {
                         DashboardCountdownLayout(
@@ -46,7 +46,7 @@ fun DashboardLayout(
                 }
                 if (items.value!!.any { it.isFinished }) {
                     item {
-                        DashboardSectionLayout(text = stringResource(id = R.string.dashboard_title_previous))
+                        DashboardSectionLayout(text = stringResource(id = string.dashboard_title_previous))
                     }
                     items(items.value!!.filter { it.isFinished }) {
                         DashboardCountdownLayout(

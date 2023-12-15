@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.graphics.toColorInt
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
@@ -52,22 +52,22 @@ fun PersonaliseLayout(
                 bottom = AppTheme.dimensions.paddingMedium
             )
     ) {
-        TextHeader2(text = stringResource(id = R.string.modify_field_name))
+        TextHeader2(text = stringResource(id = string.modify_field_name))
         Spacer(modifier = Modifier.height(8.dp))
-        TextBody1(text = stringResource(id = R.string.modify_field_name_desc))
+        TextBody1(text = stringResource(id = string.modify_field_name_desc))
         Spacer(modifier = Modifier.height(8.dp))
         Input(
             modifier = Modifier.imePadding(),
             initial = name,
             inputUpdated = nameUpdated,
-            hint = stringResource(id = R.string.modify_field_name_hint)
+            hint = stringResource(id = string.modify_field_name_hint)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Input(
             modifier = Modifier.imePadding(),
             initial = description,
             inputUpdated = descriptionUpdated,
-            hint = stringResource(id = R.string.modify_field_description_hint)
+            hint = stringResource(id = string.modify_field_description_hint)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row(
@@ -88,7 +88,7 @@ fun PersonaliseLayout(
                 )
         ) {
             TextBody1(
-                text = stringResource(id = R.string.modify_field_colour_hint),
+                text = stringResource(id = string.modify_field_colour_hint),
                 modifier = Modifier
                     .padding(
                         end = AppTheme.dimensions.paddingMedium
@@ -141,7 +141,7 @@ private fun ColorPicker(
                             top = AppTheme.dimensions.paddingMedium,
                             end = AppTheme.dimensions.paddingMedium
                         ),
-                    text = stringResource(id = R.string.modify_field_colour_hint)
+                    text = stringResource(id = string.modify_field_colour_hint)
                 )
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(5),

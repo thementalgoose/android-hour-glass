@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import androidx.core.text.htmlEncode
 import org.threeten.bp.LocalDateTime
-import tmg.hourglass.R
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.preview
 import tmg.hourglass.presentation.AppTheme
@@ -26,6 +25,7 @@ import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.views.ProgressBar
 import tmg.hourglass.utils.ProgressUtils.Companion.getProgress
 import tmg.utilities.extensions.format
+import tmg.hourglass.strings.R.string
 
 @Composable
 fun DashboardCountdownLayout(
@@ -68,19 +68,19 @@ fun DashboardCountdownLayout(
                     editClicked(countdown.id)
                 }
             ) {
-                Icon(Icons.Outlined.Edit, contentDescription = stringResource(id = R.string.ab_edit))
+                Icon(Icons.Outlined.Edit, contentDescription = stringResource(id = string.ab_edit))
             }
             IconButton(
                 onClick = {
                     deleteClicked(countdown.id)
                 }
             ) {
-                Icon(Icons.Outlined.Delete, contentDescription = stringResource(id = R.string.ab_delete))
+                Icon(Icons.Outlined.Delete, contentDescription = stringResource(id = string.ab_delete))
             }
         }
         TextBody2(
             text = stringResource(
-                R.string.home_no_description,
+                string.home_no_description,
                 countdown.countdownType.converter(countdown.initial.toIntOrNull()?.toString() ?: ""),
                 countdown.start.format("dd MMM yyyy"),
                 countdown.countdownType.converter(countdown.finishing.toIntOrNull()?.toString() ?: ""),

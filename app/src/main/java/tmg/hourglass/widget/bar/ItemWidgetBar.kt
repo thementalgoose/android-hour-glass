@@ -13,6 +13,7 @@ import io.realm.exceptions.RealmMigrationNeededException
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.prefs.AppPreferencesManager
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.realm.connectors.RealmCountdownConnector
@@ -69,24 +70,24 @@ inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdateBar(
                 remoteView.setViewVisibility(R.id.updatedAt, if (prefs.widgetShowUpdate) View.VISIBLE else View.GONE)
                 when {
                     progress >= 1.0f -> {
-                        remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_finished))
+                        remoteView.setTextViewText(R.id.updatedAt, context.getString(string.widget_finished))
                     }
                     progress <= 0.0f -> {
-                        remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_not_started))
+                        remoteView.setTextViewText(R.id.updatedAt, context.getString(string.widget_not_started))
                     }
                     else -> {
-                        remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_progress, LocalDateTime.now().format("HH:mm dd MMM yyyy")))
+                        remoteView.setTextViewText(R.id.updatedAt, context.getString(string.widget_progress, LocalDateTime.now().format("HH:mm dd MMM yyyy")))
                     }
                 }
             } else {
-                remoteView.setTextViewText(R.id.title, context.getString(R.string.widget_error))
-                remoteView.setTextViewText(R.id.value, context.getString(R.string.widget_value))
+                remoteView.setTextViewText(R.id.title, context.getString(string.widget_error))
+                remoteView.setTextViewText(R.id.value, context.getString(string.widget_value))
                 remoteView.setTextViewText(R.id.updatedAt, "")
             }
         } catch (e: RealmMigrationNeededException) {
-            remoteView.setTextViewText(R.id.title, context.getString(R.string.widget_migration_needed))
-            remoteView.setTextViewText(R.id.value, context.getString(R.string.widget_migration_needed_value))
-            remoteView.setTextViewText(R.id.updatedAt, context.getString(R.string.widget_migration_needed_label))
+            remoteView.setTextViewText(R.id.title, context.getString(string.widget_migration_needed))
+            remoteView.setTextViewText(R.id.value, context.getString(string.widget_migration_needed_value))
+            remoteView.setTextViewText(R.id.updatedAt, context.getString(string.widget_migration_needed_label))
         }
 
         val intent = Intent(context, T::class.java)

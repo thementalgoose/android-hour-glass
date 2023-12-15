@@ -12,7 +12,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.modify.layout.*
@@ -39,8 +39,8 @@ fun ModifyScreenVM(
             ) {
                 TitleBar(
                     title = when (isEdit) {
-                        true -> stringResource(id = R.string.modify_header_edit)
-                        false -> stringResource(id = R.string.modify_header_add)
+                        true -> stringResource(id = string.modify_header_edit)
+                        false -> stringResource(id = string.modify_header_add)
                     },
                     backClicked = actionUpClicked
                 )

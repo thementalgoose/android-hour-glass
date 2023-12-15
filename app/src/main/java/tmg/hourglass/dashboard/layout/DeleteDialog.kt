@@ -6,7 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextHeader2
 
@@ -19,20 +19,20 @@ fun DeleteDialog(
     AlertDialog(
         modifier = modifier,
         title = {
-            TextHeader2(text = stringResource(id = R.string.dashboard_delete_confirmation_title))
+            TextHeader2(text = stringResource(id = string.dashboard_delete_confirmation_title))
         },
         text = {
-            TextBody1(text = stringResource(id = R.string.dashboard_delete_confirmation_message))
+            TextBody1(text = stringResource(id = string.dashboard_delete_confirmation_message))
         },
         onDismissRequest = dismissed,
         dismissButton = {
             Button(onClick = dismissed) {
-                Text(text = stringResource(id = R.string.dashboard_delete_confirmation_cancel))
+                Text(text = stringResource(id = string.dashboard_delete_confirmation_cancel))
             }
         },
         confirmButton = {
             Button(onClick = confirmed) {
-                Text(text = stringResource(id = R.string.dashboard_delete_confirmation_confirm))
+                Text(text = stringResource(id = string.dashboard_delete_confirmation_confirm))
             }
         }
     )

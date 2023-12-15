@@ -23,6 +23,7 @@ import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.dashboard.layout.DashboardHeaderLayout
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.presentation.AppTheme
@@ -81,7 +82,7 @@ fun ItemWidgetPickerScreenVM(
                     bottom = AppTheme.dimensions.paddingMedium,
                 ),
             isEnabled = saveState.value,
-            text = stringResource(id = R.string.modify_header_save),
+            text = stringResource(id = string.modify_header_save),
             onClick = {
 
                 val checkedId = list.value
@@ -119,7 +120,7 @@ private fun Placeholder(
             contentDescription = null
         )
         Spacer(modifier = Modifier.height(8.dp))
-        TextBody1(text = stringResource(id = R.string.placeholder_title))
+        TextBody1(text = stringResource(id = string.placeholder_title))
     }
 }
 
@@ -165,7 +166,7 @@ private fun SelectableItem(
                 true -> Icons.Filled.CheckCircle
                 false -> Icons.Outlined.Check
             }
-            Icon(icon, contentDescription = stringResource(id = R.string.ab_select))
+            Icon(icon, contentDescription = stringResource(id = string.ab_select))
         }
         ProgressBar(
             barColor = Color(countdown.colour.toColorInt()),

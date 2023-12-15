@@ -11,6 +11,7 @@ import androidx.annotation.LayoutRes
 import io.realm.exceptions.RealmMigrationNeededException
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.prefs.AppPreferencesManager
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.realm.connectors.RealmCountdownConnector
@@ -55,17 +56,17 @@ inline fun <reified T: AppWidgetProvider> AppWidgetProvider.onUpdateCircle(
                         remoteView.setImageViewResource(R.id.progress, R.drawable.widget_circle_check)
                     }
                     progress <= 0.0f -> {
-                        remoteView.setTextViewText(R.id.value, context.getString(R.string.widget_not_started_short))
+                        remoteView.setTextViewText(R.id.value, context.getString(string.widget_not_started_short))
                     }
                 }
             }
             else {
                 remoteView.setProgressBar(R.id.progress, 100, 0, false)
-                remoteView.setTextViewText(R.id.value, context.getString(R.string.widget_migration_needed_label_short))
+                remoteView.setTextViewText(R.id.value, context.getString(string.widget_migration_needed_label_short))
             }
         } catch (e: RealmMigrationNeededException) {
             remoteView.setProgressBar(R.id.progress, 100, 0, false)
-            remoteView.setTextViewText(R.id.value, context.getString(R.string.widget_migration_needed_label_short))
+            remoteView.setTextViewText(R.id.value, context.getString(string.widget_migration_needed_label_short))
         }
 
         val intent = Intent(context, T::class.java)

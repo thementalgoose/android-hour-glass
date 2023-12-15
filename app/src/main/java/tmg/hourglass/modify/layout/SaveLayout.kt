@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.buttons.PrimaryButton
@@ -48,7 +49,7 @@ fun SaveLayout(
                     end = AppTheme.dimensions.paddingMedium,
                     bottom = AppTheme.dimensions.paddingMedium,
                 ),
-            text = stringResource(id = R.string.modify_header_save),
+            text = stringResource(id = string.modify_header_save),
             isEnabled = saveEnabled,
             onClick = saveClicked
         )

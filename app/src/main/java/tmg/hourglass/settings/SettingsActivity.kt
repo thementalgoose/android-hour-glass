@@ -26,6 +26,7 @@ import tmg.hourglass.presentation.lightColors
 import tmg.hourglass.presentation.darkColors
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.prefs.PreferencesManager
@@ -80,7 +81,7 @@ class SettingsActivity: BaseActivity() {
             intent.type = "text/html"
             intent.putExtra(Intent.EXTRA_EMAIL, "thementalgoose@gmail.com")
             intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-            startActivity(Intent.createChooser(intent, getString(R.string.send_email)))
+            startActivity(Intent.createChooser(intent, getString(string.send_email)))
         }
 
         observeEvent(viewModel.outputs.openReview) {
@@ -88,7 +89,7 @@ class SettingsActivity: BaseActivity() {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
                 startActivity(intent)
             } catch (e: ActivityNotFoundException) {
-                Toast.makeText(applicationContext, getString(R.string.error_activity_not_found), Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, getString(string.error_activity_not_found), Toast.LENGTH_LONG).show()
             }
         }
 
@@ -113,10 +114,10 @@ class SettingsActivity: BaseActivity() {
                             list = settingsItems.value,
                             modelClicked = {
                                 when (it.id) {
-                                    R.string.settings_theme_theme_title -> {
+                                    string.settings_theme_theme_title -> {
                                         openThemeDialog.value = true
                                     }
-                                    R.string.settings_reset_all_title -> {
+                                    string.settings_reset_all_title -> {
                                         openDeleteAllDialog.value = true
                                     }
                                     else -> {
@@ -132,7 +133,7 @@ class SettingsActivity: BaseActivity() {
                                 confirmed = {
                                     viewModel.inputs.clickDeleteAll()
                                     openDeleteAllDialog.value = false
-                                    Toast.makeText(applicationContext, R.string.settings_all_deleted, Toast.LENGTH_LONG).show()
+                                    Toast.makeText(applicationContext, string.settings_all_deleted, Toast.LENGTH_LONG).show()
                                 },
                                 dismissed = {
                                     openDeleteAllDialog.value = false
@@ -163,7 +164,7 @@ class SettingsActivity: BaseActivity() {
             appVersion = BuildConfig.VERSION_NAME,
             appPackageName = "tmg.hourglass",
             dependencies = projectDependencies(),
-            header = getString(R.string.dependency_thank_you),
+            header = getString(string.dependency_thank_you),
             footnote = "",
             email = "thementalgoose@gmail.com",
             github = "https://www.github.com/thementalgoose",

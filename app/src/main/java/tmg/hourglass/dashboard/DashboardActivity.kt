@@ -19,13 +19,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
-import tmg.hourglass.R
 import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.dashboard.layout.DeleteDialog
 import tmg.hourglass.modify.ModifyActivity
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.settings.SettingsActivity
 import tmg.utilities.extensions.observeEvent
+import tmg.hourglass.strings.R.string
 
 @AndroidEntryPoint
 class DashboardActivity: BaseActivity(), SplashScreen.KeepOnScreenCondition {
@@ -68,7 +68,7 @@ class DashboardActivity: BaseActivity(), SplashScreen.KeepOnScreenCondition {
                             backgroundColor = AppTheme.colors.primary,
                             onClick = viewModel.inputs::clickAdd
                         ) {
-                            Icon(Icons.Outlined.Add, tint = Color.White, contentDescription = stringResource(id = R.string.ab_add))
+                            Icon(Icons.Outlined.Add, tint = Color.White, contentDescription = stringResource(id = string.ab_add))
                         }
                     },
                     content = {

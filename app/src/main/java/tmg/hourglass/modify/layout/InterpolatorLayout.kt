@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.extensions.label
@@ -40,9 +40,9 @@ fun InterpolatorLayout(
                 bottom = AppTheme.dimensions.paddingMedium
             )
     ) {
-        TextHeader2(text = stringResource(id = R.string.modify_field_interpolator))
+        TextHeader2(text = stringResource(id = string.modify_field_interpolator))
         Spacer(modifier = Modifier.height(8.dp))
-        TextBody1(text = stringResource(id = R.string.modify_field_interpolator_desc))
+        TextBody1(text = stringResource(id = string.modify_field_interpolator_desc))
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
@@ -109,7 +109,7 @@ private fun InterpolatorDialog(
                             bottom = AppTheme.dimensions.paddingMedium,
                             end = AppTheme.dimensions.paddingMedium
                         ),
-                    text = stringResource(id = R.string.modify_field_type)
+                    text = stringResource(id = string.modify_field_type)
                 )
                 CountdownInterpolator.values().forEach {
                     TextButton(
