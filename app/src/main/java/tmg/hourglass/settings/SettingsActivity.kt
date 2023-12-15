@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.livedata.observeAsState
@@ -27,7 +28,6 @@ import tmg.hourglass.presentation.darkColors
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.strings.R.string
-import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
@@ -40,7 +40,7 @@ import tmg.utilities.extensions.observeEvent
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SettingsActivity: BaseActivity() {
+class SettingsActivity: AppCompatActivity() {
 
     private val viewModel: SettingsViewModel by viewModels()
 

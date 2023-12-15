@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.presentation.AppTheme
 
 @AndroidEntryPoint
-class ModifyActivity: BaseActivity() {
+class ModifyActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

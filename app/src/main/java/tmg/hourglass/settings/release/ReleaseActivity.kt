@@ -6,16 +6,16 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.livedata.observeAsState
 import dagger.hilt.android.AndroidEntryPoint
-import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.presentation.AppTheme
 import tmg.utilities.extensions.observeEvent
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ReleaseActivity: BaseActivity() {
+class ReleaseActivity: AppCompatActivity() {
 
     private val viewModel: ReleaseViewModel by viewModels()
 

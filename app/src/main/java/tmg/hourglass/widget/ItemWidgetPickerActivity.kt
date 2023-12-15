@@ -6,12 +6,12 @@ import android.appwidget.AppWidgetProvider
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.Scaffold
-import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.extensions.updateWidget
 import tmg.hourglass.presentation.AppTheme
 
-abstract class ItemWidgetPickerActivity<T : AppWidgetProvider> : BaseActivity() {
+abstract class ItemWidgetPickerActivity<T : AppWidgetProvider> : AppCompatActivity() {
 
     abstract val zClass: Class<T>
 

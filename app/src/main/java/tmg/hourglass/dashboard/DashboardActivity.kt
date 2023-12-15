@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -19,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
-import tmg.hourglass.base.BaseActivity
 import tmg.hourglass.dashboard.layout.DeleteDialog
 import tmg.hourglass.modify.ModifyActivity
 import tmg.hourglass.presentation.AppTheme
@@ -28,7 +28,7 @@ import tmg.utilities.extensions.observeEvent
 import tmg.hourglass.strings.R.string
 
 @AndroidEntryPoint
-class DashboardActivity: BaseActivity(), SplashScreen.KeepOnScreenCondition {
+class DashboardActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition {
 
     private val viewModel: DashboardViewModel by viewModels()
 
