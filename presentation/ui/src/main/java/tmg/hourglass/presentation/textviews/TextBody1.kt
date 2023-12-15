@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import tmg.hourglass.presentation.AppTheme
@@ -16,6 +17,7 @@ fun TextBody1(
     text: String,
     modifier: Modifier = Modifier,
     bold: Boolean = false,
+    textAlign: TextAlign = TextAlign.Start,
     textColor: Color? = null,
     style: TextStyle = AppTheme.typography.body1.copy(
         fontWeight = when (bold) {
@@ -28,6 +30,7 @@ fun TextBody1(
 ) {
     Text(
         text,
+        textAlign = textAlign,
         modifier = modifier,
         maxLines = maxLines ?: Int.MAX_VALUE,
         overflow = if (maxLines != null) TextOverflow.Ellipsis else TextOverflow.Clip,

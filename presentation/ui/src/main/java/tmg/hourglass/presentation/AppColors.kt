@@ -19,6 +19,7 @@ data class AppColors(
     val backgroundSecondary: Color,
     val backgroundPrimaryInverse: Color,
     val backgroundSecondaryInverse: Color,
+    val backgroundNav: Color,
     val inputBackground: Color,
     val isLight: Boolean
 ) {
@@ -52,6 +53,7 @@ val lightColors = AppColors(
     backgroundSecondary = Color(0xFFF8F8F8),
     backgroundPrimaryInverse = Color(0xFF181818),
     backgroundSecondaryInverse = Color(0xFF383838),
+    backgroundNav = Color(0xFFFCFCFC),
     inputBackground = Color(0xFFE8E8E8),
     isLight = true
 )
@@ -69,6 +71,7 @@ val darkColors = AppColors(
     backgroundSecondary = Color(0xFF383838),
     backgroundPrimaryInverse = Color(0xFFFFFFFF),
     backgroundSecondaryInverse = Color(0xFFF8F8F8),
+    backgroundNav = Color(0xFF383838),
     inputBackground = Color(0xFF282828),
     isLight = false
 )

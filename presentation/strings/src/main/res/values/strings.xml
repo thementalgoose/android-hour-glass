@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="empty" />
+
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
 
