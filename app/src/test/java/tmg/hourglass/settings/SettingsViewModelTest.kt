@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.prefs.ThemePref
@@ -26,24 +27,24 @@ internal class SettingsViewModelTest: BaseTest() {
     private val mockPreferenceManager: PreferencesManager = mockk(relaxed = true)
 
     private val expectedList = listOf(
-        Pair(R.string.settings_theme, null),
-        Pair(R.string.settings_theme_theme_title, R.string.settings_theme_theme_description),
-        Pair(R.string.settings_widgets, null),
-        Pair(R.string.settings_widgets_refresh_title, R.string.settings_widgets_refresh_description),
-        Pair(R.string.settings_widgets_updated_title, R.string.settings_widgets_updated_description),
-        Pair(R.string.settings_reset, null),
-        Pair(R.string.settings_reset_all_title, R.string.settings_reset_all_description),
-        Pair(R.string.settings_help, null),
-        Pair(R.string.settings_help_about_title, R.string.settings_help_about_description),
-        Pair(R.string.settings_help_review_title, R.string.settings_help_review_description),
-        Pair(R.string.settings_help_release_notes_title, R.string.settings_help_release_notes_description),
-        Pair(R.string.settings_feedback, null),
-        Pair(R.string.settings_help_suggestions_title, R.string.settings_help_suggestions_description),
-        Pair(R.string.settings_help_crash_reporting_title, R.string.settings_help_crash_reporting_description),
-        Pair(R.string.settings_help_analytics_title, R.string.settings_help_analytics_description),
-        Pair(R.string.settings_help_shake_to_report_title, R.string.settings_help_shake_to_report_description),
-        Pair(R.string.settings_privacy, null),
-        Pair(R.string.settings_help_privacy_policy_title, R.string.settings_help_privacy_policy_description)
+        Pair(string.settings_theme, null),
+        Pair(string.settings_theme_theme_title, string.settings_theme_theme_description),
+        Pair(string.settings_widgets, null),
+        Pair(string.settings_widgets_refresh_title, string.settings_widgets_refresh_description),
+        Pair(string.settings_widgets_updated_title, string.settings_widgets_updated_description),
+        Pair(string.settings_reset, null),
+        Pair(string.settings_reset_all_title, string.settings_reset_all_description),
+        Pair(string.settings_help, null),
+        Pair(string.settings_help_about_title, string.settings_help_about_description),
+        Pair(string.settings_help_review_title, string.settings_help_review_description),
+        Pair(string.settings_help_release_notes_title, string.settings_help_release_notes_description),
+        Pair(string.settings_feedback, null),
+        Pair(string.settings_help_suggestions_title, string.settings_help_suggestions_description),
+        Pair(string.settings_help_crash_reporting_title, string.settings_help_crash_reporting_description),
+        Pair(string.settings_help_analytics_title, string.settings_help_analytics_description),
+        Pair(string.settings_help_shake_to_report_title, string.settings_help_shake_to_report_description),
+        Pair(string.settings_privacy, null),
+        Pair(string.settings_help_privacy_policy_title, string.settings_help_privacy_policy_description)
     )
 
     private fun initSUT() {
@@ -116,7 +117,7 @@ internal class SettingsViewModelTest: BaseTest() {
     @Test
     fun `clicking refresh widgets updates widget event`() {
         initSUT()
-        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_widgets_refresh_title))
+        sut.clickSetting(sut.list.value!!.findPref(string.settings_widgets_refresh_title))
         sut.updateWidget.test {
             assertEventFired()
         }
@@ -125,7 +126,7 @@ internal class SettingsViewModelTest: BaseTest() {
     @Test
     fun `clicking show date time in widgets updates widget event and updates pref value`() {
         initSUT()
-        sut.clickSetting(sut.list.value!!.findSwitch(R.string.settings_widgets_updated_title))
+        sut.clickSetting(sut.list.value!!.findSwitch(string.settings_widgets_updated_title))
         verify {
             mockPreferenceManager.widgetShowUpdate = true
         }
@@ -137,7 +138,7 @@ internal class SettingsViewModelTest: BaseTest() {
     @Test
     fun `clicking review fires open review event`() {
         initSUT()
-        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_help_review_title))
+        sut.clickSetting(sut.list.value!!.findPref(string.settings_help_review_title))
         sut.openReview.test {
             assertEventFired()
         }
@@ -146,7 +147,7 @@ internal class SettingsViewModelTest: BaseTest() {
     @Test
     fun `clicking release notes fires open release notes event`() {
         initSUT()
-        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_help_release_notes_title))
+        sut.clickSetting(sut.list.value!!.findPref(string.settings_help_release_notes_title))
         sut.openReleaseNotes.test {
             assertEventFired()
         }
@@ -155,7 +156,7 @@ internal class SettingsViewModelTest: BaseTest() {
     @Test
     fun `clicking suggestions fires open suggestions event`() {
         initSUT()
-        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_help_suggestions_title))
+        sut.clickSetting(sut.list.value!!.findPref(string.settings_help_suggestions_title))
         sut.openSuggestions.test {
             assertEventFired()
         }
@@ -164,7 +165,7 @@ internal class SettingsViewModelTest: BaseTest() {
     @Test
     fun `clicking crash reporting fires open event`() {
         initSUT()
-        sut.clickSetting(sut.list.value!!.findSwitch(R.string.settings_help_crash_reporting_title))
+        sut.clickSetting(sut.list.value!!.findSwitch(string.settings_help_crash_reporting_title))
         verify {
             mockPreferenceManager.crashReporting = true
         }
@@ -176,7 +177,7 @@ internal class SettingsViewModelTest: BaseTest() {
     @Test
     fun `clicking analytics fires open event`() {
         initSUT()
-        sut.clickSetting(sut.list.value!!.findSwitch(R.string.settings_help_analytics_title))
+        sut.clickSetting(sut.list.value!!.findSwitch(string.settings_help_analytics_title))
         verify {
             mockPreferenceManager.analyticsEnabled = true
         }
@@ -188,7 +189,7 @@ internal class SettingsViewModelTest: BaseTest() {
     @Test
     fun `clicking shake to report fires open event`() {
         initSUT()
-        sut.clickSetting(sut.list.value!!.findSwitch(R.string.settings_help_shake_to_report_title))
+        sut.clickSetting(sut.list.value!!.findSwitch(string.settings_help_shake_to_report_title))
         verify {
             mockPreferenceManager.shakeToReport = true
         }
@@ -200,7 +201,7 @@ internal class SettingsViewModelTest: BaseTest() {
     @Test
     fun `clicking privacy policy fires open event`() {
         initSUT()
-        sut.clickSetting(sut.list.value!!.findPref(R.string.settings_help_privacy_policy_title))
+        sut.clickSetting(sut.list.value!!.findPref(string.settings_help_privacy_policy_title))
         sut.privacyPolicy.test {
             assertEventFired()
         }
