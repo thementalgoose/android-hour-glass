@@ -26,13 +26,17 @@ import tmg.utilities.extensions.toEnum
 @Composable
 fun HomeScreen(
     windowSizeClass: WindowSizeClass,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    goToMarketPage: () -> Unit,
+    goToAboutThisApp: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState()
     HomeScreen(
         windowSizeClass = windowSizeClass,
         uiState = uiState.value,
-        tabClicked = viewModel::selectTab
+        tabClicked = viewModel::selectTab,
+        goToAboutThisApp = goToAboutThisApp,
+        goToMarketPage = goToMarketPage
     )
 }
 
@@ -40,6 +44,8 @@ fun HomeScreen(
 internal fun HomeScreen(
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
+    goToMarketPage: () -> Unit,
+    goToAboutThisApp: () -> Unit,
     tabClicked: (HomeTab) -> Unit,
 ) {
     val tabs = HomeTab.entries
@@ -66,6 +72,8 @@ internal fun HomeScreen(
                         HomeTab.SETTINGS -> {
                             SettingsScreen(
                                 windowSizeClass = windowSizeClass,
+                                goToAboutThisApp = goToAboutThisApp,
+                                goToMarketPage = goToMarketPage
                             )
                         }
                     }

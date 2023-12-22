@@ -1,4 +1,4 @@
-package tmg.hourglass.dashboard.layout
+package tmg.hourglass.presentation.dashboard.components
 
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button

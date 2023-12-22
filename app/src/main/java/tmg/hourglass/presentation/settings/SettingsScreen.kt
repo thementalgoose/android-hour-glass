@@ -10,11 +10,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import tmg.hourglass.ReleaseNotes
+import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewPhone
@@ -32,9 +34,12 @@ import tmg.hourglass.strings.R.string
 @Composable
 internal fun SettingsScreen(
     windowSizeClass: WindowSizeClass,
-    viewModel: SettingsViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = hiltViewModel(),
+    goToMarketPage: () -> Unit,
+    goToAboutThisApp: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState()
+    val context = LocalContext.current
 
     MasterDetailsPane(
         windowSizeClass = windowSizeClass,
@@ -43,9 +48,11 @@ internal fun SettingsScreen(
                 windowSizeClass = windowSizeClass,
                 uiState = uiState.value,
                 setTheme = viewModel::setTheme,
-                refreshWidgetsClicked = viewModel::refreshWidgets,
-                aboutThisAppClicked = { },
-                rateClicked = { },
+                refreshWidgetsClicked = {
+                    context.updateAllWidgets()
+                },
+                aboutThisAppClicked = goToAboutThisApp,
+                rateClicked = goToMarketPage,
                 releaseNotesClicked = {
                     viewModel.clickScreen(SettingsType.RELEASE)
                 },

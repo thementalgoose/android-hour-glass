@@ -1,7 +1,9 @@
 package tmg.hourglass.presentation.settings
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import tmg.hourglass.domain.connectors.CountdownConnector
@@ -52,10 +54,6 @@ class SettingsViewModel @Inject constructor(
         _uiState.update { copy(screen = null) }
     }
 
-    fun refreshWidgets() {
-
-    }
-
     fun clickScreen(screenType: SettingsType) {
         _uiState.update { copy(screen = screenType) }
     }
@@ -88,6 +86,14 @@ class SettingsViewModel @Inject constructor(
 
     fun deleteAll() {
         countdownConnector.deleteAll()
+    }
+
+    fun goToAboutThisApp() {
+
+    }
+
+    fun goToRate() {
+
     }
 
     private fun refresh() {

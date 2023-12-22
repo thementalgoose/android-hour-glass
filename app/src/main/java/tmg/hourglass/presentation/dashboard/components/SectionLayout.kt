@@ -1,4 +1,4 @@
-package tmg.hourglass.dashboard.layout
+package tmg.hourglass.presentation.dashboard.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider

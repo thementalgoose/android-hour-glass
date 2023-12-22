@@ -6,10 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -24,7 +22,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.R
 import tmg.hourglass.strings.R.string
-import tmg.hourglass.dashboard.layout.DashboardHeaderLayout
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.buttons.PrimaryButton
