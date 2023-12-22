@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -12,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.threeten.bp.LocalDateTime
-import tmg.hourglass.R
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
@@ -26,6 +26,7 @@ import tmg.hourglass.presentation.layouts.TitleBar
 
 @Composable
 fun ModifyScreen(
+    windowSizeClass: WindowSizeClass,
     actionUpClicked: () -> Unit,
     countdown: Countdown?,
     viewModel: ModifyViewModel = hiltViewModel()
@@ -47,6 +48,7 @@ fun ModifyScreen(
     val save = viewModel.outputs.saveEnabled.collectAsState()
 
     ModifyScreen(
+        windowSizeClass = windowSizeClass,
         actionUpClicked = actionUpClicked,
         countdown = countdown,
         name = name.value,
@@ -73,6 +75,7 @@ fun ModifyScreen(
 
 @Composable
 fun ModifyScreen(
+    windowSizeClass: WindowSizeClass,
     actionUpClicked: () -> Unit,
     countdown: Countdown?,
     name: String,
@@ -103,7 +106,7 @@ fun ModifyScreen(
     ) {
         TitleBar(
             title = stringResource(id = if (countdown != null) string.modify_header_edit else string.modify_header_add),
-            backClicked = actionUpClicked
+            backClicked = actionUpClicked,
         )
         PersonaliseLayout(
             name = name,

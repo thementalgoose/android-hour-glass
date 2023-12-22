@@ -10,6 +10,7 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -58,6 +59,7 @@ internal fun DashboardScreen(
         detailsShow = uiState.value.action != null,
         details = {
             ModifyScreen(
+                windowSizeClass = windowSizeClass,
                 actionUpClicked = {
                     viewModel.closeAction()
                     viewModel.refresh()
@@ -80,7 +82,10 @@ internal fun ListScreen(
         modifier = Modifier.fillMaxSize(),
         content = {
             item("header") {
-                TitleBar(title = stringResource(id = R.string.app_name))
+                TitleBar(
+                    title = stringResource(id = R.string.app_name),
+                    showSpace = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+                )
             }
             if (uiState.expired.isNotEmpty()) {
                 item("expired") {

@@ -39,6 +39,8 @@ fun TitleBar(
             ) {
                 Spacer(modifier = Modifier.width(AppTheme.dimensions.paddingXSmall))
             }
+        } else {
+            Spacer(modifier = Modifier.height(AppTheme.dimensions.paddingNSmall))
         }
         Row(modifier = Modifier
             .fillMaxWidth()

@@ -4,12 +4,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import tmg.hourglass.ReleaseNotes
 import tmg.hourglass.presentation.ThemePref
@@ -37,6 +40,7 @@ internal fun SettingsScreen(
         windowSizeClass = windowSizeClass,
         master = {
             SettingsOverviewScreen(
+                windowSizeClass = windowSizeClass,
                 uiState = uiState.value,
                 setTheme = viewModel::setTheme,
                 refreshWidgetsClicked = viewModel::refreshWidgets,
@@ -53,7 +57,7 @@ internal fun SettingsScreen(
                 setAnalytics = viewModel::setAnalytics,
                 setCrashlytics = viewModel::setCrash,
                 setShakeToReport = viewModel::setShakeToReport,
-                setShowWidgetDate = viewModel::setWidgetDate
+                setShowWidgetDate = viewModel::setWidgetDate,
             )
         },
         detailsShow = uiState.value.screen != null,
@@ -79,6 +83,7 @@ internal fun SettingsScreen(
 
 @Composable
 private fun SettingsOverviewScreen(
+    windowSizeClass: WindowSizeClass,
     uiState: UiState,
     setTheme: (ThemePref) -> Unit,
     refreshWidgetsClicked: () -> Unit,
@@ -102,7 +107,8 @@ private fun SettingsOverviewScreen(
         content = {
             item(key = "header") {
                 TitleBar(
-                    title = stringResource(id = string.settings_title)
+                    title = stringResource(id = string.settings_title),
+                    showSpace = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
                 )
             }
             item(key = "theme_header") {
@@ -239,6 +245,7 @@ private fun SettingsOverviewScreen(
 private fun PreviewOverview() {
     AppThemePreview {
         SettingsOverviewScreen(
+            windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(300.dp, 400.dp)),
             uiState = UiState(
                 screen = null,
                 showWidgetUpdatedDate = true,
