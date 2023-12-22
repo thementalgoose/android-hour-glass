@@ -1,10 +1,11 @@
-package tmg.hourglass.modify
+package tmg.hourglass.presentation.modify
 
+import app.cash.turbine.test
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -15,10 +16,9 @@ import tmg.hourglass.core.googleanalytics.CrashReporter
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
-import tmg.hourglass.modify.ModifyViewModel
+import tmg.hourglass.presentation.modify.ModifyViewModel
 import tmg.hourglass.utils.Selected
 import tmg.testutils.BaseTest
-import tmg.testutils.livedata.assertDataEventValue
 import tmg.testutils.livedata.assertEventFired
 import tmg.testutils.livedata.test
 
@@ -35,28 +35,28 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `initialising vm sets isEdit to false`() {
+    fun `initialising vm sets isEdit to false`() = runTest {
 
         initSUT()
 
         sut.outputs.isEdit.test {
-            assertValue(false)
+            assertEquals(false, awaitItem())
         }
     }
 
     @Test
-    fun `initialising vm with isEdit to true`() {
+    fun `initialising vm with isEdit to true`() = runTest {
 
         initSUT()
 
         sut.inputs.initialise("my-id")
         sut.outputs.isEdit.test {
-            assertValue(true)
+            assertEquals(true, awaitItem())
         }
     }
 
     @Test
-    fun `input name registers name update`() {
+    fun `input name registers name update`() = runTest {
 
         val expectedInput= "test"
 
@@ -65,12 +65,12 @@ internal class ModifyViewModelTest: BaseTest() {
         sut.inputs.name(expectedInput)
 
         sut.outputs.name.test {
-            assertValue(expectedInput)
+            assertEquals(expectedInput, awaitItem())
         }
     }
 
     @Test
-    fun `input description registers description update`() {
+    fun `input description registers description update`() = runTest {
 
         val expectedInput= "desc"
 
@@ -78,12 +78,12 @@ internal class ModifyViewModelTest: BaseTest() {
 
         sut.inputs.description(expectedInput)
         sut.outputs.description.test {
-            assertValue(expectedInput)
+            assertEquals(expectedInput, awaitItem())
         }
     }
 
     @Test
-    fun `input colours registers colours update`() {
+    fun `input colours registers colours update`() = runTest {
 
         val expectedInput= "#123123"
 
@@ -91,12 +91,12 @@ internal class ModifyViewModelTest: BaseTest() {
 
         sut.inputs.color(expectedInput)
         sut.outputs.color.test {
-            assertValue(expectedInput)
+            assertEquals(expectedInput, awaitItem())
         }
     }
 
     @Test
-    fun `input type registers type update`() {
+    fun `input type registers type update`() = runTest {
 
         val expectedInput = CountdownType.GRAMS
 
@@ -105,12 +105,12 @@ internal class ModifyViewModelTest: BaseTest() {
         sut.inputs.type(expectedInput)
 
         sut.outputs.type.test {
-            assertValue(expectedInput)
+            assertEquals(expectedInput, awaitItem())
         }
     }
 
     @Test
-    fun `input type as days registers type update and shows range event`() {
+    fun `input type as days registers type update and shows range event`() = runTest {
 
         val expectedInput = CountdownType.DAYS
         val expectedTypeList = CountdownType
@@ -124,12 +124,12 @@ internal class ModifyViewModelTest: BaseTest() {
         sut.inputs.type(expectedInput)
 
         sut.outputs.type.test {
-            assertValue(expectedInput)
+            assertEquals(expectedInput, awaitItem())
         }
     }
 
     @Test
-    fun `input start dates registers dates event`() {
+    fun `input start dates registers dates event`() = runTest {
 
         val expectedStart = LocalDateTime.now()
 
@@ -138,12 +138,12 @@ internal class ModifyViewModelTest: BaseTest() {
         sut.inputs.startDate(expectedStart)
 
         sut.outputs.startDate.test {
-            assertValue(expectedStart)
+            assertEquals(expectedStart, awaitItem())
         }
     }
 
     @Test
-    fun `input end dates registers dates event`() {
+    fun `input end dates registers dates event`() = runTest {
 
         val expectedEnd = LocalDateTime.now()
 
@@ -152,12 +152,12 @@ internal class ModifyViewModelTest: BaseTest() {
         sut.inputs.endDate(expectedEnd)
 
         sut.outputs.endDate.test {
-            assertValue(expectedEnd)
+            assertEquals(expectedEnd, awaitItem())
         }
     }
 
     @Test
-    fun `input initial registers initial event`() {
+    fun `input initial registers initial event`() = runTest {
 
         val expectedInput = "0"
 
@@ -166,12 +166,12 @@ internal class ModifyViewModelTest: BaseTest() {
         sut.inputs.initial(expectedInput)
 
         sut.outputs.initial.test {
-            assertValue(expectedInput)
+            assertEquals(expectedInput, awaitItem())
         }
     }
 
     @Test
-    fun `input final registers final event`() {
+    fun `input final registers final event`() = runTest {
 
         val expectedInput = "0"
 
@@ -180,12 +180,12 @@ internal class ModifyViewModelTest: BaseTest() {
         sut.inputs.finish(expectedInput)
 
         sut.outputs.finished.test {
-            assertValue(expectedInput)
+            assertEquals(expectedInput, awaitItem())
         }
     }
 
     @Test
-    fun `input interpolator registers interpolator event`() {
+    fun `input interpolator registers interpolator event`() = runTest {
 
         val expectedInput = CountdownInterpolator.ACCELERATE_DECELERATE
         val expectedInterpolatorList = CountdownInterpolator
@@ -199,7 +199,7 @@ internal class ModifyViewModelTest: BaseTest() {
         sut.inputs.interpolator(expectedInput)
 
         sut.outputs.interpolator.test {
-            assertValue(expectedInput)
+            assertEquals(expectedInput, awaitItem())
         }
     }
 
@@ -228,7 +228,7 @@ internal class ModifyViewModelTest: BaseTest() {
         // Valid
         "name,desc,#123123,DAYS,01/01/2020,02/02/2020,0,1,linear,true"
     )
-    fun `testing isValid is represented properly`(name: String?, desc: String?, color: String?, type: String, start: String?, end: String?, initial: String?, final: String?, interpolator: String, expectedIsValidValue: Boolean) {
+    fun `testing isValid is represented properly`(name: String?, desc: String?, color: String?, type: String, start: String?, end: String?, initial: String?, final: String?, interpolator: String, expectedIsValidValue: Boolean) = runTest {
 
         initSUT()
 
@@ -243,12 +243,12 @@ internal class ModifyViewModelTest: BaseTest() {
         sut.inputs.interpolator(getInterpolator(interpolator))
 
         sut.outputs.saveEnabled.test {
-            assertValue(expectedIsValidValue)
+            assertEquals(expectedIsValidValue, awaitItem())
         }
     }
 
     @Test
-    fun `clicking saves countdown item in countdown connector`() {
+    fun `clicking saves countdown item in countdown connector`() = runTest {
 
         initSUT()
         setupValidInputs(type = CountdownType.DAYS, addDates = true, addInputs = false)
@@ -258,14 +258,10 @@ internal class ModifyViewModelTest: BaseTest() {
         verify {
             mockCountdownConnector.saveSync(any())
         }
-
-        sut.outputs.close.test {
-            assertEventFired()
-        }
     }
 
     @Test
-    fun `trying to save when dates are not added submits a crash report to the logger`() {
+    fun `trying to save when dates are not added submits a crash report to the logger`() = runTest {
 
         initSUT()
         setupValidInputs(type = CountdownType.DAYS, addDates = false, addInputs = false)
@@ -278,7 +274,7 @@ internal class ModifyViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `connector save sync method throws a null pointer exception then isValid is reset and exception is silently logged`() {
+    fun `connector save sync method throws a null pointer exception then isValid is reset and exception is silently logged`() = runTest {
 
         every { mockCountdownConnector.saveSync(any()) } throws NullPointerException()
 
@@ -288,7 +284,7 @@ internal class ModifyViewModelTest: BaseTest() {
         sut.inputs.saveClicked()
 
         sut.outputs.saveEnabled.test {
-            assertValue(true)
+            assertEquals(true, awaitItem())
         }
         verify {
             mockCrashReporter.logException(any())

@@ -6,7 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.prefs.PreferencesManager
-import tmg.hourglass.prefs.ThemePref
+import tmg.hourglass.presentation.ThemePref
+import tmg.hourglass.presentation.usecases.ChangeThemeUseCase
 import javax.inject.Inject
 
 
@@ -30,14 +31,14 @@ data class UiState(
 
 enum class SettingsType {
     PRIVACY_POLICY,
-    RELEASE,
-    THEME
+    RELEASE
 }
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val prefManager: PreferencesManager,
-    private val countdownConnector: CountdownConnector
+    private val countdownConnector: CountdownConnector,
+    private val changeThemeUseCase: ChangeThemeUseCase
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -49,6 +50,10 @@ class SettingsViewModel @Inject constructor(
 
     fun closeDetails() {
         _uiState.update { copy(screen = null) }
+    }
+
+    fun refreshWidgets() {
+
     }
 
     fun clickScreen(screenType: SettingsType) {
@@ -72,6 +77,12 @@ class SettingsViewModel @Inject constructor(
 
     fun setWidgetDate(enabled: Boolean) {
         prefManager.widgetShowUpdate = enabled
+        refresh()
+    }
+
+    fun setTheme(theme: ThemePref) {
+        prefManager.theme = theme
+        changeThemeUseCase.update(theme)
         refresh()
     }
 

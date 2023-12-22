@@ -26,4 +26,5 @@ class HomeViewModel @Inject constructor(): ViewModel() {
     private fun MutableStateFlow<UiState>.update(callback: UiState.() -> UiState) {
         _uiState.value = callback(_uiState.value)
     }
+
 }

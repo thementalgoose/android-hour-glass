@@ -48,6 +48,23 @@ class DashboardViewModel @Inject constructor(
         _uiState.update { copy(action = null) }
     }
 
+    fun createNew() {
+        _uiState.update { copy(action = DashboardAction.Add) }
+    }
+
+    fun refresh() {
+        loadDashboard()
+    }
+
+    fun edit(countdown: Countdown) {
+        _uiState.update { copy(action = DashboardAction.Modify(countdown)) }
+    }
+
+    fun delete(countdown: Countdown) {
+        countdownConnector.delete(countdown.id)
+        loadDashboard()
+    }
+
     private fun loadDashboard() {
         viewModelScope.launch {
             val expired = countdownConnector.allDone().first()

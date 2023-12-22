@@ -1,4 +1,4 @@
-package tmg.hourglass.modify.layout
+package tmg.hourglass.presentation.modify.layout
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource

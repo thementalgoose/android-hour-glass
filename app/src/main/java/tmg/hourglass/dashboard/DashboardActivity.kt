@@ -21,7 +21,6 @@ import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import tmg.hourglass.dashboard.layout.DeleteDialog
-import tmg.hourglass.modify.ModifyActivity
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.settings.SettingsActivity
 import tmg.utilities.extensions.observeEvent
@@ -44,13 +43,13 @@ class DashboardActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition
 
         splashScreen.setKeepOnScreenCondition(this)
 
-        observeEvent(viewModel.outputs.goToAdd) {
-            startActivity(ModifyActivity.intent(this))
-        }
-
-        observeEvent(viewModel.outputs.goToEdit) { id ->
-            startActivity(ModifyActivity.intent(this, id))
-        }
+//        observeEvent(viewModel.outputs.goToAdd) {
+//            startActivity(ModifyActivity.intent(this))
+//        }
+//
+//        observeEvent(viewModel.outputs.goToEdit) { id ->
+//            startActivity(ModifyActivity.intent(this, id))
+//        }
 
         observeEvent(viewModel.outputs.goToSettings) {
             startActivity(SettingsActivity.intent(this))

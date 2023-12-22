@@ -6,14 +6,12 @@ import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import tmg.hourglass.BuildConfig
-import tmg.hourglass.R
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.prefs.PreferencesManager
-import tmg.hourglass.prefs.ThemePref
-import tmg.hourglass.prefs.ThemePref.DARK
-import tmg.hourglass.prefs.ThemePref.LIGHT
+import tmg.hourglass.presentation.ThemePref
+import tmg.hourglass.presentation.ThemePref.DARK
+import tmg.hourglass.presentation.ThemePref.LIGHT
 import tmg.hourglass.testutils.*
 import tmg.testutils.BaseTest
 import tmg.testutils.livedata.assertEventFired

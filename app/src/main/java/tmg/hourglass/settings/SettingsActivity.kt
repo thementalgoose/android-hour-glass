@@ -30,7 +30,7 @@ import tmg.hourglass.R
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.prefs.PreferencesManager
-import tmg.hourglass.prefs.ThemePref
+import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.settings.components.DeleteDialog
 import tmg.hourglass.presentation.settings.components.ThemeDialog

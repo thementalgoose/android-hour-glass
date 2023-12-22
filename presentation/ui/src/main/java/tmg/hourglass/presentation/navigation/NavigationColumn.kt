@@ -149,6 +149,7 @@ private fun NavigationItem(
                     .padding(start = AppTheme.dimensions.paddingSmall)
                     .align(Alignment.CenterVertically)
                     .fillMaxWidth(),
+                maxLines = 1,
                 text = item.label.let { stringResource(id = it) }
             )
         }

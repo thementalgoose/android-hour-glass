@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -15,6 +19,7 @@ import tmg.hourglass.presentation.dashboard.DashboardScreen
 import tmg.hourglass.presentation.navigation.NavigationBar
 import tmg.hourglass.presentation.navigation.NavigationColumn
 import tmg.hourglass.presentation.settings.SettingsScreen
+import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.utilities.extensions.toEnum
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -40,6 +45,7 @@ internal fun HomeScreen(
     val tabs = HomeTab.entries
         .map { it.toNavigationItem(it == uiState.tab) }
     Scaffold(
+        containerColor = AppTheme.colors.backgroundPrimary,
         content = {
             Row(Modifier.padding(it)) {
                 if (windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact) {

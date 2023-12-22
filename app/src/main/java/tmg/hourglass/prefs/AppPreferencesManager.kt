@@ -2,6 +2,7 @@ package tmg.hourglass.prefs
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import tmg.hourglass.presentation.ThemePref
 import tmg.utilities.extensions.toEnum
 import tmg.utilities.prefs.SharedPrefManager
 import java.util.*

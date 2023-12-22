@@ -1,16 +1,15 @@
-package tmg.hourglass.modify
+package tmg.hourglass.presentation.modify
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.core.googleanalytics.CrashReporter
 import tmg.hourglass.domain.connectors.CountdownConnector
@@ -18,15 +17,12 @@ import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
-import tmg.utilities.lifecycle.Event
 import java.util.UUID
 import javax.inject.Inject
 
 //region Inputs
 
 interface ModifyViewModelInputs {
-
-    fun backClicked()
 
     fun initialise(id: String? = null)
 
@@ -50,25 +46,23 @@ interface ModifyViewModelInputs {
 
 interface ModifyViewModelOutputs {
 
-    val isEdit: LiveData<Boolean>
+    val isEdit: StateFlow<Boolean>
 
-    val name: LiveData<String>
-    val description: LiveData<String>
-    val color: LiveData<String>
+    val name: StateFlow<String>
+    val description: StateFlow<String>
+    val color: StateFlow<String>
 
-    val type: LiveData<CountdownType>
+    val type: StateFlow<CountdownType>
 
-    val initial: LiveData<String>
-    val finished: LiveData<String>
+    val initial: StateFlow<String>
+    val finished: StateFlow<String>
 
-    val interpolator: LiveData<CountdownInterpolator>
+    val interpolator: StateFlow<CountdownInterpolator>
 
-    val startDate: LiveData<LocalDateTime?>
-    val endDate: LiveData<LocalDateTime?>
+    val startDate: StateFlow<LocalDateTime?>
+    val endDate: StateFlow<LocalDateTime?>
 
-    val saveEnabled: LiveData<Boolean>
-
-    val close: LiveData<Event>
+    val saveEnabled: StateFlow<Boolean>
 }
 
 //endregion
@@ -82,33 +76,32 @@ class ModifyViewModel @Inject constructor(
     val inputs: ModifyViewModelInputs = this
     val outputs: ModifyViewModelOutputs = this
 
-    private val id: MutableLiveData<String?> = MutableLiveData()
+    private val id: MutableStateFlow<String?> = MutableStateFlow(null)
 
-    override val isEdit: LiveData<Boolean> = id
+    override val isEdit: StateFlow<Boolean> = id
         .map { it != null}
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
-    override val name: MutableLiveData<String> = MutableLiveData("")
-    override val description: MutableLiveData<String> = MutableLiveData("")
-    override val color: MutableLiveData<String> = MutableLiveData(CountdownColors.COLOUR_1.hex)
-    override val type: MutableLiveData<CountdownType> = MutableLiveData(CountdownType.NUMBER)
-    override val initial: MutableLiveData<String> = MutableLiveData("")
-    override val finished: MutableLiveData<String> = MutableLiveData("")
-    override val interpolator: MutableLiveData<CountdownInterpolator> = MutableLiveData(CountdownInterpolator.LINEAR)
-    override val startDate: MutableLiveData<LocalDateTime?> = MutableLiveData()
-    override val endDate: MutableLiveData<LocalDateTime?> = MutableLiveData()
-
-    override val close: MutableLiveData<Event> = MutableLiveData()
+    override val name: MutableStateFlow<String> = MutableStateFlow("")
+    override val description: MutableStateFlow<String> = MutableStateFlow("")
+    override val color: MutableStateFlow<String> = MutableStateFlow(CountdownColors.COLOUR_1.hex)
+    override val type: MutableStateFlow<CountdownType> = MutableStateFlow(CountdownType.NUMBER)
+    override val initial: MutableStateFlow<String> = MutableStateFlow("")
+    override val finished: MutableStateFlow<String> = MutableStateFlow("")
+    override val interpolator: MutableStateFlow<CountdownInterpolator> = MutableStateFlow(CountdownInterpolator.LINEAR)
+    override val startDate: MutableStateFlow<LocalDateTime?> = MutableStateFlow(null)
+    override val endDate: MutableStateFlow<LocalDateTime?> = MutableStateFlow(null)
 
     private val model: Flow<Countdown?> = combine(
-        name.asFlow(),
-        description.asFlow(),
-        color.asFlow(),
-        type.asFlow(),
-        initial.asFlow(),
-        finished.asFlow(),
-        interpolator.asFlow(),
-        startDate.asFlow(),
-        endDate.asFlow()
+        name,
+        description,
+        color,
+        type,
+        initial,
+        finished,
+        interpolator,
+        startDate,
+        endDate
     ) {
         val _name: String = (it[0] as? String) ?: ""
         val _description: String = (it[1] as? String) ?: ""
@@ -165,9 +158,9 @@ class ModifyViewModel @Inject constructor(
         )
     }
 
-    override val saveEnabled: LiveData<Boolean> = model
-        .map { it != null  }
-        .asLiveData(viewModelScope.coroutineContext)
+    override val saveEnabled: StateFlow<Boolean> = model
+        .map { it != null }
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     override fun initialise(id: String?) {
         this.id.value = id
@@ -175,20 +168,28 @@ class ModifyViewModel @Inject constructor(
             val model = countdownConnector.getSync(id)
             name.value = model?.name ?: ""
             description.value = model?.description ?: ""
-            color.value = model?.colour ?: "#283793"
+            color.value = model?.colour ?: CountdownColors.COLOUR_1.hex
 
-            type.value = model?.countdownType
+            type.value = model?.countdownType ?: CountdownType.NUMBER
 
-            initial.value = model?.initial
-            finished.value = model?.finishing
+            initial.value = model?.initial ?: ""
+            finished.value = model?.finishing ?: ""
 
             startDate.value = model?.start
             endDate.value = model?.end
-        }
-    }
+        } else {
+            name.value = ""
+            description.value = ""
+            color.value = CountdownColors.COLOUR_1.hex
 
-    override fun backClicked() {
-        close.value = Event()
+            type.value = CountdownType.NUMBER
+
+            initial.value = ""
+            finished.value = ""
+
+            startDate.value = null
+            endDate.value = null
+        }
     }
 
     override fun name(text: String) {
@@ -232,18 +233,17 @@ class ModifyViewModel @Inject constructor(
         try {
             val countdown = Countdown(
                 id = id.value ?: UUID.randomUUID().toString(),
-                name = name.value!!,
-                description = description.value ?: "",
-                colour = color.value!!,
+                name = name.value,
+                description = description.value,
+                colour = color.value,
                 start = startDate.value!!,
                 end = endDate.value!!,
-                initial = initial.value!!,
-                finishing = finished.value!!,
-                countdownType = type.value!!,
-                interpolator = interpolator.value!!
+                initial = initial.value,
+                finishing = finished.value,
+                countdownType = type.value,
+                interpolator = interpolator.value
             )
             countdownConnector.saveSync(countdown)
-            close.value = Event()
         } catch (e: NullPointerException) {
             crashReporter.logException(e)
         }
@@ -253,6 +253,5 @@ class ModifyViewModel @Inject constructor(
         id.value?.let {
             countdownConnector.delete(it)
         }
-        close.value = Event()
     }
 }

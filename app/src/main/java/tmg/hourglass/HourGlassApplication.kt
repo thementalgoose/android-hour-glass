@@ -15,7 +15,7 @@ import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import tmg.hourglass.prefs.PreferencesManager
-import tmg.hourglass.prefs.ThemePref
+import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.realm.migrations.RealmDBMigration
 import javax.inject.Inject
 

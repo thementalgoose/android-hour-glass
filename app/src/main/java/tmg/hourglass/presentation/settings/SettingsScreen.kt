@@ -11,7 +11,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import tmg.hourglass.prefs.ThemePref
+import tmg.hourglass.ReleaseNotes
+import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewPhone
 import tmg.hourglass.presentation.layouts.MasterDetailsPane
@@ -21,6 +22,8 @@ import tmg.hourglass.presentation.settings.components.SettingsOption
 import tmg.hourglass.presentation.settings.components.SettingsSwitch
 import tmg.hourglass.presentation.settings.components.DeleteDialog
 import tmg.hourglass.presentation.settings.components.ThemeDialog
+import tmg.hourglass.settings.privacy.PrivacyPolicyLayout
+import tmg.hourglass.settings.release.ReleaseLayout
 import tmg.hourglass.strings.R.string
 
 @Composable
@@ -35,13 +38,17 @@ internal fun SettingsScreen(
         master = {
             SettingsOverviewScreen(
                 uiState = uiState.value,
-                setTheme = { },
-                refreshWidgetsClicked = { },
+                setTheme = viewModel::setTheme,
+                refreshWidgetsClicked = viewModel::refreshWidgets,
                 aboutThisAppClicked = { },
                 rateClicked = { },
-                releaseNotesClicked = { },
+                releaseNotesClicked = {
+                    viewModel.clickScreen(SettingsType.RELEASE)
+                },
                 suggestionClicked = { },
-                privacyPolicyClicked = { },
+                privacyPolicyClicked = {
+                    viewModel.clickScreen(SettingsType.PRIVACY_POLICY)
+                },
                 deleteAllClicked = viewModel::deleteAll,
                 setAnalytics = viewModel::setAnalytics,
                 setCrashlytics = viewModel::setCrash,
@@ -51,13 +58,25 @@ internal fun SettingsScreen(
         },
         detailsShow = uiState.value.screen != null,
         details = {
-
+            when (uiState.value.screen) {
+                SettingsType.PRIVACY_POLICY -> {
+                    PrivacyPolicyLayout(
+                        backClicked = viewModel::closeDetails
+                    )
+                }
+                SettingsType.RELEASE -> {
+                    ReleaseLayout(
+                        content = ReleaseNotes.entries.reversed(),
+                        backClicked = viewModel::closeDetails
+                    )
+                }
+                else -> {}
+            }
         },
         detailsActionUpClicked = viewModel::closeDetails
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsOverviewScreen(
     uiState: UiState,

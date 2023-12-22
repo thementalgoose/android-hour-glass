@@ -1,4 +1,4 @@
-package tmg.hourglass.modify
+package tmg.hourglass.presentation.modify
 
 import io.mockk.every
 import io.mockk.mockk
@@ -6,7 +6,6 @@ import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.threeten.bp.LocalDateTime
@@ -15,6 +14,7 @@ import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.presentation.modify.ModifyViewModel
 import tmg.testutils.BaseTest
 import tmg.testutils.livedata.assertEventFired
 import tmg.testutils.livedata.test

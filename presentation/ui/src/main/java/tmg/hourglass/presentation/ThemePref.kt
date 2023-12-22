@@ -1,4 +1,4 @@
-package tmg.hourglass.prefs
+package tmg.hourglass.presentation
 
 enum class ThemePref(
     val key: String

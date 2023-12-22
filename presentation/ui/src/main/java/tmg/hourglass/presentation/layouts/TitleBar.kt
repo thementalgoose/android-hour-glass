@@ -24,17 +24,21 @@ import tmg.hourglass.strings.R.string
 @Composable
 fun TitleBar(
     title: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showSpace: Boolean = true,
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
     ) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .height(54.dp)
-        ) {
-            Spacer(modifier = Modifier.width(AppTheme.dimensions.paddingXSmall))
+        if (showSpace) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(54.dp)
+            ) {
+                Spacer(modifier = Modifier.width(AppTheme.dimensions.paddingXSmall))
+            }
         }
         Row(modifier = Modifier
             .fillMaxWidth()
@@ -56,7 +60,7 @@ fun TitleBar(
     modifier: Modifier = Modifier,
     backClicked: () -> Unit = { },
     @DrawableRes
-    backIcon: Int = R.drawable.ic_back,
+    backIcon: Int = R.drawable.ic_back
 ) {
     Column(
         modifier = modifier
@@ -108,6 +112,18 @@ private fun PreviewNoIcon() {
     AppThemePreview {
         TitleBar(
             title = "Settings"
+        )
+    }
+}
+
+
+@PreviewTheme
+@Composable
+private fun PreviewNoSpaceIcon() {
+    AppThemePreview {
+        TitleBar(
+            title = "Settings",
+            showSpace = false
         )
     }
 }

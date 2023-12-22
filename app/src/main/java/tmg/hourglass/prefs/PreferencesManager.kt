@@ -1,8 +1,6 @@
 package tmg.hourglass.prefs
 
-import android.content.Context
-import tmg.utilities.extensions.toEnum
-import tmg.utilities.prefs.SharedPrefManager
+import tmg.hourglass.presentation.ThemePref
 
 interface PreferencesManager {
     var analyticsEnabled: Boolean

@@ -8,7 +8,7 @@ import tmg.hourglass.BuildConfig
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.prefs.PreferencesManager
-import tmg.hourglass.prefs.ThemePref
+import tmg.hourglass.presentation.ThemePref
 import tmg.utilities.lifecycle.DataEvent
 import tmg.utilities.lifecycle.Event
 import javax.inject.Inject
