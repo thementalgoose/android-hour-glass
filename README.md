@@ -8,9 +8,17 @@
 
 ### Screenshots
 
-| 1 | 2 | 3 | 4 |
-|---|---|---|---|
-| <img src="res/screenshots/raw/hourglass-1.png" width="160" /> | <img src="res/screenshots/raw/hourglass-2.png" width="160" /> | <img src="res/screenshots/raw/hourglass-3.png" width="160" /> | <img src="res/screenshots/raw/hourglass-4.png" width="160" /> |
+#### Phone
+
+| 1                                                                   | 2                                                                   | 3                                                                   | 4                                                                   |
+|---------------------------------------------------------------------|---------------------------------------------------------------------|---------------------------------------------------------------------|---------------------------------------------------------------------|
+| <img src="res/screenshots/raw/phone/hourglass-1.png" width="160" /> | <img src="res/screenshots/raw/phone/hourglass-2.png" width="160" /> | <img src="res/screenshots/raw/phone/hourglass-3.png" width="160" /> | <img src="res/screenshots/raw/phone/hourglass-4.png" width="160" /> |
+
+#### Tablet
+
+| 1                                                                    | 2                                                                    | 
+|----------------------------------------------------------------------|----------------------------------------------------------------------|
+| <img src="res/screenshots/raw/tablet/hourglass-1.png" width="348" /> | <img src="res/screenshots/raw/tablet/hourglass-2.png" width="348" /> |
 
 ### Play store listing
 
