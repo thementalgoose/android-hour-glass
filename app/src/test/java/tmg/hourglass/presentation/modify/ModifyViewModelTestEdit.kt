@@ -48,7 +48,8 @@ internal class ModifyViewModelTestEdit: BaseTest() {
         initial = mockInitial,
         finishing = mockFinal,
         countdownType = mockType,
-        interpolator = mockInterpolator
+        interpolator = mockInterpolator,
+        notifications = emptyList()
     )
 
     @BeforeEach
