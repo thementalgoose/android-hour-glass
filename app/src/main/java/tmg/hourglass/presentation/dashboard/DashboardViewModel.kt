@@ -3,6 +3,8 @@ package tmg.hourglass.presentation.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -39,7 +41,8 @@ sealed class DashboardAction {
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val countdownConnector: CountdownConnector
+    private val countdownConnector: CountdownConnector,
+    private val ioDispatcher: CoroutineDispatcher
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -71,7 +74,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     private fun loadDashboard() {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             val expired = countdownConnector.allDone().first()
             val upcoming = countdownConnector.allCurrent().first()
 

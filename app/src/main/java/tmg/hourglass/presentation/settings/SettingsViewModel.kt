@@ -88,20 +88,13 @@ class SettingsViewModel @Inject constructor(
         countdownConnector.deleteAll()
     }
 
-    fun goToAboutThisApp() {
-
-    }
-
-    fun goToRate() {
-
-    }
-
     private fun refresh() {
         _uiState.update { copy(
             showWidgetUpdatedDate = prefManager.widgetShowUpdate,
             crashReporting = prefManager.crashReporting,
             anonymousAnalytics = prefManager.analyticsEnabled,
-            shakeToReport = prefManager.shakeToReport
+            shakeToReport = prefManager.shakeToReport,
+            theme = prefManager.theme
         )}
     }
     private fun MutableStateFlow<UiState>.update(callback: UiState.() -> UiState) {

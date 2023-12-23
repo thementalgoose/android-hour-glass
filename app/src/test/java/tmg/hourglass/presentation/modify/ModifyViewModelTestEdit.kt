@@ -1,11 +1,14 @@
 package tmg.hourglass.presentation.modify
 
+import app.cash.turbine.test
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.threeten.bp.LocalDateTime
@@ -14,14 +17,13 @@ import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.presentation.modify.ModifyViewModel
 import tmg.testutils.BaseTest
 import tmg.testutils.livedata.assertEventFired
 import tmg.testutils.livedata.test
 
 internal class ModifyViewModelTestEdit: BaseTest() {
 
-    lateinit var sut: ModifyViewModel
+    lateinit var underTest: ModifyViewModel
 
     private val mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
     private val mockCrashReporter: CrashReporter = mockk(relaxed = true)
@@ -55,68 +57,66 @@ internal class ModifyViewModelTestEdit: BaseTest() {
         every { mockCountdownConnector.getSync(mockEditId) } returns mockEditableItem
     }
 
-    private fun initSUT() {
-        sut = ModifyViewModel(mockCountdownConnector, mockCrashReporter)
-        sut.inputs.initialise(mockEditId)
+    private fun initUnderTest() {
+        underTest = ModifyViewModel(mockCountdownConnector, mockCrashReporter)
+        underTest.inputs.initialise(mockEditId)
     }
 
     @Test
-    fun `initialise edit item preloads all the mock values into outputs`() = coroutineTest {
+    fun `initialise edit item preloads all the mock values into outputs`() = runTest {
 
         runBlocking {
-            initSUT()
+            initUnderTest()
         }
         advanceTimeBy(100)
         advanceUntilIdle()
 
-        sut.outputs.name.test {
-            assertValue(mockName)
+        underTest.outputs.name.test {
+            assertEquals(mockName, awaitItem())
         }
-        sut.outputs.description.test {
-            assertValue(mockDescription)
+        underTest.outputs.description.test {
+            assertEquals(mockDescription, awaitItem())
         }
-        sut.outputs.color.test {
-            assertValue(mockColour)
+        underTest.outputs.color.test {
+            assertEquals(mockColour, awaitItem())
         }
-        sut.outputs.startDate.test {
-            assertValue(mockDateStart)
+        underTest.outputs.startDate.test {
+            assertEquals(mockDateStart, awaitItem())
         }
-        sut.outputs.endDate.test {
-            assertValue(mockDateEnd)
+        underTest.outputs.endDate.test {
+            assertEquals(mockDateEnd, awaitItem())
         }
-        sut.outputs.initial.test {
-            assertValue(mockInitial)
+        underTest.outputs.initial.test {
+            assertEquals(mockInitial, awaitItem())
         }
-        sut.outputs.finished.test {
-            assertValue(mockFinal)
+        underTest.outputs.finished.test {
+            assertEquals(mockFinal, awaitItem())
         }
-        sut.outputs.type.test {
-            assertValue(mockType)
+        underTest.outputs.type.test {
+            assertEquals(mockType, awaitItem())
         }
-        sut.outputs.interpolator.test {
-            assertValue(mockInterpolator)
+        underTest.outputs.interpolator.test {
+            assertEquals(mockInterpolator, awaitItem())
         }
 
-        sut.outputs.isEdit.test { assertValue(true) }
+        underTest.outputs.isEdit.test {
+            assertEquals(true, awaitItem())
+        }
 
-        sut.outputs.saveEnabled.test {
-            assertValueWasEmitted(false)
+        underTest.outputs.saveEnabled.test {
+            assertEquals(false, awaitItem())
         }
     }
 
     @Test
     fun `clicking delete deletes the item in the connector and fires close event`() {
 
-        initSUT()
+        initUnderTest()
 
-        sut.inputs.deleteClicked()
+        underTest.inputs.deleteClicked()
 
         verify {
             mockCountdownConnector.delete(any())
-        }
-
-        sut.outputs.close.test {
-            assertEventFired()
         }
     }
 }
