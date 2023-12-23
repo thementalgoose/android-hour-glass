@@ -1,4 +1,6 @@
 name: Release
+env:
+  RUN_OFFSET: 4
 'on':
   release:
     types: [published]
@@ -91,7 +93,7 @@ jobs:
       # Version code
       - name: Version Code
         id: get_version_code
-        run: echo "VERSION=$(echo $GITHUB_REF | cut -d . -f 3)" >> $GITHUB_OUTPUT
+        run: echo "VERSION=$((${{ github.run_number }} + $RUN_OFFSET))" >> $GITHUB_OUTPUT
 
       # Release
       - name: Release to internal test track
@@ -107,6 +109,7 @@ jobs:
   update_versions:
     runs-on: ubuntu-latest
     needs: deploy
+    if: ${{ github.ref != 'refs/heads/master' }}
     steps:
 
       # Checkout
@@ -115,11 +118,11 @@ jobs:
           fetch-depth: 0
 
       # Setup Python
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      # Version tag
+      # Version name
       - name: Version Name
         id: get_version_name
         run: echo "VERSION=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_OUTPUT
@@ -129,13 +132,16 @@ jobs:
       # Version code
       - name: Version Code
         id: get_version_code
-        run: echo "VERSION=$(echo $GITHUB_REF | cut -d . -f 3)" >> $GITHUB_OUTPUT
-      - name: Output version code
-        run: echo ${{ steps.get_version_code.outputs.VERSION }} > version-code.txt
+        run: echo "VERSION=$((${{ github.run_number }} + $RUN_OFFSET))" >> $GITHUB_OUTPUT
+
+      # README
+      - name: README latest version
+        run: |
+          python .github/scripts/update-readme.py ${{ steps.get_version_name.outputs.VERSION }}
 
       # Commits changes to README
       - name: Commit and push changes
-        uses: actions-js/push@master
+        uses: actions-js/push@v1.4
         with:
           message: Updates version to ${{ steps.get_version_name.outputs.VERSION }} (${{ steps.get_version_code.outputs.VERSION }})
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -183,5 +189,6 @@ jobs:
           title: "Android: Release ${{ steps.get_version_name.outputs.VERSION }} (${{ steps.get_version_code.outputs.VERSION }}) deployed"
           description: |
             Github Action [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            [Google Play](https://play.google.com/console/u/0/developers/7104925501019224102/app/4974433469335752886/app-dashboard)
+            [NewRelic](https://one.eu.newrelic.com/nr1-core/mobile/home/Mzk4ODcyMXxNT0JJTEV8QVBQTElDQVRJT058NTM4NDg0Mjc1?account=3988721&duration=259200000&filters=%28domain%3D%27MOBILE%27%20AND%20type%3D%27APPLICATION%27%29&state=e7ce3f8d-e80b-c3ea-7168-41cbce51538b)
+            [Google Play](https://play.google.com/console/u/0/developers/7104925501019224102/app/4972386210601361096/app-dashboard)
           color: 0x3dc91a
