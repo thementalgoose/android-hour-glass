@@ -27,8 +27,8 @@ import tmg.hourglass.presentation.settings.components.SettingsOption
 import tmg.hourglass.presentation.settings.components.SettingsSwitch
 import tmg.hourglass.presentation.settings.components.DeleteDialog
 import tmg.hourglass.presentation.settings.components.ThemeDialog
-import tmg.hourglass.settings.privacy.PrivacyPolicyLayout
-import tmg.hourglass.settings.release.ReleaseLayout
+import tmg.hourglass.presentation.settings.privacy.PrivacyPolicyLayout
+import tmg.hourglass.presentation.settings.release.ReleaseLayout
 import tmg.hourglass.strings.R.string
 
 @Composable

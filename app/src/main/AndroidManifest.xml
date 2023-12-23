@@ -30,10 +30,10 @@
         <activity android:name=".settings.SettingsActivity"
             android:exported="false" />
 
-        <activity android:name=".settings.release.ReleaseActivity"
+        <activity android:name=".presentation.settings.release.ReleaseActivity"
             android:exported="false" />
 
-        <activity android:name=".settings.privacy.PrivacyPolicyActivity"
+        <activity android:name=".presentation.settings.privacy.PrivacyPolicyActivity"
             android:exported="false" />
 
         <!-- Widget -->

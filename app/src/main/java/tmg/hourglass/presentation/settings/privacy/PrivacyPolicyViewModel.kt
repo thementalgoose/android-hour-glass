@@ -1,4 +1,4 @@
-package tmg.hourglass.settings.privacy
+package tmg.hourglass.presentation.settings.privacy
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,7 +23,8 @@ interface PrivacyPolicyViewModelOutputs {
 //endregion
 
 @HiltViewModel
-class PrivacyPolicyViewModel @Inject constructor(): ViewModel(), PrivacyPolicyViewModelInputs, PrivacyPolicyViewModelOutputs {
+class PrivacyPolicyViewModel @Inject constructor(): ViewModel(), PrivacyPolicyViewModelInputs,
+    PrivacyPolicyViewModelOutputs {
 
     var inputs: PrivacyPolicyViewModelInputs = this
     var outputs: PrivacyPolicyViewModelOutputs = this

@@ -1,4 +1,4 @@
-package tmg.hourglass.settings.privacy
+package tmg.hourglass.presentation.settings.privacy
 
 import android.os.Bundle
 import androidx.activity.compose.setContent

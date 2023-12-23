@@ -1,4 +1,4 @@
-package tmg.hourglass.settings.layout
+package tmg.hourglass.presentation.settings.layout
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

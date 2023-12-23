@@ -1,4 +1,4 @@
-package tmg.hourglass.settings.release
+package tmg.hourglass.presentation.settings.release
 
 import android.annotation.SuppressLint
 import android.content.Context

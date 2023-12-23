@@ -1,4 +1,4 @@
-package tmg.hourglass.settings.privacy
+package tmg.hourglass.presentation.settings.privacy
 
 import android.text.method.LinkMovementMethod
 import android.widget.TextView

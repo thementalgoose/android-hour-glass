@@ -1,4 +1,4 @@
-package tmg.hourglass.settings.release
+package tmg.hourglass.presentation.settings.release
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,6 +11,7 @@ import tmg.hourglass.ReleaseNotes
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.views.ProgressBar
+import tmg.hourglass.settings.release.ReleaseItemLayout
 
 @Composable
 fun ReleaseLayout(
