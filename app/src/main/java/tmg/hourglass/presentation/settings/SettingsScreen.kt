@@ -2,7 +2,6 @@ package tmg.hourglass.presentation.settings
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -25,7 +24,7 @@ import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.settings.components.SettingsHeader
 import tmg.hourglass.presentation.settings.components.SettingsOption
 import tmg.hourglass.presentation.settings.components.SettingsSwitch
-import tmg.hourglass.presentation.settings.components.DeleteDialog
+import tmg.hourglass.presentation.utils.DeleteDialog
 import tmg.hourglass.presentation.settings.components.ThemeDialog
 import tmg.hourglass.presentation.settings.privacy.PrivacyPolicyLayout
 import tmg.hourglass.presentation.settings.release.ReleaseLayout
@@ -234,7 +233,9 @@ private fun SettingsOverviewScreen(
     if (deletionConfirmationDialog.value) {
         DeleteDialog(
             confirmed = { deleteAllClicked() },
-            dismissed = { deletionConfirmationDialog.value = false }
+            dismissed = { deletionConfirmationDialog.value = false },
+            title = string.settings_reset_all_title,
+            subtitle = string.settings_reset_all_description
         )
     }
 
