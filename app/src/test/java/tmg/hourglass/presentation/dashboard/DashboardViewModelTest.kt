@@ -29,8 +29,7 @@ internal class DashboardViewModelTest: BaseTest() {
 
     private fun initUnderTest() {
         underTest = DashboardViewModel(
-            countdownConnector = mockCountdownConnector,
-            ioDispatcher = Dispatchers.Unconfined
+            countdownConnector = mockCountdownConnector
         )
     }
 

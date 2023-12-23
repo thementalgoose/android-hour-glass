@@ -2,6 +2,7 @@ package tmg.hourglass.realm.models
 
 import androidx.annotation.Keep
 import io.realm.Realm
+import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
@@ -19,5 +20,6 @@ open class RealmCountdown(
     var finishing: String = "",
 
     var passageType: String = "",
-    var interpolator: String = ""
+    var interpolator: String = "",
+    var notifications: RealmList<RealmCountdownNotifications> = RealmList()
 ): RealmObject()

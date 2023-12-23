@@ -1,5 +1,6 @@
 package tmg.hourglass.realm.connectors
 
+import io.realm.RealmList
 import io.realm.kotlin.where
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -7,13 +8,16 @@ import org.threeten.bp.LocalDateTime
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.realm.mappers.RealmCountdownMapper
+import tmg.hourglass.realm.mappers.RealmCountdownNotificationMapper
 import tmg.hourglass.realm.models.RealmCountdown
+import tmg.hourglass.realm.models.RealmCountdownNotifications
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class RealmCountdownConnector @Inject constructor(
-    private val countdownMapper: RealmCountdownMapper
+    private val countdownMapper: RealmCountdownMapper,
+    private val countdownNotificationMapper: RealmCountdownNotificationMapper
 ): RealmBaseConnector(), CountdownConnector {
 
     override fun allCurrent(): Flow<List<Countdown>> = flowableList(
@@ -73,6 +77,20 @@ class RealmCountdownConnector @Inject constructor(
             ?: realm.createObject(RealmCountdown::class.java, countdown.id)
 
         countdownMapper.serialize(model, countdown)
+
+        model.notifications.deleteAllFromRealm()
+        val notifications = countdown.notifications
+            .map { c ->
+                val notificationModel = realm
+                    .where<RealmCountdownNotifications>()
+                    .equalTo("id", c.id)
+                    .findFirst()
+                    ?: realm.createObject(RealmCountdownNotifications::class.java, c.id)
+                countdownNotificationMapper.serialize(notificationModel, c)
+                return@map notificationModel
+            }
+
+        model.notifications = RealmList(*notifications.toTypedArray())
     }
 
     override fun deleteAll() = realmSync { realm ->
@@ -84,6 +102,8 @@ class RealmCountdownConnector @Inject constructor(
     }
 
     override fun delete(id: String) = realmSync { realm ->
-        realm.where<RealmCountdown>().equalTo("id", id).findFirst()?.deleteFromRealm()
+        val model = realm.where<RealmCountdown>().equalTo("id", id).findFirst()
+        model?.notifications?.deleteAllFromRealm()
+        model?.deleteFromRealm()
     }
 }

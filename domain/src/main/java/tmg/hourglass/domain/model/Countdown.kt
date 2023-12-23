@@ -17,7 +17,8 @@ data class Countdown(
     val finishing: String,
 
     val countdownType: CountdownType,
-    val interpolator: CountdownInterpolator
+    val interpolator: CountdownInterpolator,
+    val notifications: List<CountdownNotifications>
 ) {
 
     val isFinished: Boolean
@@ -60,6 +61,7 @@ fun Countdown.Companion.preview(
         initial = "0",
         finishing = "1000",
         countdownType = CountdownType.DAYS,
-        interpolator = CountdownInterpolator.LINEAR
+        interpolator = CountdownInterpolator.LINEAR,
+        notifications = emptyList()
     )
 }

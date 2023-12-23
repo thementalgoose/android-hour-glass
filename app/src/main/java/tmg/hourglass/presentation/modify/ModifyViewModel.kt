@@ -17,6 +17,7 @@ import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.domain.model.CountdownNotifications
 import java.util.UUID
 import javax.inject.Inject
 
@@ -154,7 +155,8 @@ class ModifyViewModel @Inject constructor(
             finishing = _finished,
             start = _startDate,
             end = _endDate,
-            interpolator = _interpolator
+            interpolator = _interpolator,
+            notifications = emptyList()
         )
     }
 
@@ -241,7 +243,8 @@ class ModifyViewModel @Inject constructor(
                 initial = initial.value,
                 finishing = finished.value,
                 countdownType = type.value,
-                interpolator = interpolator.value
+                interpolator = interpolator.value,
+                notifications = emptyList()
             )
             countdownConnector.saveSync(countdown)
         } catch (e: NullPointerException) {

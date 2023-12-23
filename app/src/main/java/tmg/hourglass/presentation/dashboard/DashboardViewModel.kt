@@ -41,8 +41,7 @@ sealed class DashboardAction {
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val countdownConnector: CountdownConnector,
-    private val ioDispatcher: CoroutineDispatcher
+    private val countdownConnector: CountdownConnector
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -74,7 +73,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     private fun loadDashboard() {
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch {
             val expired = countdownConnector.allDone().first()
             val upcoming = countdownConnector.allCurrent().first()
 

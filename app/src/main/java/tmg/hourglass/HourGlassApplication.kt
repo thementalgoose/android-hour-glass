@@ -31,7 +31,7 @@ class HourGlassApplication : Application() {
         // Realm
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-            .schemaVersion(3L)
+            .schemaVersion(4L)
             .migration(RealmDBMigration())
             .allowWritesOnUiThread(true)
             .build()

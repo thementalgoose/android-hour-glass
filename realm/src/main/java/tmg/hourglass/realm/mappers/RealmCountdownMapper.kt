@@ -1,16 +1,24 @@
 package tmg.hourglass.realm.mappers
 
+import io.realm.Realm
+import io.realm.RealmList
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
+import org.threeten.bp.format.DateTimeFormatter
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.domain.model.CountdownNotifications
 import tmg.hourglass.realm.models.RealmCountdown
+import tmg.hourglass.realm.models.RealmCountdownNotifications
 import tmg.utilities.extensions.toEnum
+import java.lang.RuntimeException
 import javax.inject.Inject
 
-class RealmCountdownMapper @Inject constructor() {
+class RealmCountdownMapper @Inject constructor(
+    private val realmCountdownNotificationMapper: RealmCountdownNotificationMapper
+) {
 
     fun deserialize(input: RealmCountdown): Countdown {
         return Countdown(
@@ -23,7 +31,11 @@ class RealmCountdownMapper @Inject constructor() {
             initial = input.initial,
             finishing = input.finishing,
             countdownType = input.passageType.toEnum<CountdownType> { it.key } ?: CountdownType.NUMBER,
-            interpolator = input.interpolator.toEnum<CountdownInterpolator> { it.key } ?: CountdownInterpolator.LINEAR
+            interpolator = input.interpolator.toEnum<CountdownInterpolator> { it.key } ?: CountdownInterpolator.LINEAR,
+            notifications = input.notifications
+                .mapNotNull {
+                    realmCountdownNotificationMapper.deserialize(it)
+                }
         )
     }
 

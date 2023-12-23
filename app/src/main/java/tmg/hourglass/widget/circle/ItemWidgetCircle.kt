@@ -17,6 +17,7 @@ import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.realm.connectors.RealmCountdownConnector
 import tmg.hourglass.realm.connectors.RealmWidgetConnector
 import tmg.hourglass.realm.mappers.RealmCountdownMapper
+import tmg.hourglass.realm.mappers.RealmCountdownNotificationMapper
 import tmg.hourglass.realm.mappers.RealmWidgetMapper
 import tmg.hourglass.utils.ProgressUtils
 import tmg.hourglass.widget.WidgetCircleProgress
@@ -35,9 +36,17 @@ inline fun <reified T: AppWidgetProvider> AppWidgetProvider.onUpdateCircle(
         val remoteView = RemoteViews(BuildConfig.APPLICATION_ID, layoutId)
 
         try {
-            val countdownModel = RealmWidgetConnector(RealmCountdownConnector(RealmCountdownMapper()), RealmWidgetMapper()).getCountdownModelSync(widgetId)
+            val connector = RealmWidgetConnector(
+                countdownConnector = RealmCountdownConnector(
+                    countdownMapper = RealmCountdownMapper(
+                        realmCountdownNotificationMapper = RealmCountdownNotificationMapper()
+                    ),
+                    countdownNotificationMapper = RealmCountdownNotificationMapper()
+                ),
+                widgetMapper = RealmWidgetMapper()
+            )
+            val countdownModel = connector.getCountdownModelSync(widgetId)
             if (countdownModel != null) {
-
 
                 val start = countdownModel.initial.toIntOrNull() ?: 0
                 val end = countdownModel.finishing.toIntOrNull() ?: 100

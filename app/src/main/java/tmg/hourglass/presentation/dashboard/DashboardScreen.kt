@@ -277,7 +277,8 @@ private val fakeCountdownExpired = Countdown(
     initial = "0",
     finishing = "10000",
     countdownType = CountdownType.DAYS,
-    interpolator = CountdownInterpolator.LINEAR
+    interpolator = CountdownInterpolator.LINEAR,
+    notifications = emptyList()
 )
 private val fakeCountdownUpcoming = Countdown(
     id = "expired",
@@ -289,5 +290,6 @@ private val fakeCountdownUpcoming = Countdown(
     initial = "0",
     finishing = "10000",
     countdownType = CountdownType.DAYS,
-    interpolator = CountdownInterpolator.LINEAR
+    interpolator = CountdownInterpolator.LINEAR,
+    notifications = emptyList()
 )
