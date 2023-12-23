@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -46,6 +47,7 @@ fun NavigationColumn(
     itemClicked: (NavigationItem) -> Unit,
     modifier: Modifier = Modifier,
     lockExpanded: Boolean = false,
+    background: Color = AppTheme.colors.backgroundNav,
     contentHeader: @Composable ColumnScope.() -> Unit = {}
 ) {
     val expanded = remember { mutableStateOf(lockExpanded) }
@@ -57,7 +59,7 @@ fun NavigationColumn(
     Column(modifier = modifier
         .width(width.value)
         .fillMaxHeight()
-        .background(AppTheme.colors.backgroundNav)
+        .background(background)
         .padding(
             vertical = AppTheme.dimensions.paddingSmall
         )
@@ -149,6 +151,7 @@ private fun NavigationItem(
                     .padding(start = AppTheme.dimensions.paddingSmall)
                     .align(Alignment.CenterVertically)
                     .fillMaxWidth(),
+                maxLines = 1,
                 text = item.label.let { stringResource(id = it) }
             )
         }

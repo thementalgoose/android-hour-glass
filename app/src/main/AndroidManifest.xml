@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".dashboard.DashboardActivity"
+        <activity android:name=".presentation.HomeActivity"
             android:theme="@style/Launcher"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
@@ -23,17 +23,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".modify.ModifyActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity android:name=".settings.SettingsActivity"
+        <activity android:name=".presentation.settings.release.ReleaseActivity"
             android:exported="false" />
 
-        <activity android:name=".settings.release.ReleaseActivity"
-            android:exported="false" />
-
-        <activity android:name=".settings.privacy.PrivacyPolicyActivity"
+        <activity android:name=".presentation.settings.privacy.PrivacyPolicyActivity"
             android:exported="false" />
 
         <!-- Widget -->

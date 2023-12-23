@@ -56,6 +56,9 @@
     <string name="settings_reset_done_confirm_confirm">Yes</string>
     <string name="settings_reset_done_confirm_cancel">Cancel</string>
 
+    <string name="dashboard_empty_title">Nothing to see here…</string>
+    <string name="dashboard_empty_subtitle">There aren\'t any countdowns setup at the moment, click \'New\' to get started</string>
+
     <!-- Privacy Policy -->
     <string name="privacy_policy_data"><![CDATA[
     <p>Jordan Fisher built the Hour Glass app. This SERVICE is provided by Jordan Fisher at no cost and is intended for use as is.</p>
@@ -104,12 +107,13 @@
     <string name="dependency_thank_you">A big thank you to everyone listed below for helping make this app possible! :)</string>
 
     <string name="dashboard_title_upcoming">Upcoming</string>
-    <string name="dashboard_title_previous">Previous</string>
+    <string name="dashboard_title_previous">Expired</string>
 
     <string name="dashboard_delete_confirmation_title">Confirm</string>
     <string name="dashboard_delete_confirmation_message">Are you sure you want to delete this item?</string>
     <string name="dashboard_delete_confirmation_confirm">Yes</string>
     <string name="dashboard_delete_confirmation_cancel">No</string>
+    <string name="dashboard_fab_new">New</string>
 
     <!-- Menu -->
     <string name="menu_dashboard">Home</string>

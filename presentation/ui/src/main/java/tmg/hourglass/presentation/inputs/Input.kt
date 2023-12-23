@@ -32,8 +32,10 @@ fun Input(
 ) {
 
     val input = remember { mutableStateOf(initial) }
-    if (initial.isNotEmpty() && input.value.isEmpty()) {
+
+    DisposableEffect(initial) {
         input.value = initial
+        return@DisposableEffect onDispose { }
     }
 
     Box(

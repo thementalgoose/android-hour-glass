@@ -61,6 +61,8 @@ dependencies {
 
     testImplementation libs.tmg.testutils
 
+    testImplementation libs.turbine
+
     testImplementation libs.test.androidx.core
     testImplementation libs.test.androidx.arch
     kspTest libs.test.androidx.lifecycle

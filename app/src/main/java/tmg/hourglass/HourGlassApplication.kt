@@ -15,7 +15,7 @@ import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import tmg.hourglass.prefs.PreferencesManager
-import tmg.hourglass.prefs.ThemePref
+import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.realm.migrations.RealmDBMigration
 import javax.inject.Inject
 
@@ -31,7 +31,7 @@ class HourGlassApplication : Application() {
         // Realm
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-            .schemaVersion(3L)
+            .schemaVersion(4L)
             .migration(RealmDBMigration())
             .allowWritesOnUiThread(true)
             .build()

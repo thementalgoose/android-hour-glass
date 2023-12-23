@@ -19,7 +19,9 @@ import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.realm.connectors.RealmCountdownConnector
 import tmg.hourglass.realm.connectors.RealmWidgetConnector
 import tmg.hourglass.realm.mappers.RealmCountdownMapper
+import tmg.hourglass.realm.mappers.RealmCountdownNotificationMapper
 import tmg.hourglass.realm.mappers.RealmWidgetMapper
+import tmg.hourglass.realm.models.RealmCountdownNotifications
 import tmg.hourglass.utils.ProgressUtils
 import tmg.hourglass.widget.WidgetBarColours
 import tmg.utilities.extensions.format
@@ -38,7 +40,16 @@ inline fun <reified T : AppWidgetProvider> AppWidgetProvider.onUpdateBar(
         val remoteView = RemoteViews(BuildConfig.APPLICATION_ID, layoutId)
 
         try {
-            val countdownModel = RealmWidgetConnector(RealmCountdownConnector(RealmCountdownMapper()), RealmWidgetMapper()).getCountdownModelSync(widgetId)
+            val connector = RealmWidgetConnector(
+                countdownConnector = RealmCountdownConnector(
+                    countdownMapper = RealmCountdownMapper(
+                        realmCountdownNotificationMapper = RealmCountdownNotificationMapper()
+                    ),
+                    countdownNotificationMapper = RealmCountdownNotificationMapper()
+                ),
+                widgetMapper = RealmWidgetMapper()
+            )
+            val countdownModel = connector.getCountdownModelSync(widgetId)
             if (countdownModel != null) {
                 remoteView.setTextViewText(R.id.title, countdownModel.name)
 
