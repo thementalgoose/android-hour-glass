@@ -56,6 +56,9 @@
     <string name="settings_reset_done_confirm_confirm">Yes</string>
     <string name="settings_reset_done_confirm_cancel">Cancel</string>
 
+    <string name="dashboard_empty_title">Nothing to see here…</string>
+    <string name="dashboard_empty_subtitle">There aren\'t any countdowns setup at the moment, click \'New\' to get started</string>
+
     <!-- Privacy Policy -->
     <string name="privacy_policy_data"><![CDATA[
     <p>Jordan Fisher built the Hour Glass app. This SERVICE is provided by Jordan Fisher at no cost and is intended for use as is.</p>

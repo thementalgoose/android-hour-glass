@@ -57,6 +57,7 @@ internal fun HomeScreen(
                 if (windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact) {
                     NavigationColumn(
                         list = tabs,
+                        background = AppTheme.colors.backgroundPrimary,
                         itemClicked = {
                             it.id.toEnum<HomeTab>()?.let(tabClicked)
                         }

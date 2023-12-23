@@ -22,6 +22,11 @@ data class UiState(
         expired = emptyList(),
         action = null
     )
+
+    val isEmpty: Boolean
+        get() = upcoming.isEmpty() && expired.isEmpty()
+
+    companion object
 }
 
 sealed class DashboardAction {
