@@ -1,9 +1,12 @@
 package tmg.hourglass.presentation
 
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
@@ -38,7 +41,15 @@ fun AppTheme(
     isLight: Boolean = !isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (isLight) lightColors else darkColors
+    val colors = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (isLight) {
+            lightColors.dynamic(dynamicLightColorScheme(LocalContext.current), isLightMode = true)
+        } else {
+            darkColors.dynamic(dynamicDarkColorScheme(LocalContext.current), isLightMode = false)
+        }
+    } else {
+        if (isLight) lightColors else darkColors
+    }
     AppTheme.isLight = isLight
     CompositionLocalProvider(
         LocalColors provides colors,

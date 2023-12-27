@@ -112,7 +112,7 @@ private fun NavigationItem(
 ) {
     val backgroundColor = animateColorAsState(targetValue = when (item.isSelected) {
         true -> AppTheme.colors.primary.copy(alpha = 0.2f)
-        else -> AppTheme.colors.backgroundNav
+        else -> AppTheme.colors.backgroundPrimary
     }, label = "backgroundColor")
     val iconPadding = animateDpAsState(targetValue = when (isExpanded) {
         true -> AppTheme.dimensions.paddingMedium
