@@ -12,6 +12,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.threeten.bp.LocalDateTime
 
@@ -50,7 +51,13 @@ fun AppTheme(
     } else {
         if (isLight) lightColors else darkColors
     }
+
     AppTheme.isLight = isLight
+
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(color = colors.systemStatusBarColor)
+    systemUiController.setNavigationBarColor(color = colors.systemNavigationBarColor)
+
     CompositionLocalProvider(
         LocalColors provides colors,
     ) {
