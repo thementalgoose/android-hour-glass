@@ -181,14 +181,14 @@ private fun NewFAB(
         text = {
             TextBody1(
                 text = stringResource(id = string.dashboard_fab_new),
-                textColor = Color.White,
+                textColor = AppTheme.colors.onAccent,
             )
         },
         icon = {
             Icon(
                 imageVector = Icons.Outlined.Add,
                 contentDescription = null,
-                tint = Color.White
+                tint = AppTheme.colors.onAccent
             )
         },
         containerColor = AppTheme.colors.accent,
