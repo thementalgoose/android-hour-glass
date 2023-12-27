@@ -16,6 +16,7 @@ data class AppColors(
     val primaryDark: Color,
     val primaryAlpha: Color,
     val accent: Color,
+    val onAccent: Color,
     val textPrimary: Color,
     val textSecondary: Color,
     val textPrimaryInverse: Color,
@@ -53,6 +54,7 @@ val lightColors = AppColors(
     primaryDark = Color(0xFFFFFFFF),
     primaryAlpha = Color(0x44AD1457),
     accent = Color(0xFFAD1457),
+    onAccent = Color(0xFFF2F2F2),
     textPrimary = Color(0xFF181818),
     textSecondary = Color(0xFF383838),
     textPrimaryInverse = Color(0xFFFBFBFB),
@@ -74,6 +76,7 @@ val darkColors = AppColors(
     primaryDark = Color(0xFF181818),
     primaryAlpha = Color(0x44AD1457),
     accent = Color(0xFFAD1457),
+    onAccent = Color(0xFFF2F2F2),
     textPrimary = Color(0xFFFBFBFB),
     textSecondary = Color(0xFFE8E8E8),
     textPrimaryInverse = Color(0xFF181818),
@@ -95,6 +98,7 @@ fun AppColors.dynamic(colorScheme: ColorScheme, isLightMode: Boolean) = copy(
     primary = colorScheme.primary,
     primaryDark = colorScheme.primary,
     accent = colorScheme.surfaceTint,
+    onAccent = colorScheme.inverseOnSurface,
 
     backgroundContainer = when (isLightMode) {
         true -> colorScheme.surface
