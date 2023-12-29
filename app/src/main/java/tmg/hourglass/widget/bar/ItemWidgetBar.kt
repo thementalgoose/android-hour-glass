@@ -21,8 +21,6 @@ import tmg.hourglass.realm.connectors.RealmWidgetConnector
 import tmg.hourglass.realm.mappers.RealmCountdownMapper
 import tmg.hourglass.realm.mappers.RealmCountdownNotificationMapper
 import tmg.hourglass.realm.mappers.RealmWidgetMapper
-import tmg.hourglass.realm.models.RealmCountdownNotifications
-import tmg.hourglass.utils.ProgressUtils
 import tmg.hourglass.widget.WidgetBarColours
 import tmg.utilities.extensions.format
 import kotlin.math.floor

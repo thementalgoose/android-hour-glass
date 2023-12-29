@@ -10,6 +10,7 @@ import tmg.hourglass.widget.bar.light.WidgetBarLightProvider
 import tmg.hourglass.widget.circle.dark.WidgetCircleDarkProvider
 import tmg.hourglass.widget.circle.light.WidgetCircleLightProvider
 
+@Deprecated("")
 fun Context.updateAllWidgets() {
     updateWidgets(WidgetBarLightProvider::class.java)
     updateWidgets(WidgetBarDarkProvider::class.java)
@@ -17,6 +18,7 @@ fun Context.updateAllWidgets() {
     updateWidgets(WidgetCircleDarkProvider::class.java)
 }
 
+@Deprecated("")
 fun <T : AppWidgetProvider> Context.updateWidgets(zClass: Class<T>) {
 
     val manager = AppWidgetManager.getInstance(this)
@@ -29,6 +31,7 @@ fun <T : AppWidgetProvider> Context.updateWidgets(zClass: Class<T>) {
     sendBroadcast(intent)
 }
 
+@Deprecated("")
 fun <T : AppWidgetProvider> Context.updateWidget(zClass: Class<T>, widgetId: Int) {
     val intent = Intent(this, zClass)
     intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE

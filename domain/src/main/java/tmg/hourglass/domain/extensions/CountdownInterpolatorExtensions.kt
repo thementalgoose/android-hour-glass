@@ -1,8 +1,12 @@
-package tmg.hourglass.extensions
+package tmg.hourglass.domain.extensions
 
-import android.view.animation.*
-import tmg.hourglass.strings.R.string
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.Interpolator
+import android.view.animation.LinearInterpolator
 import tmg.hourglass.domain.enums.CountdownInterpolator
+import tmg.hourglass.strings.R.string
 
 fun CountdownInterpolator.label(): Int {
     return when (this) {

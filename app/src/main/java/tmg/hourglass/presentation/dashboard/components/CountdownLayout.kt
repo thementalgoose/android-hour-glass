@@ -19,7 +19,6 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -39,7 +38,6 @@ import tmg.hourglass.presentation.utils.DeleteDialog
 import tmg.hourglass.presentation.views.ProgressBar
 import tmg.hourglass.strings.R
 import tmg.hourglass.strings.R.string
-import tmg.hourglass.utils.ProgressUtils
 import tmg.utilities.extensions.format
 
 @Composable

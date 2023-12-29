@@ -9,17 +9,7 @@ apply from: rootDir.absolutePath + "/gradle/config-hilt.gradle"
 apply plugin: 'realm-android'
 
 android {
-
     namespace "tmg.hourglass.realm"
-
-    compileSdk project.ext.compileSdkVersion
-
-    defaultConfig {
-        minSdkVersion project.ext.minSdkVersion
-        targetSdkVersion project.ext.targetSdkVersion
-        versionCode project.ext.versionCode
-        versionName project.ext.versionName
-    }
 
     packagingOptions {
         exclude "lib/arm64-v8a/librealm-jni.so"

@@ -27,7 +27,6 @@ import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.presentation.views.ProgressBar
-import tmg.hourglass.utils.ProgressUtils
 import tmg.utilities.extensions.format
 import tmg.utilities.utils.ColorUtils.Companion.darken
 

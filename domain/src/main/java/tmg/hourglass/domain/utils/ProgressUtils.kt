@@ -1,11 +1,11 @@
-package tmg.hourglass.utils
+package tmg.hourglass.domain.utils
 
 import android.view.animation.Interpolator
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneOffset
 import tmg.hourglass.domain.enums.CountdownInterpolator
+import tmg.hourglass.domain.extensions.valueInterpolator
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.extensions.millis
-import tmg.hourglass.extensions.valueInterpolator
 
 class ProgressUtils {
     companion object {
@@ -35,5 +35,9 @@ class ProgressUtils {
 
             return valueInterpolator.getInterpolation(progress)
         }
+
+
+        internal val LocalDateTime.millis: Long
+            get() = this.toInstant(ZoneOffset.UTC).toEpochMilli()
     }
 }

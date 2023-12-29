@@ -1,16 +1,16 @@
-package tmg.hourglass.utils
+package tmg.hourglass.domain.utils
 
 import android.view.animation.Interpolator
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
-import tmg.hourglass.domain.enums.CountdownInterpolator.LINEAR
-import tmg.hourglass.extensions.millis
-import tmg.hourglass.utils.ProgressUtils.Companion.getProgress
+import tmg.hourglass.domain.enums.CountdownInterpolator
+import tmg.hourglass.domain.utils.ProgressUtils.Companion.getProgress
+import tmg.hourglass.domain.utils.ProgressUtils.Companion.millis
 
 internal class ProgressUtilsTest {
 
@@ -34,6 +34,6 @@ internal class ProgressUtilsTest {
 
         every { mockInterpolator.getInterpolation(calculated) } returns expected
 
-        assertEquals(expected, getProgress(start, end, current = current, interpolator = LINEAR, mockInterpolator = mockInterpolator))
+        assertEquals(expected, getProgress(start, end, current = current, interpolator = CountdownInterpolator.LINEAR, mockInterpolator = mockInterpolator))
     }
 }

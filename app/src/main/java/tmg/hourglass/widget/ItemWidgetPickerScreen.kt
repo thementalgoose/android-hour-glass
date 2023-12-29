@@ -29,7 +29,6 @@ import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.views.ProgressBar
-import tmg.hourglass.utils.ProgressUtils
 
 @Composable
 fun ItemWidgetPickerScreenVM(

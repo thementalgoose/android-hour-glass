@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
 import io.realm.exceptions.RealmMigrationNeededException
@@ -19,9 +18,7 @@ import tmg.hourglass.realm.connectors.RealmWidgetConnector
 import tmg.hourglass.realm.mappers.RealmCountdownMapper
 import tmg.hourglass.realm.mappers.RealmCountdownNotificationMapper
 import tmg.hourglass.realm.mappers.RealmWidgetMapper
-import tmg.hourglass.utils.ProgressUtils
 import tmg.hourglass.widget.WidgetCircleProgress
-import tmg.hourglass.widget.WidgetSquareProgress
 import kotlin.math.floor
 
 inline fun <reified T: AppWidgetProvider> AppWidgetProvider.onUpdateCircle(

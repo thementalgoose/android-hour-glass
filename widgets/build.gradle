@@ -3,14 +3,16 @@ apply from: rootDir.absolutePath + "/gradle/config-android.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-util.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-junit5.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-hilt.gradle"
-apply from: rootDir.absolutePath + "/gradle/config-compose.gradle"
 
 android {
-    namespace "tmg.hourglass.core.googleanalytics"
+    namespace "tmg.hourglass.widgets"
 }
 
 dependencies {
 
-    implementation platform(libs.firebase.bom)
-    implementation libs.firebase.crashlytics
+    implementation libs.bundles.androidx.glance
+
+    implementation project(path: ':domain')
+    implementation project(path: ':realm')
+    implementation project(path: ':presentation:strings')
 }
