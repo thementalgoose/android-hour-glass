@@ -1,17 +1,29 @@
 package tmg.hourglass.widgets.presentation.configure
 
+import android.app.Activity
+import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID
 import android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.hilt.navigation.compose.hiltViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import tmg.hourglass.presentation.AppTheme
+import tmg.hourglass.widgets.presentation.CountdownWidgetReceiver
+import tmg.hourglass.widgets.updateAllWidgets
+import tmg.utilities.extensions.updateWidget
 
+@AndroidEntryPoint
 class CountdownConfigurationActivity: AppCompatActivity() {
 
     private val appWidgetId by lazy {
         intent?.extras?.getInt(EXTRA_APPWIDGET_ID, INVALID_APPWIDGET_ID) ?: INVALID_APPWIDGET_ID
     }
+
+    private val viewModel: CountdownConfigurationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,16 +31,28 @@ class CountdownConfigurationActivity: AppCompatActivity() {
         val value = Intent().putExtra(EXTRA_APPWIDGET_ID, appWidgetId)
         setResult(RESULT_OK, value)
 
-//        viewModel.inputs.load(appWidgetId)
+        viewModel.load(appWidgetId)
 
         setContent {
-
+            AppTheme {
+                CountdownConfigurationScreenVM(
+                    backClicked = ::update
+                )
+            }
         }
     }
 
-
-    override fun onStop() {
-//        viewModel.inputs.update()
-        super.onStop()
+    private fun update() {
+        if (appWidgetId != INVALID_APPWIDGET_ID) {
+            updateAllWidgets()
+        } else {
+            updateWidget<CountdownWidgetReceiver>(appWidgetId)
+        }
+        val resultValue = Intent().apply {
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            putExtra(AppWidgetManager.EXTRA_CUSTOM_EXTRAS, appWidgetId)
+        }
+        setResult(Activity.RESULT_OK, resultValue)
+        finish()
     }
 }

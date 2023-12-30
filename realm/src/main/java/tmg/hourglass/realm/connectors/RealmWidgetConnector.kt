@@ -1,5 +1,6 @@
 package tmg.hourglass.realm.connectors
 
+import android.util.Log
 import io.realm.kotlin.where
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.connectors.WidgetConnector
@@ -18,6 +19,7 @@ class RealmWidgetConnector @Inject constructor(
 ): RealmBaseConnector(), WidgetConnector {
 
     override fun saveSync(widgetReference: WidgetReference) = realmSync { realm ->
+        Log.i("Realm", "Widgets: Saving $widgetReference")
         val model: RealmWidgetReference = realm
             .where<RealmWidgetReference>()
             .equalTo("appWidgetId", widgetReference.appWidgetId)
@@ -26,6 +28,7 @@ class RealmWidgetConnector @Inject constructor(
     }
 
     override fun getSync(appWidgetId: Int): WidgetReference? = realmGet { realm ->
+        Log.i("Realm", "Widgets: Getting $appWidgetId")
         val realmRef = realm
             .where(RealmWidgetReference::class.java)
             .equalTo("appWidgetId", appWidgetId)
@@ -39,6 +42,7 @@ class RealmWidgetConnector @Inject constructor(
 
     override fun getCountdownModelSync(appWidgetId: Int): Countdown? {
         val ref = getSync(appWidgetId)
+        Log.i("Realm", "Widgets: Getting countdown model sync from $appWidgetId - (${ref?.countdownId})")
         return ref?.let { countdownConnector.getSync(it.countdownId) }
     }
 }

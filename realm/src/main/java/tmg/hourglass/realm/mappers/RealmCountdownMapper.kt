@@ -1,5 +1,6 @@
 package tmg.hourglass.realm.mappers
 
+import android.util.Log
 import io.realm.Realm
 import io.realm.RealmList
 import org.threeten.bp.Instant
@@ -21,6 +22,7 @@ class RealmCountdownMapper @Inject constructor(
 ) {
 
     fun deserialize(input: RealmCountdown): Countdown {
+        Log.i("Mapper", "Deserializing ${input.id} (${input.name})")
         return Countdown(
             id = input.id,
             name = input.name,
@@ -40,6 +42,7 @@ class RealmCountdownMapper @Inject constructor(
     }
 
     fun serialize(model: RealmCountdown, data: Countdown) {
+        Log.i("Mapper", "Serializing ${data.id} (${data.name})")
         model.name = data.name
         model.description = data.description
         model.colour = data.colour

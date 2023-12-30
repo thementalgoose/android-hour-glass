@@ -8,27 +8,36 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
-import androidx.glance.LocalContext
 import androidx.glance.LocalGlanceId
 import androidx.glance.LocalSize
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.CircularProgressIndicator
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.LinearProgressIndicator
 import androidx.glance.appwidget.SizeMode
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
+import androidx.glance.layout.height
 import androidx.glance.layout.padding
+import androidx.glance.text.Text
+import androidx.glance.text.TextAlign
+import androidx.glance.text.TextDefaults.defaultTextStyle
+import androidx.glance.text.TextStyle
+import tmg.hourglass.strings.R.string
 import androidx.glance.unit.ColorProvider
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.utils.ProgressUtils
 import tmg.hourglass.widgets.di.WidgetsEntryPoints
 import tmg.hourglass.widgets.utils.appWidgetId
 import tmg.hourglass.widgets.utils.fromHex
+import tmg.utilities.extensions.isInDayMode
 import kotlin.math.floor
 
 class CountdownWidget : GlanceAppWidget() {
@@ -47,26 +56,38 @@ class CountdownWidget : GlanceAppWidget() {
 
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val realmWidgetConnector = WidgetsEntryPoints.get(context = context).realmWidgetConnector()
+        val realmWidgetConnector = WidgetsEntryPoints.get(context = context).widgetConnector()
 
         provideContent {
             val config = LocalSize.current
             val appWidgetId = LocalGlanceId.current.appWidgetId
             val countdownModel = realmWidgetConnector.getCountdownModelSync(appWidgetId)
 
+            val theming = when (context.isInDayMode(ifUndefinedDefaultTo = true)) {
+                true -> countdownWidgetLight
+                false -> countdownWidgetDark
+            }
+
+            Log.i("Widget", "App Widget Id $appWidgetId")
+            Log.i("Widget", "Countdown model loaded to be $countdownModel")
+
             if (countdownModel == null) {
-                NoCountdown(GlanceModifier)
+                NoCountdown(modifier = GlanceModifier.clickable(actionRunCallback<RefreshWidget>()),
+                    theming = theming,
+                    context = context
+                )
                 return@provideContent
             }
 
             when (config) {
                 configCircle -> CountdownCircle(
                     countdownModel = countdownModel,
-                    modifier = GlanceModifier
+                    theming = theming,modifier = GlanceModifier.clickable(actionRunCallback<RefreshWidget>()),
                 )
                 configBar -> CountdownBar(
                     countdownModel = countdownModel,
-                    modifier = GlanceModifier
+                    theming = theming,
+                    modifier = GlanceModifier.clickable(actionRunCallback<RefreshWidget>()),
                 )
                 else -> {
                     Log.e("UpNextWidget", "Invalid size, throwing IAW")
@@ -77,18 +98,36 @@ class CountdownWidget : GlanceAppWidget() {
     }
 }
 
+
 @Composable
 internal fun CountdownCircle(
     countdownModel: Countdown,
+    theming: CountdownWidgetTheming,
     modifier: GlanceModifier = GlanceModifier
 ) {
+    val (progress, label) = countdownModel.getProgressAndInfo()
     Column(
-        modifier = modifier.surface(Color(0xFFF2F2F2)),
+        modifier = modifier.surface(theming.backgroundColor),
         verticalAlignment = Alignment.CenterVertically,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CircularProgressIndicator(
-            modifier = GlanceModifier.fillMaxWidth(),
+        Box(
+            modifier = GlanceModifier.defaultWeight(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = label,
+                style = theming.textStyle.copy(
+                    textAlign = TextAlign.Center
+                )
+            )
+        }
+        LinearProgressIndicator(
+            modifier = GlanceModifier
+                .fillMaxWidth()
+                .height(32.dp),
+            progress = progress,
+            backgroundColor = ColorProvider(theming.barBackgroundColor),
             color = ColorProvider(Color.fromHex(countdownModel.colour))
         )
     }
@@ -96,16 +135,37 @@ internal fun CountdownCircle(
 @Composable
 internal fun CountdownBar(
     countdownModel: Countdown,
+    theming: CountdownWidgetTheming,
     modifier: GlanceModifier = GlanceModifier
 ) {
     val (progress, label) = countdownModel.getProgressAndInfo()
     Column(
-        modifier = modifier.surface(Color(0xFFF2F2F2)),
+        modifier = modifier.surface(theming.backgroundColor),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
-            modifier = GlanceModifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            modifier = GlanceModifier.padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            Row(
+                modifier = GlanceModifier.fillMaxWidth()
+                    .padding(bottom = 4.dp)
+            ) {
+                Text(
+                    text = countdownModel.name,
+                    modifier = GlanceModifier.defaultWeight(),
+                    style = theming.textStyle.copy(
+                        textAlign = TextAlign.Start
+                    )
+                )
+                Text(
+                    text = label,
+                    modifier = GlanceModifier.defaultWeight(),
+                    style = theming.textStyle.copy(
+                        textAlign = TextAlign.End
+                    )
+                )
+            }
             Row(
                 modifier = GlanceModifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -113,6 +173,7 @@ internal fun CountdownBar(
                 LinearProgressIndicator(
                     modifier = GlanceModifier.fillMaxWidth(),
                     progress = progress,
+                    backgroundColor = ColorProvider(theming.barBackgroundColor),
                     color = ColorProvider(Color.fromHex(countdownModel.colour))
                 )
             }
@@ -122,9 +183,19 @@ internal fun CountdownBar(
 
 @Composable
 internal fun NoCountdown(
-    modifier: GlanceModifier = GlanceModifier
+    modifier: GlanceModifier = GlanceModifier,
+    theming: CountdownWidgetTheming,
+    context: Context
 ) {
-
+    Box(
+        modifier = modifier.surface(theming.backgroundColor),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            style = theming.textStyle,
+            text = context.getString(string.widget_value)
+        )
+    }
 }
 
 @Composable

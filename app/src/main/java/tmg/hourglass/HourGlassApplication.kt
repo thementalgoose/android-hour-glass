@@ -17,6 +17,7 @@ import io.realm.RealmConfiguration
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.realm.migrations.RealmDBMigration
+import tmg.hourglass.widgets.updateAllWidgets
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -68,5 +69,7 @@ class HourGlassApplication : Application() {
         Log.i("HourGlass", "Analytics reporting ${if (prefs.analyticsEnabled) "enabled" else "disabled"}")
         FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(prefs.analyticsEnabled)
         FirebaseAnalytics.getInstance(this).setUserId(prefs.deviceUdid)
+
+        this.updateAllWidgets()
     }
 }

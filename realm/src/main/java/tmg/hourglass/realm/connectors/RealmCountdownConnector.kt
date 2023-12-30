@@ -1,5 +1,6 @@
 package tmg.hourglass.realm.connectors
 
+import android.util.Log
 import io.realm.RealmList
 import io.realm.kotlin.where
 import kotlinx.coroutines.flow.Flow
@@ -39,7 +40,9 @@ class RealmCountdownConnector @Inject constructor(
     override fun allDone(): Flow<List<Countdown>> = flowableList(
         realmClass = RealmCountdown::class.java,
         where = { it.lessThanOrEqualTo("end", now) },
-        convert = { countdownMapper.deserialize(it) }
+        convert = {
+            countdownMapper.deserialize(it)
+        }
     )
 
     override fun all(): Flow<List<Countdown>> = flowableList(

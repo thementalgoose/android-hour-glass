@@ -20,6 +20,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keep class androidx.core.widget.NestedScrollView { *; }
+-keep class androidx.constraintlayout.motion.widget.MotionLayout { *; }
+
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception

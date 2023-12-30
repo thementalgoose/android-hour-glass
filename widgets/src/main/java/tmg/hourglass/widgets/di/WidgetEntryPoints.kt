@@ -5,13 +5,13 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import tmg.hourglass.realm.connectors.RealmWidgetConnector
+import tmg.hourglass.domain.connectors.WidgetConnector
 
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 internal interface WidgetsEntryPoints {
 
-    fun realmWidgetConnector(): RealmWidgetConnector
+    fun widgetConnector(): WidgetConnector
     fun navigator(): WidgetNavigator
 
     companion object {

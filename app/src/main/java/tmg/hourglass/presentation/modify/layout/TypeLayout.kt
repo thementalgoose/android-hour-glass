@@ -15,11 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.enums.CountdownType
-import tmg.hourglass.extensions.label
+import tmg.hourglass.domain.extensions.label
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.textviews.TextBody1

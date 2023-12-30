@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Intent
 import tmg.hourglass.widgets.presentation.CountdownWidgetReceiver
 
-internal fun Context.updateAllWidgets() {
+fun Context.updateAllWidgets() {
     updateWidgets(CountdownWidgetReceiver::class.java)
 }
 

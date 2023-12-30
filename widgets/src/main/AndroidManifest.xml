@@ -3,6 +3,10 @@
 
     <application>
 
+        <activity
+            android:name=".presentation.configure.CountdownConfigurationActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".presentation.CountdownWidgetReceiver"
             android:exported="true"
