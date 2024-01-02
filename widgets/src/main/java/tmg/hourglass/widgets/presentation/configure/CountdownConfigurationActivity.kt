@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID
 import android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -28,9 +29,6 @@ class CountdownConfigurationActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val value = Intent().putExtra(EXTRA_APPWIDGET_ID, appWidgetId)
-        setResult(RESULT_OK, value)
-
         viewModel.load(appWidgetId)
 
         setContent {
@@ -42,7 +40,13 @@ class CountdownConfigurationActivity: AppCompatActivity() {
         }
     }
 
+    override fun onStop() {
+        update()
+        super.onStop()
+    }
+
     private fun update() {
+        Log.i("Widgets", "Configuration Activity update - $appWidgetId")
         if (appWidgetId != INVALID_APPWIDGET_ID) {
             updateAllWidgets()
         } else {
