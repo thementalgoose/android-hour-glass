@@ -1,17 +1,17 @@
 package tmg.hourglass.widgets.presentation
 
 import androidx.compose.ui.graphics.Color
-import androidx.glance.text.TextDefaults.defaultTextStyle
-import androidx.glance.text.TextStyle
-import androidx.glance.unit.ColorProvider
+//import androidx.glance.text.TextDefaults.defaultTextStyle
+//import androidx.glance.text.TextStyle
+//import androidx.glance.unit.ColorProvider
 
 data class CountdownWidgetTheming(
     val backgroundColor: Color,
     val barBackgroundColor: Color,
     val textColor: Color
 ) {
-    val textStyle: TextStyle = defaultTextStyle
-        .copy(color = ColorProvider(textColor))
+//    val textStyle: TextStyle = defaultTextStyle
+//        .copy(color = ColorProvider(textColor))
 }
 
 val countdownWidgetLight = CountdownWidgetTheming(

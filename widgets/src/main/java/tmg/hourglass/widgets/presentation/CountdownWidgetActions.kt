@@ -15,8 +15,8 @@ import tmg.hourglass.widgets.updateAllWidgets
 import tmg.hourglass.widgets.utils.appWidgetId
 import java.util.UUID
 
-internal class RefreshWidget: ActionCallback {
-    override suspend fun onAction(
+internal class RefreshWidget : ActionCallback {
+    override suspend fun onRun(
         context: Context,
         glanceId: GlanceId,
         parameters: ActionParameters
