@@ -8,7 +8,7 @@
     android:minResizeHeight="48dp"
     android:maxResizeHeight="110dp"
     android:description="@string/widget_label"
-    android:resizeMode="horizontal|vertical"
+    android:resizeMode="horizontal"
     android:targetCellWidth="3"
     android:targetCellHeight="1"
     android:updatePeriodMillis="7200000"
