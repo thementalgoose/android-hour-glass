@@ -19,18 +19,8 @@ class CountdownWidgetReceiver: GlanceAppWidgetReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-        Log.i("CountdownWidget", "onReceive ${intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)?.joinToString { it.toString() }}")
         runBlocking(Dispatchers.IO) {
             glanceAppWidget.updateAll(context)
         }
-    }
-
-    override fun onUpdate(
-        context: Context,
-        appWidgetManager: AppWidgetManager,
-        appWidgetIds: IntArray
-    ) {
-        super.onUpdate(context, appWidgetManager, appWidgetIds)
-        Log.i("CountdownWidget", "onUpdate ${appWidgetIds.joinToString { it.toString() }}")
     }
 }
