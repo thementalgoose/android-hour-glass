@@ -2,8 +2,12 @@ package tmg.hourglass.aboutthisapp
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import tmg.aboutthisapp.AboutThisAppActivity
 import tmg.aboutthisapp.ConfigurationColours
@@ -14,6 +18,7 @@ import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.presentation.darkColors
+import tmg.hourglass.presentation.dynamic
 import tmg.hourglass.presentation.lightColors
 import javax.inject.Inject
 
@@ -39,30 +44,33 @@ class AboutThisAppConfig @Inject constructor(
             email = "thementalgoose@gmail.com",
             github = "https://www.github.com/thementalgoose",
             debugInfo = prefManager.deviceUdid,
-            lightColors = lightColours,
-            darkColors = darkColours
+            lightColors = getColours(isLight = true),
+            darkColors = getColours(isLight = false)
         )
 
     //region Colours
 
-    private val lightColours = ConfigurationColours(
-        colorPrimary = lightColors.primary.toArgb(),
-        background = lightColors.backgroundPrimary.toArgb(),
-        surface = lightColors.backgroundSecondary.toArgb(),
-        primary = lightColors.backgroundSecondary.toArgb(),
-        onBackground = lightColors.textPrimary.toArgb(),
-        onSurface = lightColors.textSecondary.toArgb(),
-        onPrimary = lightColors.textSecondary.toArgb(),
-    )
-    private val darkColours = ConfigurationColours(
-        colorPrimary = darkColors.primary.toArgb(),
-        background = darkColors.backgroundPrimary.toArgb(),
-        surface = darkColors.backgroundSecondary.toArgb(),
-        primary = darkColors.backgroundSecondary.toArgb(),
-        onBackground = darkColors.textPrimary.toArgb(),
-        onSurface = darkColors.textSecondary.toArgb(),
-        onPrimary = darkColors.textSecondary.toArgb(),
-    )
+    private fun getColours(isLight: Boolean): ConfigurationColours {
+        val colors = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (isLight) {
+                lightColors.dynamic(dynamicLightColorScheme(context), isLightMode = true)
+            } else {
+                darkColors.dynamic(dynamicDarkColorScheme(context), isLightMode = false)
+            }
+        } else {
+            if (isLight) lightColors else darkColors
+        }
+
+        return ConfigurationColours(
+            colorPrimary = colors.primary.toArgb(),
+            background = colors.backgroundPrimary.toArgb(),
+            surface = colors.backgroundSecondary.toArgb(),
+            primary = colors.backgroundSecondary.toArgb(),
+            onBackground = colors.textPrimary.toArgb(),
+            onSurface = colors.textSecondary.toArgb(),
+            onPrimary = colors.textSecondary.toArgb(),
+        )
+    }
 
     //endregion
 
