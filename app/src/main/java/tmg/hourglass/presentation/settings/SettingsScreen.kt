@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import tmg.hourglass.ReleaseNotes
-import tmg.hourglass.extensions.updateAllWidgets
 import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewPhone
@@ -29,6 +28,10 @@ import tmg.hourglass.presentation.settings.components.ThemeDialog
 import tmg.hourglass.presentation.settings.privacy.PrivacyPolicyLayout
 import tmg.hourglass.presentation.settings.release.ReleaseLayout
 import tmg.hourglass.strings.R.string
+import tmg.hourglass.widgets.presentation.CountdownWidgetReceiver
+import tmg.hourglass.widgets.updateAllWidgets
+import tmg.utilities.extensions.updateWidget
+import tmg.utilities.extensions.updateWidgets
 
 @Composable
 internal fun SettingsScreen(

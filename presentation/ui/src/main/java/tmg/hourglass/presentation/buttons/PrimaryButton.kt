@@ -28,7 +28,7 @@ fun PrimaryButton(
         TextBody1(
             text = text,
             style = AppTheme.typography.body1.copy(
-                color = Color.White
+                color = AppTheme.colors.onAccent
             )
         )
     }

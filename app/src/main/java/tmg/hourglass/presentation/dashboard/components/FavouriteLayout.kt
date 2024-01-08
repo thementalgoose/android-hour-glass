@@ -21,13 +21,13 @@ import org.threeten.bp.LocalDateTime
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.preview
+import tmg.hourglass.domain.utils.ProgressUtils
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.presentation.views.ProgressBar
-import tmg.hourglass.utils.ProgressUtils
 import tmg.utilities.extensions.format
 import tmg.utilities.utils.ColorUtils.Companion.darken
 

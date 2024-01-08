@@ -1,5 +1,6 @@
 package tmg.hourglass.realm.mappers
 
+import android.util.Log
 import tmg.hourglass.domain.model.WidgetReference
 import tmg.hourglass.realm.models.RealmWidgetReference
 import javax.inject.Inject

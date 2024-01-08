@@ -32,6 +32,8 @@
 -keep @io.realm.internal.Keep class *
 -dontwarn io.realm.**
 
+-dontwarn androidx.appcompat.view.ContextThemeWrapper
+
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception

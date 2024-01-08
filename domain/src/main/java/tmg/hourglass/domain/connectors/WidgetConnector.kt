@@ -1,5 +1,6 @@
 package tmg.hourglass.domain.connectors
 
+import kotlinx.coroutines.flow.Flow
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.WidgetReference
 
@@ -16,4 +17,6 @@ interface WidgetConnector {
 
     // TODO: Remove this
     fun getCountdownModelSync(appWidgetId: Int): Countdown?
+
+    fun getCountdownModel(appWidgetId: Int): Flow<Countdown?>
 }
