@@ -1,7 +1,10 @@
 package tmg.hourglass.domain.connectors
 
 import junit.framework.Assert.assertEquals
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.Test
+import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.WidgetReference
 
 class WidgetConnectorTest {
@@ -14,6 +17,7 @@ class WidgetConnectorTest {
         }
         override fun getSync(appWidgetId: Int) = null
         override fun getCountdownModelSync(appWidgetId: Int) = null
+        override fun getCountdownModel(appWidgetId: Int): Flow<Countdown?> = flow { emit(null) }
     }
 
     @Test
