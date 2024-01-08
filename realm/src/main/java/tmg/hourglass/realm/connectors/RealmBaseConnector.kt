@@ -1,6 +1,7 @@
 package tmg.hourglass.realm.connectors
 
 import io.realm.*
+import io.realm.kotlin.isValid
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -62,15 +63,15 @@ open class RealmBaseConnector {
 
     protected fun <E : RealmObject, T> flowable(
         realmClass: Class<E>,
-        where: (q: RealmQuery<E>) -> RealmQuery<E>,
+        where: (q: RealmQuery<E>) -> RealmQuery<E> ,
         convert: (model: E) -> T
     ): Flow<T?> = callbackFlow {
         val realm: Realm = realm()
         val query = where(realm.where(realmClass))
         @Suppress("SENSELESS_COMPARISON")
         val listener = RealmChangeListener<E> { t ->
-            if (t != null) {
-                trySend(convert(t))
+            if (t != null && t.isValid()) {
+                trySend(convert(realm.copyFromRealm(t)))
             } else {
                 trySend(null)
             }

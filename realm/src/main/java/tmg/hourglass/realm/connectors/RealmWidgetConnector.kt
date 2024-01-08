@@ -1,7 +1,17 @@
 package tmg.hourglass.realm.connectors
 
 import android.util.Log
+import io.realm.Realm
+import io.realm.RealmChangeListener
+import io.realm.RealmObject
+import io.realm.RealmQuery
 import io.realm.kotlin.where
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.connectors.WidgetConnector
 import tmg.hourglass.domain.model.Countdown
@@ -44,5 +54,17 @@ class RealmWidgetConnector @Inject constructor(
         val ref = getSync(appWidgetId)
         Log.i("Realm", "Widgets: Getting countdown model sync from $appWidgetId - (${ref?.countdownId})")
         return ref?.let { countdownConnector.getSync(it.countdownId) }
+    }
+
+    override fun getCountdownModel(appWidgetId: Int) = flowableList(
+        realmClass = RealmWidgetReference::class.java,
+        where = { it.equalTo("appWidgetId", appWidgetId) },
+        convert = { widgetMapper.deserialize(it) },
+    ).flatMapLatest {
+        if (it.isNotEmpty()) {
+            countdownConnector.get(it.first().countdownId)
+        } else {
+            return@flatMapLatest flow { emit(null) }
+        }
     }
 }

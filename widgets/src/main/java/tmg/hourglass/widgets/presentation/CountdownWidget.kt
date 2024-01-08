@@ -3,6 +3,7 @@ package tmg.hourglass.widgets.presentation
 import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -27,10 +28,10 @@ import androidx.glance.layout.padding
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
-import tmg.hourglass.strings.R.string
 import androidx.glance.unit.ColorProvider
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.utils.ProgressUtils
+import tmg.hourglass.strings.R.string
 import tmg.hourglass.widgets.di.WidgetsEntryPoints
 import tmg.hourglass.widgets.utils.appWidgetId
 import tmg.hourglass.widgets.utils.fromHex
@@ -41,7 +42,7 @@ class CountdownWidget : GlanceAppWidget() {
 
     companion object {
         private val configCircle = DpSize(48.dp, 48.dp)
-        private val configBar = DpSize(180.dp, 48.dp)
+        private val configBar = DpSize(120.dp, 48.dp)
     }
 
     override val sizeMode = SizeMode.Responsive(
@@ -53,7 +54,6 @@ class CountdownWidget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val widgetConnector = WidgetsEntryPoints.get(context = context).widgetConnector()
-        val countdownModel = widgetConnector.getCountdownModelSync(id.appWidgetId)
 
         provideContent {
             val config = LocalSize.current
@@ -61,40 +61,42 @@ class CountdownWidget : GlanceAppWidget() {
                 true -> countdownWidgetLight
                 false -> countdownWidgetDark
             }
-
             Log.i("Widget", "App Widget Id ${id.appWidgetId}")
-            Log.i("Widget", "Countdown model loaded to be $countdownModel")
+            val countdownModel = widgetConnector.getCountdownModel(id.appWidgetId).collectAsState(null)
 
-            if (countdownModel == null) {
-                NoCountdown(
-                    modifier = GlanceModifier.clickable(actionRunCallback<RefreshWidget>()),
-                    theming = theming,
-                    context = context
-                )
-            } else {
-                when (config) {
-                    configCircle -> CountdownSmall(
-                        countdownModel = countdownModel,
-                        theming = theming,
+            Log.i("Widget", "Countdown model loaded to be ${countdownModel.value}")
+            when (val model = countdownModel.value) {
+                null -> {
+                    NoCountdown(
                         modifier = GlanceModifier.clickable(actionRunCallback<RefreshWidget>()),
-                    )
-
-                    configBar -> CountdownBar(
-                        countdownModel = countdownModel,
                         theming = theming,
-                        modifier = GlanceModifier.clickable(actionRunCallback<RefreshWidget>()),
+                        context = context
                     )
+                }
+                else -> {
+                    when (config) {
+                        configCircle -> CountdownSmall(
+                            countdownModel = model,
+                            theming = theming,
+                            modifier = GlanceModifier.clickable(actionRunCallback<RefreshWidget>()),
+                        )
 
-                    else -> {
-                        Log.e("UpNextWidget", "Invalid size, throwing IAW")
-                        throw IllegalArgumentException("Invalid size not matching the provided ones")
+                        configBar -> CountdownBar(
+                            countdownModel = model,
+                            theming = theming,
+                            modifier = GlanceModifier.clickable(actionRunCallback<RefreshWidget>()),
+                        )
+
+                        else -> {
+                            Log.e("UpNextWidget", "Invalid size, throwing IAW")
+                            throw IllegalArgumentException("Invalid size not matching the provided ones")
+                        }
                     }
                 }
             }
         }
     }
 }
-
 
 @Composable
 internal fun CountdownSmall(
