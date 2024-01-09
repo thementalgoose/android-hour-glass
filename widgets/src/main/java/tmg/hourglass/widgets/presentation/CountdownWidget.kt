@@ -42,7 +42,7 @@ class CountdownWidget : GlanceAppWidget() {
 
     companion object {
         private val configCircle = DpSize(48.dp, 48.dp)
-        private val configBar = DpSize(120.dp, 48.dp)
+        private val configBar = DpSize(150.dp, 48.dp)
     }
 
     override val sizeMode = SizeMode.Responsive(
@@ -57,10 +57,7 @@ class CountdownWidget : GlanceAppWidget() {
 
         provideContent {
             val config = LocalSize.current
-            val theming = when (context.isInDayMode(ifUndefinedDefaultTo = true)) {
-                true -> countdownWidgetLight
-                false -> countdownWidgetDark
-            }
+            val theming = getCountdownWidgetColors(context, !context.isInDayMode(ifUndefinedDefaultTo = true))
             Log.i("Widget", "App Widget Id ${id.appWidgetId}")
             val countdownModel = widgetConnector.getCountdownModel(id.appWidgetId).collectAsState(null)
 
@@ -173,7 +170,7 @@ internal fun CountdownBar(
         ) {
             LinearProgressIndicator(
                 modifier = GlanceModifier.fillMaxWidth()
-                    .height(24.dp),
+                    .height(30.dp),
                 progress = progress,
                 backgroundColor = ColorProvider(theming.barBackgroundColor),
                 color = ColorProvider(Color.fromHex(countdownModel.colour))
