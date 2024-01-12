@@ -61,7 +61,8 @@ fun DatePicker(
                 TextBody1(
                     text = selDate.value.format(DateTimeFormatter.ofPattern("MMM d, YYYY")),
                     style = AppTheme.typography.body1.copy(
-                        fontSize = 24.sp
+                        fontSize = 24.sp,
+                        color = AppTheme.colors.textPrimary
                     )
                 )
 
