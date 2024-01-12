@@ -134,11 +134,6 @@ jobs:
         id: get_version_code
         run: echo "VERSION=$((${{ github.run_number }} + $RUN_OFFSET))" >> $GITHUB_OUTPUT
 
-      # README
-      - name: README latest version
-        run: |
-          python .github/scripts/update-readme.py ${{ steps.get_version_name.outputs.VERSION }}
-
       # Create pull request
       - name: Create Pull Request
         id: createpr
