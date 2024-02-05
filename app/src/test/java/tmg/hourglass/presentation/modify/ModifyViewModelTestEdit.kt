@@ -66,15 +66,14 @@ internal class ModifyViewModelTestEdit: BaseTest() {
     @Test
     fun `initialise edit item preloads all the mock values into outputs`() = runTest {
 
-        runBlocking {
-            initUnderTest()
-        }
+        initUnderTest()
         advanceTimeBy(100)
         advanceUntilIdle()
 
         underTest.outputs.name.test {
             assertEquals(mockName, awaitItem())
         }
+        advanceTimeBy(100)
         underTest.outputs.description.test {
             assertEquals(mockDescription, awaitItem())
         }
