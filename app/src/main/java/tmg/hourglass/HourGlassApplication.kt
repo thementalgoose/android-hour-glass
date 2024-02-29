@@ -24,7 +24,7 @@ import javax.inject.Inject
 class HourGlassApplication : Application() {
 
     @Inject
-    protected lateinit var prefs: PreferencesManager
+    lateinit var prefs: PreferencesManager
 
     override fun onCreate() {
         super.onCreate()
