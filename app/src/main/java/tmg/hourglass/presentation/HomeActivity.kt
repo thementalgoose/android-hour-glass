@@ -19,7 +19,7 @@ import javax.inject.Inject
 class HomeActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition {
 
     @Inject
-    protected lateinit var aboutThisAppConfig: AboutThisAppConfig
+    lateinit var aboutThisAppConfig: AboutThisAppConfig
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
