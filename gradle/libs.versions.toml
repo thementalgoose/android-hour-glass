@@ -99,7 +99,7 @@ firebase_perf = { module = "com.google.firebase:firebase-perf" }
 
 flagkit = "com.github.murgupluoglu:flagkit-android:1.0.2"
 
-lottie = "com.airbnb.android:lottie-compose:6.3.0"
+lottie = "com.airbnb.android:lottie-compose:6.4.0"
 
 retrofit_core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit_converter_simplexml = { module = "com.squareup.retrofit2:converter-simplexml", version.ref = "retrofit" }
