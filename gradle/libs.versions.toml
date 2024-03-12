@@ -30,7 +30,7 @@ google_services = "com.google.gms:google-services:4.4.1"
 firebase_perf_plugin = "com.google.firebase:perf-plugin:1.4.2"
 play_publisher = "com.github.triplet.gradle:play-publisher:3.9.1"
 realm = { module = "io.realm:realm-gradle-plugin", version.ref = "realm" }
-r8 = "com.android.tools:r8:8.2.47"
+r8 = "com.android.tools:r8:8.3.37"
 
 androidx_activity = { module = "androidx.activity:activity", version.ref = "androidx_activity" }
 androidx_core = "androidx.core:core-ktx:1.12.0"
