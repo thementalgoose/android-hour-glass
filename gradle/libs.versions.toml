@@ -28,7 +28,7 @@ gradle_junit5 = "de.mannodermaus.gradle.plugins:android-junit5:1.10.0.0"
 gradle_kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 google_services = "com.google.gms:google-services:4.4.1"
 firebase_perf_plugin = "com.google.firebase:perf-plugin:1.4.2"
-play_publisher = "com.github.triplet.gradle:play-publisher:3.9.0"
+play_publisher = "com.github.triplet.gradle:play-publisher:3.9.1"
 realm = { module = "io.realm:realm-gradle-plugin", version.ref = "realm" }
 r8 = "com.android.tools:r8:8.2.47"
 
