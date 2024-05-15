@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ab_back">Atrás</string>
+    <string name="ab_menu">Menú</string>
+    <string name="ab_add">Añadir</string>
+    <string name="ab_settings">Ajustes</string>
+    <string name="ab_edit">Editar</string>
+    <string name="ab_select">Seleccionar</string>
+    <string name="ab_delete">Eliminar</string>
+    <string name="ab_favourite">Favorito</string>
+</resources>
