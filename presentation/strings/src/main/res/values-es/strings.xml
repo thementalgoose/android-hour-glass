@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Placeholder -->
+    <string name="placeholder_title">No se encontraron elementos</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_theme_theme_title">Tema de la aplicación</string>
+    <string name="settings_theme_theme_description">Elige tu preferencia de tema</string>
+    <string name="settings_theme_theme_summary">Elige aquí entre seguir el tema de tu sistema o anular un tema claro u oscuro</string>
+    <string name="settings_widgets">Widgets</string>
+    <string name="settings_widgets_refresh_title">Actualizar widgets</string>
+    <string name="settings_widgets_refresh_description">Los widgets deberían actualizarse cada hora, pero puedes forzar su actualización haciendo clic aquí. También puedes tocar el widget directamente para actualizarlo en cualquier momento</string>
+    <string name="settings_widgets_refresh_refreshed">Los widgets se han actualizado</string>
+    <string name="settings_widgets_updated_title">Mostrar la fecha de actualización del widget</string>
+    <string name="settings_widgets_updated_description">Oculta o muestra la etiqueta "Actualizado en" en tus widgets.</string>
+    <string name="settings_reset">Restablecer</string>
+    <string name="settings_reset_all_title">Eliminar todo</string>
+    <string name="settings_reset_all_description">Elimina todos los elementos que has configurado en la aplicación</string>
+    <string name="settings_reset_all_done">Los elementos han sido borrados</string>
+    <string name="settings_reset_all_confirm">Sí</string>
+    <string name="settings_reset_all_cancel">No</string>
+    <string name="settings_help">Acerca de</string>
+    <string name="settings_feedback">Comentarios</string>
+    <string name="settings_privacy">Privacidad</string>
+    <string name="settings_help_about_title">Acerca de esta aplicación</string>
+    <string name="settings_help_about_description">Acerca de la aplicación y el desarrollador</string>
+    <string name="settings_help_review_title">Valorar</string>
+    <string name="settings_help_review_description">Reseña esta aplicación en Google Play Store</string>
+    <string name="settings_help_release_notes_title">Notas de la versión</string>
+    <string name="settings_help_release_notes_description">Ver el historial de notas de la versión</string>
+    <string name="settings_help_crash_reporting_title">Informe de fallos</string>
+    <string name="settings_help_crash_reporting_description">Enviar información del dispositivo y seguimientos de fallos al desarrollador</string>
+    <string name="settings_help_crash_reporting_after_app_restart">Tu preferencia de informe de fallos se aplicará una vez que la aplicación se haya reiniciado</string>
+    <string name="settings_help_analytics_title">Análisis anónimo</string>
+    <string name="settings_help_analytics_description">Opta por análisis anónimos sobre el uso de la aplicación</string>
+    <string name="settings_help_analytics_after_app_restart">Tu preferencia de análisis se aplicará una vez que la aplicación se haya reiniciado</string>
+    <string name="settings_help_suggestions_title">¿Tienes alguna sugerencia?</string>
+    <string name="settings_help_suggestions_description">Envía al desarrollador un correo electrónico con cualquier sugerencia que puedas tener. Alternativamente, activa la opción de agitar para informar y agita tu dispositivo</string>
+    <string name="send_email">Enviar correo electrónico</string>
+    <string name="settings_help_shake_to_report_title">¿Agitar la aplicación para informar de un error o una función?</string>
+    <string name="settings_help_shake_to_report_description">¡Agita la aplicación en cualquier momento para hacer una captura de pantalla y enviarme cualquier error, problema o sugerencia que puedas tener para esta aplicación!</string>
+    <string name="settings_help_shake_to_report_after_app_restart">Tu preferencia de agitar para informar se aplicará una vez que la aplicación se haya reiniciado</string>
+    <string name="settings_help_privacy_policy_title">Política de privacidad</string>
+    <string name="settings_help_privacy_policy_description">Consulta nuestra política de privacidad aquí</string>
+    <string name="settings_reset_all_confirm_title">¿Estás seguro?</string>
+    <string name="settings_reset_all_confirm_description">¡Esto eliminará todos los elementos de cuenta atrás anteriores y actuales que tengas!</string>
+    <string name="settings_reset_all_confirm_confirm">Sí</string>
+    <string name="settings_reset_all_confirm_cancel">Cancelar</string>
+    <string name="settings_all_deleted">Todos los elementos eliminados</string>
+    <string name="settings_reset_done_confirm_title">¿Estás seguro?</string>
+    <string name="settings_reset_done_confirm_description">Esto eliminará todos los elementos que tienes en tu pestaña anterior.</string>
+    <string name="settings_reset_done_confirm_confirm">Sí</string>
+    <string name="settings_reset_done_confirm_cancel">Cancelar</string>
+    <string name="dashboard_empty_title">Nada que ver aquí…</string>
+    <string name="dashboard_empty_subtitle">No hay ninguna cuenta atrás configurada en este momento, haz clic en "Nuevo" para empezar</string>
+
+    <!-- Theme -->
+    <string name="theme_auto">Seguir al sistema</string>
+    <string name="theme_light">Tema claro</string>
+    <string name="theme_dark">Tema oscuro</string>
+    <!-- About -->
+    <string name="about_name">HourGlass</string>
+    <string name="about_desc">Cuenta atrás basada en el calendario</string>
+    <string name="dependency_thank_you">¡Un gran agradecimiento a todos los que se enumeran a continuación por ayudar a hacer posible esta aplicación! :)</string>
+    <string name="dashboard_title_upcoming">Próximos</string>
+    <string name="dashboard_title_previous">Caducados</string>
+    <string name="dashboard_delete_confirmation_title">Confirmar</string>
+    <string name="dashboard_delete_confirmation_message">¿Estás seguro de que quieres eliminar este elemento?</string>
+    <string name="dashboard_delete_confirmation_confirm">Sí</string>
+    <string name="dashboard_delete_confirmation_cancel">No</string>
+    <string name="dashboard_fab_new">Nuevo</string>
+    <!-- Menu -->
+    <string name="menu_dashboard">Inicio</string>
+    <string name="menu_settings">Ajustes</string>
+
+    <!-- Modify -->
+    <string name="modify_header_add">Añadir una cuenta atrás</string>
+    <string name="modify_header_edit">Editar tu cuenta atrás</string>
+    <string name="modify_header_save">Guardar</string>
+    <string name="home_description">%s<br/>
+▲ Comienza el %s en <b>%s</b><br/>
+▼ Termina el %s en <b>%s</b></string>
+    <string name="home_no_description">▲ Comienza el %s en <b>%s</b>\n▼ Termina el %s en <b>%s</b></string>
+    <string name="modify_field_name">Personalizar</string>
+    <string name="modify_field_name_desc">Elige un nombre, una descripción y un color para tu elemento de cuenta atrás a continuación</string>
+    <string name="modify_field_name_hint">Nombre</string>
+    <string name="modify_field_description_hint">Descripción</string>
+
+    <string name="modify_field_type">Tipo</string>
+    <string name="modify_field_type_desc">Selecciona qué tipo de métrica quieres contar hacia atrás o hacia arriba</string>
+    <string name="modify_field_range">Rango</string>
+    <string name="modify_field_range_desc">Introduce los valores inicial y final entre los que quieres progresar.</string>
+    <string name="modify_field_range_initial">Desde</string>
+    <string name="modify_field_range_final">Hasta</string>
+    <string name="modify_field_interpolator">Tipo de progreso</string>
+    <string name="modify_field_interpolator_desc">Selecciona cómo quieres que estos valores progresen de forma lineal</string>
+    <string name="modify_field_interpolator_accelerate_decelerate">Acelerar / Decelerar</string>
+    <string name="modify_field_interpolator_accelerate">Acelerar</string>
+    <string name="modify_field_interpolator_decelerate">Decelerar</string>
+    <string name="modify_field_interpolator_linear">Lineal</string>
+    <string name="modify_field_dates">Fechas</string>
+    <string name="modify_field_dates_title">Selecciona un rango de fechas</string>
+    <string name="modify_field_dates_desc">Elige las fechas con las que quieres que coincidan los dos valores anteriores</string>
+    <string name="modify_field_dates_format" translatable="false"><b>%s</b> ......... <b>%s</b></string>
+    <string name="modify_field_dates_button">Elegir fechas</string>
+    <string name="modify_field_dates_start">Fecha de inicio</string>
+    <string name="modify_field_dates_end">Fecha de finalización</string>
+    <string name="modify_field_colour_hint">Color</string>
+    <string name="settings_theme_applied_later">El tema se aplicará cuando se reinicie la aplicación</string>
+    <string name="modify_type_title">Tipo de cuenta atrás</string>
+    <string name="error_activity_not_found">Lo sentimos, se ha producido un error</string>
+
+    <!-- Widgets -->
+    <string name="widget_error">Elemento no encontrado</string>
+    <string name="widget_value">N/D</string>
+    <string name="widget_title">Configurar</string>
+    <string name="widget_label">Cuenta atrás</string>
+    <string name="widget_bar_label_light">Barra - Claro</string>
+    <string name="widget_bar_label_dark">Barra - Oscuro</string>
+    <string name="widget_circle_label_light">Único - Claro</string>
+    <string name="widget_circle_label_dark">Único - Oscuro</string>
+    <string name="widget_finished">Terminado</string>
+    <string name="widget_not_started">No ha comenzado. Toca para actualizar</string>
+    <string name="widget_progress">Actualizado a las %s</string>
+    <string name="widget_not_started_short">0</string>
+    <string name="widget_migration_needed">Por favor, abre la aplicación</string>
+    <string name="widget_migration_needed_value" /> <string name="widget_migration_needed_label">Abre la aplicación para restaurar la cuenta atrás</string>
+    <string name="widget_migration_needed_label_short">Error</string>
+    <string name="countdown_type_number">Número</string>
+    <string name="countdown_type_days">Días</string>
+    <string name="countdown_type_money_gbp">Dinero (£)</string>
+    <string name="countdown_type_money_usd">Dinero ($)</string>
+    <string name="countdown_type_money_eur">Dinero (€)</string>
+    <string name="countdown_type_money_yen">Dinero (¥)</string>
+    <string name="countdown_type_millimetres">Milímetros</string>
+    <string name="countdown_type_metres">Metros</string>
+    <string name="countdown_type_kilometres">Kilómetros</string>
+    <string name="countdown_type_miles">Millas</string>
+    <string name="countdown_type_grams">Gramos</string>
+    <string name="countdown_type_kilograms">Kilogramos</string>
+    <string name="countdown_type_millilitres">Mililitros</string>
+    <string name="countdown_type_litres">Litros</string>
+    <string name="countdown_type_seconds">Segundos</string>
+    <string name="countdown_type_celsius">Celsius</string>
+    <string name="countdown_type_fahrenheit">Fahrenheit</string>
+    <string name="select_date">Seleccionar fecha</string>
+    <string name="select_date_confirm">Confirmar</string>
+    <string name="select_date_cancel">Cancelar</string>
+
+</resources>
