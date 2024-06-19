@@ -32,6 +32,7 @@
 -keep @io.realm.internal.Keep class *
 -dontwarn io.realm.**
 
+-keep class tmg.hourglass.realm.models.*
 -dontwarn androidx.appcompat.view.ContextThemeWrapper
 
 -keepattributes *Annotation*
