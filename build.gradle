@@ -27,7 +27,6 @@ buildscript {
         classpath libs.gradle.crashlytics
         classpath libs.gradle.junit5
         classpath libs.gradle.hilt
-        classpath libs.r8
         classpath libs.firebase.perf.plugin
     }
 }

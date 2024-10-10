@@ -29,7 +29,6 @@ google_services = "com.google.gms:google-services:4.4.2"
 firebase_perf_plugin = "com.google.firebase:perf-plugin:1.4.2"
 play_publisher = "com.github.triplet.gradle:play-publisher:3.11.0"
 realm = { module = "io.realm:realm-gradle-plugin", version.ref = "realm" }
-r8 = "com.android.tools:r8:8.5.35"
 
 androidx_activity = { module = "androidx.activity:activity", version.ref = "androidx_activity" }
 androidx_core = "androidx.core:core-ktx:1.13.1"
