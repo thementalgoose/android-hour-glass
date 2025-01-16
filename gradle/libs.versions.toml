@@ -95,7 +95,7 @@ firebase_crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase_messaging = { module = "com.google.firebase:firebase-messaging" }
 firebase_perf = { module = "com.google.firebase:firebase-perf" }
 
-flagkit = "com.github.murgupluoglu:flagkit-android:1.0.2"
+flagkit = "com.github.murgupluoglu:flagkit-android:1.0.5"
 
 lottie = "com.airbnb.android:lottie-compose:6.6.2"
 
