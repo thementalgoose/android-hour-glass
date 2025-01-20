@@ -2,7 +2,9 @@ package tmg.hourglass.presentation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
@@ -63,32 +65,32 @@ internal fun HomeScreen(
                         }
                     )
                 }
-                Box(Modifier.weight(1f)) {
-                    when (uiState.tab) {
-                        HomeTab.DASHBOARD -> {
-                            DashboardScreen(
-                                windowSizeClass = windowSizeClass,
-                            )
+                Column(modifier = Modifier.fillMaxSize()) {
+                    Box(Modifier.weight(1f)) {
+                        when (uiState.tab) {
+                            HomeTab.DASHBOARD -> {
+                                DashboardScreen(
+                                    windowSizeClass = windowSizeClass,
+                                )
+                            }
+                            HomeTab.SETTINGS -> {
+                                SettingsScreen(
+                                    windowSizeClass = windowSizeClass,
+                                    goToAboutThisApp = goToAboutThisApp,
+                                    goToMarketPage = goToMarketPage
+                                )
+                            }
                         }
-                        HomeTab.SETTINGS -> {
-                            SettingsScreen(
-                                windowSizeClass = windowSizeClass,
-                                goToAboutThisApp = goToAboutThisApp,
-                                goToMarketPage = goToMarketPage
-                            )
-                        }
+                    }
+                    if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
+                        NavigationBar(
+                            list = tabs,
+                            itemClicked = {
+                                it.id.toEnum<HomeTab>()?.let(tabClicked)
+                            }
+                        )
                     }
                 }
-            }
-        },
-        bottomBar = {
-            if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
-                NavigationBar(
-                    list = tabs,
-                    itemClicked = {
-                        it.id.toEnum<HomeTab>()?.let(tabClicked)
-                    }
-                )
             }
         }
     )
