@@ -84,7 +84,7 @@ class ModifyViewModel @Inject constructor(
         }
         _uiState.value = _uiState.value.copy(
             type = type,
-            inputTypes = when (newType == existingType) {
+            inputTypes = when (type == uiState.value.type) {
                 true -> existingType
                 false -> newType
             }

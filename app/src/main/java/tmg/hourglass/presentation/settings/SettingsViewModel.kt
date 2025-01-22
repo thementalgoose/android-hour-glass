@@ -30,7 +30,6 @@ data class UiState(
 
 enum class SettingsType {
     PRIVACY_POLICY,
-    RELEASE
 }
 
 @HiltViewModel

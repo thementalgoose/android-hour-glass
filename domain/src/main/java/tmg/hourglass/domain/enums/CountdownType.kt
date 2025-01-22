@@ -9,7 +9,12 @@ enum class CountdownType(
     ),
     DAYS(
         key = "DAYS",
-        converter = { "$it days" }
+        converter = {
+            when (it) {
+                "1" -> "$it day"
+                else -> "$it days"
+            }
+        }
     ),
     MILES(
         key = "MILES",

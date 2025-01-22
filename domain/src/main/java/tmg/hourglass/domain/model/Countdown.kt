@@ -3,7 +3,7 @@ package tmg.hourglass.domain.model
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
-import kotlin.math.floor
+import kotlin.math.ceil
 
 data class Countdown(
     val id: String,
@@ -34,7 +34,7 @@ data class Countdown(
         val start: Int = initial.toIntOrNull() ?: 0
         val end: Int = finishing.toIntOrNull() ?: 100
 
-        return countdownType.converter(floor((start + (progress * (end - start)))).toInt().toString())
+        return countdownType.converter(ceil((start + (progress * (end - start)))).toInt().toString())
     }
 
     companion object
@@ -48,10 +48,8 @@ fun Countdown.Companion.preview(
         name = "Countdown Item",
         description = "Generic Lorum Ipsum content here",
         colour = color,
-        start = LocalDateTime
-            .of(2022, 1, 23, 0, 0),
-        end = LocalDateTime
-            .of(2022, 2, 12, 0, 0),
+        start = LocalDateTime.now().minusDays(1L),
+        end = LocalDateTime.now().plusDays(2L),
         initial = "0",
         finishing = "1000",
         countdownType = CountdownType.DAYS,

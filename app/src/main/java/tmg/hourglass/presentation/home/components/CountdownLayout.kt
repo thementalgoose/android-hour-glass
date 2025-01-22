@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import androidx.core.text.htmlEncode
 import org.threeten.bp.LocalDateTime
+import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.preview
 import tmg.hourglass.domain.utils.ProgressUtils
@@ -45,9 +46,9 @@ import tmg.utilities.extensions.format
 private val barBackground: Color
     @Composable
     get() = AppTheme.colors.backgroundSecondary.copy(
-        red = AppTheme.colors.backgroundSecondary.red * 0.95f,
-        blue = AppTheme.colors.backgroundSecondary.blue * 0.95f,
-        green = AppTheme.colors.backgroundSecondary.green * 0.95f
+        red = AppTheme.colors.backgroundSecondary.red * 0.8f,
+        blue = AppTheme.colors.backgroundSecondary.blue * 0.8f,
+        green = AppTheme.colors.backgroundSecondary.green * 0.8f
     )
 
 @Composable
@@ -120,25 +121,36 @@ fun Countdown(
                 }
             }
         }
-        TextBody2(
-            text = stringResource(
-                R.string.home_no_description,
-                countdown.countdownType.converter(countdown.initial.toIntOrNull()?.toString() ?: ""),
-                countdown.startAtStartOfDay.format("dd MMM yyyy"),
-                countdown.countdownType.converter(countdown.finishing.toIntOrNull()?.toString() ?: ""),
-                countdown.endAtStartOfDay.format("dd MMM yyyy")
-            ).htmlEncode()
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        ProgressBar(
-            modifier = Modifier.padding(end = AppTheme.dimensions.paddingMedium),
-            barColor = Color(countdown.colour.toColorInt()),
-            backgroundColor = barBackground,
-            endProgress = ProgressUtils.getProgress(countdown, now),
-            label = { progress ->
-                countdown.getProgress(progress = progress)
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = AppTheme.dimensions.paddingMedium)
+        ) {
+            if (countdown.countdownType != CountdownType.DAYS) {
+                Row {
+                    TextBody2(countdown.countdownType.converter(countdown.initial.toIntOrNull()?.toString() ?: ""))
+                    Spacer(Modifier.weight(1f))
+                    TextBody2(countdown.countdownType.converter(countdown.finishing.toIntOrNull()?.toString() ?: ""))
+                }
             }
-        )
+    //        TextBody2(
+    //            text = stringResource(
+    //                R.string.home_no_description,
+    //                countdown.countdownType.converter(countdown.initial.toIntOrNull()?.toString() ?: ""),
+    //                countdown.startAtStartOfDay.format("dd MMM yyyy"),
+    //                countdown.countdownType.converter(countdown.finishing.toIntOrNull()?.toString() ?: ""),
+    //                countdown.endAtStartOfDay.format("dd MMM yyyy")
+    //            ).htmlEncode()
+    //        )
+            Spacer(modifier = Modifier.height(4.dp))
+            ProgressBar(
+                barColor = Color(countdown.colour.toColorInt()),
+                backgroundColor = barBackground,
+                endProgress = ProgressUtils.getProgress(countdown, now),
+                label = { progress ->
+                    countdown.getProgress(progress = progress)
+                }
+            )
+        }
     }
 
     if (deleteConfirm.value) {
@@ -153,10 +165,23 @@ fun Countdown(
 
 @PreviewTheme
 @Composable
-private fun Preview() {
+private fun PreviewDays() {
     AppThemePreview {
         Countdown(
             countdown = Countdown.preview(),
+            editClicked = { },
+            deleteClicked = { },
+            now = LocalDateTime.of(2021, 1, 28, 12, 34)
+        )
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewOther() {
+    AppThemePreview {
+        Countdown(
+            countdown = Countdown.preview().copy(countdownType = CountdownType.NUMBER),
             editClicked = { },
             deleteClicked = { },
             now = LocalDateTime.of(2021, 1, 28, 12, 34)

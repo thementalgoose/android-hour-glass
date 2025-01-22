@@ -26,7 +26,6 @@ import tmg.hourglass.presentation.settings.components.SettingsSwitch
 import tmg.hourglass.presentation.utils.DeleteDialog
 import tmg.hourglass.presentation.settings.components.ThemeDialog
 import tmg.hourglass.presentation.settings.privacy.PrivacyPolicyLayout
-import tmg.hourglass.presentation.settings.release.ReleaseLayout
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.widgets.updateAllWidgets
 
@@ -52,9 +51,6 @@ internal fun SettingsScreenVM(
                 },
                 aboutThisAppClicked = goToAboutThisApp,
                 rateClicked = goToMarketPage,
-                releaseNotesClicked = {
-                    viewModel.clickScreen(SettingsType.RELEASE)
-                },
                 suggestionClicked = { },
                 privacyPolicyClicked = {
                     viewModel.clickScreen(SettingsType.PRIVACY_POLICY)
@@ -74,12 +70,6 @@ internal fun SettingsScreenVM(
                         backClicked = viewModel::closeDetails
                     )
                 }
-                SettingsType.RELEASE -> {
-                    ReleaseLayout(
-                        content = ReleaseNotes.entries.reversed(),
-                        backClicked = viewModel::closeDetails
-                    )
-                }
                 else -> {}
             }
         },
@@ -95,7 +85,6 @@ private fun SettingsOverviewScreen(
     refreshWidgetsClicked: () -> Unit,
     aboutThisAppClicked: () -> Unit,
     rateClicked: () -> Unit,
-    releaseNotesClicked: () -> Unit,
     suggestionClicked: () -> Unit,
     privacyPolicyClicked: () -> Unit,
     deleteAllClicked: () -> Unit,
@@ -174,13 +163,6 @@ private fun SettingsOverviewScreen(
                     title = string.settings_help_review_title,
                     subtitle = string.settings_help_review_description,
                     optionClicked = rateClicked
-                )
-            }
-            item(key = "about_3") {
-                SettingsOption(
-                    title = string.settings_help_release_notes_title,
-                    subtitle = string.settings_help_release_notes_description,
-                    optionClicked = releaseNotesClicked
                 )
             }
             item(key = "feedback_header") {
@@ -265,7 +247,6 @@ private fun PreviewOverview() {
             refreshWidgetsClicked = { },
             aboutThisAppClicked = { },
             rateClicked = { },
-            releaseNotesClicked = { },
             suggestionClicked = { },
             setTheme = { },
             setAnalytics = { },
