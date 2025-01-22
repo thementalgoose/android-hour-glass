@@ -67,7 +67,8 @@ fun CountdownConfigurationScreen(
             Column(Modifier.fillMaxSize()) {
                 TitleBar(
                     title = stringResource(id = string.widget_title),
-                    backClicked = backClicked
+                    showBack = true,
+                    actionUpClicked = backClicked
                 )
                 if (uiState.items.isEmpty()) {
                     Box(Modifier.weight(1f)) {

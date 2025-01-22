@@ -12,8 +12,8 @@ class ProgressUtils {
 
         fun getProgress(countdown: Countdown, current: LocalDateTime = LocalDateTime.now()): Float {
             return getProgress(
-                start = countdown.start,
-                end = countdown.end,
+                start = countdown.startAtStartOfDay,
+                end = countdown.endAtStartOfDay,
                 current = current,
                 interpolator = countdown.interpolator
             )

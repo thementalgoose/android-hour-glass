@@ -22,7 +22,8 @@ fun ReleaseLayout(
         item {
             TitleBar(
                 title = stringResource(id = string.settings_help_release_notes_title),
-                backClicked = backClicked
+                showBack = true,
+                actionUpClicked = backClicked
             )
         }
         content.let { list ->

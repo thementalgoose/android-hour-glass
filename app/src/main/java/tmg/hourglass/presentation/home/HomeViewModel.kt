@@ -1,23 +1,20 @@
-package tmg.hourglass.presentation.dashboard
+package tmg.hourglass.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.presentation.HomeTab
 import javax.inject.Inject
 
 data class UiState(
     val upcoming: List<Countdown>,
     val expired: List<Countdown>,
-    val action: DashboardAction?
+    val action: HomeAction?
 ) {
     constructor(): this(
         upcoming = emptyList(),
@@ -31,16 +28,16 @@ data class UiState(
     companion object
 }
 
-sealed class DashboardAction {
+sealed class HomeAction {
     data class Modify(
         val countdown: Countdown
-    ): DashboardAction()
+    ): HomeAction()
 
-    data object Add: DashboardAction()
+    data object Add: HomeAction()
 }
 
 @HiltViewModel
-class DashboardViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val countdownConnector: CountdownConnector
 ): ViewModel() {
 
@@ -52,11 +49,11 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun closeAction() {
-        _uiState.update { copy(action = null) }
+        update { copy(action = null) }
     }
 
     fun createNew() {
-        _uiState.update { copy(action = DashboardAction.Add) }
+        update { copy(action = HomeAction.Add) }
     }
 
     fun refresh() {
@@ -64,7 +61,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun edit(countdown: Countdown) {
-        _uiState.update { copy(action = DashboardAction.Modify(countdown)) }
+        update { copy(action = HomeAction.Modify(countdown)) }
     }
 
     fun delete(countdown: Countdown) {
@@ -77,7 +74,7 @@ class DashboardViewModel @Inject constructor(
             val expired = countdownConnector.allDone().first()
             val upcoming = countdownConnector.allCurrent().first()
 
-            _uiState.update {
+            update {
                 copy(
                     upcoming = upcoming,
                     expired = expired,
@@ -87,7 +84,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    private fun MutableStateFlow<UiState>.update(callback: UiState.() -> UiState) {
+    private fun update(callback: UiState.() -> UiState) {
         _uiState.value = callback(_uiState.value)
     }
 }

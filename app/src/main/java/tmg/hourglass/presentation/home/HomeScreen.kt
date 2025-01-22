@@ -1,17 +1,16 @@
-package tmg.hourglass.presentation.dashboard
+package tmg.hourglass.presentation.home
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.FlowColumn
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Settings
@@ -39,8 +38,9 @@ import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTablet
 import tmg.hourglass.presentation.PreviewTheme
-import tmg.hourglass.presentation.dashboard.components.Countdown
-import tmg.hourglass.presentation.dashboard.components.Empty
+import tmg.hourglass.presentation.buttons.FloatingActionButton
+import tmg.hourglass.presentation.home.components.Countdown
+import tmg.hourglass.presentation.home.components.Empty
 import tmg.hourglass.presentation.layouts.MasterDetailsPane
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.ModifyScreen
@@ -49,17 +49,15 @@ import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R.string
 
 @Composable
-internal fun DashboardScreen(
-    windowSizeClass: WindowSizeClass,
-    navigateToSettings: () -> Unit,
-    viewModel: DashboardViewModel = hiltViewModel()
+internal fun HomeScreenVM(
+    windowSize: WindowSizeClass,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState()
 
-    DashboardScreen(
-        windowSizeClass = windowSizeClass,
+    HomeScreen(
+        windowSizeClass = windowSize,
         uiState = uiState.value,
-        navigateToSettings = navigateToSettings,
         edit = viewModel::edit,
         delete = viewModel::delete,
         openCreateNew = viewModel::createNew,
@@ -69,10 +67,9 @@ internal fun DashboardScreen(
 }
 
 @Composable
-internal fun DashboardScreen(
+internal fun HomeScreen(
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
-    navigateToSettings: () -> Unit,
     edit: (Countdown) -> Unit,
     delete: (Countdown) -> Unit,
     openCreateNew: () -> Unit,
@@ -84,7 +81,6 @@ internal fun DashboardScreen(
         master = {
             ListScreen(
                 uiState = uiState,
-                navigateToSettings = navigateToSettings,
                 windowSizeClass = windowSizeClass,
                 editItem = edit,
                 deleteItem = delete
@@ -95,7 +91,11 @@ internal fun DashboardScreen(
                     .padding(AppTheme.dimensions.paddingMedium),
                 contentAlignment = Alignment.BottomEnd
             ) {
-                NewFAB(onClick = openCreateNew)
+                FloatingActionButton(
+                    label = stringResource(id = string.dashboard_fab_new),
+                    icon = Icons.Outlined.Add,
+                    onClick = openCreateNew
+                )
             }
         },
         detailsShow = uiState.action != null,
@@ -106,7 +106,7 @@ internal fun DashboardScreen(
                     closeDetailPane()
                     refresh()
                 },
-                countdown = (uiState.action as? DashboardAction.Modify)?.countdown
+                countdown = (uiState.action as? HomeAction.Modify)?.countdown
             )
         },
         detailsActionUpClicked = closeDetailPane
@@ -117,7 +117,6 @@ internal fun DashboardScreen(
 internal fun ListScreen(
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
-    navigateToSettings: () -> Unit,
     editItem: (Countdown) -> Unit,
     deleteItem: (Countdown) -> Unit
 ) {
@@ -128,41 +127,21 @@ internal fun ListScreen(
             item("header", span = { GridItemSpan(maxLineSpan) }) {
                 TitleBar(
                     title = stringResource(id = R.string.app_name),
-                    showSpace = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
-                    overflowActions = {
-                        if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
-                            IconButton(
-                                onClick = navigateToSettings,
-                                content = {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Settings,
-                                        contentDescription = stringResource(string.menu_settings),
-                                        tint = AppTheme.colors.textPrimary
-                                    )
-                                }
-                            )
-                        }
-                    }
                 )
             }
             if (uiState.isEmpty) {
                 item("empty", span = { GridItemSpan(maxLineSpan) }) {
-                    Empty(
-                        modifier = Modifier.padding(
-                            top = if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) AppTheme.dimensions.paddingLarge else 0.dp
-                        )
-                    )
+                    Column {
+                        if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
+                            Spacer(Modifier.height(AppTheme.dimensions.paddingLarge))
+                        }
+                        Empty()
+                    }
                 }
             }
             if (uiState.expired.isNotEmpty()) {
                 item("expired", span = { GridItemSpan(maxLineSpan) }) {
-                    TextHeader2(
-                        modifier = Modifier.padding(
-                            vertical = AppTheme.dimensions.paddingXSmall,
-                            horizontal = AppTheme.dimensions.paddingMedium
-                        ),
-                        text = stringResource(id = string.dashboard_title_previous)
-                    )
+                    Header(string.dashboard_title_previous)
                 }
             }
             items(uiState.expired, key = { it.id }) {
@@ -174,13 +153,7 @@ internal fun ListScreen(
             }
             if (uiState.upcoming.isNotEmpty()) {
                 item("upcoming", span = { GridItemSpan(maxLineSpan) }) {
-                    TextHeader2(
-                        modifier = Modifier.padding(
-                            vertical = AppTheme.dimensions.paddingXSmall,
-                            horizontal = AppTheme.dimensions.paddingMedium
-                        ),
-                        text = stringResource(id = string.dashboard_title_upcoming)
-                    )
+                    Header(string.dashboard_title_upcoming)
                 }
             }
             items(uiState.upcoming, key = { it.id }) {
@@ -198,37 +171,25 @@ internal fun ListScreen(
 }
 
 @Composable
-private fun NewFAB(
-    onClick: () -> Unit
+private fun Header(
+    @StringRes label: Int
 ) {
-    ExtendedFloatingActionButton(
-        text = {
-            TextBody1(
-                text = stringResource(id = string.dashboard_fab_new),
-                textColor = AppTheme.colors.onAccent,
-            )
-        },
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.Add,
-                contentDescription = null,
-                tint = AppTheme.colors.onAccent
-            )
-        },
-        containerColor = AppTheme.colors.accent,
-        onClick = onClick
+    TextHeader2(
+        modifier = Modifier.padding(
+            vertical = AppTheme.dimensions.paddingXSmall,
+            horizontal = AppTheme.dimensions.paddingMedium
+        ),
+        text = stringResource(id = label)
     )
 }
-
 
 @PreviewTheme
 @Composable
 private fun PreviewEmpty() {
     AppThemePreview {
-        DashboardScreen(
+        HomeScreen(
             windowSizeClass = compactWindowSizeClass,
             uiState = UiState.empty(),
-            navigateToSettings = { },
             edit = { },
             delete = { },
             openCreateNew = { },
@@ -241,10 +202,9 @@ private fun PreviewEmpty() {
 @Composable
 private fun PreviewPopulated() {
     AppThemePreview {
-        DashboardScreen(
+        HomeScreen(
             windowSizeClass = compactWindowSizeClass,
             uiState = UiState.upcoming(),
-            navigateToSettings = { },
             edit = { },
             delete = { },
             openCreateNew = { },
@@ -258,10 +218,9 @@ private fun PreviewPopulated() {
 @Composable
 private fun PreviewPopulatedExpanded() {
     AppThemePreview {
-        DashboardScreen(
+        HomeScreen(
             windowSizeClass = expandedWindowSizeClass,
             uiState = UiState.upcoming(),
-            navigateToSettings = { },
             edit = { },
             delete = { },
             openCreateNew = { },
@@ -281,7 +240,7 @@ private fun UiState.Companion.empty(
 ): UiState = UiState(
     upcoming = emptyList(),
     expired = emptyList(),
-    action = if (withAction) DashboardAction.Add else null
+    action = if (withAction) HomeAction.Add else null
 )
 
 private fun UiState.Companion.upcoming(
@@ -289,13 +248,13 @@ private fun UiState.Companion.upcoming(
     withUpcoming: Boolean = true,
     withExpired: Boolean = false
 ): UiState = UiState(
-    upcoming = if (withUpcoming) listOf(fakeCountdownUpcoming) else emptyList(),
-    expired = if (withExpired) listOf(fakeCountdownExpired) else emptyList(),
-    action = if (withAction) DashboardAction.Add else null
+    upcoming = if (withUpcoming) listOf(fakeCountdownUpcoming, fakeCountdownUpcoming.copy(id = "upcoming_2")) else emptyList(),
+    expired = if (withExpired) listOf(fakeCountdownExpired, fakeCountdownExpired.copy(id = "expired_2")) else emptyList(),
+    action = if (withAction) HomeAction.Add else null
 )
 
 private val fakeCountdownExpired = Countdown(
-    id = "expired",
+    id = "upcoming_2",
     name = "Expired",
     description = "This is an expired countdown",
     colour = CountdownColors.COLOUR_1.hex,
@@ -308,7 +267,7 @@ private val fakeCountdownExpired = Countdown(
     notifications = emptyList()
 )
 private val fakeCountdownUpcoming = Countdown(
-    id = "expired",
+    id = "upcoming_1",
     name = "Expired",
     description = "This is an expired countdown",
     colour = CountdownColors.COLOUR_1.hex,

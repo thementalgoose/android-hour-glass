@@ -28,14 +28,11 @@ import tmg.hourglass.presentation.settings.components.ThemeDialog
 import tmg.hourglass.presentation.settings.privacy.PrivacyPolicyLayout
 import tmg.hourglass.presentation.settings.release.ReleaseLayout
 import tmg.hourglass.strings.R.string
-import tmg.hourglass.widgets.presentation.CountdownWidgetReceiver
 import tmg.hourglass.widgets.updateAllWidgets
-import tmg.utilities.extensions.updateWidget
-import tmg.utilities.extensions.updateWidgets
 
 @Composable
-internal fun SettingsScreen(
-    windowSizeClass: WindowSizeClass,
+internal fun SettingsScreenVM(
+    windowSize: WindowSizeClass,
     viewModel: SettingsViewModel = hiltViewModel(),
     goToMarketPage: () -> Unit,
     goToAboutThisApp: () -> Unit
@@ -44,10 +41,10 @@ internal fun SettingsScreen(
     val context = LocalContext.current
 
     MasterDetailsPane(
-        windowSizeClass = windowSizeClass,
+        windowSizeClass = windowSize,
         master = {
             SettingsOverviewScreen(
-                windowSizeClass = windowSizeClass,
+                windowSizeClass = windowSize,
                 uiState = uiState.value,
                 setTheme = viewModel::setTheme,
                 refreshWidgetsClicked = {
@@ -107,7 +104,6 @@ private fun SettingsOverviewScreen(
     setShakeToReport: (Boolean) -> Unit,
     setShowWidgetDate: (Boolean) -> Unit
 ) {
-
     val deletionConfirmationDialog = rememberSaveable { mutableStateOf(false) }
     val themeDialog = rememberSaveable { mutableStateOf(false) }
 
@@ -117,7 +113,8 @@ private fun SettingsOverviewScreen(
             item(key = "header") {
                 TitleBar(
                     title = stringResource(id = string.settings_title),
-                    showSpace = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
+                    showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
+                    actionUpClicked = { }
                 )
             }
             item(key = "theme_header") {

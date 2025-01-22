@@ -30,10 +30,8 @@ fun ModifyScreen(
     viewModel: ModifyViewModel = hiltViewModel()
 ) {
     DisposableEffect(countdown) {
-        if (countdown != null) {
-            Log.d("Modify", "Initialising VM with value ${countdown.id}")
-            viewModel.initialise(countdown.id)
-        }
+        Log.d("Modify", "Initialising VM with value ${countdown?.id}")
+        viewModel.initialise(countdown?.id)
         return@DisposableEffect onDispose { }
     }
 
@@ -46,7 +44,8 @@ fun ModifyScreen(
     ) {
         TitleBar(
             title = stringResource(id = if (countdown != null) R.string.modify_header_edit else R.string.modify_header_add),
-            backClicked = actionUpClicked,
+            showBack = true,
+            actionUpClicked = actionUpClicked
         )
 
         PersonaliseLayout(
@@ -90,7 +89,10 @@ fun ModifyScreen(
         SaveLayout(
             isEdit = countdown != null,
             saveEnabled = uiState.value.saveEnabled,
-            saveClicked = viewModel::save,
+            saveClicked = {
+                viewModel.save()
+                actionUpClicked()
+            },
             deleteClicked = viewModel::delete
         )
     }

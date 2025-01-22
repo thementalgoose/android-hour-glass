@@ -24,11 +24,16 @@ import org.threeten.bp.LocalDateTime
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
+import tmg.hourglass.presentation.PreviewTheme
+import tmg.hourglass.presentation.buttons.PrimaryIconButton
+import tmg.hourglass.presentation.buttons.SecondaryIconButton
 import tmg.hourglass.presentation.pickers.DatePicker
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.presentation.utils.Fade
 import tmg.utilities.extensions.format
+
+private val spacing = 8.dp
 
 @Composable
 fun DataRangeDateLayout(
@@ -54,7 +59,7 @@ fun DataRangeDateLayout(
         Spacer(modifier = Modifier.height(8.dp))
         Column(
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(spacing)
         ) {
             DateSelection(
                 text = string.modify_field_dates_start,
@@ -103,19 +108,17 @@ private fun ColumnScope.DateSelection(
         AnimatedVisibility(
             visible = date?.toLocalDate() != LocalDate.now(),
         ) {
-            Spacer(Modifier.width(8.dp))
-            IconButton(
-                onClick = {
-                    dateUpdated(LocalDateTime.now())
-                },
-                content = {
-                    Icon(
-                        imageVector = Icons.Outlined.PlayArrow,
-                        tint = AppTheme.colors.textPrimary,
-                        contentDescription = stringResource(string.modify_field_date_today)
-                    )
-                }
-            )
+            Row {
+                Spacer(Modifier.width(spacing))
+                SecondaryIconButton(
+                    modifier = Modifier.height(IntrinsicSize.Max),
+                    icon = Icons.Outlined.PlayArrow,
+                    contentDescription = stringResource(string.modify_field_date_today),
+                    onClick = {
+                        dateUpdated(LocalDateTime.now())
+                    }
+                )
+            }
         }
     }
 
@@ -133,7 +136,7 @@ private fun ColumnScope.DateSelection(
     }
 }
 
-@Preview
+@PreviewTheme
 @Composable
 private fun Preview() {
     AppThemePreview {

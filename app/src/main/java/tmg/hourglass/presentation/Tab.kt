@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 import tmg.hourglass.presentation.navigation.NavigationItem
 import tmg.hourglass.strings.R.string
 
-enum class HomeTab(
+enum class Tab(
     @DrawableRes
     val icon: Int,
     @StringRes
@@ -21,7 +21,7 @@ enum class HomeTab(
     );
 }
 
-fun HomeTab.toNavigationItem(isSelected: Boolean? = null): NavigationItem {
+fun Tab.toNavigationItem(isSelected: Boolean? = null): NavigationItem {
     return NavigationItem(
         id = this.name,
         label = this.label,

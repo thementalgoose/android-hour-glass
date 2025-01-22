@@ -1,9 +1,7 @@
 package tmg.hourglass.presentation.settings
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import tmg.hourglass.domain.connectors.CountdownConnector
@@ -11,7 +9,6 @@ import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.usecases.ChangeThemeUseCase
 import javax.inject.Inject
-
 
 data class UiState(
     val screen: SettingsType?,
@@ -51,11 +48,11 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun closeDetails() {
-        _uiState.update { copy(screen = null) }
+        update { copy(screen = null) }
     }
 
     fun clickScreen(screenType: SettingsType) {
-        _uiState.update { copy(screen = screenType) }
+        update { copy(screen = screenType) }
     }
 
     fun setAnalytics(enabled: Boolean) {
@@ -89,7 +86,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun refresh() {
-        _uiState.update { copy(
+        update { copy(
             showWidgetUpdatedDate = prefManager.widgetShowUpdate,
             crashReporting = prefManager.crashReporting,
             anonymousAnalytics = prefManager.analyticsEnabled,
@@ -97,7 +94,7 @@ class SettingsViewModel @Inject constructor(
             theme = prefManager.theme
         )}
     }
-    private fun MutableStateFlow<UiState>.update(callback: UiState.() -> UiState) {
+    private fun update(callback: UiState.() -> UiState) {
         _uiState.value = callback(_uiState.value)
     }
 }

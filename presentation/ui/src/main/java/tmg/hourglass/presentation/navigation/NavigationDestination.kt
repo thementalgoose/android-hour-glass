@@ -9,7 +9,7 @@ data class NavigationDestination(
     val popUpTo: String? = null,
 )
 
-fun NavController.navigate(destination: NavigationDestination, builder: NavOptionsBuilder.() -> Unit = {
+fun NavController.navigateTo(destination: NavigationDestination, builder: NavOptionsBuilder.() -> Unit = {
     this.launchSingleTop = destination.launchSingleTop
     if (destination.launchSingleTop || destination.popUpTo != null) {
         if (destination.popUpTo != null) {
@@ -17,7 +17,7 @@ fun NavController.navigate(destination: NavigationDestination, builder: NavOptio
                 saveState = true
             }
         } else {
-            popUpTo(this@navigate.graph.startDestinationId) {
+            popUpTo(this@navigateTo.graph.startDestinationId) {
                 saveState = true
             }
         }

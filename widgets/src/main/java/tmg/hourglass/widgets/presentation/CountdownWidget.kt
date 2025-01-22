@@ -206,8 +206,8 @@ private fun Countdown.getProgressAndInfo(): Pair<Float, String> {
     val start = this.initial.toIntOrNull() ?: 0
     val end = this.finishing.toIntOrNull() ?: 100
     val progress = ProgressUtils.getProgress(
-        this.startByType,
-        this.endByType,
+        this.startAtStartOfDay,
+        this.endAtStartOfDay,
         interpolator = this.interpolator
     )
 

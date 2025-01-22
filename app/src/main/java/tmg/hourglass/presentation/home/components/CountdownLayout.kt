@@ -1,4 +1,4 @@
-package tmg.hourglass.presentation.dashboard.components
+package tmg.hourglass.presentation.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +33,7 @@ import tmg.hourglass.domain.model.preview
 import tmg.hourglass.domain.utils.ProgressUtils
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
+import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.utils.DeleteDialog
@@ -123,9 +124,9 @@ fun Countdown(
             text = stringResource(
                 R.string.home_no_description,
                 countdown.countdownType.converter(countdown.initial.toIntOrNull()?.toString() ?: ""),
-                countdown.start.format("dd MMM yyyy"),
+                countdown.startAtStartOfDay.format("dd MMM yyyy"),
                 countdown.countdownType.converter(countdown.finishing.toIntOrNull()?.toString() ?: ""),
-                countdown.end.format("dd MMM yyyy")
+                countdown.endAtStartOfDay.format("dd MMM yyyy")
             ).htmlEncode()
         )
         Spacer(modifier = Modifier.height(4.dp))
@@ -150,7 +151,7 @@ fun Countdown(
     }
 }
 
-@Preview
+@PreviewTheme
 @Composable
 private fun Preview() {
     AppThemePreview {

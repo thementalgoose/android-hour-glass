@@ -23,25 +23,30 @@ class ModifyViewModel @Inject constructor(
     private val countdownConnector: CountdownConnector,
     private val crashReporter: CrashReporter
 ): ViewModel() {
-    private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(
-        UiState(
-            title = "",
-            description = "",
-            colorHex = CountdownColors.COLOUR_1.hex,
-            type = CountdownType.DAYS,
-            inputTypes = UiState.Types.EndDate(
-                finishDate = null
-            )
-        )
-    )
+    private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(getUiState())
     val uiState: StateFlow<UiState> = _uiState
 
     private var id: String? = null
 
-    fun initialise(id: String) {
-        countdownConnector.getSync(id)?.let {
-            this.id = id
-            _uiState.value = it.toUiState()
+    private fun getUiState(): UiState = UiState(
+        title = "",
+        description = "",
+        colorHex = CountdownColors.COLOUR_1.hex,
+        type = CountdownType.DAYS,
+        inputTypes = UiState.Types.EndDate(
+            finishDate = null
+        )
+    )
+
+    fun initialise(id: String?) {
+        if (id == null) {
+            this.id = null
+            _uiState.value = getUiState()
+        } else {
+            countdownConnector.getSync(id)?.let {
+                this.id = id
+                _uiState.value = it.toUiState()
+            }
         }
     }
 
@@ -218,6 +223,11 @@ data class UiState(
                 val hasFinishingData = inputTypes.finishing.isNotBlank() && inputTypes.finishing != "0"
 
                 if (!hasInitialData && !hasFinishingData) {
+                    return false
+                }
+                if (inputTypes.initial.toIntOrNull() == null ||
+                    inputTypes.finishing.toIntOrNull() == null ||
+                    inputTypes.initial == inputTypes.finishing) {
                     return false
                 }
 

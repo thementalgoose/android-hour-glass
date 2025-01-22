@@ -1,5 +1,6 @@
 package tmg.hourglass.presentation
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -8,19 +9,27 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.collectAsState
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.window.layout.WindowInfoTracker
+import androidx.window.layout.WindowLayoutInfo
 import dagger.hilt.android.AndroidEntryPoint
 import tmg.hourglass.aboutthisapp.AboutThisAppConfig
+import tmg.hourglass.presentation.navigation.NavigationController
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class HomeActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition {
+class DashboardActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition {
 
     @Inject
     lateinit var aboutThisAppConfig: AboutThisAppConfig
 
+    @Inject
+    lateinit var navigationController: NavigationController
+
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,13 +38,22 @@ class HomeActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition {
         }
         val splashScreen = installSplashScreen()
 
+        val windowInfoTracker = WindowInfoTracker
+            .getOrCreate(this)
+            .windowLayoutInfo(this@DashboardActivity)
+
         setContent {
             val windowSizeClass = calculateWindowSizeClass(activity = this)
             AppTheme {
-                HomeScreen(
-                    windowSizeClass = windowSizeClass,
+                DashboardNavScreen(
+                    windowSize = windowSizeClass,
+                    windowLayoutInfo = windowInfoTracker.collectAsState(WindowLayoutInfo(emptyList())).value,
+                    navigator = navigationController,
+                    closeApp = { finish() },
+                    viewModelStore = this.viewModelStore,
+                    deeplink = null,
                     goToAboutThisApp = ::goToAboutThisApp,
-                    goToMarketPage = ::goToMarketPage
+                    goToMarketPage = ::goToMarketPage,
                 )
             }
         }

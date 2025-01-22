@@ -24,17 +24,11 @@ data class Countdown(
     val isFinished: Boolean
         get() = end <= LocalDateTime.now()
 
-    val startByType: LocalDateTime
-        get() = when (countdownType) {
-            CountdownType.DAYS -> start.toLocalDate().atTime(23, 59, 59)
-            else -> start
-        }
+    val startAtStartOfDay: LocalDateTime
+        get() = start.toLocalDate().atTime(0, 0, 0, 0)
 
-    val endByType: LocalDateTime
-        get() = when (countdownType) {
-            CountdownType.DAYS -> end.toLocalDate().atTime(23, 59, 59)
-            else -> end
-        }
+    val endAtStartOfDay: LocalDateTime
+        get() = end.toLocalDate().atTime(0, 0, 0)
 
     fun getProgress(progress: Float): String {
         val start: Int = initial.toIntOrNull() ?: 0

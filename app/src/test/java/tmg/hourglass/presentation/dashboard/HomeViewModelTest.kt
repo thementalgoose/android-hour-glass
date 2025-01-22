@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
@@ -12,11 +11,13 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.presentation.home.HomeAction
+import tmg.hourglass.presentation.home.HomeViewModel
 import tmg.testutils.BaseTest
 
-internal class DashboardViewModelTest: BaseTest() {
+internal class HomeViewModelTest: BaseTest() {
 
-    private lateinit var underTest: DashboardViewModel
+    private lateinit var underTest: HomeViewModel
 
     private val mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
 
@@ -28,7 +29,7 @@ internal class DashboardViewModelTest: BaseTest() {
     }
 
     private fun initUnderTest() {
-        underTest = DashboardViewModel(
+        underTest = HomeViewModel(
             countdownConnector = mockCountdownConnector
         )
     }
@@ -79,7 +80,7 @@ internal class DashboardViewModelTest: BaseTest() {
             underTest.edit(fakeCountdownUpcoming)
 
             val item2 = awaitItem()
-            assertTrue(item2.action is DashboardAction.Modify)
+            assertTrue(item2.action is HomeAction.Modify)
         }
     }
 
@@ -102,7 +103,7 @@ internal class DashboardViewModelTest: BaseTest() {
 
             underTest.createNew()
             val item2 = awaitItem()
-            assertEquals(DashboardAction.Add, item2.action)
+            assertEquals(HomeAction.Add, item2.action)
         }
     }
 
@@ -115,7 +116,7 @@ internal class DashboardViewModelTest: BaseTest() {
 
             underTest.createNew()
             val item2 = awaitItem()
-            assertEquals(DashboardAction.Add, item2.action)
+            assertEquals(HomeAction.Add, item2.action)
 
             underTest.closeAction()
             val item3 = awaitItem()

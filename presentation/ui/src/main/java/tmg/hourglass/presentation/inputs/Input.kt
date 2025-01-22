@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
+import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
 
@@ -56,46 +57,53 @@ fun Input(
                 inputUpdated(it)
             },
             placeholder = {
-                Box(Modifier.fillMaxSize()) {
-                    TextBody1(
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .alpha(0.5f),
-                        text = hint
-                    )
-                }
+                TextBody1(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .alpha(0.5f),
+                    text = hint
+                )
             },
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = AppTheme.colors.textPrimary,
-                disabledTextColor = Color.Transparent,
-                backgroundColor = Color.Transparent,
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = AppTheme.colors.backgroundSecondary,
+                focusedTextColor = AppTheme.colors.textPrimary,
                 focusedIndicatorColor = Color.Transparent,
+                disabledTextColor = AppTheme.colors.textSecondary,
+                disabledIndicatorColor = Color.Transparent,
+                disabledLabelColor = AppTheme.colors.backgroundSecondary,
+                unfocusedLabelColor = AppTheme.colors.backgroundSecondary,
+                unfocusedContainerColor = AppTheme.colors.backgroundSecondary,
+                unfocusedTextColor = AppTheme.colors.textSecondary,
                 unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
+                cursorColor = AppTheme.colors.accent,
+                errorCursorColor = AppTheme.colors.appColors.error,
             )
         )
     }
 }
 
-@Preview
+@PreviewTheme
 @Composable
-private fun PreviewLight() {
-    AppThemePreview(isLight = true) {
-        Input(
-            initial = "testInput",
-            inputUpdated = { },
-            hint = "Name"
-        )
+private fun Preview() {
+    AppThemePreview {
+        Box(Modifier.padding(16.dp)) {
+            Input(
+                initial = "testInput",
+                inputUpdated = { },
+                hint = "Name"
+            )
+        }
     }
 }
-
-@Preview
+@PreviewTheme
 @Composable
-private fun PreviewDark() {
-    AppThemePreview(isLight = false) {
-        Input(
-            inputUpdated = { },
-            hint = "Name"
-        )
+private fun PreviewHint() {
+    AppThemePreview {
+        Box(Modifier.padding(16.dp)) {
+            Input(
+                inputUpdated = { },
+                hint = "Name"
+            )
+        }
     }
 }

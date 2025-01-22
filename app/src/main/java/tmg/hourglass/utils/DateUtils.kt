@@ -5,6 +5,6 @@ import org.threeten.bp.temporal.ChronoUnit
 
 object DateUtils {
     fun daysBetween(start: LocalDateTime, end: LocalDateTime): Int {
-        return ChronoUnit.DAYS.between(start, end).toInt()
+        return ChronoUnit.DAYS.between(start.toLocalDate().atStartOfDay(), end.toLocalDate().atStartOfDay()).toInt()
     }
 }

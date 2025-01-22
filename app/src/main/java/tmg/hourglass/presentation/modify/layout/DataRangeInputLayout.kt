@@ -13,15 +13,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.presentation.AppTheme
+import tmg.hourglass.presentation.AppThemePreview
+import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.inputs.Input
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R
 
-private val edgeAlignment: Dp = 32.dp
+private const val weightMax = 6f
+private const val weightMin = 1f
 
 @Composable
 fun DataRangeInputLayout(
@@ -50,15 +52,15 @@ fun DataRangeInputLayout(
         Row(modifier = Modifier.fillMaxWidth()) {
             val startWeight = animateFloatAsState(
                 targetValue = when {
-                    initial.isBlank() || initial == "0" -> 1f
-                    else -> 8f
+                    initial.isBlank() || initial == "0" -> weightMin
+                    else -> weightMax
                 },
                 label = "StartWeight"
             )
             val endWeight = animateFloatAsState(
                 targetValue = when {
-                    finishing.isBlank() || finishing == "0" -> 1f
-                    else -> 8f
+                    finishing.isBlank() || finishing == "0" -> weightMin
+                    else -> weightMax
                 },
                 label = "EndWeight"
             )
@@ -72,7 +74,7 @@ fun DataRangeInputLayout(
                 keyboardType = KeyboardType.Number,
                 hint = "0"
             )
-            Spacer(Modifier.width(4.dp))
+            Spacer(Modifier.width(16.dp))
             Input(
                 modifier = Modifier
                     .weight(endWeight.value)
@@ -80,8 +82,47 @@ fun DataRangeInputLayout(
                 initial = finishing,
                 inputUpdated = finishingUpdated,
                 keyboardType = KeyboardType.Number,
-                hint = ""
+                hint = "0"
             )
         }
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewEndingValue() {
+    AppThemePreview {
+        DataRangeInputLayout(
+            initial = "0",
+            initialUpdated = { },
+            finishing = "100",
+            finishingUpdated = { },
+        )
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewStartingValue() {
+    AppThemePreview {
+        DataRangeInputLayout(
+            initial = "100",
+            initialUpdated = { },
+            finishing = "0",
+            finishingUpdated = { },
+        )
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewDiffValues() {
+    AppThemePreview {
+        DataRangeInputLayout(
+            initial = "100",
+            initialUpdated = { },
+            finishing = "100",
+            finishingUpdated = { },
+        )
     }
 }

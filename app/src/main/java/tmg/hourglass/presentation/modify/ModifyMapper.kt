@@ -1,5 +1,6 @@
 package tmg.hourglass.presentation.modify
 
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.domain.enums.CountdownInterpolator.LINEAR
 import tmg.hourglass.domain.enums.CountdownType
@@ -39,8 +40,8 @@ object ModifyMapper {
     fun UiState.toCountdown(id: String): Countdown {
         when (inputTypes) {
             is UiState.Types.EndDate -> {
-                val startDate = LocalDateTime.now()
-                val endDate = inputTypes.finishDate!!
+                val startDate = LocalDate.now().atStartOfDay()
+                val endDate = inputTypes.finishDate!!.toLocalDate().atStartOfDay()
                 val start = DateUtils.daysBetween(startDate, endDate).toString()
                 val end = "0"
                 return Countdown(
