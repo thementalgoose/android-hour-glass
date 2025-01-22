@@ -117,7 +117,7 @@ private fun SettingsOverviewScreen(
             item(key = "header") {
                 TitleBar(
                     title = stringResource(id = string.settings_title),
-                    showSpace = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+                    showSpace = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
                 )
             }
             item(key = "theme_header") {

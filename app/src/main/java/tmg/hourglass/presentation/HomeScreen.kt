@@ -6,10 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -18,10 +14,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import tmg.hourglass.presentation.dashboard.DashboardScreen
-import tmg.hourglass.presentation.navigation.NavigationBar
 import tmg.hourglass.presentation.navigation.NavigationColumn
 import tmg.hourglass.presentation.settings.SettingsScreen
-import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.utilities.extensions.toEnum
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -71,6 +65,7 @@ internal fun HomeScreen(
                             HomeTab.DASHBOARD -> {
                                 DashboardScreen(
                                     windowSizeClass = windowSizeClass,
+                                    navigateToSettings = { tabClicked(HomeTab.SETTINGS) }
                                 )
                             }
                             HomeTab.SETTINGS -> {
@@ -82,16 +77,11 @@ internal fun HomeScreen(
                             }
                         }
                     }
-                    if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
-                        NavigationBar(
-                            list = tabs,
-                            itemClicked = {
-                                it.id.toEnum<HomeTab>()?.let(tabClicked)
-                            }
-                        )
-                    }
                 }
             }
+        },
+        bottomBar = {
+
         }
     )
 }

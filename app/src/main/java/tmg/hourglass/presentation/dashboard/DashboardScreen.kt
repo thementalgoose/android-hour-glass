@@ -1,16 +1,23 @@
 package tmg.hourglass.presentation.dashboard
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -44,6 +51,7 @@ import tmg.hourglass.strings.R.string
 @Composable
 internal fun DashboardScreen(
     windowSizeClass: WindowSizeClass,
+    navigateToSettings: () -> Unit,
     viewModel: DashboardViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState()
@@ -51,6 +59,7 @@ internal fun DashboardScreen(
     DashboardScreen(
         windowSizeClass = windowSizeClass,
         uiState = uiState.value,
+        navigateToSettings = navigateToSettings,
         edit = viewModel::edit,
         delete = viewModel::delete,
         openCreateNew = viewModel::createNew,
@@ -63,6 +72,7 @@ internal fun DashboardScreen(
 internal fun DashboardScreen(
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
+    navigateToSettings: () -> Unit,
     edit: (Countdown) -> Unit,
     delete: (Countdown) -> Unit,
     openCreateNew: () -> Unit,
@@ -74,6 +84,7 @@ internal fun DashboardScreen(
         master = {
             ListScreen(
                 uiState = uiState,
+                navigateToSettings = navigateToSettings,
                 windowSizeClass = windowSizeClass,
                 editItem = edit,
                 deleteItem = delete
@@ -106,20 +117,36 @@ internal fun DashboardScreen(
 internal fun ListScreen(
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
+    navigateToSettings: () -> Unit,
     editItem: (Countdown) -> Unit,
     deleteItem: (Countdown) -> Unit
 ) {
-    LazyColumn(
+    LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
+        columns = GridCells.Adaptive(minSize = 300.dp),
         content = {
-            item("header") {
+            item("header", span = { GridItemSpan(maxLineSpan) }) {
                 TitleBar(
                     title = stringResource(id = R.string.app_name),
-                    showSpace = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+                    showSpace = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
+                    overflowActions = {
+                        if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
+                            IconButton(
+                                onClick = navigateToSettings,
+                                content = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Settings,
+                                        contentDescription = stringResource(string.menu_settings),
+                                        tint = AppTheme.colors.textPrimary
+                                    )
+                                }
+                            )
+                        }
+                    }
                 )
             }
             if (uiState.isEmpty) {
-                item("empty") {
+                item("empty", span = { GridItemSpan(maxLineSpan) }) {
                     Empty(
                         modifier = Modifier.padding(
                             top = if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) AppTheme.dimensions.paddingLarge else 0.dp
@@ -128,7 +155,7 @@ internal fun ListScreen(
                 }
             }
             if (uiState.expired.isNotEmpty()) {
-                item("expired") {
+                item("expired", span = { GridItemSpan(maxLineSpan) }) {
                     TextHeader2(
                         modifier = Modifier.padding(
                             vertical = AppTheme.dimensions.paddingXSmall,
@@ -146,7 +173,7 @@ internal fun ListScreen(
                 )
             }
             if (uiState.upcoming.isNotEmpty()) {
-                item("upcoming") {
+                item("upcoming", span = { GridItemSpan(maxLineSpan) }) {
                     TextHeader2(
                         modifier = Modifier.padding(
                             vertical = AppTheme.dimensions.paddingXSmall,
@@ -163,7 +190,7 @@ internal fun ListScreen(
                     deleteClicked = deleteItem
                 )
             }
-            item("spacer") {
+            item("spacer", span = { GridItemSpan(maxLineSpan) }) {
                 Spacer(modifier = Modifier.height(64.dp))
             }
         }
@@ -201,6 +228,7 @@ private fun PreviewEmpty() {
         DashboardScreen(
             windowSizeClass = compactWindowSizeClass,
             uiState = UiState.empty(),
+            navigateToSettings = { },
             edit = { },
             delete = { },
             openCreateNew = { },
@@ -216,6 +244,7 @@ private fun PreviewPopulated() {
         DashboardScreen(
             windowSizeClass = compactWindowSizeClass,
             uiState = UiState.upcoming(),
+            navigateToSettings = { },
             edit = { },
             delete = { },
             openCreateNew = { },
@@ -232,6 +261,7 @@ private fun PreviewPopulatedExpanded() {
         DashboardScreen(
             windowSizeClass = expandedWindowSizeClass,
             uiState = UiState.upcoming(),
+            navigateToSettings = { },
             edit = { },
             delete = { },
             openCreateNew = { },
