@@ -117,8 +117,7 @@ fun CustomCalendarView(
     AndroidView(
         modifier = Modifier.wrapContentSize(),
         factory = { context ->
-            CalendarView(ContextThemeWrapper(context, R.style.CalenderViewCustom)).apply {
-            }
+            CalendarView(ContextThemeWrapper(context, R.style.CalenderViewCustom)).apply {}
         },
         update = { view ->
             view.weekDayTextAppearance = Int.MAX_VALUE

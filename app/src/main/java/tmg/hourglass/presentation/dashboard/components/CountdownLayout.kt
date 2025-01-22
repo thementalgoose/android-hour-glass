@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
@@ -40,6 +40,14 @@ import tmg.hourglass.presentation.views.ProgressBar
 import tmg.hourglass.strings.R
 import tmg.hourglass.strings.R.string
 import tmg.utilities.extensions.format
+
+private val barBackground: Color
+    @Composable
+    get() = AppTheme.colors.backgroundSecondary.copy(
+        red = AppTheme.colors.backgroundSecondary.red * 0.95f,
+        blue = AppTheme.colors.backgroundSecondary.blue * 0.95f,
+        green = AppTheme.colors.backgroundSecondary.green * 0.95f
+    )
 
 @Composable
 fun Countdown(
@@ -122,8 +130,9 @@ fun Countdown(
         )
         Spacer(modifier = Modifier.height(4.dp))
         ProgressBar(
+            modifier = Modifier.padding(end = AppTheme.dimensions.paddingMedium),
             barColor = Color(countdown.colour.toColorInt()),
-            backgroundColor = AppTheme.colors.backgroundSecondary,
+            backgroundColor = barBackground,
             endProgress = ProgressUtils.getProgress(countdown, now),
             label = { progress ->
                 countdown.getProgress(progress = progress)

@@ -36,7 +36,7 @@ fun PrimaryIconButton(
         Icon(
             painter = painterResource(id = icon),
             contentDescription = contentDescription,
-            tint = Color.White
+            tint = AppTheme.colors.textPrimary
         )
     }
 }

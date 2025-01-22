@@ -3,6 +3,7 @@ package tmg.hourglass.presentation.inputs
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -56,6 +57,7 @@ fun Input(
             placeholder = {
                 TextBody1(
                     modifier = Modifier
+                        .fillMaxSize()
                         .align(Alignment.CenterStart)
                         .alpha(0.5f),
                     text = hint

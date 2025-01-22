@@ -16,7 +16,7 @@ import tmg.hourglass.core.googleanalytics.CrashReporter
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
-import tmg.hourglass.presentation.modify.ModifyViewModel
+import tmg.hourglass.presentation.modify_old.ModifyViewModel
 import tmg.hourglass.utils.Selected
 import tmg.testutils.BaseTest
 import tmg.testutils.livedata.assertEventFired

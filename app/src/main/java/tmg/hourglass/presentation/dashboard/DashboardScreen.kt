@@ -17,12 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import tmg.hourglass.R
@@ -30,19 +28,18 @@ import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
-import tmg.hourglass.presentation.PreviewPhone
 import tmg.hourglass.presentation.PreviewTablet
 import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.dashboard.components.Countdown
 import tmg.hourglass.presentation.dashboard.components.Empty
-import tmg.hourglass.presentation.modify.ModifyScreen
 import tmg.hourglass.presentation.layouts.MasterDetailsPane
 import tmg.hourglass.presentation.layouts.TitleBar
+import tmg.hourglass.presentation.modify.ModifyScreen
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextHeader2
+import tmg.hourglass.strings.R.string
 
 @Composable
 internal fun DashboardScreen(
