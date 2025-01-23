@@ -10,13 +10,13 @@ import javax.inject.Singleton
 
 @Singleton
 class AppNavigationController @Inject constructor(
-    private val crashlyticsManager: CrashReporter
+    private val crashReporter: CrashReporter
 ): NavigationController {
 
     override lateinit var navHostController: NavHostController
 
     override fun navigate(destination: NavigationDestination) {
-        crashlyticsManager.log("Navigating to ${destination.route}")
+        crashReporter.log("Navigating to ${destination.route}")
         navHostController.navigateTo(destination)
     }
 }
