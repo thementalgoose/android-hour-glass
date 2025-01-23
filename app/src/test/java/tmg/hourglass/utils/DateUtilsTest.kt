@@ -1,8 +1,8 @@
-package tmg.hourglass.presentation.modify
+package tmg.hourglass.utils
 
 import org.junit.jupiter.api.Test
 
-internal class ModifyViewModelTest {
+internal class DateUtilsTest {
 
     @Test
     fun todo() {

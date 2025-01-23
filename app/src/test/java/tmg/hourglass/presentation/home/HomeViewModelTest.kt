@@ -1,4 +1,4 @@
-package tmg.hourglass.presentation.dashboard
+package tmg.hourglass.presentation.home
 
 import app.cash.turbine.test
 import io.mockk.every
@@ -11,8 +11,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.presentation.home.HomeAction
-import tmg.hourglass.presentation.home.HomeViewModel
 import tmg.testutils.BaseTest
 
 internal class HomeViewModelTest: BaseTest() {

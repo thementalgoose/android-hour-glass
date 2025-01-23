@@ -72,9 +72,9 @@ internal class SettingsViewModelTest: BaseTest() {
             val item1 = awaitItem()
             assertEquals(null, item1.screen)
 
-            underTest.clickScreen(SettingsType.RELEASE)
+            underTest.clickScreen(SettingsType.PRIVACY_POLICY)
             val item2 = awaitItem()
-            assertEquals(SettingsType.RELEASE, item2.screen)
+            assertEquals(SettingsType.PRIVACY_POLICY, item2.screen)
 
             underTest.closeDetails()
             val item3 = awaitItem()
