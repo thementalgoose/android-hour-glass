@@ -11,8 +11,7 @@ object ModifyMapper {
 
     fun Countdown.toUiState(): UiState {
         val inputTypes = when (countdownType) {
-            CountdownType.DAYS,
-            CountdownType.SECONDS -> UiState.Types.EndDate(
+            CountdownType.DAYS -> UiState.Types.EndDate(
                 finishDate = end,
             )
             else -> UiState.Types.Values(

@@ -7,9 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material3.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
@@ -18,9 +15,9 @@ import androidx.compose.ui.res.stringResource
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.buttons.PrimaryButton
 import tmg.hourglass.presentation.buttons.SecondaryButton
-import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextHeader2
+import tmg.hourglass.strings.R.string
 
 @Composable
 fun DeleteDialog(

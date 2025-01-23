@@ -136,7 +136,7 @@
     <string name="modify_field_type">Type</string>
     <string name="modify_field_type_desc">Select which kind of metric you would like to countdown or count-up</string>
     <string name="modify_field_range">Range</string>
-    <string name="modify_field_range_desc">Enter the start and end values.</string>
+    <string name="modify_field_range_desc">Enter the start and end values (numbers only).</string>
     <string name="modify_field_range_initial">From</string>
     <string name="modify_field_range_final">To</string>
     <string name="modify_field_interpolator">Progress Type</string>

@@ -68,8 +68,7 @@ class ModifyViewModel @Inject constructor(
     fun setType(type: CountdownType) {
         val existingType = uiState.value.inputTypes
         val newType = when (type) {
-            CountdownType.DAYS,
-            CountdownType.SECONDS -> {
+            CountdownType.DAYS -> {
                 UiState.Types.EndDate(finishDate = null)
             }
             else -> {
@@ -84,7 +83,7 @@ class ModifyViewModel @Inject constructor(
         }
         _uiState.value = _uiState.value.copy(
             type = type,
-            inputTypes = when (type == uiState.value.type) {
+            inputTypes = when (newType::class == existingType::class) {
                 true -> existingType
                 false -> newType
             }
@@ -225,9 +224,7 @@ data class UiState(
                 if (!hasInitialData && !hasFinishingData) {
                     return false
                 }
-                if (inputTypes.initial.toIntOrNull() == null ||
-                    inputTypes.finishing.toIntOrNull() == null ||
-                    inputTypes.initial == inputTypes.finishing) {
+                if (inputTypes.initial == inputTypes.finishing) {
                     return false
                 }
 

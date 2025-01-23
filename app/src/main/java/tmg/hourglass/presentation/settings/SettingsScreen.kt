@@ -14,18 +14,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import tmg.hourglass.ReleaseNotes
-import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewPhone
+import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.layouts.MasterDetailsPane
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.settings.components.SettingsHeader
 import tmg.hourglass.presentation.settings.components.SettingsOption
 import tmg.hourglass.presentation.settings.components.SettingsSwitch
-import tmg.hourglass.presentation.utils.DeleteDialog
 import tmg.hourglass.presentation.settings.components.ThemeDialog
 import tmg.hourglass.presentation.settings.privacy.PrivacyPolicyLayout
+import tmg.hourglass.presentation.utils.DeleteDialog
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.widgets.updateAllWidgets
 
@@ -101,9 +100,7 @@ private fun SettingsOverviewScreen(
         content = {
             item(key = "header") {
                 TitleBar(
-                    title = stringResource(id = string.settings_title),
-                    showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
-                    actionUpClicked = { }
+                    title = stringResource(id = string.settings_title)
                 )
             }
             item(key = "theme_header") {

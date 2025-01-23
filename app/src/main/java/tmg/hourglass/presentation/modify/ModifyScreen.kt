@@ -93,7 +93,10 @@ fun ModifyScreen(
                 viewModel.save()
                 actionUpClicked()
             },
-            deleteClicked = viewModel::delete
+            deleteClicked = {
+                viewModel.delete()
+                actionUpClicked()
+            }
         )
     }
 }
