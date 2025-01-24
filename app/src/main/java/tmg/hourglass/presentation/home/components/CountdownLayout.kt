@@ -43,9 +43,9 @@ import tmg.hourglass.strings.R.string
 private val barBackground: Color
     @Composable
     get() = AppTheme.colors.backgroundSecondary.copy(
-        red = AppTheme.colors.backgroundSecondary.red * 0.8f,
-        blue = AppTheme.colors.backgroundSecondary.blue * 0.8f,
-        green = AppTheme.colors.backgroundSecondary.green * 0.8f
+        red = AppTheme.colors.backgroundSecondary.red * 0.89f,
+        blue = AppTheme.colors.backgroundSecondary.blue * 0.89f,
+        green = AppTheme.colors.backgroundSecondary.green * 0.89f
     )
 
 @Composable
