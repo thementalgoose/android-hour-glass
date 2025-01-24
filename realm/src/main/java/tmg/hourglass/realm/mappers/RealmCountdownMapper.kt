@@ -1,20 +1,14 @@
 package tmg.hourglass.realm.mappers
 
 import android.util.Log
-import io.realm.Realm
-import io.realm.RealmList
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
-import org.threeten.bp.format.DateTimeFormatter
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.domain.model.CountdownNotifications
 import tmg.hourglass.realm.models.RealmCountdown
-import tmg.hourglass.realm.models.RealmCountdownNotifications
 import tmg.utilities.extensions.toEnum
-import java.lang.RuntimeException
 import javax.inject.Inject
 
 class RealmCountdownMapper @Inject constructor(
@@ -30,8 +24,8 @@ class RealmCountdownMapper @Inject constructor(
             colour = input.colour,
             start = input.start.toLocalDateTime(),
             end = input.end.toLocalDateTime(),
-            initial = input.initial,
-            finishing = input.finishing,
+            startValue = input.initial,
+            endValue = input.finishing,
             countdownType = input.passageType.toEnum<CountdownType> { it.key } ?: CountdownType.NUMBER,
             interpolator = input.interpolator.toEnum<CountdownInterpolator> { it.key } ?: CountdownInterpolator.LINEAR,
             notifications = input.notifications
@@ -48,8 +42,8 @@ class RealmCountdownMapper @Inject constructor(
         model.colour = data.colour
         model.start = data.start.toInstant(ZoneOffset.UTC).toEpochMilli()
         model.end = data.end.toInstant(ZoneOffset.UTC).toEpochMilli()
-        model.initial = data.initial
-        model.finishing = data.finishing
+        model.initial = data.startValue
+        model.finishing = data.endValue
         model.passageType = data.countdownType.key
         model.interpolator = data.interpolator.key
     }

@@ -14,28 +14,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import tmg.hourglass.ReleaseNotes
-import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewPhone
+import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.layouts.MasterDetailsPane
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.settings.components.SettingsHeader
 import tmg.hourglass.presentation.settings.components.SettingsOption
 import tmg.hourglass.presentation.settings.components.SettingsSwitch
-import tmg.hourglass.presentation.utils.DeleteDialog
 import tmg.hourglass.presentation.settings.components.ThemeDialog
 import tmg.hourglass.presentation.settings.privacy.PrivacyPolicyLayout
-import tmg.hourglass.presentation.settings.release.ReleaseLayout
+import tmg.hourglass.presentation.utils.DeleteDialog
 import tmg.hourglass.strings.R.string
-import tmg.hourglass.widgets.presentation.CountdownWidgetReceiver
 import tmg.hourglass.widgets.updateAllWidgets
-import tmg.utilities.extensions.updateWidget
-import tmg.utilities.extensions.updateWidgets
 
 @Composable
-internal fun SettingsScreen(
-    windowSizeClass: WindowSizeClass,
+internal fun SettingsScreenVM(
+    windowSize: WindowSizeClass,
     viewModel: SettingsViewModel = hiltViewModel(),
     goToMarketPage: () -> Unit,
     goToAboutThisApp: () -> Unit
@@ -44,10 +39,10 @@ internal fun SettingsScreen(
     val context = LocalContext.current
 
     MasterDetailsPane(
-        windowSizeClass = windowSizeClass,
+        windowSizeClass = windowSize,
         master = {
             SettingsOverviewScreen(
-                windowSizeClass = windowSizeClass,
+                windowSizeClass = windowSize,
                 uiState = uiState.value,
                 setTheme = viewModel::setTheme,
                 refreshWidgetsClicked = {
@@ -55,9 +50,6 @@ internal fun SettingsScreen(
                 },
                 aboutThisAppClicked = goToAboutThisApp,
                 rateClicked = goToMarketPage,
-                releaseNotesClicked = {
-                    viewModel.clickScreen(SettingsType.RELEASE)
-                },
                 suggestionClicked = { },
                 privacyPolicyClicked = {
                     viewModel.clickScreen(SettingsType.PRIVACY_POLICY)
@@ -77,12 +69,6 @@ internal fun SettingsScreen(
                         backClicked = viewModel::closeDetails
                     )
                 }
-                SettingsType.RELEASE -> {
-                    ReleaseLayout(
-                        content = ReleaseNotes.entries.reversed(),
-                        backClicked = viewModel::closeDetails
-                    )
-                }
                 else -> {}
             }
         },
@@ -98,7 +84,6 @@ private fun SettingsOverviewScreen(
     refreshWidgetsClicked: () -> Unit,
     aboutThisAppClicked: () -> Unit,
     rateClicked: () -> Unit,
-    releaseNotesClicked: () -> Unit,
     suggestionClicked: () -> Unit,
     privacyPolicyClicked: () -> Unit,
     deleteAllClicked: () -> Unit,
@@ -107,7 +92,6 @@ private fun SettingsOverviewScreen(
     setShakeToReport: (Boolean) -> Unit,
     setShowWidgetDate: (Boolean) -> Unit
 ) {
-
     val deletionConfirmationDialog = rememberSaveable { mutableStateOf(false) }
     val themeDialog = rememberSaveable { mutableStateOf(false) }
 
@@ -116,8 +100,7 @@ private fun SettingsOverviewScreen(
         content = {
             item(key = "header") {
                 TitleBar(
-                    title = stringResource(id = string.settings_title),
-                    showSpace = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+                    title = stringResource(id = string.settings_title)
                 )
             }
             item(key = "theme_header") {
@@ -177,13 +160,6 @@ private fun SettingsOverviewScreen(
                     title = string.settings_help_review_title,
                     subtitle = string.settings_help_review_description,
                     optionClicked = rateClicked
-                )
-            }
-            item(key = "about_3") {
-                SettingsOption(
-                    title = string.settings_help_release_notes_title,
-                    subtitle = string.settings_help_release_notes_description,
-                    optionClicked = releaseNotesClicked
                 )
             }
             item(key = "feedback_header") {
@@ -268,7 +244,6 @@ private fun PreviewOverview() {
             refreshWidgetsClicked = { },
             aboutThisAppClicked = { },
             rateClicked = { },
-            releaseNotesClicked = { },
             suggestionClicked = { },
             setTheme = { },
             setAnalytics = { },

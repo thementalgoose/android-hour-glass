@@ -5,7 +5,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.TextButton
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -117,8 +117,7 @@ fun CustomCalendarView(
     AndroidView(
         modifier = Modifier.wrapContentSize(),
         factory = { context ->
-            CalendarView(ContextThemeWrapper(context, R.style.CalenderViewCustom)).apply {
-            }
+            CalendarView(ContextThemeWrapper(context, R.style.CalenderViewCustom)).apply {}
         },
         update = { view ->
             view.weekDayTextAppearance = Int.MAX_VALUE

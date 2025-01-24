@@ -136,7 +136,7 @@
     <string name="modify_field_type">Type</string>
     <string name="modify_field_type_desc">Select which kind of metric you would like to countdown or count-up</string>
     <string name="modify_field_range">Range</string>
-    <string name="modify_field_range_desc">Enter the start and end values that you want to progress between.</string>
+    <string name="modify_field_range_desc">Enter the start and end values (numbers only).</string>
     <string name="modify_field_range_initial">From</string>
     <string name="modify_field_range_final">To</string>
     <string name="modify_field_interpolator">Progress Type</string>
@@ -148,6 +148,10 @@
     <string name="modify_field_dates">Dates</string>
     <string name="modify_field_dates_title">Select a date range</string>
     <string name="modify_field_dates_desc">Pick the dates you want the two values above to line up with</string>
+    <string name="modify_field_date">Date</string>
+    <string name="modify_field_date_title">Select a date</string>
+    <string name="modify_field_date_placeholder">Date</string>
+    <string name="modify_field_date_desc">Pick the date to count down too</string>
     <string name="modify_field_dates_format" translatable="false"><b>%s</b> ......... <b>%s</b></string>
     <string name="modify_field_dates_button">Pick dates</string>
     <string name="modify_field_dates_start">Start date</string>
@@ -155,6 +159,8 @@
     <string name="modify_field_colour_hint">Colour</string>
     <string name="settings_theme_applied_later">Theme will be applied when the app is restarted</string>
     <string name="modify_type_title">Countdown type</string>
+
+    <string name="modify_field_date_today">Today</string>
 
     <string name="error_activity_not_found">Sorry, an error occurred</string>
 

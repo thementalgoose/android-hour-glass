@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTheme
-import tmg.hourglass.presentation.R
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.textviews.TextHeader2

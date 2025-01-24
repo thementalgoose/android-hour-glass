@@ -9,7 +9,8 @@ internal class CountdownTypeTest {
     @ParameterizedTest(name = "Countdown type of {0} converts {1} to {2}")
     @CsvSource(
         "NUMBER,1,1",
-        "DAYS,1,1 days",
+        "DAYS,1,1 day",
+        "DAYS,2,2 days",
         "MILES,1,1mi",
         "MILLIMETRES,1,1mm",
         "METRES,1,1m",

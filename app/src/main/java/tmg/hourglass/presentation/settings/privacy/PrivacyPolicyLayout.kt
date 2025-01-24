@@ -34,7 +34,8 @@ fun PrivacyPolicyLayout(
     ) {
         TitleBar(
             title = stringResource(id = string.settings_help_privacy_policy_title),
-            backClicked = backClicked
+            showBack = true,
+            actionUpClicked = backClicked
         )
         Box(modifier = Modifier
             .fillMaxSize()

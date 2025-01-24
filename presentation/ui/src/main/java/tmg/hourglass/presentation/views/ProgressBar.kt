@@ -5,18 +5,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.utils.MeasureTextWidth
+import tmg.utilities.utils.ColorUtils.Companion.contrastTextLight
 
 @Composable
 fun ProgressBar(
@@ -27,7 +30,10 @@ fun ProgressBar(
     animationDuration: Int = 400,
     textPadding: Dp = AppTheme.dimensions.paddingSmall,
     barColor: Color = AppTheme.colors.primary,
-    barOnColor: Color = Color.White,
+    barOnColor: Color = when (contrastTextLight(barColor.toArgb(), threshold = 140)) {
+        true -> Color.White
+        false -> Color.Black
+    },
     backgroundColor: Color = AppTheme.colors.backgroundPrimary,
     backgroundOnColor: Color = AppTheme.colors.textPrimary,
 ) {
@@ -85,7 +91,8 @@ fun ProgressBar(
                     color = when (onBar) {
                         true -> barOnColor
                         false -> backgroundOnColor
-                    }
+                    },
+                    fontWeight = FontWeight.Bold
                 ),
                 modifier = Modifier
                     .align(Alignment.CenterStart)

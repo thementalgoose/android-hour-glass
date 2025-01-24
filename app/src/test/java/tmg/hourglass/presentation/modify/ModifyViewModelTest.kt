@@ -5,312 +5,251 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
-import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
 import tmg.hourglass.core.googleanalytics.CrashReporter
 import tmg.hourglass.domain.connectors.CountdownConnector
-import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
-import tmg.hourglass.presentation.modify.ModifyViewModel
-import tmg.hourglass.utils.Selected
-import tmg.testutils.BaseTest
-import tmg.testutils.livedata.assertEventFired
-import tmg.testutils.livedata.test
+import tmg.hourglass.presentation.modify.ModifyData.countdownDays
+import tmg.hourglass.presentation.modify.ModifyData.countdownNumber
+import tmg.hourglass.presentation.modify.ModifyData.tomorrow
+import tmg.hourglass.presentation.modify.ModifyData.uiStateDays
+import tmg.hourglass.presentation.modify.ModifyData.uiStateDaysEmpty
+import tmg.hourglass.presentation.modify.ModifyData.uiStateNumber
+import tmg.hourglass.presentation.modify.ModifyData.uiStateNumberEmpty
 
-internal class ModifyViewModelTest: BaseTest() {
-
-    lateinit var sut: ModifyViewModel
+internal class ModifyViewModelTest {
 
     private val mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
     private val mockCrashReporter: CrashReporter = mockk(relaxed = true)
 
-    private fun initSUT() {
-        sut = ModifyViewModel(mockCountdownConnector, mockCrashReporter)
-        sut.inputs.initialise(null)
+    private lateinit var underTest: ModifyViewModel
+
+    private fun initUnderTest() {
+        underTest = ModifyViewModel(
+            countdownConnector = mockCountdownConnector,
+            crashReporter = mockCrashReporter
+        )
+        every { mockCountdownConnector.getSync(countdownDays.id) } returns countdownDays
+        every { mockCountdownConnector.getSync(countdownNumber.id) } returns countdownNumber
     }
 
     @Test
-    fun `initialising vm sets isEdit to false`() = runTest {
+    fun `initialise sets ui state with null countdown model`() = runTest {
+        initUnderTest()
+        underTest.initialise(null)
 
-        initSUT()
-
-        sut.outputs.isEdit.test {
-            assertEquals(false, awaitItem())
+        underTest.uiState.test {
+            assertEquals(uiStateDaysEmpty, awaitItem())
         }
     }
 
     @Test
-    fun `initialising vm with isEdit to true`() = runTest {
+    fun `initialise sets ui state with days countdown model`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownDays.id)
 
-        initSUT()
-
-        sut.inputs.initialise("my-id")
-        sut.outputs.isEdit.test {
-            assertEquals(true, awaitItem())
+        underTest.uiState.test {
+            assertEquals(uiStateDays, awaitItem())
         }
     }
 
     @Test
-    fun `input name registers name update`() = runTest {
+    fun `initialise sets ui state with number countdown model`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownNumber.id)
 
-        val expectedInput= "test"
-
-        initSUT()
-
-        sut.inputs.name(expectedInput)
-
-        sut.outputs.name.test {
-            assertEquals(expectedInput, awaitItem())
+        underTest.uiState.test {
+            assertEquals(uiStateNumber, awaitItem())
         }
     }
 
     @Test
-    fun `input description registers description update`() = runTest {
+    fun `set title updates title`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownDays.id)
 
-        val expectedInput= "desc"
-
-        initSUT()
-
-        sut.inputs.description(expectedInput)
-        sut.outputs.description.test {
-            assertEquals(expectedInput, awaitItem())
+        underTest.setTitle("input")
+        underTest.uiState.test {
+            assertEquals("input", awaitItem().title)
         }
     }
 
     @Test
-    fun `input colours registers colours update`() = runTest {
+    fun `set description updates description`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownDays.id)
 
-        val expectedInput= "#123123"
-
-        initSUT()
-
-        sut.inputs.color(expectedInput)
-        sut.outputs.color.test {
-            assertEquals(expectedInput, awaitItem())
+        underTest.setDescription("input")
+        underTest.uiState.test {
+            assertEquals("input", awaitItem().description)
         }
     }
 
     @Test
-    fun `input type registers type update`() = runTest {
+    fun `set color updates color`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownDays.id)
 
-        val expectedInput = CountdownType.GRAMS
-
-        initSUT()
-
-        sut.inputs.type(expectedInput)
-
-        sut.outputs.type.test {
-            assertEquals(expectedInput, awaitItem())
+        underTest.setColor("input")
+        underTest.uiState.test {
+            assertEquals("input", awaitItem().colorHex)
         }
     }
 
     @Test
-    fun `input type as days registers type update and shows range event`() = runTest {
+    fun `set type from day to day keeps data`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownDays.id)
 
-        val expectedInput = CountdownType.DAYS
-        val expectedTypeList = CountdownType
-            .values()
-            .map {
-                Selected(it, it == CountdownType.DAYS)
-            }
+        underTest.uiState.test {
+            assertEquals(uiStateDays.inputTypes, awaitItem().inputTypes)
 
-        initSUT()
+            underTest.setType(CountdownType.DAYS)
+            underTest.setTitle("makeModelDifferent")
 
-        sut.inputs.type(expectedInput)
-
-        sut.outputs.type.test {
-            assertEquals(expectedInput, awaitItem())
+            assertEquals(uiStateDays.inputTypes, awaitItem().inputTypes)
         }
     }
 
     @Test
-    fun `input start dates registers dates event`() = runTest {
+    fun `set type from number to money keeps data`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownNumber.id)
 
-        val expectedStart = LocalDateTime.now()
+        underTest.uiState.test {
+            assertEquals(uiStateNumber.inputTypes, awaitItem().inputTypes)
 
-        initSUT()
+            underTest.setType(CountdownType.MONEY_EUR)
 
-        sut.inputs.startDate(expectedStart)
-
-        sut.outputs.startDate.test {
-            assertEquals(expectedStart, awaitItem())
+            assertEquals(uiStateNumber.inputTypes, awaitItem().inputTypes)
         }
     }
 
     @Test
-    fun `input end dates registers dates event`() = runTest {
+    fun `set type from number to day wipes data`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownNumber.id)
 
-        val expectedEnd = LocalDateTime.now()
+        underTest.uiState.test {
+            assertEquals(uiStateNumber.inputTypes, awaitItem().inputTypes)
 
-        initSUT()
+            underTest.setType(CountdownType.DAYS)
 
-        sut.inputs.endDate(expectedEnd)
-
-        sut.outputs.endDate.test {
-            assertEquals(expectedEnd, awaitItem())
+            assertEquals(uiStateDaysEmpty.inputTypes, awaitItem().inputTypes)
         }
     }
 
     @Test
-    fun `input initial registers initial event`() = runTest {
+    fun `set type from day to number wipes data`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownDays.id)
 
-        val expectedInput = "0"
+        underTest.uiState.test {
+            assertEquals(uiStateDays.inputTypes, awaitItem().inputTypes)
 
-        initSUT()
+            underTest.setType(CountdownType.NUMBER)
 
-        sut.inputs.initial(expectedInput)
-
-        sut.outputs.initial.test {
-            assertEquals(expectedInput, awaitItem())
+            assertEquals(uiStateNumberEmpty.inputTypes, awaitItem().inputTypes)
         }
     }
 
     @Test
-    fun `input final registers final event`() = runTest {
+    fun `set start date updates start date`() = runTest {
+        val date = LocalDateTime.now()
+        initUnderTest()
+        underTest.initialise(countdownNumber.id)
 
-        val expectedInput = "0"
-
-        initSUT()
-
-        sut.inputs.finish(expectedInput)
-
-        sut.outputs.finished.test {
-            assertEquals(expectedInput, awaitItem())
+        underTest.setStartDate(date)
+        underTest.uiState.test {
+            assertEquals(date, (awaitItem().inputTypes as UiState.Types.Values).startDate)
         }
     }
 
     @Test
-    fun `input interpolator registers interpolator event`() = runTest {
+    fun `set end date updates end date`() = runTest {
+        val date = LocalDateTime.now()
+        initUnderTest()
+        underTest.initialise(countdownNumber.id)
 
-        val expectedInput = CountdownInterpolator.ACCELERATE_DECELERATE
-        val expectedInterpolatorList = CountdownInterpolator
-            .values()
-            .map {
-                Selected(it, it == CountdownInterpolator.ACCELERATE_DECELERATE)
-            }
-
-        initSUT()
-
-        sut.inputs.interpolator(expectedInput)
-
-        sut.outputs.interpolator.test {
-            assertEquals(expectedInput, awaitItem())
-        }
-    }
-
-    @ParameterizedTest(name = "Valid inputs {9} - name={0}, desc={1}, colour={2}, type={3}, dates={4}-{5}, values={6}-{7}, interpolator={8}")
-    @CsvSource(
-        // Valid
-        "name,desc,#123123,DAYS,01/01/2020,02/02/2020,0,1,linear,true",
-        // Invalid (missing name)
-        ",desc,#123123,DAYS,03/01/2020,02/02/2020,0,1,linear,false",
-        // Valid (missing desc)
-        "name,,#123123,DAYS,03/01/2020,02/02/2020,0,1,linear,true",
-        // Invalid (missing color)
-        "name,desc,,DAYS,03/01/2020,02/02/2020,0,1,linear,false",
-        // Invalid (dates equal)
-        "name,desc,#123123,DAYS,02/02/2020,02/02/2020,0,1,linear,false",
-        // Valid (start date one day before end date)
-        "name,desc,#123123,DAYS,01/02/2020,02/02/2020,0,1,linear,true",
-        // Invalid (start date after end date)
-        "name,desc,#123123,DAYS,03/02/2020,02/02/2020,0,1,linear,false",
-        // Invalid (missing start value)
-        "name,desc,#123123,DAYS,03/02/2020,02/02/2020,,1,linear,false",
-        // Invalid (missing end value)
-        "name,desc,#123123,DAYS,03/02/2020,02/02/2020,0,,linear,false",
-        // Invalid (values are the same, so nothing to map between)
-        "name,desc,#123123,DAYS,03/02/2020,02/02/2020,0,0,linear,false",
-        // Valid
-        "name,desc,#123123,DAYS,01/01/2020,02/02/2020,0,1,linear,true"
-    )
-    fun `testing isValid is represented properly`(name: String?, desc: String?, color: String?, type: String, start: String?, end: String?, initial: String?, final: String?, interpolator: String, expectedIsValidValue: Boolean) = runTest {
-
-        initSUT()
-
-        sut.inputs.name(name ?: "")
-        sut.inputs.description(desc ?: "")
-        sut.inputs.color(color ?: "")
-        start?.localDateTime?.let { sut.inputs.startDate(it) }
-        end?.localDateTime?.let { sut.inputs.endDate(it) }
-        sut.inputs.type(getType(type))
-        sut.inputs.initial(initial ?: "")
-        sut.inputs.finish(final ?: "")
-        sut.inputs.interpolator(getInterpolator(interpolator))
-
-        sut.outputs.saveEnabled.test {
-            assertEquals(expectedIsValidValue, awaitItem())
+        underTest.setEndDate(date)
+        underTest.uiState.test {
+            assertEquals(date, (awaitItem().inputTypes as UiState.Types.Values).endDate)
         }
     }
 
     @Test
-    fun `clicking saves countdown item in countdown connector`() = runTest {
+    fun `set start value updates start value`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownNumber.id)
 
-        initSUT()
-        setupValidInputs(type = CountdownType.DAYS, addDates = true, addInputs = false)
+        underTest.setStartValue("1")
+        underTest.uiState.test {
+            assertEquals("1", (awaitItem().inputTypes as UiState.Types.Values).startValue)
+        }
+    }
 
-        sut.inputs.saveClicked()
+    @Test
+    fun `set end value updates end value`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownNumber.id)
 
+        underTest.setEndValue("1")
+        underTest.uiState.test {
+            assertEquals("1", (awaitItem().inputTypes as UiState.Types.Values).endValue)
+        }
+    }
+
+    @Test
+    fun `save will save data if valid`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownDays.id)
+
+        underTest.save()
+        verify {
+            mockCountdownConnector.saveSync(countdownDays)
+        }
+    }
+
+    @Test
+    fun `save when data is not valid will log exception`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownDays.id)
+
+        underTest.setTitle("")
+
+        underTest.save()
+        verify(exactly = 0) {
+            mockCountdownConnector.saveSync(countdownDays)
+        }
+        verify {
+            mockCrashReporter.logException(any())
+        }
+    }
+
+    @Test
+    fun `save with no id will generate new one`() = runTest {
+        initUnderTest()
+        underTest.initialise(null)
+
+        underTest.setTitle("Test")
+        underTest.setEndDate(tomorrow)
+
+        underTest.save()
         verify {
             mockCountdownConnector.saveSync(any())
         }
     }
 
     @Test
-    fun `trying to save when dates are not added submits a crash report to the logger`() = runTest {
+    fun `delete on existing countdown deletes item`() = runTest {
+        initUnderTest()
+        underTest.initialise(countdownDays.id)
 
-        initSUT()
-        setupValidInputs(type = CountdownType.DAYS, addDates = false, addInputs = false)
-
-        sut.inputs.saveClicked()
-
+        underTest.delete()
         verify {
-            mockCrashReporter.logException(any())
+            mockCountdownConnector.delete(countdownDays.id)
         }
     }
-
-    @Test
-    fun `connector save sync method throws a null pointer exception then isValid is reset and exception is silently logged`() = runTest {
-
-        every { mockCountdownConnector.saveSync(any()) } throws NullPointerException()
-
-        initSUT()
-        setupValidInputs(type = CountdownType.DAYS, addDates = true, addInputs = true)
-
-        sut.inputs.saveClicked()
-
-        sut.outputs.saveEnabled.test {
-            assertEquals(true, awaitItem())
-        }
-        verify {
-            mockCrashReporter.logException(any())
-        }
-    }
-
-
-    private fun setupValidInputs(addDates: Boolean = true, type: CountdownType = CountdownType.NUMBER, diffDays: Int = 10, addInputs: Boolean = true) {
-        sut.inputs.name("name")
-        sut.inputs.description("desc")
-        sut.inputs.color("#123123")
-        if (addDates) {
-            sut.inputs.startDate(LocalDateTime.of(2020, 1, 2, 12, 0))
-            sut.inputs.endDate(LocalDateTime.of(2020, 1, 2, 12, 0).plusDays(diffDays.toLong()))
-        }
-        sut.inputs.type(type)
-        if (addInputs) {
-            sut.inputs.initial("0")
-            sut.inputs.finish("1")
-        }
-        sut.inputs.interpolator(CountdownInterpolator.LINEAR)
-    }
-
-    private val String.localDateTime: LocalDateTime
-        get() = LocalDate.parse(this, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay()
-    private fun getType(type: String): CountdownType = CountdownType.values().first { it.key == type }
-    private fun getInterpolator(interpolator: String): CountdownInterpolator = CountdownInterpolator.values().first { it.key == interpolator }
-
 }

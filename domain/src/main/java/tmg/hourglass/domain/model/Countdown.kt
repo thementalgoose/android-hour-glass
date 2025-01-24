@@ -3,7 +3,7 @@ package tmg.hourglass.domain.model
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
-import kotlin.math.floor
+import kotlin.math.ceil
 
 data class Countdown(
     val id: String,
@@ -13,8 +13,8 @@ data class Countdown(
 
     val start: LocalDateTime,
     val end: LocalDateTime,
-    val initial: String,
-    val finishing: String,
+    val startValue: String,
+    val endValue: String,
 
     val countdownType: CountdownType,
     val interpolator: CountdownInterpolator,
@@ -24,23 +24,17 @@ data class Countdown(
     val isFinished: Boolean
         get() = end <= LocalDateTime.now()
 
-    val startByType: LocalDateTime
-        get() = when (countdownType) {
-            CountdownType.DAYS -> start.toLocalDate().atTime(23, 59, 59)
-            else -> start
-        }
+    val startAtStartOfDay: LocalDateTime
+        get() = start.toLocalDate().atTime(0, 0, 0, 0)
 
-    val endByType: LocalDateTime
-        get() = when (countdownType) {
-            CountdownType.DAYS -> end.toLocalDate().atTime(23, 59, 59)
-            else -> end
-        }
+    val endAtStartOfDay: LocalDateTime
+        get() = end.toLocalDate().atTime(0, 0, 0)
 
     fun getProgress(progress: Float): String {
-        val start: Int = initial.toIntOrNull() ?: 0
-        val end: Int = finishing.toIntOrNull() ?: 100
+        val start: Int = startValue.toIntOrNull() ?: 0
+        val end: Int = endValue.toIntOrNull() ?: 100
 
-        return countdownType.converter(floor((start + (progress * (end - start)))).toInt().toString())
+        return countdownType.converter(ceil((start + (progress * (end - start)))).toInt().toString())
     }
 
     companion object
@@ -54,12 +48,10 @@ fun Countdown.Companion.preview(
         name = "Countdown Item",
         description = "Generic Lorum Ipsum content here",
         colour = color,
-        start = LocalDateTime
-            .of(2022, 1, 23, 0, 0),
-        end = LocalDateTime
-            .of(2022, 2, 12, 0, 0),
-        initial = "0",
-        finishing = "1000",
+        start = LocalDateTime.now().minusDays(1L),
+        end = LocalDateTime.now().plusDays(2L),
+        startValue = "0",
+        endValue = "1000",
         countdownType = CountdownType.DAYS,
         interpolator = CountdownInterpolator.LINEAR,
         notifications = emptyList()

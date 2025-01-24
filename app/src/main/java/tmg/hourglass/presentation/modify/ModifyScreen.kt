@@ -12,17 +12,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import org.threeten.bp.LocalDateTime
-import tmg.hourglass.strings.R.string
-import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.presentation.modify.layout.DatesLayout
+import tmg.hourglass.presentation.layouts.TitleBar
+import tmg.hourglass.presentation.modify.layout.DataRangeDateLayout
+import tmg.hourglass.presentation.modify.layout.DataRangeInputLayout
 import tmg.hourglass.presentation.modify.layout.PersonaliseLayout
-import tmg.hourglass.presentation.modify.layout.RangeLayout
+import tmg.hourglass.presentation.modify.layout.DataSingleDateLayout
 import tmg.hourglass.presentation.modify.layout.SaveLayout
 import tmg.hourglass.presentation.modify.layout.TypeLayout
-import tmg.hourglass.presentation.layouts.TitleBar
-
+import tmg.hourglass.strings.R
 
 @Composable
 fun ModifyScreen(
@@ -33,71 +31,11 @@ fun ModifyScreen(
 ) {
     DisposableEffect(countdown) {
         Log.d("Modify", "Initialising VM with value ${countdown?.id}")
-        viewModel.inputs.initialise(countdown?.id)
+        viewModel.initialise(countdown?.id)
         return@DisposableEffect onDispose { }
     }
 
-    val name = viewModel.outputs.name.collectAsState()
-    val description = viewModel.outputs.description.collectAsState()
-    val colour = viewModel.outputs.color.collectAsState()
-    val type = viewModel.outputs.type.collectAsState()
-    val initial = viewModel.outputs.initial.collectAsState()
-    val finished = viewModel.outputs.finished.collectAsState()
-    val startDate = viewModel.outputs.startDate.collectAsState()
-    val endDate = viewModel.outputs.endDate.collectAsState()
-    val save = viewModel.outputs.saveEnabled.collectAsState()
-
-    ModifyScreen(
-        windowSizeClass = windowSizeClass,
-        actionUpClicked = actionUpClicked,
-        countdown = countdown,
-        name = name.value,
-        nameUpdated = viewModel.inputs::name,
-        description = description.value,
-        descriptionUpdated = viewModel.inputs::description,
-        colour = colour.value,
-        colourUpdated = viewModel.inputs::color,
-        type = type.value,
-        typeUpdated = viewModel.inputs::type,
-        initial = initial.value,
-        initialUpdated = viewModel.inputs::initial,
-        finished = finished.value,
-        finishedUpdated = viewModel.inputs::finish,
-        start = startDate.value,
-        startUpdated = viewModel.inputs::startDate,
-        end = endDate.value,
-        endUpdated = viewModel.inputs::endDate,
-        saveEnabled = save.value,
-        saveClicked = viewModel.inputs::saveClicked,
-        deleteClicked = viewModel.inputs::deleteClicked
-    )
-}
-
-@Composable
-fun ModifyScreen(
-    windowSizeClass: WindowSizeClass,
-    actionUpClicked: () -> Unit,
-    countdown: Countdown?,
-    name: String,
-    nameUpdated: (String) -> Unit,
-    description: String,
-    descriptionUpdated: (String) -> Unit,
-    colour: String,
-    colourUpdated: (String) -> Unit,
-    type: CountdownType?,
-    typeUpdated: (CountdownType) -> Unit,
-    initial: String,
-    initialUpdated: (String) -> Unit,
-    finished: String,
-    finishedUpdated: (String) -> Unit,
-    start: LocalDateTime?,
-    startUpdated: (LocalDateTime) -> Unit,
-    end: LocalDateTime?,
-    endUpdated: (LocalDateTime) -> Unit,
-    saveEnabled: Boolean,
-    saveClicked: () -> Unit,
-    deleteClicked: () -> Unit
-) {
+    val uiState = viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -105,42 +43,58 @@ fun ModifyScreen(
             .verticalScroll(scrollState),
     ) {
         TitleBar(
-            title = stringResource(id = if (countdown != null) string.modify_header_edit else string.modify_header_add),
-            backClicked = actionUpClicked,
+            title = stringResource(id = if (countdown != null) R.string.modify_header_edit else R.string.modify_header_add),
+            showBack = true,
+            actionUpClicked = actionUpClicked
         )
+
         PersonaliseLayout(
-            name = name,
-            nameUpdated = nameUpdated,
-            description = description,
-            descriptionUpdated = descriptionUpdated,
-            color = colour,
-            colorPicked = colourUpdated
+            name = uiState.value.title,
+            nameUpdated = viewModel::setTitle,
+            description = uiState.value.description,
+            descriptionUpdated = viewModel::setDescription,
+            color = uiState.value.colorHex,
+            colorPicked = viewModel::setColor
         )
+
         TypeLayout(
-            type = type ?: CountdownType.NUMBER,
-            typeUpdated = typeUpdated
+            type = uiState.value.type,
+            typeUpdated = viewModel::setType
         )
-        RangeLayout(
-            initial = initial,
-            initialUpdated = initialUpdated,
-            finished = finished,
-            finishedUpdated = finishedUpdated
-        )
-        DatesLayout(
-            startDate = start,
-            startDateUpdated = startUpdated,
-            endDate = end,
-            endDateUpdated = endUpdated
-        )
+
+        when (val inputData = uiState.value.inputTypes) {
+            is UiState.Types.EndDate -> {
+                DataSingleDateLayout(
+                    date = inputData.finishDate,
+                    dateUpdated = viewModel::setEndDate
+                )
+            }
+            is UiState.Types.Values -> {
+                DataRangeDateLayout(
+                    startDate = inputData.startDate,
+                    startDateUpdated = viewModel::setStartDate,
+                    endDate = inputData.endDate,
+                    endDateUpdated = viewModel::setEndDate
+                )
+
+                DataRangeInputLayout(
+                    initial = inputData.startValue,
+                    initialUpdated = viewModel::setStartValue,
+                    finishing = inputData.endValue,
+                    finishingUpdated = viewModel::setEndValue
+                )
+            }
+        }
+
         SaveLayout(
             isEdit = countdown != null,
-            saveEnabled = saveEnabled,
+            saveEnabled = uiState.value.saveEnabled,
             saveClicked = {
-                saveClicked()
+                viewModel.save()
                 actionUpClicked()
             },
             deleteClicked = {
-                deleteClicked()
+                viewModel.delete()
                 actionUpClicked()
             }
         )

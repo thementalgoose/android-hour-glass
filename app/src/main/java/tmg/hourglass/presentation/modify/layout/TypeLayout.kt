@@ -1,11 +1,9 @@
 package tmg.hourglass.presentation.modify.layout
 
 import androidx.compose.foundation.*
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +18,7 @@ import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.extensions.label
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
+import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextHeader2
 
@@ -34,12 +33,7 @@ fun TypeLayout(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(
-                start = AppTheme.dimensions.paddingMedium,
-                end = AppTheme.dimensions.paddingMedium,
-                top = AppTheme.dimensions.paddingMedium,
-                bottom = AppTheme.dimensions.paddingMedium
-            )
+            .padding(AppTheme.dimensions.paddingMedium)
     ) {
         TextHeader2(text = stringResource(id = string.modify_field_type))
         Spacer(modifier = Modifier.height(8.dp))
@@ -56,12 +50,7 @@ fun TypeLayout(
                         openDialog.value = true
                     },
                 )
-                .padding(
-                    start = AppTheme.dimensions.paddingMedium,
-                    end = AppTheme.dimensions.paddingMedium,
-                    top = AppTheme.dimensions.paddingMedium,
-                    bottom = AppTheme.dimensions.paddingMedium
-                )
+                .padding(AppTheme.dimensions.paddingMedium)
         ) {
             TextBody1(
                 text = stringResource(id = type.label()),
@@ -136,7 +125,7 @@ private fun TypeDialog(
     )
 }
 
-@Preview
+@PreviewTheme
 @Composable
 private fun Preview() {
     AppThemePreview {

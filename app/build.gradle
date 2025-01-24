@@ -13,8 +13,6 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.github.triplet.play'
 
-apply from: rootDir.absolutePath + "/gradle/script-releasenotes.gradle"
-
 android {
     compileSdk project.ext.compileSdkVersion
 
@@ -107,13 +105,6 @@ play {
     serviceAccountCredentials = file(System.getenv("PRIVATE_KEY") ?: "hour-glass.json")
     defaultToAppBundles = true
     resolutionStrategy = ResolutionStrategy.IGNORE
-}
-
-// Adds generate tasks to assemble
-tasks.configureEach { task ->
-    if (task.name.contains("assemble")) {
-        task.dependsOn generateReleaseNotes
-    }
 }
 
 dependencies {

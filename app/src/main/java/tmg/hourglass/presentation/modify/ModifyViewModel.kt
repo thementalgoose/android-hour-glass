@@ -1,260 +1,251 @@
 package tmg.hourglass.presentation.modify
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.core.googleanalytics.CrashReporter
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.enums.CountdownColors
-import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
-import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.domain.model.CountdownNotifications
+import tmg.hourglass.presentation.modify.ModifyMapper.toCountdown
+import tmg.hourglass.presentation.modify.ModifyMapper.toUiState
+import tmg.hourglass.presentation.modify.UiState.Direction.CountDown
+import tmg.hourglass.presentation.modify.UiState.Direction.CountUp
+import tmg.hourglass.presentation.modify.UiState.Direction.Custom
 import java.util.UUID
 import javax.inject.Inject
-
-//region Inputs
-
-interface ModifyViewModelInputs {
-
-    fun initialise(id: String? = null)
-
-    fun name(text: String)
-    fun description(text: String)
-    fun color(text: String)
-    fun type(value: CountdownType)
-    fun initial(value: String)
-    fun finish(value: String)
-    fun interpolator(countdownInterpolator: CountdownInterpolator)
-    fun startDate(date: LocalDateTime)
-    fun endDate(date: LocalDateTime)
-
-    fun saveClicked()
-    fun deleteClicked()
-}
-
-//endregion
-
-//region Outputs
-
-interface ModifyViewModelOutputs {
-
-    val isEdit: StateFlow<Boolean>
-
-    val name: StateFlow<String>
-    val description: StateFlow<String>
-    val color: StateFlow<String>
-
-    val type: StateFlow<CountdownType>
-
-    val initial: StateFlow<String>
-    val finished: StateFlow<String>
-
-    val interpolator: StateFlow<CountdownInterpolator>
-
-    val startDate: StateFlow<LocalDateTime?>
-    val endDate: StateFlow<LocalDateTime?>
-
-    val saveEnabled: StateFlow<Boolean>
-}
-
-//endregion
 
 @HiltViewModel
 class ModifyViewModel @Inject constructor(
     private val countdownConnector: CountdownConnector,
     private val crashReporter: CrashReporter
-): ViewModel(), ModifyViewModelInputs, ModifyViewModelOutputs {
+): ViewModel() {
+    private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(getUiState())
+    val uiState: StateFlow<UiState> = _uiState
 
-    val inputs: ModifyViewModelInputs = this
-    val outputs: ModifyViewModelOutputs = this
+    private var id: String? = null
 
-    private val id: MutableStateFlow<String?> = MutableStateFlow(null)
+    private fun getUiState(): UiState = UiState(
+        title = "",
+        description = "",
+        colorHex = CountdownColors.COLOUR_1.hex,
+        type = CountdownType.DAYS,
+        inputTypes = UiState.Types.EndDate(
+            finishDate = null
+        )
+    )
 
-    override val isEdit: StateFlow<Boolean> = id
-        .map { it != null}
-        .stateIn(viewModelScope, SharingStarted.Lazily, false)
+    fun initialise(id: String?) {
+        if (id == null) {
+            this.id = null
+            _uiState.value = getUiState()
+        } else {
+            countdownConnector.getSync(id)?.let {
+                this.id = id
+                _uiState.value = it.toUiState()
+            }
+        }
+    }
 
-    override val name: MutableStateFlow<String> = MutableStateFlow("")
-    override val description: MutableStateFlow<String> = MutableStateFlow("")
-    override val color: MutableStateFlow<String> = MutableStateFlow(CountdownColors.COLOUR_1.hex)
-    override val type: MutableStateFlow<CountdownType> = MutableStateFlow(CountdownType.NUMBER)
-    override val initial: MutableStateFlow<String> = MutableStateFlow("")
-    override val finished: MutableStateFlow<String> = MutableStateFlow("")
-    override val interpolator: MutableStateFlow<CountdownInterpolator> = MutableStateFlow(CountdownInterpolator.LINEAR)
-    override val startDate: MutableStateFlow<LocalDateTime?> = MutableStateFlow(null)
-    override val endDate: MutableStateFlow<LocalDateTime?> = MutableStateFlow(null)
-
-    private val model: Flow<Countdown?> = combine(
-        name,
-        description,
-        color,
-        type,
-        initial,
-        finished,
-        interpolator,
-        startDate,
-        endDate
-    ) {
-        val _name: String = (it[0] as? String) ?: ""
-        val _description: String = (it[1] as? String) ?: ""
-        val _color: String = (it[2] as? String) ?: ""
-        val _type: CountdownType = (it[3] as? CountdownType) ?: CountdownType.NUMBER
-        val _initial: String = (it[4] as? String) ?: ""
-        val _finished: String = (it[5] as? String) ?: ""
-        val _interpolator: CountdownInterpolator = (it[6] as? CountdownInterpolator) ?: CountdownInterpolator.LINEAR
-        val _startDate: LocalDateTime? = it[7] as? LocalDateTime
-        val _endDate: LocalDateTime? = it[8] as? LocalDateTime
-
-        if (_name.isBlank()) {
-            return@combine null
-        }
-        if (_color.isBlank()) {
-            return@combine null
-        }
-        if (_initial.isBlank()) {
-            return@combine null
-        }
-        if (_initial.toIntOrNull() == null || _initial.toFloatOrNull() == null) {
-            return@combine null
-        }
-        if (_finished.isBlank()) {
-            return@combine null
-        }
-        if (_finished.toIntOrNull() == null || _finished.toFloatOrNull() == null) {
-            return@combine null
-        }
-        if (_startDate == null) {
-            return@combine null
-        }
-        if (_endDate == null) {
-            return@combine null
-        }
-        if (_startDate == _endDate) {
-            return@combine null
-        }
-        if (_endDate < _startDate) {
-            return@combine null
-        }
-
-        return@combine Countdown(
-            id = "",
-            name = _name,
-            description = _description,
-            colour = _color,
-            countdownType = _type,
-            initial = _initial,
-            finishing = _finished,
-            start = _startDate,
-            end = _endDate,
-            interpolator = _interpolator,
-            notifications = emptyList()
+    fun setTitle(title: String) {
+        _uiState.value = _uiState.value.copy(
+            title = title
         )
     }
-
-    override val saveEnabled: StateFlow<Boolean> = model
-        .map { it != null }
-        .stateIn(viewModelScope, SharingStarted.Lazily, false)
-
-    override fun initialise(id: String?) {
-        this.id.value = id
-        if (id != null) {
-            val model = countdownConnector.getSync(id)
-            name.value = model?.name ?: ""
-            description.value = model?.description ?: ""
-            color.value = model?.colour ?: CountdownColors.COLOUR_1.hex
-
-            type.value = model?.countdownType ?: CountdownType.NUMBER
-
-            initial.value = model?.initial ?: ""
-            finished.value = model?.finishing ?: ""
-
-            startDate.value = model?.start
-            endDate.value = model?.end
-        } else {
-            name.value = ""
-            description.value = ""
-            color.value = CountdownColors.COLOUR_1.hex
-
-            type.value = CountdownType.NUMBER
-
-            initial.value = ""
-            finished.value = ""
-
-            startDate.value = null
-            endDate.value = null
+    fun setDescription(description: String) {
+        _uiState.value = _uiState.value.copy(
+            description = description
+        )
+    }
+    fun setColor(colorHex: String) {
+        _uiState.value = _uiState.value.copy(
+            colorHex = colorHex
+        )
+    }
+    fun setType(type: CountdownType) {
+        val existingType = uiState.value.inputTypes
+        val newType = when (type) {
+            CountdownType.DAYS -> {
+                UiState.Types.EndDate(finishDate = null)
+            }
+            else -> {
+                UiState.Types.Values(
+                    valueDirection = CountDown,
+                    startDate = null,
+                    startValue = "",
+                    endDate = null,
+                    endValue = "",
+                )
+            }
+        }
+        _uiState.value = _uiState.value.copy(
+            type = type,
+            inputTypes = when (newType::class == existingType::class) {
+                true -> existingType
+                false -> newType
+            }
+        )
+    }
+    fun setStartDate(date: LocalDateTime) {
+        val existingType = _uiState.value.inputTypes
+        if (existingType is UiState.Types.Values) {
+            _uiState.value = _uiState.value.copy(
+                inputTypes = existingType.copy(
+                    startDate = date,
+                    endDate = null
+                )
+            )
+        }
+    }
+    fun setEndDate(date: LocalDateTime) {
+        when (val existingType = _uiState.value.inputTypes) {
+            is UiState.Types.Values -> {
+                _uiState.value = _uiState.value.copy(
+                    inputTypes = existingType.copy(
+                        endDate = date
+                    )
+                )
+            }
+            is UiState.Types.EndDate -> {
+                _uiState.value = _uiState.value.copy(
+                    inputTypes = existingType.copy(
+                        finishDate = date
+                    )
+                )
+            }
+        }
+    }
+    fun setValueDirection(direction: UiState.Direction) {
+        val existingType = _uiState.value.inputTypes
+        if (existingType is UiState.Types.Values) {
+            _uiState.value = _uiState.value.copy(
+                inputTypes = existingType.copy(
+                    valueDirection = direction,
+                    startValue = existingType.startValue.takeIf { direction == CountUp || direction == Custom } ?: "",
+                    endValue = existingType.endValue.takeIf { direction == CountUp || direction == Custom } ?: ""
+                )
+            )
+        }
+    }
+    fun setStartValue(value: String) {
+        val existingType = _uiState.value.inputTypes
+        if (existingType is UiState.Types.Values) {
+            _uiState.value = _uiState.value.copy(
+                inputTypes = existingType.copy(
+                    startValue = value
+                )
+            )
+        }
+    }
+    fun setEndValue(value: String) {
+        val existingType = _uiState.value.inputTypes
+        if (existingType is UiState.Types.Values) {
+            _uiState.value = _uiState.value.copy(
+                inputTypes = existingType.copy(
+                    endValue = value
+                )
+            )
         }
     }
 
-    override fun name(text: String) {
-        name.value = text
-    }
-
-    override fun description(text: String) {
-        description.value = text
-    }
-
-    override fun color(text: String) {
-        color.value = text
-    }
-
-    override fun type(value: CountdownType) {
-        type.value = value
-    }
-
-    override fun initial(value: String) {
-        initial.value = value
-    }
-
-    override fun finish(value: String) {
-        finished.value = value
-    }
-
-    override fun interpolator(countdownInterpolator: CountdownInterpolator) {
-        interpolator.value = countdownInterpolator
-    }
-
-    override fun startDate(date: LocalDateTime) {
-        startDate.value = date
-        endDate.value = null
-    }
-
-    override fun endDate(date: LocalDateTime) {
-        endDate.value = date
-    }
-
-    override fun saveClicked() {
+    fun save() {
         try {
-            val countdown = Countdown(
-                id = id.value ?: UUID.randomUUID().toString(),
-                name = name.value,
-                description = description.value,
-                colour = color.value,
-                start = startDate.value!!,
-                end = endDate.value!!,
-                initial = initial.value,
-                finishing = finished.value,
-                countdownType = type.value,
-                interpolator = interpolator.value,
-                notifications = emptyList()
-            )
+            val uiState = _uiState.value
+
+            if (!uiState.saveEnabled) {
+                crashReporter.logException(IllegalStateException("Save clicked while data is considered invalid. Model = $uiState"))
+                return
+            }
+
+            val countdown = uiState.toCountdown(id ?: UUID.randomUUID().toString())
             countdownConnector.saveSync(countdown)
         } catch (e: NullPointerException) {
             crashReporter.logException(e)
         }
     }
 
-    override fun deleteClicked() {
-        id.value?.let {
+    fun delete() {
+        id?.let {
             countdownConnector.delete(it)
         }
     }
+}
+
+data class UiState(
+    val title: String,
+    val description: String,
+    val colorHex: String,
+    val type: CountdownType,
+    val inputTypes: Types
+) {
+    sealed class Types {
+        data class EndDate(
+            val finishDate: LocalDateTime?
+        ): Types()
+        data class Values(
+            val valueDirection: Direction,
+            val startDate: LocalDateTime?,
+            val endDate: LocalDateTime?,
+            val startValue: String,
+            val endValue: String,
+        ): Types()
+    }
+
+    enum class Direction {
+        CountUp,
+        CountDown,
+        Custom
+    }
+
+    private fun isDataValid(): Boolean {
+        if (title.isBlank()) {
+            return false
+        }
+        if (colorHex.isBlank()) {
+            return false
+        }
+        when (inputTypes) {
+            is Types.EndDate -> {
+                if (inputTypes.finishDate == null) {
+                    return false
+                }
+                if (inputTypes.finishDate.toLocalDate() < LocalDate.now()) {
+                    return false
+                }
+                return true
+            }
+            is Types.Values -> {
+                val hasInitialData = inputTypes.startValue.isNotBlank() && inputTypes.startValue != "0"
+                val hasFinishingData = inputTypes.endValue.isNotBlank() && inputTypes.endValue != "0"
+
+                if (!hasInitialData && !hasFinishingData) {
+                    return false
+                }
+                if (inputTypes.startValue == inputTypes.endValue) {
+                    return false
+                }
+
+                val hasStartDate = inputTypes.startDate != null
+                val hasEndDate = inputTypes.endDate != null
+                if (!hasStartDate && !hasEndDate) {
+                    return false
+                }
+                if (hasStartDate && inputTypes.startDate!!.toLocalDate() > LocalDate.now()) {
+                    return false
+                }
+                if (hasEndDate && inputTypes.endDate!!.toLocalDate() < LocalDate.now()) {
+                    return false
+                }
+                if (hasStartDate && hasEndDate && inputTypes.endDate!! <= inputTypes.startDate!!) {
+                    return false
+                }
+                return true
+            }
+        }
+    }
+
+    val saveEnabled: Boolean by lazy { isDataValid() }
 }
