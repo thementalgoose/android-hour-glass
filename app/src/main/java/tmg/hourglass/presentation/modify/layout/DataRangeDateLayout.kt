@@ -97,7 +97,6 @@ private fun ColumnScope.DateSelection(
                 .weight(1f)
                 .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
                 .background(AppTheme.colors.backgroundSecondary)
-                .alpha(if (date == null) 0.6f else 1f)
                 .clickable(
                     onClick = {
                         showDialog.value = true
