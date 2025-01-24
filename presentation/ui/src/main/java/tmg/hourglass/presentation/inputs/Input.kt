@@ -2,29 +2,29 @@ package tmg.hourglass.presentation.inputs
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.textviews.TextBody1
-import tmg.hourglass.presentation.textviews.TextBody2
 
 @Composable
 fun Input(
@@ -68,6 +68,7 @@ fun Input(
                 focusedContainerColor = AppTheme.colors.backgroundSecondary,
                 focusedTextColor = AppTheme.colors.textPrimary,
                 focusedIndicatorColor = Color.Transparent,
+                disabledContainerColor = AppTheme.colors.backgroundSecondary,
                 disabledTextColor = AppTheme.colors.textSecondary,
                 disabledIndicatorColor = Color.Transparent,
                 disabledLabelColor = AppTheme.colors.backgroundSecondary,
