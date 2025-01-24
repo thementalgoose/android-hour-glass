@@ -1,12 +1,11 @@
 package tmg.hourglass.presentation
 
-import androidx.navigation.NavDestination
 import app.cash.turbine.test
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
@@ -33,14 +32,13 @@ internal class DashboardNavViewModelTest {
         }
 
 
-    @ParameterizedTest
-    @EnumSource(Tab::class)
-    fun `selecting tab dispatches navigation event`(tab: Tab) {
+    @Test
+    fun `selecting tab dispatches navigation event`() {
         initUnderTest()
-        underTest.selectTab(tab)
+        underTest.selectTab(Tab.SETTINGS)
 
         verify {
-            mockNavigationController.navigate(tab.expectedNavigationDestination)
+            mockNavigationController.navigate(Tab.SETTINGS.expectedNavigationDestination)
         }
     }
 

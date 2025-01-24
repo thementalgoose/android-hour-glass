@@ -25,6 +25,9 @@ class DashboardNavViewModel @Inject constructor(
     val uiState: StateFlow<UiState> = _uiState
 
     fun selectTab(tab: Tab) {
+        if (uiState.value.tab == tab) {
+            return
+        }
         navigationController.navigate(when (tab) {
             Tab.DASHBOARD -> Screen.Home
             Tab.SETTINGS -> Screen.Settings
