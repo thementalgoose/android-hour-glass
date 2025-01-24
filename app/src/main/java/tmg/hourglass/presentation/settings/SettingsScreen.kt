@@ -50,7 +50,6 @@ internal fun SettingsScreenVM(
                 },
                 aboutThisAppClicked = goToAboutThisApp,
                 rateClicked = goToMarketPage,
-                suggestionClicked = { },
                 privacyPolicyClicked = {
                     viewModel.clickScreen(SettingsType.PRIVACY_POLICY)
                 },
@@ -164,13 +163,6 @@ private fun SettingsOverviewScreen(
             }
             item(key = "feedback_header") {
                 SettingsHeader(title = string.settings_feedback)
-            }
-            item(key = "feedback_1") {
-                SettingsOption(
-                    title = string.settings_help_suggestions_title,
-                    subtitle = string.settings_help_suggestions_description,
-                    optionClicked = suggestionClicked
-                )
             }
             item(key = "feedback_2") {
                 SettingsSwitch(
