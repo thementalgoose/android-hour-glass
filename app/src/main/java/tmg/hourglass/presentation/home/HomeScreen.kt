@@ -13,10 +13,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -44,7 +40,6 @@ import tmg.hourglass.presentation.home.components.Empty
 import tmg.hourglass.presentation.layouts.MasterDetailsPane
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.ModifyScreen
-import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R.string
 
@@ -260,8 +255,8 @@ private val fakeCountdownExpired = Countdown(
     colour = CountdownColors.COLOUR_1.hex,
     start = LocalDateTime.now(ZoneId.of("UTC")).minusDays(2),
     end = LocalDateTime.now(ZoneId.of("UTC")).minusDays(1),
-    initial = "0",
-    finishing = "10000",
+    startValue = "0",
+    endValue = "10000",
     countdownType = CountdownType.DAYS,
     interpolator = CountdownInterpolator.LINEAR,
     notifications = emptyList()
@@ -273,8 +268,8 @@ private val fakeCountdownUpcoming = Countdown(
     colour = CountdownColors.COLOUR_1.hex,
     start = LocalDateTime.now(ZoneId.of("UTC")).minusDays(1),
     end = LocalDateTime.now(ZoneId.of("UTC")).plusDays(2),
-    initial = "0",
-    finishing = "10000",
+    startValue = "0",
+    endValue = "10000",
     countdownType = CountdownType.DAYS,
     interpolator = CountdownInterpolator.LINEAR,
     notifications = emptyList()

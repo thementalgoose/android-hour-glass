@@ -15,7 +15,7 @@ internal class CountdownTest {
 
         val start = LocalDateTime.of(2020, 1, 1, 1, 1)
         val end = LocalDateTime.of(2020, 1, 2, 1, 1)
-        val countdown = Countdown(id = "", name = "", description = "", colour = "", start = start, end = end, initial = "0", finishing = "1", countdownType = DAYS, interpolator = LINEAR, notifications = emptyList())
+        val countdown = Countdown(id = "", name = "", description = "", colour = "", start = start, end = end, startValue = "0", endValue = "1", countdownType = DAYS, interpolator = LINEAR, notifications = emptyList())
 
         val expectedStart = LocalDateTime.of(2020, 1, 1, 23, 59, 59)
         val expectedEnd = LocalDateTime.of(2020, 1, 2, 23, 59, 59)
@@ -28,7 +28,7 @@ internal class CountdownTest {
 
         val start = LocalDateTime.of(2020, 1, 1, 1, 1)
         val end = LocalDateTime.of(2020, 1, 2, 1, 1)
-        val countdown = Countdown(id = "", name = "", description = "", colour = "", start = start, end = end, initial = "0", finishing = "1", countdownType = NUMBER, interpolator = LINEAR, notifications = emptyList())
+        val countdown = Countdown(id = "", name = "", description = "", colour = "", start = start, end = end, startValue = "0", endValue = "1", countdownType = NUMBER, interpolator = LINEAR, notifications = emptyList())
 
         assertEquals(start, countdown.startByType)
         assertEquals(end, countdown.endByType)

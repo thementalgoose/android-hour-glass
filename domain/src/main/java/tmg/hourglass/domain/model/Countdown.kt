@@ -13,8 +13,8 @@ data class Countdown(
 
     val start: LocalDateTime,
     val end: LocalDateTime,
-    val initial: String,
-    val finishing: String,
+    val startValue: String,
+    val endValue: String,
 
     val countdownType: CountdownType,
     val interpolator: CountdownInterpolator,
@@ -31,8 +31,8 @@ data class Countdown(
         get() = end.toLocalDate().atTime(0, 0, 0)
 
     fun getProgress(progress: Float): String {
-        val start: Int = initial.toIntOrNull() ?: 0
-        val end: Int = finishing.toIntOrNull() ?: 100
+        val start: Int = startValue.toIntOrNull() ?: 0
+        val end: Int = endValue.toIntOrNull() ?: 100
 
         return countdownType.converter(ceil((start + (progress * (end - start)))).toInt().toString())
     }
@@ -50,8 +50,8 @@ fun Countdown.Companion.preview(
         colour = color,
         start = LocalDateTime.now().minusDays(1L),
         end = LocalDateTime.now().plusDays(2L),
-        initial = "0",
-        finishing = "1000",
+        startValue = "0",
+        endValue = "1000",
         countdownType = CountdownType.DAYS,
         interpolator = CountdownInterpolator.LINEAR,
         notifications = emptyList()

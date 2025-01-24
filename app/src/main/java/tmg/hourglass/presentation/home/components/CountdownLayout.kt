@@ -23,10 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
-import androidx.core.text.htmlEncode
 import org.threeten.bp.LocalDateTime
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
@@ -41,7 +39,6 @@ import tmg.hourglass.presentation.utils.DeleteDialog
 import tmg.hourglass.presentation.views.ProgressBar
 import tmg.hourglass.strings.R
 import tmg.hourglass.strings.R.string
-import tmg.utilities.extensions.format
 
 private val barBackground: Color
     @Composable
@@ -127,9 +124,9 @@ fun Countdown(
         ) {
             if (countdown.countdownType != CountdownType.DAYS) {
                 Row {
-                    TextBody2(countdown.countdownType.converter(countdown.initial.toIntOrNull()?.toString() ?: ""))
+                    TextBody2(countdown.countdownType.converter(countdown.startValue.toIntOrNull()?.toString() ?: ""))
                     Spacer(Modifier.weight(1f))
-                    TextBody2(countdown.countdownType.converter(countdown.finishing.toIntOrNull()?.toString() ?: ""))
+                    TextBody2(countdown.countdownType.converter(countdown.endValue.toIntOrNull()?.toString() ?: ""))
                 }
             }
     //        TextBody2(

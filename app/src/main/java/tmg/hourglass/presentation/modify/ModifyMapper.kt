@@ -16,14 +16,14 @@ object ModifyMapper {
             )
             else -> UiState.Types.Values(
                 valueDirection = when {
-                    initial == "0" -> UiState.Direction.CountUp
-                    finishing == "0" -> UiState.Direction.CountDown
+                    startValue == "0" -> UiState.Direction.CountUp
+                    endValue == "0" -> UiState.Direction.CountDown
                     else -> UiState.Direction.Custom
                 },
                 startDate = start,
-                finishDate = end,
-                initial = initial,
-                finishing = finishing
+                endDate = end,
+                startValue = startValue,
+                endValue = endValue
             )
         }
         return UiState(
@@ -50,8 +50,8 @@ object ModifyMapper {
                     colour = colorHex,
                     start = startDate,
                     end = endDate,
-                    initial = start,
-                    finishing = end,
+                    startValue = start,
+                    endValue = end,
                     countdownType = type,
                     interpolator = LINEAR,
                     notifications = emptyList()
@@ -59,9 +59,9 @@ object ModifyMapper {
             }
             is UiState.Types.Values -> {
                 val startDate = inputTypes.startDate ?: LocalDateTime.now()
-                val endDate = inputTypes.finishDate ?: LocalDateTime.now()
-                val start = inputTypes.initial.ifBlank { "0" }
-                val end = inputTypes.finishing.ifBlank { "0" }
+                val endDate = inputTypes.endDate ?: LocalDateTime.now()
+                val start = inputTypes.startValue.ifBlank { "0" }
+                val end = inputTypes.endValue.ifBlank { "0" }
                 return Countdown(
                     id = id,
                     name = title,
@@ -69,8 +69,8 @@ object ModifyMapper {
                     colour = colorHex,
                     start = startDate,
                     end = endDate,
-                    initial = start,
-                    finishing = end,
+                    startValue = start,
+                    endValue = end,
                     countdownType = type,
                     interpolator = LINEAR,
                     notifications = emptyList()

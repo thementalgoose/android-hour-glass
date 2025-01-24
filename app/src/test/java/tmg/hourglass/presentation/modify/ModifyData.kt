@@ -7,7 +7,7 @@ import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
 
 object ModifyData {
-
+    val yesterday = LocalDate.now().atStartOfDay().minusDays(1L)
     val today = LocalDate.now().atStartOfDay()
     val tomorrow = LocalDate.now().atStartOfDay().plusDays(1L)
 
@@ -28,9 +28,9 @@ object ModifyData {
         inputTypes = UiState.Types.Values(
             valueDirection = UiState.Direction.CountDown,
             startDate = null,
-            finishDate = null,
-            initial = "",
-            finishing = ""
+            endDate = null,
+            startValue = "",
+            endValue = ""
         )
     )
 
@@ -41,8 +41,8 @@ object ModifyData {
         colour = "#123456",
         start = today,
         end = tomorrow,
-        initial = "1",
-        finishing = "0",
+        startValue = "1",
+        endValue = "0",
         countdownType = CountdownType.DAYS,
         interpolator = CountdownInterpolator.LINEAR,
         notifications = emptyList()
@@ -64,8 +64,8 @@ object ModifyData {
         colour = "#123456",
         start = today,
         end = tomorrow,
-        initial = "0",
-        finishing = "100",
+        startValue = "0",
+        endValue = "100",
         countdownType = CountdownType.NUMBER,
         interpolator = CountdownInterpolator.LINEAR,
         notifications = emptyList()
@@ -78,9 +78,9 @@ object ModifyData {
         inputTypes = UiState.Types.Values(
             valueDirection = UiState.Direction.CountUp,
             startDate = today,
-            finishDate = tomorrow,
-            initial = "0",
-            finishing = "100"
+            endDate = tomorrow,
+            startValue = "0",
+            endValue = "100"
         )
     )
 }

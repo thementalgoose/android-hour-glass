@@ -75,9 +75,9 @@ class ModifyViewModel @Inject constructor(
                 UiState.Types.Values(
                     valueDirection = CountDown,
                     startDate = null,
-                    initial = "",
-                    finishDate = null,
-                    finishing = "",
+                    startValue = "",
+                    endDate = null,
+                    endValue = "",
                 )
             }
         }
@@ -95,7 +95,7 @@ class ModifyViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(
                 inputTypes = existingType.copy(
                     startDate = date,
-                    finishDate = null
+                    endDate = null
                 )
             )
         }
@@ -105,7 +105,7 @@ class ModifyViewModel @Inject constructor(
             is UiState.Types.Values -> {
                 _uiState.value = _uiState.value.copy(
                     inputTypes = existingType.copy(
-                        finishDate = date
+                        endDate = date
                     )
                 )
             }
@@ -124,8 +124,8 @@ class ModifyViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(
                 inputTypes = existingType.copy(
                     valueDirection = direction,
-                    initial = existingType.initial.takeIf { direction == CountUp || direction == Custom } ?: "",
-                    finishing = existingType.finishing.takeIf { direction == CountUp || direction == Custom } ?: ""
+                    startValue = existingType.startValue.takeIf { direction == CountUp || direction == Custom } ?: "",
+                    endValue = existingType.endValue.takeIf { direction == CountUp || direction == Custom } ?: ""
                 )
             )
         }
@@ -135,7 +135,7 @@ class ModifyViewModel @Inject constructor(
         if (existingType is UiState.Types.Values) {
             _uiState.value = _uiState.value.copy(
                 inputTypes = existingType.copy(
-                    initial = value
+                    startValue = value
                 )
             )
         }
@@ -145,7 +145,7 @@ class ModifyViewModel @Inject constructor(
         if (existingType is UiState.Types.Values) {
             _uiState.value = _uiState.value.copy(
                 inputTypes = existingType.copy(
-                    finishing = value
+                    endValue = value
                 )
             )
         }
@@ -188,9 +188,9 @@ data class UiState(
         data class Values(
             val valueDirection: Direction,
             val startDate: LocalDateTime?,
-            val finishDate: LocalDateTime?,
-            val initial: String,
-            val finishing: String,
+            val endDate: LocalDateTime?,
+            val startValue: String,
+            val endValue: String,
         ): Types()
     }
 
@@ -218,25 +218,28 @@ data class UiState(
                 return true
             }
             is Types.Values -> {
-                val hasInitialData = inputTypes.initial.isNotBlank() && inputTypes.initial != "0"
-                val hasFinishingData = inputTypes.finishing.isNotBlank() && inputTypes.finishing != "0"
+                val hasInitialData = inputTypes.startValue.isNotBlank() && inputTypes.startValue != "0"
+                val hasFinishingData = inputTypes.endValue.isNotBlank() && inputTypes.endValue != "0"
 
                 if (!hasInitialData && !hasFinishingData) {
                     return false
                 }
-                if (inputTypes.initial == inputTypes.finishing) {
+                if (inputTypes.startValue == inputTypes.endValue) {
                     return false
                 }
 
                 val hasStartDate = inputTypes.startDate != null
-                val hasEndDate = inputTypes.finishDate != null
+                val hasEndDate = inputTypes.endDate != null
                 if (!hasStartDate && !hasEndDate) {
                     return false
                 }
                 if (hasStartDate && inputTypes.startDate!!.toLocalDate() > LocalDate.now()) {
                     return false
                 }
-                if (hasEndDate && inputTypes.finishDate!!.toLocalDate() < LocalDate.now()) {
+                if (hasEndDate && inputTypes.endDate!!.toLocalDate() < LocalDate.now()) {
+                    return false
+                }
+                if (hasStartDate && hasEndDate && inputTypes.endDate!! <= inputTypes.startDate!!) {
                     return false
                 }
                 return true

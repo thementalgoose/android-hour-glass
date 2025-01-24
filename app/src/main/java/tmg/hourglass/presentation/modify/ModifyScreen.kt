@@ -73,14 +73,14 @@ fun ModifyScreen(
                 DataRangeDateLayout(
                     startDate = inputData.startDate,
                     startDateUpdated = viewModel::setStartDate,
-                    endDate = inputData.finishDate,
+                    endDate = inputData.endDate,
                     endDateUpdated = viewModel::setEndDate
                 )
 
                 DataRangeInputLayout(
-                    initial = inputData.initial,
+                    initial = inputData.startValue,
                     initialUpdated = viewModel::setStartValue,
-                    finishing = inputData.finishing,
+                    finishing = inputData.endValue,
                     finishingUpdated = viewModel::setEndValue
                 )
             }

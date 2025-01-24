@@ -175,7 +175,7 @@ internal class ModifyViewModelTest {
 
         underTest.setEndDate(date)
         underTest.uiState.test {
-            assertEquals(date, (awaitItem().inputTypes as UiState.Types.Values).finishDate)
+            assertEquals(date, (awaitItem().inputTypes as UiState.Types.Values).endDate)
         }
     }
 
@@ -186,7 +186,7 @@ internal class ModifyViewModelTest {
 
         underTest.setStartValue("1")
         underTest.uiState.test {
-            assertEquals("1", (awaitItem().inputTypes as UiState.Types.Values).initial)
+            assertEquals("1", (awaitItem().inputTypes as UiState.Types.Values).startValue)
         }
     }
 
@@ -197,7 +197,7 @@ internal class ModifyViewModelTest {
 
         underTest.setEndValue("1")
         underTest.uiState.test {
-            assertEquals("1", (awaitItem().inputTypes as UiState.Types.Values).finishing)
+            assertEquals("1", (awaitItem().inputTypes as UiState.Types.Values).endValue)
         }
     }
 
