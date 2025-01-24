@@ -67,8 +67,7 @@ fun DataRangeInputLayout(
 
             Input(
                 modifier = Modifier
-                    .weight(startWeight.value)
-                    .imePadding(),
+                    .weight(startWeight.value),
                 initial = initial,
                 inputUpdated = initialUpdated,
                 keyboardType = KeyboardType.Number,
@@ -77,8 +76,7 @@ fun DataRangeInputLayout(
             Spacer(Modifier.width(16.dp))
             Input(
                 modifier = Modifier
-                    .weight(endWeight.value)
-                    .imePadding(),
+                    .weight(endWeight.value),
                 initial = finishing,
                 inputUpdated = finishingUpdated,
                 keyboardType = KeyboardType.Number,

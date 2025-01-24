@@ -60,14 +60,14 @@ fun PersonaliseLayout(
         TextBody1(text = stringResource(id = string.modify_field_name_desc))
         Spacer(modifier = Modifier.height(8.dp))
         Input(
-            modifier = Modifier.imePadding(),
+            modifier = Modifier,
             initial = name,
             inputUpdated = nameUpdated,
             hint = stringResource(id = string.modify_field_name_hint)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Input(
-            modifier = Modifier.imePadding(),
+            modifier = Modifier,
             initial = description,
             inputUpdated = descriptionUpdated,
             hint = stringResource(id = string.modify_field_description_hint)

@@ -2,7 +2,9 @@ package tmg.hourglass.presentation.modify
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -98,5 +100,7 @@ fun ModifyScreen(
                 actionUpClicked()
             }
         )
+
+        Spacer(Modifier.imePadding())
     }
 }
