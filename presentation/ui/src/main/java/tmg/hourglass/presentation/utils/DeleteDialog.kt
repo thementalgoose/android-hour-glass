@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import tmg.hourglass.presentation.AppTheme
+import tmg.hourglass.presentation.buttons.ErrorButton
 import tmg.hourglass.presentation.buttons.PrimaryButton
 import tmg.hourglass.presentation.buttons.SecondaryButton
 import tmg.hourglass.presentation.textviews.TextBody1
@@ -43,7 +44,7 @@ fun DeleteDialog(
             ) {
                 TextHeader2(text = stringResource(id = title))
                 TextBody1(text = stringResource(id = subtitle))
-                PrimaryButton(
+                ErrorButton(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = string.settings_reset_all_confirm),
                     onClick = confirmed

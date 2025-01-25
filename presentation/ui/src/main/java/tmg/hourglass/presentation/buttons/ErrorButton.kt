@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,7 +14,7 @@ import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.textviews.TextBody1
 
 @Composable
-fun PrimaryButton(
+fun ErrorButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -23,8 +22,8 @@ fun PrimaryButton(
 ) {
     Button(
         colors = ButtonDefaults.buttonColors(
-            containerColor = AppTheme.colors.accent,
-            contentColor = AppTheme.colors.onAccent
+            containerColor = AppTheme.colors.appColors.error,
+            contentColor = AppTheme.colors.appColors.onError
         ),
         modifier = modifier,
         enabled = isEnabled,
@@ -34,7 +33,7 @@ fun PrimaryButton(
         TextBody1(
             text = text,
             style = AppTheme.typography.body1.copy(
-                color = AppTheme.colors.onAccent
+                color = AppTheme.colors.appColors.onError
             )
         )
     }
@@ -45,8 +44,8 @@ fun PrimaryButton(
 private fun Preview() {
     AppThemePreview {
         Box(modifier = Modifier.padding(16.dp)) {
-            PrimaryButton(
-                text = "Primary Button",
+            ErrorButton(
+                text = "Error button",
                 onClick = {}
             )
         }
