@@ -9,8 +9,12 @@ import tmg.hourglass.R
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
+import tmg.hourglass.presentation.PreviewTheme
+import tmg.hourglass.presentation.buttons.ErrorButton
 import tmg.hourglass.presentation.buttons.PrimaryButton
 import tmg.hourglass.presentation.buttons.PrimaryIconButton
+import tmg.hourglass.presentation.buttons.SecondaryButton
+import tmg.hourglass.presentation.buttons.SecondaryIconButton
 
 @Composable
 fun SaveLayout(
@@ -18,44 +22,40 @@ fun SaveLayout(
     saveEnabled: Boolean,
     saveClicked: () -> Unit,
     deleteClicked: () -> Unit,
+    cancelClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
+    Column(
         modifier = modifier
             .fillMaxWidth()
-            .height(IntrinsicSize.Min)
+            .padding(
+                horizontal = AppTheme.dimensions.paddingMedium,
+                vertical = AppTheme.dimensions.paddingSmall
+            ),
+        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingSmall)
     ) {
-        if (isEdit) {
-            PrimaryIconButton(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(
-                        top = AppTheme.dimensions.paddingMedium,
-                        bottom = AppTheme.dimensions.paddingMedium,
-                        start = AppTheme.dimensions.paddingMedium
-                    ),
-                icon = R.drawable.ic_delete,
-                onClick = deleteClicked
-            )
-        }
         PrimaryButton(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-                .padding(
-                    top = AppTheme.dimensions.paddingMedium,
-                    start = AppTheme.dimensions.paddingMedium,
-                    end = AppTheme.dimensions.paddingMedium,
-                    bottom = AppTheme.dimensions.paddingMedium,
-                ),
+            modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = string.modify_header_save),
             isEnabled = saveEnabled,
             onClick = saveClicked
         )
+        SecondaryButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(id = string.modify_header_cancel),
+            onClick = cancelClicked,
+        )
+        if (isEdit) {
+            ErrorButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = deleteClicked,
+                text = stringResource(string.modify_header_delete)
+            )
+        }
     }
 }
 
-@Preview
+@PreviewTheme
 @Composable
 private fun PreviewEdit() {
     AppThemePreview {
@@ -63,12 +63,13 @@ private fun PreviewEdit() {
             isEdit = true,
             saveEnabled = true,
             saveClicked = { },
-            deleteClicked = { }
+            deleteClicked = { },
+            cancelClicked = { }
         )
     }
 }
 
-@Preview
+@PreviewTheme
 @Composable
 private fun PreviewAdd() {
     AppThemePreview {
@@ -76,7 +77,8 @@ private fun PreviewAdd() {
             isEdit = false,
             saveEnabled = true,
             saveClicked = { },
-            deleteClicked = { }
+            deleteClicked = { },
+            cancelClicked = { }
         )
     }
 }

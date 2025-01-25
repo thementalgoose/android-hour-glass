@@ -2,6 +2,7 @@ package tmg.hourglass.presentation.home.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,7 +27,7 @@ fun DashboardSectionLayout(
         Spacer(modifier = Modifier.height(AppTheme.dimensions.paddingMedium))
         TextHeader2(text = text)
         Spacer(modifier = Modifier.height(4.dp))
-        Divider(color = AppTheme.colors.backgroundSecondary)
+        HorizontalDivider(color = AppTheme.colors.backgroundSecondary)
         Spacer(modifier = Modifier.height(AppTheme.dimensions.paddingSmall))
     }
 }

@@ -98,7 +98,8 @@ fun ModifyScreen(
             deleteClicked = {
                 viewModel.delete()
                 actionUpClicked()
-            }
+            },
+            cancelClicked = actionUpClicked
         )
 
         Spacer(Modifier.imePadding())

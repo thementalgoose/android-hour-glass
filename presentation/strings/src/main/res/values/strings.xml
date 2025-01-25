@@ -123,6 +123,8 @@
     <string name="modify_header_add">Add a countdown</string>
     <string name="modify_header_edit">Edit your countdown</string>
     <string name="modify_header_save">Save</string>
+    <string name="modify_header_delete">Delete</string>
+    <string name="modify_header_cancel">Cancel</string>
 
     <string name="home_description">%s<br/>
     ▲ Starts at %s on <b>%s</b><br/>
