@@ -10,10 +10,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
+import tmg.hourglass.presentation.PreviewTheme
 
 @Composable
 fun PrimaryIconButton(
@@ -27,7 +27,8 @@ fun PrimaryIconButton(
     Button(
         colors = ButtonDefaults.buttonColors(
             containerColor = AppTheme.colors.accent,
-            contentColor = AppTheme.colors.onAccent
+            contentColor = AppTheme.colors.onAccent,
+            disabledContainerColor = AppTheme.colors.accent.copy(alpha = 0.5f)
         ),
         modifier = modifier,
         enabled = isEnabled,
@@ -37,15 +38,18 @@ fun PrimaryIconButton(
         Icon(
             painter = painterResource(id = icon),
             contentDescription = contentDescription,
-            tint = AppTheme.colors.onAccent
+            tint = when (isEnabled) {
+                true -> AppTheme.colors.onAccent
+                false -> AppTheme.colors.onAccent.copy(alpha = 0.5f)
+            }
         )
     }
 }
 
-@Preview
+@PreviewTheme
 @Composable
-private fun PreviewLight() {
-    AppThemePreview(isLight = true) {
+private fun Preview() {
+    AppThemePreview {
         Box(modifier = Modifier.padding(16.dp)) {
             PrimaryIconButton(
                 icon = 0,
@@ -55,14 +59,15 @@ private fun PreviewLight() {
     }
 }
 
-@Preview
+@PreviewTheme
 @Composable
-private fun PreviewDark() {
+private fun PreviewDisabled() {
     AppThemePreview(isLight = false) {
         Box(modifier = Modifier.padding(16.dp)) {
             PrimaryIconButton(
                 icon = 0,
-                onClick = {}
+                onClick = {},
+                isEnabled = false
             )
         }
     }

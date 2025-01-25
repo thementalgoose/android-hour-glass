@@ -24,7 +24,8 @@ fun PrimaryButton(
     Button(
         colors = ButtonDefaults.buttonColors(
             containerColor = AppTheme.colors.accent,
-            contentColor = AppTheme.colors.onAccent
+            contentColor = AppTheme.colors.onAccent,
+            disabledContainerColor = AppTheme.colors.accent.copy(alpha = 0.5f)
         ),
         modifier = modifier,
         enabled = isEnabled,
@@ -34,7 +35,10 @@ fun PrimaryButton(
         TextBody1(
             text = text,
             style = AppTheme.typography.body1.copy(
-                color = AppTheme.colors.onAccent
+                color = when (isEnabled) {
+                    true -> AppTheme.colors.onAccent
+                    false -> AppTheme.colors.onAccent.copy(alpha = 0.5f)
+                }
             )
         )
     }
@@ -48,6 +52,20 @@ private fun Preview() {
             PrimaryButton(
                 text = "Primary Button",
                 onClick = {}
+            )
+        }
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewDisabled() {
+    AppThemePreview {
+        Box(modifier = Modifier.padding(16.dp)) {
+            PrimaryButton(
+                text = "Primary Button",
+                onClick = {},
+                isEnabled = false
             )
         }
     }

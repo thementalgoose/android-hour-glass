@@ -23,7 +23,11 @@ fun ErrorButton(
     Button(
         colors = ButtonDefaults.buttonColors(
             containerColor = AppTheme.colors.appColors.error,
-            contentColor = AppTheme.colors.appColors.onError
+            contentColor = AppTheme.colors.appColors.onError,
+            disabledContainerColor = when (isEnabled) {
+                true -> AppTheme.colors.appColors.error
+                false -> AppTheme.colors.appColors.error.copy(alpha = 0.5f)
+            }
         ),
         modifier = modifier,
         enabled = isEnabled,
@@ -33,7 +37,10 @@ fun ErrorButton(
         TextBody1(
             text = text,
             style = AppTheme.typography.body1.copy(
-                color = AppTheme.colors.appColors.onError
+                color = when (isEnabled) {
+                    true -> AppTheme.colors.appColors.onError
+                    false -> AppTheme.colors.appColors.onError.copy(alpha = 0.5f)
+                }
             )
         )
     }
@@ -47,6 +54,20 @@ private fun Preview() {
             ErrorButton(
                 text = "Error button",
                 onClick = {}
+            )
+        }
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewDisabled() {
+    AppThemePreview {
+        Box(modifier = Modifier.padding(16.dp)) {
+            ErrorButton(
+                text = "Error button",
+                onClick = {},
+                isEnabled = false
             )
         }
     }

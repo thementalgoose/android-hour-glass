@@ -71,11 +71,39 @@ private fun PreviewEdit() {
 
 @PreviewTheme
 @Composable
+private fun PreviewEditSaveDisabled() {
+    AppThemePreview {
+        SaveLayout(
+            isEdit = true,
+            saveEnabled = false,
+            saveClicked = { },
+            deleteClicked = { },
+            cancelClicked = { }
+        )
+    }
+}
+
+@PreviewTheme
+@Composable
 private fun PreviewAdd() {
     AppThemePreview {
         SaveLayout(
             isEdit = false,
             saveEnabled = true,
+            saveClicked = { },
+            deleteClicked = { },
+            cancelClicked = { }
+        )
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewAddSaveDisabled() {
+    AppThemePreview {
+        SaveLayout(
+            isEdit = false,
+            saveEnabled = false,
             saveClicked = { },
             deleteClicked = { },
             cancelClicked = { }
