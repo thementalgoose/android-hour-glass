@@ -108,10 +108,16 @@
     <string name="modify_field_dates_button">Elegir fechas</string>
     <string name="modify_field_dates_start">Fecha de inicio</string>
     <string name="modify_field_dates_end">Fecha de finalización</string>
+    <string name="modify_field_date">Fecha</string>
+    <string name="modify_field_date_title">Selecciona una fecha</string>
+    <string name="modify_field_date_placeholder">Fecha</string>
+    <string name="modify_field_date_desc">Elige la fecha para la cuenta regresiva también</string>
     <string name="modify_field_colour_hint">Color</string>
     <string name="settings_theme_applied_later">El tema se aplicará cuando se reinicie la aplicación</string>
     <string name="modify_type_title">Tipo de cuenta atrás</string>
     <string name="error_activity_not_found">Lo sentimos, se ha producido un error</string>
+
+    <string name="modify_field_date_today">Hoy</string>
 
     <!-- Widgets -->
     <string name="widget_error">Elemento no encontrado</string>
