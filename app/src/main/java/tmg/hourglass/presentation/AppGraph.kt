@@ -1,5 +1,9 @@
 package tmg.hourglass.presentation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -27,6 +31,12 @@ fun AppGraph(
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route,
+        enterTransition = {
+            fadeIn(tween(300))
+        },
+        exitTransition = {
+            fadeOut(tween(300))
+        },
         modifier = Modifier
     ) {
         composable(Screen.Home.route) {
