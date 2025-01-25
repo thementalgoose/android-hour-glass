@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.navigation.Screen
+import tmg.hourglass.presentation.navigation.NavigationController
 import javax.inject.Inject
 
 data class UiState(
@@ -38,7 +40,8 @@ sealed class HomeAction {
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val countdownConnector: CountdownConnector
+    private val countdownConnector: CountdownConnector,
+    private val navigationController: NavigationController,
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -46,6 +49,10 @@ class HomeViewModel @Inject constructor(
 
     init {
         loadDashboard()
+    }
+
+    fun navigateToSettings() {
+        navigationController.navigate(Screen.Settings)
     }
 
     fun closeAction() {

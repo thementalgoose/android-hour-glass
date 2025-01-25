@@ -72,14 +72,6 @@ internal fun DashboardNavScreen(
                             goToAboutThisApp= goToAboutThisApp,
                         )
                     }
-                    if (windowSize.widthSizeClass == WindowWidthSizeClass.Compact) {
-                        NavigationBar(
-                            list = tabs,
-                            itemClicked = {
-                                it.id.toEnum<Tab>()?.let(dashboardNavViewModel::selectTab)
-                            }
-                        )
-                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 package tmg.hourglass.presentation.settings
 
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -33,7 +34,8 @@ internal fun SettingsScreenVM(
     windowSize: WindowSizeClass,
     viewModel: SettingsViewModel = hiltViewModel(),
     goToMarketPage: () -> Unit,
-    goToAboutThisApp: () -> Unit
+    goToAboutThisApp: () -> Unit,
+    actionUpClicked: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -58,6 +60,7 @@ internal fun SettingsScreenVM(
                 setCrashlytics = viewModel::setCrash,
                 setShakeToReport = viewModel::setShakeToReport,
                 setShowWidgetDate = viewModel::setWidgetDate,
+                actionUpClicked = actionUpClicked
             )
         },
         detailsShow = uiState.value.screen != null,
@@ -88,7 +91,8 @@ private fun SettingsOverviewScreen(
     setAnalytics: (Boolean) -> Unit,
     setCrashlytics: (Boolean) -> Unit,
     setShakeToReport: (Boolean) -> Unit,
-    setShowWidgetDate: (Boolean) -> Unit
+    setShowWidgetDate: (Boolean) -> Unit,
+    actionUpClicked: () -> Unit,
 ) {
     val deletionConfirmationDialog = rememberSaveable { mutableStateOf(false) }
     val themeDialog = rememberSaveable { mutableStateOf(false) }
@@ -98,7 +102,9 @@ private fun SettingsOverviewScreen(
         content = {
             item(key = "header") {
                 TitleBar(
-                    title = stringResource(id = string.settings_title)
+                    title = stringResource(id = string.settings_title),
+                    showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
+                    actionUpClicked = actionUpClicked
                 )
             }
             item(key = "theme_header") {
@@ -241,7 +247,8 @@ private fun PreviewOverview() {
             setShakeToReport = { },
             setShowWidgetDate = { },
             privacyPolicyClicked = { },
-            deleteAllClicked = { }
+            deleteAllClicked = { },
+            actionUpClicked = { }
         )
     }
 }

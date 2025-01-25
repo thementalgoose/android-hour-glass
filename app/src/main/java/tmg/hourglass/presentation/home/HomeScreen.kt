@@ -13,6 +13,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -57,6 +60,7 @@ internal fun HomeScreenVM(
         delete = viewModel::delete,
         openCreateNew = viewModel::createNew,
         closeDetailPane = viewModel::closeAction,
+        navigateToSettings = viewModel::navigateToSettings,
         refresh = viewModel::refresh
     )
 }
@@ -69,6 +73,7 @@ internal fun HomeScreen(
     delete: (Countdown) -> Unit,
     openCreateNew: () -> Unit,
     closeDetailPane: () -> Unit,
+    navigateToSettings: () -> Unit,
     refresh: () -> Unit
 ) {
     MasterDetailsPane(
@@ -78,7 +83,8 @@ internal fun HomeScreen(
                 uiState = uiState,
                 windowSizeClass = windowSizeClass,
                 editItem = edit,
-                deleteItem = delete
+                deleteItem = delete,
+                navigateToSettings = navigateToSettings
             )
             Box(
                 modifier = Modifier
@@ -111,6 +117,7 @@ internal fun HomeScreen(
 @Composable
 internal fun ListScreen(
     windowSizeClass: WindowSizeClass,
+    navigateToSettings: () -> Unit,
     uiState: UiState,
     editItem: (Countdown) -> Unit,
     deleteItem: (Countdown) -> Unit
@@ -122,6 +129,20 @@ internal fun ListScreen(
             item("header", span = { GridItemSpan(maxLineSpan) }) {
                 TitleBar(
                     title = stringResource(id = R.string.app_name),
+                    overflowActions = {
+                        if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
+                            IconButton(
+                                onClick = navigateToSettings,
+                                content = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Settings,
+                                        contentDescription = stringResource(string.menu_settings),
+                                        tint = AppTheme.colors.textPrimary
+                                    )
+                                }
+                            )
+                        }
+                    }
                 )
             }
             if (uiState.isEmpty) {
@@ -188,8 +209,10 @@ private fun PreviewEmpty() {
             edit = { },
             delete = { },
             openCreateNew = { },
-            closeDetailPane = { }) {
-        }
+            closeDetailPane = { },
+            refresh = { },
+            navigateToSettings = { }
+        )
     }
 }
 
@@ -203,8 +226,10 @@ private fun PreviewPopulated() {
             edit = { },
             delete = { },
             openCreateNew = { },
-            closeDetailPane = { }) {
-        }
+            closeDetailPane = { },
+            refresh = { },
+            navigateToSettings = { }
+        )
     }
 }
 
@@ -219,8 +244,10 @@ private fun PreviewPopulatedExpanded() {
             edit = { },
             delete = { },
             openCreateNew = { },
-            closeDetailPane = { }) {
-        }
+            closeDetailPane = { },
+            refresh = { },
+            navigateToSettings = { }
+        )
     }
 }
 

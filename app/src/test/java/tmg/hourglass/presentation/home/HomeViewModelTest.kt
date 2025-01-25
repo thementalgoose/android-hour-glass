@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.navigation.Screen
+import tmg.hourglass.presentation.navigation.NavigationController
 import tmg.testutils.BaseTest
 
 internal class HomeViewModelTest: BaseTest() {
@@ -18,6 +20,7 @@ internal class HomeViewModelTest: BaseTest() {
     private lateinit var underTest: HomeViewModel
 
     private val mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
+    private val mockNavigationController: NavigationController = mockk(relaxed = true)
 
     private val fakeCountdownExpired: Countdown = mockk(relaxed = true) {
         every { id } returns "expired"
@@ -28,7 +31,8 @@ internal class HomeViewModelTest: BaseTest() {
 
     private fun initUnderTest() {
         underTest = HomeViewModel(
-            countdownConnector = mockCountdownConnector
+            countdownConnector = mockCountdownConnector,
+            navigationController = mockNavigationController
         )
     }
 
@@ -46,6 +50,16 @@ internal class HomeViewModelTest: BaseTest() {
             assertEquals(listOf(fakeCountdownUpcoming), item.upcoming)
             assertEquals(listOf(fakeCountdownExpired), item.expired)
             assertEquals(null, item.action)
+        }
+    }
+
+    @Test
+    fun `navigate to settings navigates`() = runTest {
+        initUnderTest()
+        underTest.navigateToSettings()
+
+        verify {
+            mockNavigationController.navigate(Screen.Settings)
         }
     }
 
