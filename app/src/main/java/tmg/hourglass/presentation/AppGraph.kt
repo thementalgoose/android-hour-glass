@@ -49,7 +49,10 @@ fun AppGraph(
             SettingsScreenVM(
                 windowSize = windowSize,
                 goToMarketPage = goToMarketPage,
-                goToAboutThisApp = goToAboutThisApp
+                goToAboutThisApp = goToAboutThisApp,
+                actionUpClicked = {
+                    navController.popBackStack()
+                }
             )
         }
     }
