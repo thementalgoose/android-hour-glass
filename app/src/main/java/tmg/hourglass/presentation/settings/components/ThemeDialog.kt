@@ -8,19 +8,24 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import tmg.hourglass.R
 import tmg.hourglass.extensions.title
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.textviews.TextBody1
+import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R.string
 
@@ -43,19 +48,33 @@ fun ThemeDialog(
                     .padding(bottom = AppTheme.dimensions.paddingXLarge),
                 verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingSmall)
             ) {
-                TextHeader2(
-                    text = stringResource(id = string.modify_field_type),
-                    modifier = Modifier.padding(horizontal = AppTheme.dimensions.paddingMedium)
-                )
+                Column(Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = AppTheme.dimensions.paddingMedium,
+                        vertical = AppTheme.dimensions.paddingXSmall
+                    )
+                ) {
+                    TextHeader2(
+                        text = stringResource(id = string.settings_theme_theme_title)
+                    )
+                    TextBody2(
+                        modifier = Modifier.padding(top = 2.dp),
+                        text = stringResource(id = string.settings_theme_theme_description)
+                    )
+                }
                 ThemePref.entries.forEach {
                     Row(
                         modifier = Modifier
-                            .padding(horizontal = AppTheme.dimensions.paddingMedium)
                             .fillMaxWidth()
                             .clickable {
                                 themePicked(it)
                                 dismissed()
-                            },
+                            }
+                            .padding(
+                                horizontal = AppTheme.dimensions.paddingMedium,
+                                vertical = AppTheme.dimensions.paddingSmall
+                            ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         TextBody1(
@@ -67,13 +86,10 @@ fun ThemeDialog(
                                 ),
                             text = stringResource(it.title)
                         )
-                        if (it == theme) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_settings_check),
-                                contentDescription = null,
-                                tint = AppTheme.colors.textPrimary
-                            )
-                        }
+                        Switch(
+                            checked = it == theme,
+                            onCheckedChange = null,
+                        )
                     }
                 }
             }
