@@ -60,8 +60,8 @@ object ModifyMapper {
             is UiState.Types.Values -> {
                 val startDate = inputTypes.startDate ?: LocalDateTime.now()
                 val endDate = inputTypes.endDate ?: LocalDateTime.now()
-                val start = inputTypes.startValue.ifBlank { "0" }
-                val end = inputTypes.endValue.ifBlank { "0" }
+                val start = inputTypes.startValue.trim().takeIf { it.toIntOrNull() != null }?.ifBlank { "0" } ?: "0"
+                val end = inputTypes.endValue.trim().takeIf { it.toIntOrNull() != null }?.ifBlank { "0" } ?: "0"
                 return Countdown(
                     id = id,
                     name = title,

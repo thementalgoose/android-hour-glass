@@ -6,6 +6,7 @@
     <string name="ab_settings">Ajustes</string>
     <string name="ab_edit">Editar</string>
     <string name="ab_select">Seleccionar</string>
+    <string name="ab_selected">Escogido</string>
     <string name="ab_delete">Eliminar</string>
     <string name="ab_favourite">Favorito</string>
 </resources>
