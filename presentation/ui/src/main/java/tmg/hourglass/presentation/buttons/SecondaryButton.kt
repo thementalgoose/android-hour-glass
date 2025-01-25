@@ -22,7 +22,8 @@ fun SecondaryButton(
 ) {
     Button(
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = AppTheme.colors.backgroundSecondary
+            containerColor = AppTheme.colors.backgroundSecondary,
+            disabledContainerColor = AppTheme.colors.backgroundSecondary.copy(alpha = 0.5f)
         ),
         shape = RoundedCornerShape(AppTheme.dimensions.radiusSmall),
         modifier = modifier,
@@ -31,6 +32,10 @@ fun SecondaryButton(
     ) {
         TextBody1(
             text = text,
+            textColor = when (isEnabled) {
+                true -> AppTheme.colors.textPrimary
+                false -> AppTheme.colors.textPrimary.copy(alpha = 0.5f)
+            }
         )
     }
 }
@@ -43,6 +48,20 @@ private fun Preview() {
             SecondaryButton(
                 text = "Secondary Button",
                 onClick = {}
+            )
+        }
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewDisabled() {
+    AppThemePreview {
+        Box(modifier = Modifier.padding(16.dp)) {
+            SecondaryButton(
+                text = "Secondary Button",
+                onClick = {},
+                isEnabled = false
             )
         }
     }

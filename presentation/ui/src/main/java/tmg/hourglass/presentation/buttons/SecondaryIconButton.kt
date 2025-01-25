@@ -26,7 +26,8 @@ fun SecondaryIconButton(
 ) {
     Button(
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = AppTheme.colors.backgroundSecondary
+            containerColor = AppTheme.colors.backgroundSecondary,
+            disabledContainerColor = AppTheme.colors.backgroundSecondary.copy(alpha = 0.5f)
         ),
         shape = RoundedCornerShape(AppTheme.dimensions.radiusSmall),
         modifier = modifier,
@@ -36,7 +37,10 @@ fun SecondaryIconButton(
         Icon(
             imageVector = icon,
             contentDescription = contentDescription,
-            tint = AppTheme.colors.textPrimary
+            tint = when (isEnabled) {
+                true -> AppTheme.colors.textPrimary
+                false -> AppTheme.colors.textPrimary.copy(alpha = 0.5f)
+            }
         )
     }
 }
@@ -50,6 +54,21 @@ private fun Preview() {
                 icon = Icons.Outlined.PlayArrow,
                 contentDescription = "",
                 onClick = {}
+            )
+        }
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewDisabled() {
+    AppThemePreview {
+        Box(modifier = Modifier.padding(16.dp)) {
+            SecondaryIconButton(
+                icon = Icons.Outlined.PlayArrow,
+                contentDescription = "",
+                onClick = {},
+                isEnabled = false
             )
         }
     }
