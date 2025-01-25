@@ -10,6 +10,7 @@
     android:description="@string/widget_label"
     android:resizeMode="horizontal"
     android:targetCellWidth="3"
+    android:widgetFeatures="reconfigurable"
     android:targetCellHeight="1"
     android:updatePeriodMillis="7200000"
     android:widgetCategory="home_screen|keyguard"
