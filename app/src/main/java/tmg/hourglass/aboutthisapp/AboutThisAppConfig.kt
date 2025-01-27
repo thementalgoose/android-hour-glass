@@ -7,10 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import tmg.aboutthisapp.AboutThisAppActivity
-import tmg.aboutthisapp.ConfigurationColours
+import tmg.aboutthisapp.configuration.Colours
 import tmg.aboutthisapp.configuration.Configuration
 import tmg.aboutthisapp.configuration.Dependency
 import tmg.aboutthisapp.configuration.DependencyIcon
@@ -50,7 +49,7 @@ class AboutThisAppConfig @Inject constructor(
 
     //region Colours
 
-    private fun getColours(isLight: Boolean): ConfigurationColours {
+    private fun getColours(isLight: Boolean): Colours {
         val colors = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (isLight) {
                 lightColors.dynamic(dynamicLightColorScheme(context), isLightMode = true)
@@ -61,7 +60,7 @@ class AboutThisAppConfig @Inject constructor(
             if (isLight) lightColors else darkColors
         }
 
-        return ConfigurationColours(
+        return Colours(
             colorPrimary = colors.primary.toArgb(),
             background = colors.backgroundPrimary.toArgb(),
             surface = colors.backgroundSecondary.toArgb(),
