@@ -13,7 +13,6 @@ import javax.inject.Inject
 data class UiState(
     val screen: SettingsType?,
     val theme: ThemePref,
-    val showWidgetUpdatedDate: Boolean,
     val crashReporting: Boolean,
     val anonymousAnalytics: Boolean,
     val shakeToReport: Boolean,
@@ -21,7 +20,6 @@ data class UiState(
     constructor(): this(
         screen = null,
         theme = ThemePref.AUTO,
-        showWidgetUpdatedDate = false,
         crashReporting = false,
         anonymousAnalytics = false,
         shakeToReport = false,
@@ -69,11 +67,6 @@ class SettingsViewModel @Inject constructor(
         refresh()
     }
 
-    fun setWidgetDate(enabled: Boolean) {
-        prefManager.widgetShowUpdate = enabled
-        refresh()
-    }
-
     fun setTheme(theme: ThemePref) {
         prefManager.theme = theme
         changeThemeUseCase.update(theme)
@@ -86,7 +79,6 @@ class SettingsViewModel @Inject constructor(
 
     private fun refresh() {
         update { copy(
-            showWidgetUpdatedDate = prefManager.widgetShowUpdate,
             crashReporting = prefManager.crashReporting,
             anonymousAnalytics = prefManager.analyticsEnabled,
             shakeToReport = prefManager.shakeToReport,

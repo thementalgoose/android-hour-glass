@@ -59,7 +59,6 @@ internal fun SettingsScreenVM(
                 setAnalytics = viewModel::setAnalytics,
                 setCrashlytics = viewModel::setCrash,
                 setShakeToReport = viewModel::setShakeToReport,
-                setShowWidgetDate = viewModel::setWidgetDate,
                 actionUpClicked = actionUpClicked
             )
         },
@@ -91,7 +90,6 @@ private fun SettingsOverviewScreen(
     setAnalytics: (Boolean) -> Unit,
     setCrashlytics: (Boolean) -> Unit,
     setShakeToReport: (Boolean) -> Unit,
-    setShowWidgetDate: (Boolean) -> Unit,
     actionUpClicked: () -> Unit,
 ) {
     val deletionConfirmationDialog = rememberSaveable { mutableStateOf(false) }
@@ -127,14 +125,6 @@ private fun SettingsOverviewScreen(
                     title = string.settings_widgets_refresh_title,
                     subtitle = string.settings_widgets_refresh_description,
                     optionClicked = refreshWidgetsClicked
-                )
-            }
-            item(key = "widgets_2") {
-                SettingsSwitch(
-                    title = string.settings_widgets_updated_title,
-                    subtitle = string.settings_widgets_updated_description,
-                    isChecked = uiState.showWidgetUpdatedDate,
-                    optionClicked = setShowWidgetDate
                 )
             }
             item(key = "delete_header") {
@@ -232,7 +222,6 @@ private fun PreviewOverview() {
             windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(300.dp, 400.dp)),
             uiState = UiState(
                 screen = null,
-                showWidgetUpdatedDate = true,
                 crashReporting = true,
                 anonymousAnalytics = false,
                 shakeToReport = true,
@@ -245,7 +234,6 @@ private fun PreviewOverview() {
             setAnalytics = { },
             setCrashlytics = { },
             setShakeToReport = { },
-            setShowWidgetDate = { },
             privacyPolicyClicked = { },
             deleteAllClicked = { },
             actionUpClicked = { }

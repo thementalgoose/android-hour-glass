@@ -8,8 +8,6 @@ interface PreferencesManager {
     var shakeToReport: Boolean
     var version: Int
 
-    var widgetShowUpdate: Boolean
-
     var theme: ThemePref
 
     val deviceUdid: String
