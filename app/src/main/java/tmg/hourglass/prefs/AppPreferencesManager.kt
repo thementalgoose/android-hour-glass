@@ -14,7 +14,6 @@ private const val keyAnalyticsReporting: String = "analyticsReporting"
 private const val keyDeviceUdid: String = "deviceUdid"
 private const val keyShakeToReport: String = "shakeToReport"
 private const val keyVersion: String = "version"
-private const val keyWidgetUpdated: String = "widgetUpdate"
 private const val keyThemePref: String = "themePref"
 
 @Singleton
@@ -48,10 +47,6 @@ class AppPreferencesManager @Inject constructor(
     override var version: Int
         get() = getInt(keyVersion, 0)
         set(value) = save(keyVersion, value)
-
-    override var widgetShowUpdate: Boolean
-        get() = getBoolean(keyWidgetUpdated, true)
-        set(value) = save(keyWidgetUpdated, value)
 
     override var theme: ThemePref
         get() = getString(keyThemePref, ThemePref.AUTO.key)?.toEnum<ThemePref> { it.key } ?: ThemePref.AUTO

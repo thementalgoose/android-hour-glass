@@ -36,7 +36,6 @@ internal class SettingsViewModelTest: BaseTest() {
         every { mockPreferenceManager.crashReporting } returns true
         every { mockPreferenceManager.analyticsEnabled } returns true
         every { mockPreferenceManager.shakeToReport } returns true
-        every { mockPreferenceManager.widgetShowUpdate } returns true
     }
 
     @Test
@@ -48,7 +47,6 @@ internal class SettingsViewModelTest: BaseTest() {
             assertEquals(true, item.crashReporting)
             assertEquals(true, item.anonymousAnalytics)
             assertEquals(true, item.shakeToReport)
-            assertEquals(true, item.showWidgetUpdatedDate)
         }
     }
 
@@ -107,15 +105,6 @@ internal class SettingsViewModelTest: BaseTest() {
         underTest.setShakeToReport(true)
         verify {
             mockPreferenceManager.shakeToReport = true
-        }
-    }
-
-    @Test
-    fun `set widget date updates value`() = runTest {
-        initUnderTest()
-        underTest.setWidgetDate(true)
-        verify {
-            mockPreferenceManager.widgetShowUpdate = true
         }
     }
 
