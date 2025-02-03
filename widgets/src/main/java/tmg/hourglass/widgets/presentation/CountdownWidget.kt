@@ -75,11 +75,16 @@ class CountdownWidget : GlanceAppWidget() {
             val initial = countdownConnector.getSync(widgetRef.countdownId)
             val countdownModel = countdownConnector.get(widgetRef.countdownId).collectAsState(initial)
 
+            val action = when (widgetRef.openAppOnClick) {
+                false -> actionRunCallback<RefreshWidget>()
+                true -> actionRunCallback<OpenApp>()
+            }
+
             Log.i("Widget", "Countdown model loaded to be ${countdownModel.value}")
             when (val model = countdownModel.value) {
                 null -> {
                     NoCountdown(
-                        modifier = GlanceModifier.clickable(actionRunCallback<RefreshWidget>()),
+                        modifier = GlanceModifier.clickable(action),
                         theming = theming,
                         context = context
                     )
@@ -89,13 +94,13 @@ class CountdownWidget : GlanceAppWidget() {
                         configCircle -> CountdownSmall(
                             countdownModel = model,
                             theming = theming,
-                            modifier = GlanceModifier.clickable(actionRunCallback<RefreshWidget>()),
+                            modifier = GlanceModifier.clickable(action),
                         )
 
                         configBar -> CountdownBar(
                             countdownModel = model,
                             theming = theming,
-                            modifier = GlanceModifier.clickable(actionRunCallback<RefreshWidget>()),
+                            modifier = GlanceModifier.clickable(action),
                         )
 
                         else -> {

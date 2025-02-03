@@ -1,6 +1,7 @@
 package tmg.hourglass.widgets.presentation
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.glance.GlanceId
 import androidx.glance.action.ActionParameters
@@ -28,8 +29,10 @@ internal class OpenApp : ActionCallback {
         glanceId: GlanceId,
         parameters: ActionParameters
     ) {
-        Log.i("Widget", "Opening all")
+        Log.i("Widget", "Refresh widget action for $glanceId (${glanceId.appWidgetId}) + opening app")
+        CountdownWidget().updateAll(context)
         val openAppIntent = WidgetsEntryPoints.get(context).navigator().getIntent(context)
+            .apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
         context.startActivity(openAppIntent)
     }
 }

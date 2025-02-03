@@ -183,6 +183,8 @@
 
     <string name="widget_not_started_short">0</string>
 
+    <string name="widget_open_app_on_click">Open app on click</string>
+
     <string name="widget_migration_needed">Please open app</string>
     <string name="widget_migration_needed_value" />
     <string name="widget_migration_needed_label">Open the app to restore countdown</string>

@@ -41,6 +41,7 @@ import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.buttons.PrimaryButton
+import tmg.hourglass.presentation.inputs.Switch
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
@@ -66,6 +67,7 @@ fun CountdownConfigurationScreenVM(
         uiState = uiState.value,
         save = viewModel::save,
         select = viewModel::select,
+        openAppOnClick = viewModel::openAppOnClick,
         backClicked = backClicked
     )
 }
@@ -76,6 +78,7 @@ fun CountdownConfigurationScreen(
     uiState: UiState,
     save: () -> Unit,
     select: (Countdown) -> Unit,
+    openAppOnClick: (Boolean) -> Unit,
     backClicked: () -> Unit,
 ) {
     AppTheme {
@@ -97,17 +100,31 @@ fun CountdownConfigurationScreen(
                         )
                     }
                 } else {
-                    LazyColumn(
-                        modifier = Modifier.weight(1f),
-                        content = {
-                            items(uiState.items, key = { it.id }) {
-                                SelectableItem(
-                                    countdown = it,
-                                    selectItem = select,
-                                    isChecked = uiState.selected == it
-                                )
+                    Column(Modifier.weight(1f)) {
+                        LazyColumn(
+                            modifier = Modifier.weight(1f),
+                            content = {
+                                items(uiState.items, key = { it.id }) {
+                                    SelectableItem(
+                                        countdown = it,
+                                        selectItem = select,
+                                        isChecked = uiState.selected == it
+                                    )
+                                }
                             }
-                        }
+                        )
+                    }
+                    Switch(
+                        modifier = Modifier
+                            .clickable {
+                                openAppOnClick(!uiState.openAppOnClick)
+                            }
+                            .padding(
+                                horizontal = AppTheme.dimensions.paddingMedium,
+                                vertical = AppTheme.dimensions.paddingSmall
+                            ),
+                        isChecked = uiState.openAppOnClick,
+                        label = stringResource(string.widget_open_app_on_click)
                     )
                 }
                 PrimaryButton(
@@ -224,7 +241,8 @@ private fun Preview() {
             uiState = uiState,
             save = { },
             backClicked = { },
-            select = { }
+            select = { },
+            openAppOnClick = { }
         )
     }
 }
@@ -232,6 +250,7 @@ private fun Preview() {
 private val uiState: UiState = UiState(
     items = listOf(generateCountdown(id = "1"),generateCountdown(id = "2"),generateCountdown(id = "3")),
     selected = generateCountdown(id = "1"),
+    openAppOnClick = false,
     appWidgetId = 1
 )
 private fun generateCountdown(id: String) = Countdown(
