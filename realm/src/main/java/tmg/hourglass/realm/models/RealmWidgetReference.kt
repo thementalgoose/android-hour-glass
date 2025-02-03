@@ -8,5 +8,6 @@ import io.realm.annotations.PrimaryKey
 open class RealmWidgetReference(
     @PrimaryKey
     var appWidgetId: Int = -1,
-    var countdownId: String = ""
+    var countdownId: String = "",
+    var openAppOnClick: Boolean = false
 ): RealmObject()

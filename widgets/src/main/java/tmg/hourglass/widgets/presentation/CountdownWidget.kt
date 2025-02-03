@@ -29,6 +29,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.unit.ColorProvider
+import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.utils.ProgressUtils
 import tmg.hourglass.strings.R.string
@@ -54,12 +55,25 @@ class CountdownWidget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val widgetConnector = WidgetsEntryPoints.get(context = context).widgetConnector()
+        val countdownConnector = WidgetsEntryPoints.get(context = context).countdownConnector()
 
         provideContent {
             val config = LocalSize.current
             val theming = getCountdownWidgetColors(context, !context.isInDayMode(ifUndefinedDefaultTo = true))
+
             Log.i("Widget", "App Widget Id ${id.appWidgetId}")
-            val countdownModel = widgetConnector.getCountdownModel(id.appWidgetId).collectAsState(null)
+            val widgetRef = widgetConnector.getSync(id.appWidgetId)
+            if (widgetRef == null) {
+                NoCountdown(
+                    modifier = GlanceModifier.clickable(actionRunCallback<OpenApp>()),
+                    theming = theming,
+                    context = context
+                )
+                return@provideContent
+            }
+
+            val initial = countdownConnector.getSync(widgetRef.countdownId)
+            val countdownModel = countdownConnector.get(widgetRef.countdownId).collectAsState(initial)
 
             Log.i("Widget", "Countdown model loaded to be ${countdownModel.value}")
             when (val model = countdownModel.value) {

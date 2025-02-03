@@ -39,7 +39,8 @@ class CountdownConfigurationViewModel @Inject constructor(
     }
 
     fun load(appWidgetId: Int) {
-        val countdown = widgetConnector.getCountdownModelSync(appWidgetId)
+        val widgetReference = widgetConnector.getSync(appWidgetId) ?: return
+        val countdown = countdownConnector.getSync(widgetReference.countdownId)
         _uiState.value = _uiState.value.copy(
             appWidgetId = appWidgetId,
             selected = countdown
