@@ -16,8 +16,6 @@ class WidgetConnectorTest {
             invokations += 1
         }
         override fun getSync(appWidgetId: Int) = null
-        override fun getCountdownModelSync(appWidgetId: Int) = null
-        override fun getCountdownModel(appWidgetId: Int): Flow<Countdown?> = flow { emit(null) }
     }
 
     @Test
