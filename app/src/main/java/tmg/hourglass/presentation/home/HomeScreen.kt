@@ -1,6 +1,7 @@
 package tmg.hourglass.presentation.home
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -128,6 +129,7 @@ internal fun ListScreen(
         content = {
             item("header", span = { GridItemSpan(maxLineSpan) }) {
                 TitleBar(
+                    modifier = Modifier.animateItem(),
                     title = stringResource(id = R.string.app_name),
                     overflowActions = {
                         if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
@@ -147,7 +149,7 @@ internal fun ListScreen(
             }
             if (uiState.isEmpty) {
                 item("empty", span = { GridItemSpan(maxLineSpan) }) {
-                    Column {
+                    Column(modifier = Modifier.animateItem(),) {
                         if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
                             Spacer(Modifier.height(AppTheme.dimensions.paddingLarge))
                         }
@@ -157,11 +159,16 @@ internal fun ListScreen(
             }
             if (uiState.expired.isNotEmpty()) {
                 item("expired", span = { GridItemSpan(maxLineSpan) }) {
-                    Header(string.dashboard_title_previous)
+                    Column(modifier = Modifier.animateItem()) {
+                        Header(
+                            label = string.dashboard_title_previous
+                        )
+                    }
                 }
             }
             items(uiState.expired, key = { it.id }) {
                 Countdown(
+                    modifier = Modifier.animateItem(),
                     countdown = it,
                     editClicked = null,
                     deleteClicked = deleteItem
@@ -169,11 +176,14 @@ internal fun ListScreen(
             }
             if (uiState.upcoming.isNotEmpty()) {
                 item("upcoming", span = { GridItemSpan(maxLineSpan) }) {
-                    Header(string.dashboard_title_upcoming)
+                    Column(modifier = Modifier.animateItem()) {
+                        Header(string.dashboard_title_upcoming)
+                    }
                 }
             }
             items(uiState.upcoming, key = { it.id }) {
                 Countdown(
+                    modifier = Modifier.animateItem(),
                     countdown = it,
                     editClicked = editItem,
                     deleteClicked = deleteItem
