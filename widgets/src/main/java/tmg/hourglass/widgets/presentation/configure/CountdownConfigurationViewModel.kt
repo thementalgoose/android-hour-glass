@@ -11,16 +11,19 @@ import kotlinx.coroutines.launch
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.connectors.WidgetConnector
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.domain.model.WidgetReference
 import javax.inject.Inject
 
 data class UiState(
     val items: List<Countdown>,
     val selected: Countdown?,
+    val openAppOnClick: Boolean,
     val appWidgetId: Int
 ) {
     constructor(): this(
         items = emptyList(),
         selected = null,
+        openAppOnClick = false,
         appWidgetId = -1
     )
 }
@@ -39,10 +42,17 @@ class CountdownConfigurationViewModel @Inject constructor(
     }
 
     fun load(appWidgetId: Int) {
-        val countdown = widgetConnector.getCountdownModelSync(appWidgetId)
+        val widgetReference = widgetConnector.getSync(appWidgetId) ?: return
+        val countdown = countdownConnector.getSync(widgetReference.countdownId)
         _uiState.value = _uiState.value.copy(
             appWidgetId = appWidgetId,
             selected = countdown
+        )
+    }
+
+    fun openAppOnClick(openAppOnClick: Boolean) {
+        _uiState.value = _uiState.value.copy(
+            openAppOnClick = openAppOnClick
         )
     }
 
@@ -70,7 +80,12 @@ class CountdownConfigurationViewModel @Inject constructor(
         if (state.selected == null) {
             return
         }
+        val ref = WidgetReference(
+            appWidgetId = state.appWidgetId,
+            countdownId = state.selected.id,
+            openAppOnClick = state.openAppOnClick
+        )
 
-        widgetConnector.saveSync(state.appWidgetId, state.selected.id)
+        widgetConnector.saveSync(ref)
     }
 }

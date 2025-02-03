@@ -24,7 +24,6 @@ import javax.inject.Singleton
 @Suppress("EXPERIMENTAL_API_USAGE")
 @Singleton
 class RealmWidgetConnector @Inject constructor(
-    private val countdownConnector: CountdownConnector,
     private val widgetMapper: RealmWidgetMapper
 ): RealmBaseConnector(), WidgetConnector {
 
@@ -33,7 +32,10 @@ class RealmWidgetConnector @Inject constructor(
         val model: RealmWidgetReference = realm
             .where<RealmWidgetReference>()
             .equalTo("appWidgetId", widgetReference.appWidgetId)
-            .findFirst() ?: realm.createObject(RealmWidgetReference::class.java, widgetReference.appWidgetId)
+            .findFirst() ?: realm.createObject(
+            RealmWidgetReference::class.java,
+            widgetReference.appWidgetId
+        )
         widgetMapper.serialize(model, widgetReference)
     }
 
@@ -47,24 +49,6 @@ class RealmWidgetConnector @Inject constructor(
         return@realmGet when {
             realmRef != null -> widgetMapper.deserialize(realm.copyFromRealm(realmRef))
             else -> null
-        }
-    }
-
-    override fun getCountdownModelSync(appWidgetId: Int): Countdown? {
-        val ref = getSync(appWidgetId)
-        Log.i("Realm", "Widgets: Getting countdown model sync from $appWidgetId - (${ref?.countdownId})")
-        return ref?.let { countdownConnector.getSync(it.countdownId) }
-    }
-
-    override fun getCountdownModel(appWidgetId: Int) = flowableList(
-        realmClass = RealmWidgetReference::class.java,
-        where = { it.equalTo("appWidgetId", appWidgetId) },
-        convert = { widgetMapper.deserialize(it) },
-    ).flatMapLatest {
-        if (it.isNotEmpty()) {
-            countdownConnector.get(it.first().countdownId)
-        } else {
-            return@flatMapLatest flow { emit(null) }
         }
     }
 }

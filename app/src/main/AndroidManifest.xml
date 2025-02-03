@@ -14,6 +14,7 @@
 
         <activity android:name=".presentation.DashboardActivity"
             android:theme="@style/Launcher"
+            android:launchMode="singleInstance"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>
@@ -22,9 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".presentation.settings.release.ReleaseActivity"
-            android:exported="false" />
 
         <activity android:name=".presentation.settings.privacy.PrivacyPolicyActivity"
             android:exported="false" />

@@ -132,6 +132,7 @@
     <string name="widget_not_started">No ha comenzado. Toca para actualizar</string>
     <string name="widget_progress">Actualizado a las %s</string>
     <string name="widget_not_started_short">0</string>
+    <string name="widget_open_app_on_click">Abrir aplicación al hacer clic</string>
     <string name="widget_migration_needed">Por favor, abre la aplicación</string>
     <string name="widget_migration_needed_value" /> <string name="widget_migration_needed_label">Abre la aplicación para restaurar la cuenta atrás</string>
     <string name="widget_migration_needed_label_short">Error</string>

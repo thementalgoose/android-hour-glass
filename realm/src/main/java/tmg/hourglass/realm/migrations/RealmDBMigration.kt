@@ -34,6 +34,10 @@ class RealmDBMigration: RealmMigration {
                     schema.get("RealmCountdown")
                         ?.addRealmListField("notifications", schema.get("RealmCountdownNotifications")!!)
                 }
+                5L -> {
+                    schema.get("RealmWidgetReference")
+                        ?.addField("openAppOnClick", Boolean::class.java, FieldAttribute.REQUIRED)
+                }
                 else -> { }
             }
         }
