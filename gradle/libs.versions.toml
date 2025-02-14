@@ -20,7 +20,7 @@ realm = "10.19.0"
 
 [libraries]  # ===========================================================================
 ## Root build.gradle dependencies
-gradle_agp = "com.android.tools.build:gradle:8.8.0"
+gradle_agp = "com.android.tools.build:gradle:8.8.1"
 gradle_crashlytics = "com.google.firebase:firebase-crashlytics-gradle:3.0.3"
 gradle_hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
 gradle_junit5 = "de.mannodermaus.gradle.plugins:android-junit5:1.11.3.0"
