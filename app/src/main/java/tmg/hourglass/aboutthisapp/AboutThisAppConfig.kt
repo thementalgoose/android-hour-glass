@@ -16,15 +16,18 @@ import tmg.aboutthisapp.configuration.DependencyIcon
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.prefs.PreferencesManager
+import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.darkColors
 import tmg.hourglass.presentation.dynamic
 import tmg.hourglass.presentation.lightColors
+import tmg.utilities.extensions.isInDayMode
+import tmg.utilities.extensions.isInNightMode
 import javax.inject.Inject
 
 class AboutThisAppConfig @Inject constructor(
     @ApplicationContext
     private val context: Context,
-    private val prefManager: PreferencesManager
+    private val prefManager: PreferencesManager,
 ) {
 
     fun startActivity(appCompatActivity: AppCompatActivity) {
@@ -44,7 +47,12 @@ class AboutThisAppConfig @Inject constructor(
             github = "https://www.github.com/thementalgoose",
             debugInfo = prefManager.deviceUdid,
             lightColors = getColours(isLight = true),
-            darkColors = getColours(isLight = false)
+            darkColors = getColours(isLight = false),
+            setIsDarkMode = when (prefManager.theme) {
+                ThemePref.AUTO -> context.isInNightMode()
+                ThemePref.LIGHT -> false
+                ThemePref.DARK -> true
+            }
         )
 
     //region Colours
