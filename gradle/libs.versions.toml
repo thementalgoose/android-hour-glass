@@ -116,7 +116,7 @@ room_testing = { module = "androidx.room:room-testing", version.ref = "androidx_
 shakey = "com.linkedin.shaky:shaky:3.0.7"
 falcon = "com.jraska:falcon:2.2.0"
 
-threeten = "org.threeten:threetenbp:1.7.0"
+threeten = "org.threeten:threetenbp:1.7.1"
 threetenabp = "com.jakewharton.threetenabp:threetenabp:1.4.8"
 
 tmg_utils = "com.github.thementalgoose:android-utilities:2.6.2"
