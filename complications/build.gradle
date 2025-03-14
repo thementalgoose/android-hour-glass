@@ -1,0 +1,16 @@
+apply plugin:  'com.android.library'
+apply from: rootDir.absolutePath + "/gradle/config-android.gradle"
+apply from: rootDir.absolutePath + "/gradle/config-util.gradle"
+apply from: rootDir.absolutePath + "/gradle/config-junit5.gradle"
+
+android {
+    namespace 'tmg.hourglass.complications'
+}
+
+dependencies {
+
+    implementation libs.bundles.androidx.wear
+    implementation libs.play.services.wearable
+
+    debugImplementation libs.androidx.wear.toolingpreview
+}
