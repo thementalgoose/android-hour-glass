@@ -5,6 +5,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import tmg.hourglass.presentation.ThemePref
 import tmg.utilities.extensions.toEnum
 import tmg.utilities.prefs.SharedPrefManager
+import tmg.utilities.prefs.SharedPrefManagerConfig
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,7 +22,12 @@ class AppPreferencesManager @Inject constructor(
     @ApplicationContext context: Context
 ): SharedPrefManager(context), PreferencesManager {
 
-    override val prefsKey: String = "tmg.passage"
+    override val prefConfig: SharedPrefManagerConfig
+        get() = SharedPrefManagerConfig.Custom(
+            prefsKey = "tmg.passage"
+        )
+
+    override val prefsKey: String? = ""
 
     override var crashReporting: Boolean
         get() = getBoolean(keyCrashReporting, true)
