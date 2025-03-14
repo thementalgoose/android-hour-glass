@@ -118,6 +118,8 @@ dependencies {
     implementation project(path: ":presentation:strings")
     implementation project(path: ":widgets")
 
+    wearApp project(path: ":wear")
+
     implementation libs.androidx.splashscreen
 
     // Firebase

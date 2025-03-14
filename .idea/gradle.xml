@@ -20,10 +20,10 @@
             <option value="$PROJECT_DIR$/presentation/strings" />
             <option value="$PROJECT_DIR$/presentation/ui" />
             <option value="$PROJECT_DIR$/realm" />
+            <option value="$PROJECT_DIR$/wear" />
             <option value="$PROJECT_DIR$/widgets" />
           </set>
         </option>
-        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
