@@ -8,7 +8,10 @@ androidx_navigation = "2.8.9"
 androidx_lifecycle = "2.8.7"
 androidx_room = "2.7.1"
 androidx_workmanager = "2.10.1"
-androidx_glance = "1.1.1" #beta01 has update frequency issues!
+androidx_glance = "1.1.1"
+androidx_wear = "1.4.1"
+androidx_wear_watchface = "1.2.1"
+androidx_wear_horologist = "0.6.23"
 compose = "2025.04.01"
 compose_accompanist = "0.36.0"
 coroutines = "1.10.2"
@@ -46,6 +49,16 @@ androidx_window = "androidx.window:window:1.3.0"
 
 androidx_glance_core = { module = "androidx.glance:glance", version.ref = "androidx_glance" }
 androidx_glance_appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "androidx_glance" }
+
+androidx_wear_toolingpreview = "androidx.wear:wear-tooling-preview:1.0.0"
+androidx_wear_compose_material = { module = "androidx.wear.compose:compose-material", version.ref = "androidx_wear" }
+androidx_wear_compose_foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "androidx_wear" }
+androidx_wear_watchface_watchface = { module = "androidx.wear.watchface:watchface", version.ref = "androidx_wear_watchface" }
+androidx_wear_watchface_complications = { module = "androidx.wear.watchface:watchface-complications", version.ref = "androidx_wear_watchface" }
+androidx_wear_watchface_complicationsdatasource = { module = "androidx.wear.watchface:watchface-complications-data-source-ktx", version.ref = "androidx_wear_watchface" }
+
+horologist_compose_tools = { module = "com.google.android.horologist:horologist-compose-tools", version.ref = "androidx_wear_horologist" }
+horologist_tiles = { module = "com.google.android.horologist:horologist-tiles", version.ref = "androidx_wear_horologist" }
 
 androidx_workmanager_runtime = { module = "androidx.work:work-runtime", version.ref = "androidx_workmanager" }
 androidx_workmanager_ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx_workmanager" }
@@ -109,6 +122,8 @@ room_compiler = { module = "androidx.room:room-compiler", version.ref = "android
 room_ktx = { module = "androidx.room:room-ktx", version.ref = "androidx_room" }
 room_testing = { module = "androidx.room:room-testing", version.ref = "androidx_room" }
 
+play-services-wearable = "com.google.android.gms:play-services-wearable:19.0.0"
+
 shakey = "com.linkedin.shaky:shaky:3.0.9"
 falcon = "com.jraska:falcon:2.2.0"
 
@@ -125,7 +140,6 @@ test_androidx_rules = "androidx.test:rules:1.6.1"
 test_androidx_runner = "androidx.test:runner:1.6.2"
 test_androidx_junit_ktx = "androidx.test.ext:junit-ktx:1.2.1"
 test_androidx_junit = "androidx.test.ext:junit:1.2.1"
-test_androidx_junit_api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 test_espresso_core = "androidx.test.espresso:espresso-core:3.6.1"
 
 test_junit5_core = { module = "de.mannodermaus.junit5:android-test-core", version.ref = "junit5" }
@@ -163,6 +177,13 @@ androidx_glance = [
     "androidx_glance_core",
     "androidx_glance_appwidget"
 ]
+androidx_wear = [
+    "androidx_wear_compose_foundation",
+    "androidx_wear_compose_material",
+    "androidx_wear_watchface_watchface",
+    "androidx_wear_watchface_complications",
+    "androidx_wear_watchface_complicationsdatasource"
+]
 kotlin = [
     "kotlin_stdlib",
     "kotlin_reflect",
@@ -176,6 +197,10 @@ accompanist = [
     "accompanist_horizontalpager",
     "accompanist_systemuicontroller",
     "accompanist_placeholder"
+]
+horologist = [
+    "horologist_compose_tools",
+    "horologist_tiles"
 ]
 retrofit = [
     "retrofit_core",
@@ -194,7 +219,7 @@ androidxtest = [
     "test_androidx_runner",
     "test_androidx_junit_ktx",
     "test_androidx_junit",
-    "test_androidx_junit_api",
+    "junit5_api",
     "test_espresso_core"
 ]
 

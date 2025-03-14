@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/presentation" />
             <option value="$PROJECT_DIR$/presentation/strings" />
             <option value="$PROJECT_DIR$/presentation/ui" />
+            <option value="$PROJECT_DIR$/wear" />
             <option value="$PROJECT_DIR$/widgets" />
           </set>
         </option>
