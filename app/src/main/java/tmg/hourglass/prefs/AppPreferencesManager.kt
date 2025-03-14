@@ -27,8 +27,6 @@ class AppPreferencesManager @Inject constructor(
             prefsKey = "tmg.passage"
         )
 
-    override val prefsKey: String? = ""
-
     override var crashReporting: Boolean
         get() = getBoolean(keyCrashReporting, true)
         set(value) = save(keyCrashReporting, value)
