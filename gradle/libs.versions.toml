@@ -96,10 +96,6 @@ firebase_crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase_messaging = { module = "com.google.firebase:firebase-messaging" }
 firebase_perf = { module = "com.google.firebase:firebase-perf" }
 
-flagkit = "com.github.murgupluoglu:flagkit-android:1.0.5"
-
-lottie = "com.airbnb.android:lottie-compose:6.6.3"
-
 retrofit_core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit_converter_simplexml = { module = "com.squareup.retrofit2:converter-simplexml", version.ref = "retrofit" }
 retrofit_converter_jaxb = { module = "com.squareup.retrofit2:converter-jaxb", version.ref = "retrofit" }
