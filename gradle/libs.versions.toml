@@ -115,7 +115,7 @@ falcon = "com.jraska:falcon:2.2.0"
 threeten = "org.threeten:threetenbp:1.7.1"
 threetenabp = "com.jakewharton.threetenabp:threetenabp:1.4.9"
 
-tmg_utils = "com.github.thementalgoose:android-utilities:2.7.1"
+tmg_utils = "com.github.thementalgoose:android-utilities:2.8.0"
 tmg_labelledprogressbar = "com.github.thementalgoose:android-labelled-progress-bar:1.0.9"
 tmg_aboutthisapp = "com.github.thementalgoose:android-about-this-app:6.0.7"
 
