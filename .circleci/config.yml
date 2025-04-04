@@ -7,7 +7,7 @@ jobs:
   unit-test:
     resource_class: medium
     docker:
-      - image: cimg/android:2025.03
+      - image: cimg/android:2025.04
     environment:
       JVM_OPTS: -Xmx3072m
       GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
