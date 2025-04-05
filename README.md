@@ -1,10 +1,14 @@
-# HourGlass - Android
+<p align="center">
+  <img width="180" src="res/ic_launcher-playstore.png" />
+</p>
+<h1 align="center">HourGlass</h1>
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=tmg.hourglassflashback"><img src="https://img.shields.io/static/v1?label=Google%20Play&message=%20&logo=google-play&color=success&style=flat"/></a>
+  <a href="https://github.com/thementalgoose/android-hour-glass/releases"><img src="https://img.shields.io/static/v1?label=Latest%20Release&message=5.x.x&logo=github&color=blue&style=flat"/></a>
+  <a href="https://github.com/thementalgoose/android-hour-glass/actions"><img src="https://github.com/thementalgoose/android-hour-glass/workflows/Release/badge.svg"/></a>
+</p>
 
-[![main](https://github.com/thementalgoose/android-hour-glass/workflows/Main/badge.svg)](https://github.com/thementalgoose/android-hour-glass/actions)
-
-[![Google Play](https://i.imgur.com/gSfLc4N.png)](https://play.google.com/store/apps/details?id=tmg.hourglass)
-
-![HourGlass](res/feature.png)
+---
 
 ### Screenshots
 
