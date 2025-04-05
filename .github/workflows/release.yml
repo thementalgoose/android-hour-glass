@@ -43,6 +43,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      # Environment
+      - name: Environment variables
+        run: |
+          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_SAND }} | base64 --decode >> app/src/sand/google-services.json
+
       # Unit tests
       - name: Unit tests
         run: ./gradlew clean testSandDebugUnitTest testDebugUnitTest
@@ -82,7 +87,9 @@ jobs:
       # Environment
       - name: Environment variables
         run: |
-          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_SAND }} | base64 --decode >> app/src/sand/google-services.json
+          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_LIVE }} | base64 --decode >> app/src/live/google-services.json
+          echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> hour-glass.keystore
+          echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
 
       # Version tag
       - name: Version Name
