@@ -2,7 +2,7 @@ package tmg.hourglass.domain.model
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 import tmg.hourglass.domain.enums.CountdownInterpolator.LINEAR
 import tmg.hourglass.domain.enums.CountdownType.DAYS
 import tmg.hourglass.domain.enums.CountdownType.NUMBER

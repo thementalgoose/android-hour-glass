@@ -1,7 +1,7 @@
 package tmg.hourglass.realm.mappers
 
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import tmg.hourglass.domain.model.CountdownNotifications
 import tmg.hourglass.realm.models.RealmCountdown
 import tmg.hourglass.realm.models.RealmCountdownNotifications

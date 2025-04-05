@@ -13,8 +13,6 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.jakewharton.threetenabp.AndroidThreeTen
-import org.threeten.bp.LocalDateTime
 
 object AppTheme {
     val colors: AppColors
@@ -75,7 +73,6 @@ fun AppThemePreview(
     content: @Composable () -> Unit
 ) {
     AppTheme(isLight = isLight) {
-        AndroidThreeTen.init(LocalContext.current)
         Box(
             modifier = Modifier
                 .background(AppTheme.colors.backgroundPrimary)

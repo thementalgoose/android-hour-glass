@@ -6,8 +6,8 @@ import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.utils.ProgressUtils.Companion.getProgress
 import tmg.hourglass.domain.utils.ProgressUtils.Companion.millis

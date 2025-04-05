@@ -1,6 +1,6 @@
 package tmg.hourglass.domain.model
 
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import kotlin.math.ceil

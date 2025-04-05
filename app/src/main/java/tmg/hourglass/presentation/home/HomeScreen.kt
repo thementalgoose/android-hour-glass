@@ -27,8 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneId
+import java.time.LocalDateTime
+import java.time.ZoneId
 import tmg.hourglass.R
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownInterpolator

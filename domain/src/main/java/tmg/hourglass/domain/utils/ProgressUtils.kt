@@ -1,8 +1,8 @@
 package tmg.hourglass.domain.utils
 
 import android.view.animation.Interpolator
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneOffset
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.extensions.valueInterpolator
 import tmg.hourglass.domain.model.Countdown
