@@ -5,7 +5,7 @@ import io.realm.RealmList
 import io.realm.kotlin.where
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.realm.mappers.RealmCountdownMapper

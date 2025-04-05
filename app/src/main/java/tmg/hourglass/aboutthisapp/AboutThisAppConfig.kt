@@ -117,14 +117,6 @@ class AboutThisAppConfig @Inject constructor(
             )
         ),
         Dependency(
-            dependencyName = "ThreeTen",
-            author = "Jake Wharton",
-            url = "https://github.com/JakeWharton/ThreeTenABP",
-            icon = DependencyIcon.Image(
-                url = "https://avatars0.githubusercontent.com/u/66577"
-            )
-        ),
-        Dependency(
             dependencyName = "ColorSheet",
             author = "Kristiyan Petrov",
             url = "https://github.com/kristiyanP/colorpicker",

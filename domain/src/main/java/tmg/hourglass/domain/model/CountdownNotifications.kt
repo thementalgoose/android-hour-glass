@@ -1,6 +1,6 @@
 package tmg.hourglass.domain.model
 
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 
 sealed class CountdownNotifications(
     val id: String

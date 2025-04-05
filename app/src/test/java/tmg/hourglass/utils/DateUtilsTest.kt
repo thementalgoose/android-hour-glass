@@ -2,7 +2,7 @@ package tmg.hourglass.utils
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 
 internal class DateUtilsTest {
 

@@ -1,9 +1,9 @@
 package tmg.hourglass.realm.mappers
 
 import android.util.Log
-import org.threeten.bp.Instant
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneOffset
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown

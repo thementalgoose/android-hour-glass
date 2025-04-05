@@ -1,6 +1,6 @@
 package tmg.hourglass.presentation.modify
 
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType

@@ -1,7 +1,7 @@
 package tmg.hourglass.utils
 
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.temporal.ChronoUnit
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 object DateUtils {
     fun daysBetween(start: LocalDateTime, end: LocalDateTime): Int {

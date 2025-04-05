@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.jakewharton.threetenabp.AndroidThreeTen
 import com.linkedin.android.shaky.EmailShakeDelegate
 import com.linkedin.android.shaky.Shaky
 import dagger.hilt.android.HiltAndroidApp
@@ -44,9 +43,6 @@ class HourGlassApplication : Application() {
             ThemePref.LIGHT -> setDefaultNightMode(MODE_NIGHT_NO)
             ThemePref.DARK -> setDefaultNightMode(MODE_NIGHT_YES)
         }
-
-        // ThreeTen
-        AndroidThreeTen.init(this)
 
         // Shake to report a bug
         if (prefs.shakeToReport) {

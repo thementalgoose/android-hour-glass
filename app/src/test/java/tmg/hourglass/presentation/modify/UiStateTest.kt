@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 import tmg.hourglass.presentation.modify.ModifyData.today
 import tmg.hourglass.presentation.modify.ModifyData.tomorrow
 import tmg.hourglass.presentation.modify.ModifyData.uiStateDays
