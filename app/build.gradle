@@ -78,8 +78,8 @@ android {
         sand {
             isDefault.set(true)
             dimension 'version'
-            applicationIdSuffix '.sand'
-            versionNameSuffix '-sand'
+            applicationIdSuffix '.sandbox'
+            versionNameSuffix '-sandbox'
 
             buildConfigField "int", "ENVIRONMENT", '1'
             firebaseCrashlytics {
