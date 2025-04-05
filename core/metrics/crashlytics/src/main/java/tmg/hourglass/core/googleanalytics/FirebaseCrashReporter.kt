@@ -1,13 +1,12 @@
 package tmg.hourglass.core.googleanalytics
 
-import tmg.hourglass.core.googleanalytics.BuildConfig
 import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FirebaseCrashReporter @Inject constructor(): CrashReporter {
+internal class FirebaseCrashReporter @Inject constructor(): CrashReporter {
     override fun log(msg: String) {
         FirebaseCrashlytics.getInstance().log(msg)
         Log.e("HourGlass", "Exception thrown: $msg")
