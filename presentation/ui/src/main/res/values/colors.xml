@@ -9,20 +9,4 @@
     <color name="black">#000000</color>
 
     <color name="brand_dark">#5E1B3A</color>
-
-    <color name="widget_colour_1">#2062AF</color>
-    <color name="widget_colour_2">#58AEB7</color>
-    <color name="widget_colour_3">#F4B528</color>
-    <color name="widget_colour_4">#DD3E48</color>
-    <color name="widget_colour_5">#BF89AE</color>
-    <color name="widget_colour_6">#5C88BE</color>
-    <color name="widget_colour_7">#59BC10</color>
-    <color name="widget_colour_8">#E87034</color>
-    <color name="widget_colour_9">#F84C44</color>
-    <color name="widget_colour_10">#8C47FB</color>
-    <color name="widget_colour_11">#51C1EE</color>
-    <color name="widget_colour_12">#8CC453</color>
-    <color name="widget_colour_13">#C2987D</color>
-    <color name="widget_colour_14">#CE7777</color>
-    <color name="widget_colour_15">#9086BA</color>
 </resources>
