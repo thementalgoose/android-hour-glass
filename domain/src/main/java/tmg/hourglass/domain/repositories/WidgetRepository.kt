@@ -1,8 +1,8 @@
-package tmg.hourglass.domain.connectors
+package tmg.hourglass.domain.repositories
 
 import tmg.hourglass.domain.model.WidgetReference
 
-interface WidgetConnector {
+interface WidgetRepository {
 
     fun saveSync(widgetReference: WidgetReference)
 

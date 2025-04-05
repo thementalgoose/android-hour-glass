@@ -9,7 +9,7 @@ import tmg.hourglass.core.crashlytics.GoogleAnalyticsManager
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class AnalyticsModule {
+internal abstract class AnalyticsModule {
 
     @Binds
     abstract fun bindAnalyticsManager(impl: GoogleAnalyticsManager): AnalyticsManager

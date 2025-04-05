@@ -112,7 +112,7 @@ dependencies {
     implementation project(path: ':core:metrics:crashlytics')
 
     // Modules
-    implementation project(path: ":realm")
+    implementation project(path: ":data:realm")
     implementation project(path: ":domain")
     implementation project(path: ":presentation:ui")
     implementation project(path: ":presentation:strings")

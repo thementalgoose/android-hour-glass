@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import tmg.hourglass.domain.connectors.CountdownConnector
-import tmg.hourglass.domain.connectors.WidgetConnector
+import tmg.hourglass.domain.repositories.CountdownRepository
+import tmg.hourglass.domain.repositories.WidgetRepository
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.WidgetReference
 import javax.inject.Inject
@@ -30,8 +30,8 @@ data class UiState(
 
 @HiltViewModel
 class CountdownConfigurationViewModel @Inject constructor(
-    private val countdownConnector: CountdownConnector,
-    private val widgetConnector: WidgetConnector,
+    private val countdownRepository: CountdownRepository,
+    private val widgetRepository: WidgetRepository,
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -42,8 +42,8 @@ class CountdownConfigurationViewModel @Inject constructor(
     }
 
     fun load(appWidgetId: Int) {
-        val widgetReference = widgetConnector.getSync(appWidgetId) ?: return
-        val countdown = countdownConnector.getSync(widgetReference.countdownId)
+        val widgetReference = widgetRepository.getSync(appWidgetId) ?: return
+        val countdown = countdownRepository.getSync(widgetReference.countdownId)
         _uiState.value = _uiState.value.copy(
             appWidgetId = appWidgetId,
             selected = countdown,
@@ -65,7 +65,7 @@ class CountdownConfigurationViewModel @Inject constructor(
 
     private fun refresh() {
         viewModelScope.launch {
-            val current = countdownConnector.allCurrent().first()
+            val current = countdownRepository.allCurrent().first()
             _uiState.value = _uiState.value.copy(
                 items = current,
             )
@@ -87,6 +87,6 @@ class CountdownConfigurationViewModel @Inject constructor(
             openAppOnClick = state.openAppOnClick
         )
 
-        widgetConnector.saveSync(ref)
+        widgetRepository.saveSync(ref)
     }
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.usecases.ChangeThemeUseCase
@@ -33,7 +33,7 @@ enum class SettingsType {
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val prefManager: PreferencesManager,
-    private val countdownConnector: CountdownConnector,
+    private val countdownRepository: CountdownRepository,
     private val changeThemeUseCase: ChangeThemeUseCase
 ): ViewModel() {
 
@@ -74,7 +74,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun deleteAll() {
-        countdownConnector.deleteAll()
+        countdownRepository.deleteAll()
     }
 
     private fun refresh() {

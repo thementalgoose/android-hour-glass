@@ -10,7 +10,7 @@ import tmg.hourglass.core.googleanalytics.FirebaseCrashReporter
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class CrashModule {
+internal abstract class CrashModule {
 
     @Binds
     abstract fun bindCrashReporter(impl: FirebaseCrashReporter): CrashReporter

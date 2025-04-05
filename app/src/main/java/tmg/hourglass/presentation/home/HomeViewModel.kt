@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.navigation.Screen
 import tmg.hourglass.presentation.navigation.NavigationController
@@ -40,7 +40,7 @@ sealed class HomeAction {
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val countdownConnector: CountdownConnector,
+    private val countdownRepository: CountdownRepository,
     private val navigationController: NavigationController,
 ): ViewModel() {
 
@@ -72,14 +72,14 @@ class HomeViewModel @Inject constructor(
     }
 
     fun delete(countdown: Countdown) {
-        countdownConnector.delete(countdown.id)
+        countdownRepository.delete(countdown.id)
         loadDashboard()
     }
 
     private fun loadDashboard() {
         viewModelScope.launch {
-            val expired = countdownConnector.allDone().first()
-            val upcoming = countdownConnector.allCurrent().first()
+            val expired = countdownRepository.allDone().first()
+            val upcoming = countdownRepository.allCurrent().first()
 
             update {
                 copy(

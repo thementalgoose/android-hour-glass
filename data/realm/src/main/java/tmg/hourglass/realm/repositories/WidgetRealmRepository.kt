@@ -1,20 +1,8 @@
-package tmg.hourglass.realm.connectors
+package tmg.hourglass.realm.repositories
 
 import android.util.Log
-import io.realm.Realm
-import io.realm.RealmChangeListener
-import io.realm.RealmObject
-import io.realm.RealmQuery
 import io.realm.kotlin.where
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import tmg.hourglass.domain.connectors.CountdownConnector
-import tmg.hourglass.domain.connectors.WidgetConnector
-import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.domain.repositories.WidgetRepository
 import tmg.hourglass.domain.model.WidgetReference
 import tmg.hourglass.realm.mappers.RealmWidgetMapper
 import tmg.hourglass.realm.models.RealmWidgetReference
@@ -23,9 +11,9 @@ import javax.inject.Singleton
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 @Singleton
-class RealmWidgetConnector @Inject constructor(
+class WidgetRealmRepository @Inject constructor(
     private val widgetMapper: RealmWidgetMapper
-): RealmBaseConnector(), WidgetConnector {
+): BaseRealmRepository(), WidgetRepository {
 
     override fun saveSync(widgetReference: WidgetReference) = realmSync { realm ->
         Log.i("Realm", "Widgets: Saving $widgetReference")

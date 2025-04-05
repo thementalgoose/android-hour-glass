@@ -9,7 +9,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.navigation.Screen
 import tmg.hourglass.presentation.navigation.NavigationController
@@ -19,7 +19,7 @@ internal class HomeViewModelTest: BaseTest() {
 
     private lateinit var underTest: HomeViewModel
 
-    private val mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
+    private val mockCountdownRepository: CountdownRepository = mockk(relaxed = true)
     private val mockNavigationController: NavigationController = mockk(relaxed = true)
 
     private val fakeCountdownExpired: Countdown = mockk(relaxed = true) {
@@ -31,15 +31,15 @@ internal class HomeViewModelTest: BaseTest() {
 
     private fun initUnderTest() {
         underTest = HomeViewModel(
-            countdownConnector = mockCountdownConnector,
+            countdownRepository = mockCountdownRepository,
             navigationController = mockNavigationController
         )
     }
 
     @BeforeEach
     fun setUp() {
-        every { mockCountdownConnector.allDone() } returns flow { emit(listOf(fakeCountdownExpired)) }
-        every { mockCountdownConnector.allCurrent() } returns flow { emit(listOf(fakeCountdownUpcoming)) }
+        every { mockCountdownRepository.allDone() } returns flow { emit(listOf(fakeCountdownExpired)) }
+        every { mockCountdownRepository.allCurrent() } returns flow { emit(listOf(fakeCountdownUpcoming)) }
     }
 
     @Test
@@ -71,8 +71,8 @@ internal class HomeViewModelTest: BaseTest() {
             assertEquals(listOf(fakeCountdownUpcoming), item1.upcoming)
             assertEquals(listOf(fakeCountdownExpired), item1.expired)
 
-            every { mockCountdownConnector.allDone() } returns flow { emit(emptyList()) }
-            every { mockCountdownConnector.allCurrent() } returns flow { emit(emptyList()) }
+            every { mockCountdownRepository.allDone() } returns flow { emit(emptyList()) }
+            every { mockCountdownRepository.allCurrent() } returns flow { emit(emptyList()) }
 
             underTest.refresh()
 
@@ -102,7 +102,7 @@ internal class HomeViewModelTest: BaseTest() {
         initUnderTest()
         underTest.delete(fakeCountdownUpcoming)
         verify {
-            mockCountdownConnector.delete("upcoming")
+            mockCountdownRepository.delete("upcoming")
         }
     }
 

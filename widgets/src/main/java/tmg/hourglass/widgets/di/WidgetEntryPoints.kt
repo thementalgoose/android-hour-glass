@@ -5,15 +5,15 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import tmg.hourglass.domain.connectors.CountdownConnector
-import tmg.hourglass.domain.connectors.WidgetConnector
+import tmg.hourglass.domain.repositories.CountdownRepository
+import tmg.hourglass.domain.repositories.WidgetRepository
 
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 internal interface WidgetsEntryPoints {
 
-    fun widgetConnector(): WidgetConnector
-    fun countdownConnector(): CountdownConnector
+    fun widgetConnector(): WidgetRepository
+    fun countdownConnector(): CountdownRepository
     fun navigator(): WidgetNavigator
 
     companion object {

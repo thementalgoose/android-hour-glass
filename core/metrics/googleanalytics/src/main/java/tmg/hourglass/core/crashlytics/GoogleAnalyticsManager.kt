@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GoogleAnalyticsManager @Inject constructor(
+internal class GoogleAnalyticsManager @Inject constructor(
     @ApplicationContext
     val context: Context
 ): AnalyticsManager {
