@@ -1,9 +1,9 @@
-package tmg.hourglass.domain.connectors
+package tmg.hourglass.domain.repositories
 
 import kotlinx.coroutines.flow.Flow
 import tmg.hourglass.domain.model.Countdown
 
-interface CountdownConnector {
+interface CountdownRepository {
     fun allCurrent(): Flow<List<Countdown>>
     fun allDone(): Flow<List<Countdown>>
     fun all(): Flow<List<Countdown>>

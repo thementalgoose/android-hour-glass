@@ -1,12 +1,11 @@
-package tmg.hourglass.realm.connectors
+package tmg.hourglass.realm.repositories
 
-import android.util.Log
 import io.realm.RealmList
 import io.realm.kotlin.where
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDateTime
-import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.realm.mappers.RealmCountdownMapper
 import tmg.hourglass.realm.mappers.RealmCountdownNotificationMapper
@@ -16,10 +15,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RealmCountdownConnector @Inject constructor(
+class CountdownRealmRepository @Inject constructor(
     private val countdownMapper: RealmCountdownMapper,
     private val countdownNotificationMapper: RealmCountdownNotificationMapper
-): RealmBaseConnector(), CountdownConnector {
+): BaseRealmRepository(), CountdownRepository {
 
     override fun allCurrent(): Flow<List<Countdown>> = flowableList(
         realmClass = RealmCountdown::class.java,

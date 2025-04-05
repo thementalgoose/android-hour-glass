@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import tmg.hourglass.core.googleanalytics.CrashReporter
-import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.presentation.modify.ModifyData.countdownDays
 import tmg.hourglass.presentation.modify.ModifyData.countdownNumber
@@ -21,18 +21,18 @@ import tmg.hourglass.presentation.modify.ModifyData.uiStateNumberEmpty
 
 internal class ModifyViewModelTest {
 
-    private val mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
+    private val mockCountdownRepository: CountdownRepository = mockk(relaxed = true)
     private val mockCrashReporter: CrashReporter = mockk(relaxed = true)
 
     private lateinit var underTest: ModifyViewModel
 
     private fun initUnderTest() {
         underTest = ModifyViewModel(
-            countdownConnector = mockCountdownConnector,
+            countdownRepository = mockCountdownRepository,
             crashReporter = mockCrashReporter
         )
-        every { mockCountdownConnector.getSync(countdownDays.id) } returns countdownDays
-        every { mockCountdownConnector.getSync(countdownNumber.id) } returns countdownNumber
+        every { mockCountdownRepository.getSync(countdownDays.id) } returns countdownDays
+        every { mockCountdownRepository.getSync(countdownNumber.id) } returns countdownNumber
     }
 
     @Test
@@ -208,7 +208,7 @@ internal class ModifyViewModelTest {
 
         underTest.save()
         verify {
-            mockCountdownConnector.saveSync(countdownDays)
+            mockCountdownRepository.saveSync(countdownDays)
         }
     }
 
@@ -221,7 +221,7 @@ internal class ModifyViewModelTest {
 
         underTest.save()
         verify(exactly = 0) {
-            mockCountdownConnector.saveSync(countdownDays)
+            mockCountdownRepository.saveSync(countdownDays)
         }
         verify {
             mockCrashReporter.logException(any())
@@ -238,7 +238,7 @@ internal class ModifyViewModelTest {
 
         underTest.save()
         verify {
-            mockCountdownConnector.saveSync(any())
+            mockCountdownRepository.saveSync(any())
         }
     }
 
@@ -249,7 +249,7 @@ internal class ModifyViewModelTest {
 
         underTest.delete()
         verify {
-            mockCountdownConnector.delete(countdownDays.id)
+            mockCountdownRepository.delete(countdownDays.id)
         }
     }
 }

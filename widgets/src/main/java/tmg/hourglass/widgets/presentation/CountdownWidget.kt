@@ -29,7 +29,6 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.unit.ColorProvider
-import tmg.hourglass.domain.connectors.CountdownConnector
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.utils.ProgressUtils
 import tmg.hourglass.strings.R.string
@@ -37,7 +36,6 @@ import tmg.hourglass.widgets.di.WidgetsEntryPoints
 import tmg.hourglass.widgets.utils.appWidgetId
 import tmg.hourglass.widgets.utils.fromHex
 import tmg.utilities.extensions.isInDayMode
-import kotlin.math.floor
 
 class CountdownWidget : GlanceAppWidget() {
 

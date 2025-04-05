@@ -8,7 +8,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.usecases.ChangeThemeUseCase
@@ -18,14 +18,14 @@ internal class SettingsViewModelTest: BaseTest() {
 
     private lateinit var underTest: SettingsViewModel
 
-    private val mockCountdownConnector: CountdownConnector = mockk(relaxed = true)
+    private val mockCountdownRepository: CountdownRepository = mockk(relaxed = true)
     private val mockPreferenceManager: PreferencesManager = mockk(relaxed = true)
     private val mockChangeThemeUseCase: ChangeThemeUseCase = mockk(relaxed = true)
 
     private fun initUnderTest() {
         underTest = SettingsViewModel(
             prefManager = mockPreferenceManager,
-            countdownConnector = mockCountdownConnector,
+            countdownRepository = mockCountdownRepository,
             changeThemeUseCase = mockChangeThemeUseCase
         )
     }
@@ -123,7 +123,7 @@ internal class SettingsViewModelTest: BaseTest() {
         initUnderTest()
         underTest.deleteAll()
         verify {
-            mockCountdownConnector.deleteAll()
+            mockCountdownRepository.deleteAll()
         }
     }
 }

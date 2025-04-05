@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import java.time.LocalDate
 import java.time.LocalDateTime
 import tmg.hourglass.core.googleanalytics.CrashReporter
-import tmg.hourglass.domain.connectors.CountdownConnector
+import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.presentation.modify.ModifyMapper.toCountdown
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ModifyViewModel @Inject constructor(
-    private val countdownConnector: CountdownConnector,
+    private val countdownRepository: CountdownRepository,
     private val crashReporter: CrashReporter
 ): ViewModel() {
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(getUiState())
@@ -43,7 +43,7 @@ class ModifyViewModel @Inject constructor(
             this.id = null
             _uiState.value = getUiState()
         } else {
-            countdownConnector.getSync(id)?.let {
+            countdownRepository.getSync(id)?.let {
                 this.id = id
                 _uiState.value = it.toUiState()
             }
@@ -161,7 +161,7 @@ class ModifyViewModel @Inject constructor(
             }
 
             val countdown = uiState.toCountdown(id ?: UUID.randomUUID().toString())
-            countdownConnector.saveSync(countdown)
+            countdownRepository.saveSync(countdown)
         } catch (e: NullPointerException) {
             crashReporter.logException(e)
         }
@@ -169,7 +169,7 @@ class ModifyViewModel @Inject constructor(
 
     fun delete() {
         id?.let {
-            countdownConnector.delete(it)
+            countdownRepository.delete(it)
         }
     }
 }
