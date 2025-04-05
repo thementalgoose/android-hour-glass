@@ -28,7 +28,7 @@ fun PrivacyPolicyLayout(
 ) {
     val scrollState = rememberScrollState()
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
