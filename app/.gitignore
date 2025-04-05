@@ -1,5 +1,5 @@
 /build
-app/google-services.json
+app/sand/res/google-services.json
 /release
 /live
 hour-glass.json
