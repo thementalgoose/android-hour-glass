@@ -36,17 +36,10 @@ import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.utils.DeleteDialog
+import tmg.hourglass.presentation.utils.darken
 import tmg.hourglass.presentation.views.ProgressBar
 import tmg.hourglass.strings.R
 import tmg.hourglass.strings.R.string
-
-private val barBackground: Color
-    @Composable
-    get() = AppTheme.colors.backgroundSecondary.copy(
-        red = AppTheme.colors.backgroundSecondary.red * 0.89f,
-        blue = AppTheme.colors.backgroundSecondary.blue * 0.89f,
-        green = AppTheme.colors.backgroundSecondary.green * 0.89f
-    )
 
 @Composable
 fun Countdown(
@@ -141,7 +134,7 @@ fun Countdown(
             Spacer(modifier = Modifier.height(4.dp))
             ProgressBar(
                 barColor = Color(countdown.colour.toColorInt()),
-                backgroundColor = barBackground,
+                backgroundColor = AppTheme.colors.backgroundTertiary,
                 endProgress = ProgressUtils.getProgress(countdown, now),
                 label = { progress ->
                     countdown.getProgress(progress = progress)

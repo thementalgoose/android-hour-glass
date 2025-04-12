@@ -8,6 +8,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import tmg.hourglass.presentation.utils.darken
 
 internal val LocalColors = staticCompositionLocalOf { lightColors }
 
@@ -28,6 +29,7 @@ data class AppColors(
     val backgroundSecondary: Color,
     val backgroundPrimaryInverse: Color,
     val backgroundSecondaryInverse: Color,
+    val backgroundTertiary: Color,
     val backgroundNav: Color,
     val inputBackground: Color,
     val errorColor: Color,
@@ -66,6 +68,7 @@ val lightColors = AppColors(
     backgroundContainer = Color(0xFFF4F4F4),
     backgroundPrimary = Color(0xFFFFFFFF),
     backgroundSecondary = Color(0xFFF0F0F0),
+    backgroundTertiary = Color(0xFFE8E8E8),
     backgroundPrimaryInverse = Color(0xFF181818),
     backgroundSecondaryInverse = Color(0xFF383838),
     backgroundNav = Color(0xFFFCFCFC),
@@ -90,6 +93,7 @@ val darkColors = AppColors(
     backgroundContainer = Color(0xFF111111),
     backgroundPrimary = Color(0xFF181818),
     backgroundSecondary = Color(0xFF282828),
+    backgroundTertiary = Color(0xFF383838),
     backgroundPrimaryInverse = Color(0xFFFFFFFF),
     backgroundSecondaryInverse = Color(0xFFF8F8F8),
     backgroundNav = Color(0xFF202020),
@@ -116,7 +120,8 @@ fun AppColors.dynamic(colorScheme: ColorScheme, isLightMode: Boolean) = copy(
         )
     },
     backgroundPrimary = colorScheme.background,
-    backgroundSecondary = colorScheme.surfaceColorAtElevation(3.dp),
+    backgroundSecondary = colorScheme.surfaceColorAtElevation(2.dp),
+    backgroundTertiary = colorScheme.surfaceColorAtElevation(12.dp),
     backgroundPrimaryInverse = colorScheme.inverseSurface,
     backgroundSecondaryInverse = colorScheme.inversePrimary,
     backgroundNav = colorScheme.surfaceColorAtElevation(6.dp),
