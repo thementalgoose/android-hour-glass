@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,6 +28,7 @@ class CountdownConfigurationActivity: AppCompatActivity() {
     private val viewModel: CountdownConfigurationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        this.enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         viewModel.load(appWidgetId)

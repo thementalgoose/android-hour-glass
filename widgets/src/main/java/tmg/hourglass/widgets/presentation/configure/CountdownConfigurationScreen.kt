@@ -136,7 +136,7 @@ fun CountdownConfigurationScreen(
                             end = AppTheme.dimensions.paddingMedium,
                             bottom = AppTheme.dimensions.paddingMedium,
                         ),
-                    isEnabled = uiState.selected != null,
+                    isEnabled = uiState.selected != null && uiState.appWidgetId != -1,
                     text = stringResource(id = string.modify_header_save),
                     onClick = {
                         save()

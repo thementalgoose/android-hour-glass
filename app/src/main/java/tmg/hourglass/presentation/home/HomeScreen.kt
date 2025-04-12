@@ -4,10 +4,13 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -49,12 +52,14 @@ import tmg.hourglass.strings.R.string
 
 @Composable
 internal fun HomeScreenVM(
+    paddingValues: PaddingValues,
     windowSize: WindowSizeClass,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState()
 
     HomeScreen(
+        paddingValues = paddingValues,
         windowSizeClass = windowSize,
         uiState = uiState.value,
         edit = viewModel::edit,
@@ -68,6 +73,7 @@ internal fun HomeScreenVM(
 
 @Composable
 internal fun HomeScreen(
+    paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
     edit: (Countdown) -> Unit,
@@ -90,6 +96,7 @@ internal fun HomeScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .navigationBarsPadding()
                     .padding(AppTheme.dimensions.paddingMedium),
                 contentAlignment = Alignment.BottomEnd
             ) {
@@ -127,6 +134,9 @@ internal fun ListScreen(
         modifier = Modifier.fillMaxSize(),
         columns = GridCells.Adaptive(minSize = 300.dp),
         content = {
+            item(key = "edgetoedge-header", span = { GridItemSpan(maxLineSpan) }) {
+                Spacer(Modifier.statusBarsPadding())
+            }
             item("header", span = { GridItemSpan(maxLineSpan) }) {
                 TitleBar(
                     modifier = Modifier.animateItem(),
@@ -192,6 +202,9 @@ internal fun ListScreen(
             item("spacer", span = { GridItemSpan(maxLineSpan) }) {
                 Spacer(modifier = Modifier.height(64.dp))
             }
+            item("edgetoedge-footer", span = { GridItemSpan(maxLineSpan) }) {
+                Spacer(Modifier.navigationBarsPadding())
+            }
         }
     )
 }
@@ -214,6 +227,7 @@ private fun Header(
 private fun PreviewEmpty() {
     AppThemePreview {
         HomeScreen(
+            paddingValues = PaddingValues.Absolute(),
             windowSizeClass = compactWindowSizeClass,
             uiState = UiState.empty(),
             edit = { },
@@ -231,6 +245,7 @@ private fun PreviewEmpty() {
 private fun PreviewPopulated() {
     AppThemePreview {
         HomeScreen(
+            paddingValues = PaddingValues.Absolute(),
             windowSizeClass = compactWindowSizeClass,
             uiState = UiState.upcoming(),
             edit = { },
@@ -249,6 +264,7 @@ private fun PreviewPopulated() {
 private fun PreviewPopulatedExpanded() {
     AppThemePreview {
         HomeScreen(
+            paddingValues = PaddingValues.Absolute(),
             windowSizeClass = expandedWindowSizeClass,
             uiState = UiState.upcoming(),
             edit = { },

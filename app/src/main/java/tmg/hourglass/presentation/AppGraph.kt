@@ -1,11 +1,9 @@
 package tmg.hourglass.presentation
 
-import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -23,6 +21,7 @@ import tmg.hourglass.presentation.settings.SettingsScreenVM
 fun AppGraph(
     navController: NavHostController,
     windowSize: WindowSizeClass,
+    paddingValues: PaddingValues,
     windowInfo: WindowLayoutInfo,
     deeplink: String?,
     goToMarketPage: () -> Unit,
@@ -41,12 +40,14 @@ fun AppGraph(
     ) {
         composable(Screen.Home.route) {
             HomeScreenVM(
+                paddingValues = paddingValues,
                 windowSize = windowSize,
             )
         }
 
         composable(Screen.Settings.route) {
             SettingsScreenVM(
+                paddingValues = paddingValues,
                 windowSize = windowSize,
                 goToMarketPage = goToMarketPage,
                 goToAboutThisApp = goToAboutThisApp,

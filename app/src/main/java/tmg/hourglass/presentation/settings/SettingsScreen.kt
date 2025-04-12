@@ -1,7 +1,11 @@
 package tmg.hourglass.presentation.settings
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -31,6 +35,7 @@ import tmg.hourglass.widgets.updateAllWidgets
 
 @Composable
 internal fun SettingsScreenVM(
+    paddingValues: PaddingValues,
     windowSize: WindowSizeClass,
     viewModel: SettingsViewModel = hiltViewModel(),
     goToMarketPage: () -> Unit,
@@ -98,6 +103,9 @@ private fun SettingsOverviewScreen(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         content = {
+            item(key = "edgetoedge-header") {
+                Spacer(Modifier.statusBarsPadding())
+            }
             item(key = "header") {
                 TitleBar(
                     title = stringResource(id = string.settings_title),
@@ -192,6 +200,9 @@ private fun SettingsOverviewScreen(
                     isChecked = uiState.anonymousAnalytics,
                     optionClicked = setAnalytics
                 )
+            }
+            item(key = "edgetoedge-footer") {
+                Spacer(Modifier.navigationBarsPadding())
             }
         }
     )
