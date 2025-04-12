@@ -42,13 +42,20 @@ class CountdownConfigurationViewModel @Inject constructor(
     }
 
     fun load(appWidgetId: Int) {
-        val widgetReference = widgetRepository.getSync(appWidgetId) ?: return
-        val countdown = countdownRepository.getSync(widgetReference.countdownId)
-        _uiState.value = _uiState.value.copy(
-            appWidgetId = appWidgetId,
-            selected = countdown,
-            openAppOnClick = widgetReference.openAppOnClick
-        )
+        Log.i("CountdownConfig", "Loading widget id $appWidgetId")
+        val widgetReference = widgetRepository.getSync(appWidgetId)
+        if (widgetReference != null) {
+            val countdown = countdownRepository.getSync(widgetReference.countdownId)
+            _uiState.value = _uiState.value.copy(
+                appWidgetId = appWidgetId,
+                selected = countdown,
+                openAppOnClick = widgetReference.openAppOnClick
+            )
+        } else {
+            _uiState.value = _uiState.value.copy(
+                appWidgetId = appWidgetId
+            )
+        }
     }
 
     fun openAppOnClick(openAppOnClick: Boolean) {
@@ -73,8 +80,9 @@ class CountdownConfigurationViewModel @Inject constructor(
     }
 
     fun save() {
-        val state = _uiState.value
-        Log.i("Widgets", "Saving widget configuration $state")
+        val state = uiState.value
+        Log.i("CountdownConfig", "Saving widget configuration ${state.appWidgetId}")
+        Log.i("CountdownConfig", "$state")
         if (state.appWidgetId == -1) {
             return
         }

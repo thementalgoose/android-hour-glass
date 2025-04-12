@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -51,9 +53,12 @@ internal fun DashboardNavScreen(
     Scaffold(
         containerColor = AppTheme.colors.backgroundPrimary,
         content = {
-            Row(Modifier.padding(it)) {
+            Row(Modifier) {
                 if (windowSize.widthSizeClass != WindowWidthSizeClass.Compact) {
                     NavigationColumn(
+                        modifier = Modifier
+                            .statusBarsPadding()
+                            .navigationBarsPadding(),
                         list = tabs,
                         background = AppTheme.colors.backgroundPrimary,
                         itemClicked = {
@@ -64,6 +69,7 @@ internal fun DashboardNavScreen(
                 Column(modifier = Modifier.fillMaxSize()) {
                     Box(Modifier.weight(1f)) {
                         AppGraph(
+                            paddingValues = it,
                             navController = navController,
                             windowSize = windowSize,
                             windowInfo = windowLayoutInfo,

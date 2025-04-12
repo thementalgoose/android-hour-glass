@@ -59,7 +59,7 @@ class CountdownWidget : GlanceAppWidget() {
             val config = LocalSize.current
             val theming = getCountdownWidgetColors(context, !context.isInDayMode(ifUndefinedDefaultTo = true))
 
-            Log.i("Widget", "App Widget Id ${id.appWidgetId}")
+            Log.i("CountdownWidget", "provideContent App Widget Id ${id.appWidgetId}")
             val widgetRef = widgetConnector.getSync(id.appWidgetId)
             if (widgetRef == null) {
                 NoCountdown(
@@ -78,7 +78,7 @@ class CountdownWidget : GlanceAppWidget() {
                 true -> actionRunCallback<OpenApp>()
             }
 
-            Log.i("Widget", "Countdown model loaded to be ${countdownModel.value}")
+            Log.i("CountdownWidget", "Countdown model loaded to be ${countdownModel.value}")
             when (val model = countdownModel.value) {
                 null -> {
                     NoCountdown(
