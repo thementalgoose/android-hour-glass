@@ -118,6 +118,7 @@ class ModifyViewModel @Inject constructor(
             }
         }
     }
+
     fun setValueDirection(direction: UiState.Direction) {
         val existingType = _uiState.value.inputTypes
         if (existingType is UiState.Types.Values) {
