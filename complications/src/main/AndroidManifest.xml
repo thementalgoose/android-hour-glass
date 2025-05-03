@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-feature android:name="android.hardware.type.watch" />
+
     <application>
 
         <meta-data
@@ -12,9 +14,10 @@
             android:value="false" />
 
         <service
-            android:name="tmg.hourglass.complications.CountdownComplicationProviderService"
+            android:name=".CountdownComplicationProviderService"
             android:exported="true"
-            android:label="Test"
+            android:icon="@drawable/ic_watch"
+            android:label="A Test"
             android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
 
             <intent-filter>
@@ -32,7 +35,7 @@
 
         </service>
 
-        <receiver android:name="tmg.hourglass.complications.CountdownBroadcastReceiver" />
+        <receiver android:name=".CountdownBroadcastReceiver" />
 
     </application>
 
