@@ -20,7 +20,6 @@ import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.darkColors
 import tmg.hourglass.presentation.dynamic
 import tmg.hourglass.presentation.lightColors
-import tmg.utilities.extensions.isInDayMode
 import tmg.utilities.extensions.isInNightMode
 import javax.inject.Inject
 
@@ -42,7 +41,6 @@ class AboutThisAppConfig @Inject constructor(
             appPackageName = "tmg.hourglass",
             dependencies = projectDependencies(),
             header = context.getString(tmg.hourglass.strings.R.string.dependency_thank_you),
-            footnote = "",
             email = "thementalgoose@gmail.com",
             github = "https://www.github.com/thementalgoose",
             debugInfo = prefManager.deviceUdid,
@@ -72,7 +70,7 @@ class AboutThisAppConfig @Inject constructor(
             colorPrimary = colors.primary.toArgb(),
             background = colors.backgroundPrimary.toArgb(),
             surface = colors.backgroundSecondary.toArgb(),
-            primary = colors.backgroundSecondary.toArgb(),
+            primary = colors.backgroundTertiary.toArgb(),
             onBackground = colors.textPrimary.toArgb(),
             onSurface = colors.textSecondary.toArgb(),
             onPrimary = colors.textSecondary.toArgb(),

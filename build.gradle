@@ -28,6 +28,7 @@ buildscript {
         classpath libs.gradle.junit5
         classpath libs.gradle.hilt
         classpath libs.firebase.perf.plugin
+        classpath libs.oss.licenses.plugin
     }
 }
 
