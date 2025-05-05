@@ -114,7 +114,7 @@ falcon = "com.jraska:falcon:2.2.0"
 
 tmg_utils = "com.github.thementalgoose:android-utilities:2.8.0"
 tmg_labelledprogressbar = "com.github.thementalgoose:android-labelled-progress-bar:1.10.0"
-tmg_aboutthisapp = "com.github.thementalgoose:android-about-this-app:6.0.7"
+tmg_aboutthisapp = "com.github.thementalgoose:android-about-this-app:6.1.0"
 
 ## Test
 test_androidx_core = "androidx.test:core:1.6.1"
