@@ -20,6 +20,7 @@ import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.textviews.TextHeader2
 
+private val internalSettingSpacing = 6.dp
 
 @Composable
 internal fun SettingsHeader(
@@ -68,7 +69,7 @@ internal fun SettingsOption(
             )
     ) {
         TextBody1(text = stringResource(id = title))
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(internalSettingSpacing))
         TextBody2(text = stringResource(id = subtitle))
     }
 }
@@ -104,7 +105,7 @@ internal fun SettingsSwitch(
                 )
         ) {
             TextBody1(text = stringResource(id = title))
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(internalSettingSpacing))
             TextBody2(text = stringResource(id = subtitle))
         }
         Switch(
