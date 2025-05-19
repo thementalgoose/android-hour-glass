@@ -1,6 +1,6 @@
 package tmg.hourglass.domain.connectors
 
-import junit.framework.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import tmg.hourglass.domain.model.WidgetReference
 import tmg.hourglass.domain.repositories.WidgetRepository
