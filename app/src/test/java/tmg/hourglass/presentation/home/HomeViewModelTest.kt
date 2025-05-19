@@ -9,6 +9,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import tmg.hourglass.domain.model
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.navigation.Screen
@@ -22,12 +23,8 @@ internal class HomeViewModelTest: BaseTest() {
     private val mockCountdownRepository: CountdownRepository = mockk(relaxed = true)
     private val mockNavigationController: NavigationController = mockk(relaxed = true)
 
-    private val fakeCountdownExpired: Countdown = mockk(relaxed = true) {
-        every { id } returns "expired"
-    }
-    private val fakeCountdownUpcoming: Countdown = mockk(relaxed = true) {
-        every { id } returns "upcoming"
-    }
+    private val fakeCountdownExpired: Countdown = Countdown.model(id = "expired")
+    private val fakeCountdownUpcoming: Countdown = Countdown.model(id = "upcoming")
 
     private fun initUnderTest() {
         underTest = HomeViewModel(
