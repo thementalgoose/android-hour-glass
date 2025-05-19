@@ -17,4 +17,6 @@ dependencies {
     implementation project(path: ':data:realm')
     implementation project(path: ':presentation:strings')
     implementation project(path: ':presentation:ui')
+
+    testImplementation(testFixtures(project(path: ":domain")))
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
+import tmg.hourglass.domain.model
 import tmg.hourglass.domain.model.Countdown
 
 object ModifyData {
@@ -34,7 +35,7 @@ object ModifyData {
         )
     )
 
-    val countdownDays = Countdown(
+    val countdownDays = Countdown.model(
         id = "1",
         name = "name",
         description = "desc",
@@ -57,7 +58,7 @@ object ModifyData {
         )
     )
 
-    val countdownNumber = Countdown(
+    val countdownNumber = Countdown.model(
         id = "2",
         name = "name",
         description = "desc",

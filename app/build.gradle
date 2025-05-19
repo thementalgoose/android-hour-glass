@@ -138,6 +138,8 @@ dependencies {
 
     // Accompanist
     implementation libs.accompanist.systemuicontroller
+
+    testImplementation(testFixtures(project(path: ':domain')))
 }
 
 apply plugin: 'com.google.gms.google-services'

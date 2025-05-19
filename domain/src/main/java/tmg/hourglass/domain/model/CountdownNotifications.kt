@@ -8,10 +8,16 @@ sealed class CountdownNotifications(
     data class AtTime(
         private val _id: String,
         val time: LocalDateTime
-    ): CountdownNotifications(id = _id)
+    ): CountdownNotifications(id = _id) {
+        companion object
+    }
 
     data class AtValue(
         private val _id: String,
         val value: String
-    ): CountdownNotifications(id = _id)
+    ): CountdownNotifications(id = _id) {
+        companion object
+    }
+
+    companion object
 }

@@ -6,6 +6,10 @@ apply from: rootDir.absolutePath + "/gradle/config-hilt.gradle"
 
 android {
     namespace "tmg.hourglass.domain"
+
+    buildFeatures {
+        testFixtures.enable = true
+    }
 }
 
 dependencies {
