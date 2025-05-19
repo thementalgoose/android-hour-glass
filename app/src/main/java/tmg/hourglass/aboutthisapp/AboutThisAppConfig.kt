@@ -42,7 +42,7 @@ class AboutThisAppConfig @Inject constructor(
             dependencies = projectDependencies(),
             header = context.getString(tmg.hourglass.strings.R.string.dependency_thank_you),
             email = "thementalgoose@gmail.com",
-            github = "https://www.github.com/thementalgoose",
+            github = "https://www.github.com/thementalgoose/android-hour-glass",
             debugInfo = prefManager.deviceUdid,
             lightColors = getColours(isLight = true),
             darkColors = getColours(isLight = false),
