@@ -72,7 +72,7 @@ class CountdownConfigurationViewModel @Inject constructor(
 
     private fun refresh() {
         viewModelScope.launch {
-            val current = countdownRepository.allCurrent().first()
+            val current = countdownRepository.all().first()
             _uiState.value = _uiState.value.copy(
                 items = current,
             )
