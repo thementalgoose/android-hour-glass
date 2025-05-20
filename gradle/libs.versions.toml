@@ -81,7 +81,7 @@ firebase_analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase_crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase_perf = { module = "com.google.firebase:firebase-perf" }
 
-shakey = "com.linkedin.shaky:shaky:3.0.10"
+shakey = "com.linkedin.shaky:shaky:3.0.11"
 falcon = "com.jraska:falcon:2.2.0"
 
 tmg_utils = "com.github.thementalgoose:android-utilities:2.8.0"
