@@ -1,7 +1,6 @@
 package tmg.hourglass.presentation.home
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -46,7 +45,7 @@ import tmg.hourglass.presentation.home.components.Countdown
 import tmg.hourglass.presentation.home.components.Empty
 import tmg.hourglass.presentation.layouts.MasterDetailsPane
 import tmg.hourglass.presentation.layouts.TitleBar
-import tmg.hourglass.presentation.modify.ModifyScreen
+import tmg.hourglass.presentation.modify.ModifyScreenVM
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R.string
 
@@ -65,7 +64,6 @@ internal fun HomeScreenVM(
         edit = viewModel::edit,
         delete = viewModel::delete,
         openCreateNew = viewModel::createNew,
-        closeDetailPane = viewModel::closeAction,
         navigateToSettings = viewModel::navigateToSettings,
         refresh = viewModel::refresh
     )
@@ -79,47 +77,31 @@ internal fun HomeScreen(
     edit: (Countdown) -> Unit,
     delete: (Countdown) -> Unit,
     openCreateNew: () -> Unit,
-    closeDetailPane: () -> Unit,
     navigateToSettings: () -> Unit,
     refresh: () -> Unit
 ) {
-    MasterDetailsPane(
-        windowSizeClass = windowSizeClass,
-        master = {
-            ListScreen(
-                uiState = uiState,
-                windowSizeClass = windowSizeClass,
-                editItem = edit,
-                deleteItem = delete,
-                navigateToSettings = navigateToSettings
+    Box {
+        ListScreen(
+            uiState = uiState,
+            windowSizeClass = windowSizeClass,
+            editItem = edit,
+            deleteItem = delete,
+            navigateToSettings = navigateToSettings
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .navigationBarsPadding()
+                .padding(AppTheme.dimensions.paddingMedium),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            FloatingActionButton(
+                label = stringResource(id = string.dashboard_fab_new),
+                icon = Icons.Outlined.Add,
+                onClick = openCreateNew
             )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .navigationBarsPadding()
-                    .padding(AppTheme.dimensions.paddingMedium),
-                contentAlignment = Alignment.BottomEnd
-            ) {
-                FloatingActionButton(
-                    label = stringResource(id = string.dashboard_fab_new),
-                    icon = Icons.Outlined.Add,
-                    onClick = openCreateNew
-                )
-            }
-        },
-        detailsShow = uiState.action != null,
-        details = {
-            ModifyScreen(
-                windowSizeClass = windowSizeClass,
-                actionUpClicked = {
-                    closeDetailPane()
-                    refresh()
-                },
-                countdown = (uiState.action as? HomeAction.Modify)?.countdown
-            )
-        },
-        detailsActionUpClicked = closeDetailPane
-    )
+        }
+    }
 }
 
 @Composable
@@ -233,7 +215,6 @@ private fun PreviewEmpty() {
             edit = { },
             delete = { },
             openCreateNew = { },
-            closeDetailPane = { },
             refresh = { },
             navigateToSettings = { }
         )
@@ -251,7 +232,6 @@ private fun PreviewPopulated() {
             edit = { },
             delete = { },
             openCreateNew = { },
-            closeDetailPane = { },
             refresh = { },
             navigateToSettings = { }
         )
@@ -270,7 +250,6 @@ private fun PreviewPopulatedExpanded() {
             edit = { },
             delete = { },
             openCreateNew = { },
-            closeDetailPane = { },
             refresh = { },
             navigateToSettings = { }
         )
@@ -283,22 +262,17 @@ private val compactWindowSizeClass: WindowSizeClass =
 private val expandedWindowSizeClass: WindowSizeClass =
     WindowSizeClass.calculateFromSize(DpSize(910.dp, 600.dp))
 
-private fun UiState.Companion.empty(
-    withAction: Boolean = false
-): UiState = UiState(
+private fun UiState.Companion.empty(): UiState = UiState(
     upcoming = emptyList(),
     expired = emptyList(),
-    action = if (withAction) HomeAction.Add else null
 )
 
 private fun UiState.Companion.upcoming(
-    withAction: Boolean = false,
     withUpcoming: Boolean = true,
     withExpired: Boolean = false
 ): UiState = UiState(
     upcoming = if (withUpcoming) listOf(fakeCountdownUpcoming, fakeCountdownUpcoming.copy(id = "upcoming_2")) else emptyList(),
     expired = if (withExpired) listOf(fakeCountdownExpired, fakeCountdownExpired.copy(id = "expired_2")) else emptyList(),
-    action = if (withAction) HomeAction.Add else null
 )
 
 private val fakeCountdownExpired = Countdown(

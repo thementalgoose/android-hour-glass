@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/data/realm" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/presentation" />
+            <option value="$PROJECT_DIR$/presentation/navigation" />
             <option value="$PROJECT_DIR$/presentation/strings" />
             <option value="$PROJECT_DIR$/presentation/ui" />
             <option value="$PROJECT_DIR$/widgets" />

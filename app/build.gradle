@@ -117,6 +117,7 @@ dependencies {
     implementation project(path: ":domain")
     implementation project(path: ":presentation:ui")
     implementation project(path: ":presentation:strings")
+    implementation project(path: ":presentation:navigation")
     implementation project(path: ":widgets")
 
     implementation libs.androidx.splashscreen

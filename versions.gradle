@@ -30,7 +30,7 @@ private static def getVersionCode() {
 
 ext {
 
-    compileSdkVersion = 35
+    compileSdkVersion = 36
     targetSdkVersion = 35
     minSdkVersion = 26
 

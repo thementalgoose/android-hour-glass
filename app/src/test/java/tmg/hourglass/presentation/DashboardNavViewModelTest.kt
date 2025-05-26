@@ -8,7 +8,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import tmg.hourglass.navigation.Screen
-import tmg.hourglass.presentation.navigation.NavigationController
 import tmg.hourglass.presentation.navigation.NavigationDestination
 
 internal class DashboardNavViewModelTest {
@@ -37,23 +36,6 @@ internal class DashboardNavViewModelTest {
 
         verify {
             mockNavigationController.navigate(Tab.SETTINGS.expectedNavigationDestination)
-        }
-    }
-
-    @Test
-    fun `destination changing updates state`() = runTest {
-        initUnderTest()
-        underTest.uiState.test {
-            underTest.onDestinationChanged(
-                controller = mockk(),
-                destination = mockk {
-                    every { route } returns Screen.Settings.route
-                },
-                arguments = null
-            )
-
-            assertEquals(Tab.DASHBOARD, awaitItem().tab)
-            assertEquals(Tab.SETTINGS, awaitItem().tab)
         }
     }
 }

@@ -1,0 +1,11 @@
+apply plugin:  'com.android.library'
+apply from: rootDir.absolutePath + "/gradle/config-android.gradle"
+apply from: rootDir.absolutePath + "/gradle/config-hilt.gradle"
+
+android {
+    namespace "tmg.hourglass.presentation.navigation"
+}
+
+dependencies {
+    implementation(project(path: ":core:metrics:crashlytics"))
+}

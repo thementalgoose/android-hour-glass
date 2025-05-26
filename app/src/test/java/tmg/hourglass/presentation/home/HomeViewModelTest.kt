@@ -13,7 +13,6 @@ import tmg.hourglass.domain.model
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.navigation.Screen
-import tmg.hourglass.presentation.navigation.NavigationController
 import tmg.testutils.BaseTest
 
 internal class HomeViewModelTest: BaseTest() {
