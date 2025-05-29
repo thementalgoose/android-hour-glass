@@ -16,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.layout.DataRangeDateLayout
@@ -25,21 +26,57 @@ import tmg.hourglass.presentation.modify.layout.DataSingleDateLayout
 import tmg.hourglass.presentation.modify.layout.SaveLayout
 import tmg.hourglass.presentation.modify.layout.TypeLayout
 import tmg.hourglass.strings.R
+import java.time.LocalDateTime
 
 @Composable
-fun ModifyScreen(
+fun ModifyScreenVM(
     windowSizeClass: WindowSizeClass,
     actionUpClicked: () -> Unit,
-    countdown: Countdown?,
+    id: String?,
     viewModel: ModifyViewModel = hiltViewModel()
 ) {
-    DisposableEffect(countdown) {
-        Log.d("Modify", "Initialising VM with value ${countdown?.id}")
-        viewModel.initialise(countdown?.id)
+    DisposableEffect(id) {
+        Log.d("Modify", "Initialising VM with value $id")
+        viewModel.initialise(id)
         return@DisposableEffect onDispose { }
     }
 
     val uiState = viewModel.uiState.collectAsState()
+    ModifyScreen(
+        windowSizeClass = windowSizeClass,
+        actionUpClicked = actionUpClicked,
+        isEdit = id != null,
+        uiState = uiState.value,
+        setTitle = viewModel::setTitle,
+        setDescription = viewModel::setDescription,
+        setColor = viewModel::setColor,
+        setType = viewModel::setType,
+        setStartDate = viewModel::setStartDate,
+        setEndDate = viewModel::setEndDate,
+        setStartValue = viewModel::setStartValue,
+        setEndValue = viewModel::setEndValue,
+        save = viewModel::save,
+        delete = viewModel::delete
+    )
+}
+
+@Composable
+private fun ModifyScreen(
+    windowSizeClass: WindowSizeClass,
+    actionUpClicked: () -> Unit,
+    isEdit: Boolean,
+    uiState: UiState,
+    setTitle: (String) -> Unit,
+    setDescription: (String) -> Unit,
+    setColor: (String) -> Unit,
+    setType: (CountdownType) -> Unit,
+    setStartDate: (LocalDateTime) -> Unit,
+    setEndDate: (LocalDateTime) -> Unit,
+    setStartValue: (String) -> Unit,
+    setEndValue: (String) -> Unit,
+    save: () -> Unit,
+    delete: () -> Unit
+) {
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -49,58 +86,58 @@ fun ModifyScreen(
             .verticalScroll(scrollState),
     ) {
         TitleBar(
-            title = stringResource(id = if (countdown != null) R.string.modify_header_edit else R.string.modify_header_add),
+            title = stringResource(id = if (isEdit) R.string.modify_header_edit else R.string.modify_header_add),
             showBack = true,
             actionUpClicked = actionUpClicked
         )
 
         PersonaliseLayout(
-            name = uiState.value.title,
-            nameUpdated = viewModel::setTitle,
-            description = uiState.value.description,
-            descriptionUpdated = viewModel::setDescription,
-            color = uiState.value.colorHex,
-            colorPicked = viewModel::setColor
+            name = uiState.title,
+            nameUpdated = setTitle,
+            description = uiState.description,
+            descriptionUpdated = setDescription,
+            color = uiState.colorHex,
+            colorPicked = setColor
         )
 
         TypeLayout(
-            type = uiState.value.type,
-            typeUpdated = viewModel::setType
+            type = uiState.type,
+            typeUpdated = setType
         )
 
-        when (val inputData = uiState.value.inputTypes) {
+        when (val inputData = uiState.inputTypes) {
             is UiState.Types.EndDate -> {
                 DataSingleDateLayout(
                     date = inputData.finishDate,
-                    dateUpdated = viewModel::setEndDate
+                    dateUpdated = setEndDate
                 )
             }
             is UiState.Types.Values -> {
                 DataRangeDateLayout(
                     startDate = inputData.startDate,
-                    startDateUpdated = viewModel::setStartDate,
+                    startDateUpdated = setStartDate,
                     endDate = inputData.endDate,
-                    endDateUpdated = viewModel::setEndDate
+                    endDateUpdated = setEndDate
                 )
 
                 DataRangeInputLayout(
                     initial = inputData.startValue,
-                    initialUpdated = viewModel::setStartValue,
+                    initialUpdated = setStartValue,
                     finishing = inputData.endValue,
-                    finishingUpdated = viewModel::setEndValue
+                    finishingUpdated = setEndValue
                 )
             }
         }
 
         SaveLayout(
-            isEdit = countdown != null,
-            saveEnabled = uiState.value.saveEnabled,
+            isEdit = isEdit,
+            saveEnabled = uiState.saveEnabled,
             saveClicked = {
-                viewModel.save()
+                save()
                 actionUpClicked()
             },
             deleteClicked = {
-                viewModel.delete()
+                delete()
                 actionUpClicked()
             },
             cancelClicked = actionUpClicked

@@ -9,33 +9,23 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.navigation.Screen
 import tmg.hourglass.presentation.navigation.NavigationController
+import tmg.hourglass.presentation.navigation.NavigationDestination
 import javax.inject.Inject
 
 data class UiState(
     val upcoming: List<Countdown>,
     val expired: List<Countdown>,
-    val action: HomeAction?
 ) {
     constructor(): this(
         upcoming = emptyList(),
         expired = emptyList(),
-        action = null
     )
 
     val isEmpty: Boolean
         get() = upcoming.isEmpty() && expired.isEmpty()
 
     companion object
-}
-
-sealed class HomeAction {
-    data class Modify(
-        val countdown: Countdown
-    ): HomeAction()
-
-    data object Add: HomeAction()
 }
 
 @HiltViewModel
@@ -52,15 +42,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun navigateToSettings() {
-        navigationController.navigate(Screen.Settings)
-    }
-
-    fun closeAction() {
-        update { copy(action = null) }
+        navigationController.navigate(NavigationDestination.Settings)
     }
 
     fun createNew() {
-        update { copy(action = HomeAction.Add) }
+        navigationController.navigate(NavigationDestination.AddCountdown)
     }
 
     fun refresh() {
@@ -68,7 +54,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun edit(countdown: Countdown) {
-        update { copy(action = HomeAction.Modify(countdown)) }
+        navigationController.navigate(NavigationDestination.ModifyCountdown(countdown.id))
     }
 
     fun delete(countdown: Countdown) {
@@ -85,7 +71,6 @@ class HomeViewModel @Inject constructor(
                 copy(
                     upcoming = upcoming,
                     expired = expired,
-                    action = null
                 )
             }
         }

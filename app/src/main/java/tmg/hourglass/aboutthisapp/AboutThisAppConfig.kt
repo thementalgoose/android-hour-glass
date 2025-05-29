@@ -3,6 +3,7 @@ package tmg.hourglass.aboutthisapp
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
+import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -29,7 +30,7 @@ class AboutThisAppConfig @Inject constructor(
     private val prefManager: PreferencesManager,
 ) {
 
-    fun startActivity(appCompatActivity: AppCompatActivity) {
+    fun startActivity(appCompatActivity: ComponentActivity) {
         appCompatActivity.startActivity(AboutThisAppActivity.intent(appCompatActivity, aboutThisAppConfiguration))
     }
 

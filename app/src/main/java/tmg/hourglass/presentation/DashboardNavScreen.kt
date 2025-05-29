@@ -30,22 +30,11 @@ internal fun DashboardNavScreen(
     windowSize: WindowSizeClass,
     windowLayoutInfo: WindowLayoutInfo,
     navigator: NavigationController,
-    viewModelStore: ViewModelStore,
-    closeApp: () -> Unit,
     deeplink: String?,
     goToMarketPage: () -> Unit,
     goToAboutThisApp: () -> Unit,
     dashboardNavViewModel: DashboardNavViewModel = hiltViewModel(),
 ) {
-    val navController = rememberNavController()
-    DisposableEffect(key1 = navController, effect = {
-        Log.i("Dashboard", "Configuring navController to viewmodel")
-        navigator.navHostController = navController
-        navController.setViewModelStore(viewModelStore)
-        navController.addOnDestinationChangedListener(dashboardNavViewModel)
-        return@DisposableEffect onDispose {  }
-    })
-
     val uiState = dashboardNavViewModel.uiState.collectAsState()
     val tabs = listOf(Tab.DASHBOARD, Tab.SETTINGS)
         .map { it.toNavigationItem(isSelected = it == uiState.value.tab) }
@@ -70,7 +59,7 @@ internal fun DashboardNavScreen(
                     Box(Modifier.weight(1f)) {
                         AppGraph(
                             paddingValues = it,
-                            navController = navController,
+                            navController = navigator,
                             windowSize = windowSize,
                             windowInfo = windowLayoutInfo,
                             deeplink = deeplink,

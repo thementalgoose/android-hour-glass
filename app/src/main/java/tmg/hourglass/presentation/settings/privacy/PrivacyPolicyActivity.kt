@@ -16,7 +16,7 @@ class PrivacyPolicyActivity: AppCompatActivity() {
             AppTheme {
                 Scaffold(content = {
                     PrivacyPolicyLayout(
-                        backClicked = {
+                        actionUpClicked = {
                             finish()
                         }
                     )

@@ -25,7 +25,7 @@ import tmg.hourglass.presentation.layouts.TitleBar
 
 @Composable
 fun PrivacyPolicyLayout(
-    backClicked: () -> Unit,
+    actionUpClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -38,7 +38,7 @@ fun PrivacyPolicyLayout(
         TitleBar(
             title = stringResource(id = string.settings_help_privacy_policy_title),
             showBack = true,
-            actionUpClicked = backClicked
+            actionUpClicked = actionUpClicked
         )
         Box(modifier = Modifier
             .fillMaxSize()
@@ -65,7 +65,7 @@ fun PrivacyPolicyLayout(
 private fun Preview() {
     AppThemePreview(isLight = true) {
         PrivacyPolicyLayout(
-            backClicked = { }
+            actionUpClicked = { }
         )
     }
 }

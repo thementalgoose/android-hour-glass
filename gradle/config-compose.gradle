@@ -16,6 +16,7 @@ dependencies {
     implementation libs.compose.ui.toolingpreview
     implementation libs.compose.ui.viewbinding
     implementation libs.compose.livedata
+    implementation libs.compose.adaptive
 
     implementation libs.compose.activity
     implementation libs.compose.theme.adapter

@@ -1,6 +1,5 @@
 package tmg.hourglass.presentation.settings
 
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,40 +44,23 @@ internal fun SettingsScreenVM(
     val uiState = viewModel.uiState.collectAsState()
     val context = LocalContext.current
 
-    MasterDetailsPane(
+    SettingsOverviewScreen(
         windowSizeClass = windowSize,
-        master = {
-            SettingsOverviewScreen(
-                windowSizeClass = windowSize,
-                uiState = uiState.value,
-                setTheme = viewModel::setTheme,
-                refreshWidgetsClicked = {
-                    context.updateAllWidgets()
-                },
-                aboutThisAppClicked = goToAboutThisApp,
-                rateClicked = goToMarketPage,
-                privacyPolicyClicked = {
-                    viewModel.clickScreen(SettingsType.PRIVACY_POLICY)
-                },
-                deleteAllClicked = viewModel::deleteAll,
-                setAnalytics = viewModel::setAnalytics,
-                setCrashlytics = viewModel::setCrash,
-                setShakeToReport = viewModel::setShakeToReport,
-                actionUpClicked = actionUpClicked
-            )
+        uiState = uiState.value,
+        setTheme = viewModel::setTheme,
+        refreshWidgetsClicked = {
+            context.updateAllWidgets()
         },
-        detailsShow = uiState.value.screen != null,
-        details = {
-            when (uiState.value.screen) {
-                SettingsType.PRIVACY_POLICY -> {
-                    PrivacyPolicyLayout(
-                        backClicked = viewModel::closeDetails
-                    )
-                }
-                else -> {}
-            }
+        aboutThisAppClicked = goToAboutThisApp,
+        rateClicked = goToMarketPage,
+        privacyPolicyClicked = {
+            viewModel.clickScreen(SettingsType.PRIVACY_POLICY)
         },
-        detailsActionUpClicked = viewModel::closeDetails
+        deleteAllClicked = viewModel::deleteAll,
+        setAnalytics = viewModel::setAnalytics,
+        setCrashlytics = viewModel::setCrash,
+        setShakeToReport = viewModel::setShakeToReport,
+        actionUpClicked = actionUpClicked
     )
 }
 

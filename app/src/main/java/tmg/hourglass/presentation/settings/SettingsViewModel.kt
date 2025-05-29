@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.StateFlow
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.presentation.ThemePref
+import tmg.hourglass.presentation.navigation.NavigationController
+import tmg.hourglass.presentation.navigation.NavigationDestination
 import tmg.hourglass.presentation.usecases.ChangeThemeUseCase
 import javax.inject.Inject
 
@@ -34,6 +36,7 @@ enum class SettingsType {
 class SettingsViewModel @Inject constructor(
     private val prefManager: PreferencesManager,
     private val countdownRepository: CountdownRepository,
+    private val navigationController: NavigationController,
     private val changeThemeUseCase: ChangeThemeUseCase
 ): ViewModel() {
 
@@ -44,12 +47,11 @@ class SettingsViewModel @Inject constructor(
         refresh()
     }
 
-    fun closeDetails() {
-        update { copy(screen = null) }
-    }
 
     fun clickScreen(screenType: SettingsType) {
-        update { copy(screen = screenType) }
+        when (screenType) {
+            SettingsType.PRIVACY_POLICY -> navigationController.navigate(NavigationDestination.PrivacyPolicy)
+        }
     }
 
     fun setAnalytics(enabled: Boolean) {
