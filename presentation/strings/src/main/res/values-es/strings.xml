@@ -80,6 +80,8 @@
     <string name="modify_header_add">Añadir una cuenta atrás</string>
     <string name="modify_header_edit">Editar tu cuenta atrás</string>
     <string name="modify_header_save">Guardar</string>
+    <string name="modify_header_delete">Borrar</string>
+    <string name="modify_header_cancel">Cancelar</string>
     <string name="home_description">%s<br/>
 ▲ Comienza el %s en <b>%s</b><br/>
 ▼ Termina el %s en <b>%s</b></string>
@@ -87,6 +89,7 @@
     <string name="modify_field_name">Personalizar</string>
     <string name="modify_field_name_desc">Elige un nombre, una descripción y un color para tu elemento de cuenta atrás a continuación</string>
     <string name="modify_field_name_hint">Nombre</string>
+    <string name="modify_field_name_required">Nombre requerido</string>
     <string name="modify_field_description_hint">Descripción</string>
 
     <string name="modify_field_type">Tipo</string>

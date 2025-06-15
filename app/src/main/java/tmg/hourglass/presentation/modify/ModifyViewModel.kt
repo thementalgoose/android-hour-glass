@@ -235,13 +235,13 @@ data class UiState(
                 if (!hasStartDate && !hasEndDate) {
                     return false
                 }
-                if (hasStartDate && inputTypes.startDate!!.toLocalDate() > LocalDate.now()) {
+                if (hasStartDate && inputTypes.startDate.toLocalDate() > LocalDate.now()) {
                     return false
                 }
-                if (hasEndDate && inputTypes.endDate!!.toLocalDate() < LocalDate.now()) {
+                if (hasEndDate && inputTypes.endDate.toLocalDate() < LocalDate.now()) {
                     return false
                 }
-                if (hasStartDate && hasEndDate && inputTypes.endDate!! <= inputTypes.startDate!!) {
+                if (hasStartDate && hasEndDate && inputTypes.endDate <= inputTypes.startDate) {
                     return false
                 }
                 return true

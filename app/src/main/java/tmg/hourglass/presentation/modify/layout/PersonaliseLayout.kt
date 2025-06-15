@@ -63,7 +63,11 @@ fun PersonaliseLayout(
             modifier = Modifier,
             initial = name,
             inputUpdated = nameUpdated,
-            hint = stringResource(id = string.modify_field_name_hint)
+            hint = stringResource(id = string.modify_field_name_hint),
+            error = when (name.isNotBlank()) {
+                true -> null
+                false -> stringResource(id = string.modify_field_name_required)
+            }
         )
         Spacer(modifier = Modifier.height(8.dp))
         Input(

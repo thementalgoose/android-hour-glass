@@ -133,6 +133,7 @@
     <string name="modify_field_name">Personalise</string>
     <string name="modify_field_name_desc">Pick a name, a description, and a colour for your countdown item below</string>
     <string name="modify_field_name_hint">Name</string>
+    <string name="modify_field_name_required">Name required</string>
     <string name="modify_field_description_hint">Description</string>
 
     <string name="modify_field_type">Type</string>

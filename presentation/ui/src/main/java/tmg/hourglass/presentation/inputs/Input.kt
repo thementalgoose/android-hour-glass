@@ -27,6 +27,7 @@ import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.textviews.TextBody1
+import tmg.hourglass.presentation.textviews.TextBody2
 
 @Composable
 fun Input(
@@ -35,6 +36,7 @@ fun Input(
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
     initial: String = "",
+    error: String? = null,
 ) {
 
     val input = remember { mutableStateOf(initial) }
@@ -42,6 +44,14 @@ fun Input(
     DisposableEffect(initial) {
         input.value = initial
         return@DisposableEffect onDispose { }
+    }
+
+    val errorComposable: @Composable () -> Unit = @Composable {
+        TextBody2(
+            modifier = Modifier.fillMaxWidth(),
+            textColor = AppTheme.colors.appColors.error,
+            text = error ?: ""
+        )
     }
 
     Box(
@@ -67,6 +77,8 @@ fun Input(
                     text = hint
                 )
             },
+            isError = error != null,
+            supportingText = error?.let { errorComposable },
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = AppTheme.colors.backgroundSecondary,
                 focusedTextColor = AppTheme.colors.textPrimary,
