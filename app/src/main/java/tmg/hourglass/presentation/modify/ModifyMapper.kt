@@ -12,6 +12,7 @@ object ModifyMapper {
     fun Countdown.toUiState(): UiState {
         val inputTypes = when (countdownType) {
             CountdownType.DAYS -> UiState.Types.EndDate(
+                startDate = start,
                 finishDate = end,
             )
             else -> UiState.Types.Values(
@@ -39,8 +40,11 @@ object ModifyMapper {
     fun UiState.toCountdown(id: String): Countdown {
         when (inputTypes) {
             is UiState.Types.EndDate -> {
-                val startDate = LocalDate.now().atStartOfDay()
                 val endDate = inputTypes.finishDate!!.toLocalDate().atStartOfDay()
+                val startDate = when (inputTypes.startDate < inputTypes.finishDate) {
+                    true -> inputTypes.startDate
+                    false -> LocalDate.now().atStartOfDay()
+                }
                 val start = DateUtils.daysBetween(startDate, endDate).toString()
                 val end = "0"
                 return Countdown(

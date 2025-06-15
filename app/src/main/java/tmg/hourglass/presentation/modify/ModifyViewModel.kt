@@ -184,6 +184,7 @@ data class UiState(
 ) {
     sealed class Types {
         data class EndDate(
+            val startDate: LocalDateTime = LocalDate.now().atStartOfDay(),
             val finishDate: LocalDateTime?
         ): Types()
         data class Values(
