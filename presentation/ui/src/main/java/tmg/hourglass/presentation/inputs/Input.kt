@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.imeNestedScroll
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -48,7 +49,12 @@ fun Input(
 
     val errorComposable: @Composable () -> Unit = @Composable {
         TextBody2(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    bottom = 4.dp,
+                    top = 2.dp
+                ),
             textColor = AppTheme.colors.appColors.error,
             text = error ?: ""
         )
@@ -60,7 +66,7 @@ fun Input(
             .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
             .background(AppTheme.colors.backgroundSecondary)
     ) {
-        TextField(
+        OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
@@ -92,6 +98,8 @@ fun Input(
                 unfocusedTextColor = AppTheme.colors.textSecondary,
                 unfocusedIndicatorColor = Color.Transparent,
                 cursorColor = AppTheme.colors.accent,
+                errorContainerColor = AppTheme.colors.backgroundSecondary,
+                errorIndicatorColor = AppTheme.colors.appColors.error,
                 errorCursorColor = AppTheme.colors.appColors.error,
             )
         )
@@ -119,6 +127,20 @@ private fun PreviewHint() {
             Input(
                 inputUpdated = { },
                 hint = "Name"
+            )
+        }
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewError() {
+    AppThemePreview {
+        Box(Modifier.padding(16.dp)) {
+            Input(
+                inputUpdated = { },
+                hint = "Name",
+                error = "We fucked up"
             )
         }
     }
