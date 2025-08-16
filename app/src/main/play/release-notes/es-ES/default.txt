@@ -1,0 +1,3 @@
+- Se añadieron nuevos widgets redimensionables.
+- Se añadió la temática Material You para Android 12 y versiones posteriores.
+- Se actualizaron dependencias y se corrigieron errores menores.
