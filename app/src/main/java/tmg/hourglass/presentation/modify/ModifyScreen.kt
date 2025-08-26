@@ -2,10 +2,12 @@ package tmg.hourglass.presentation.modify
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -28,6 +30,7 @@ import tmg.hourglass.strings.R
 
 @Composable
 fun ModifyScreen(
+    paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     actionUpClicked: () -> Unit,
     countdown: Countdown?,
@@ -44,9 +47,8 @@ fun ModifyScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
-            .navigationBarsPadding()
-            .verticalScroll(scrollState),
+            .verticalScroll(scrollState)
+            .padding(paddingValues),
     ) {
         TitleBar(
             title = stringResource(id = if (countdown != null) R.string.modify_header_edit else R.string.modify_header_add),

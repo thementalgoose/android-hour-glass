@@ -110,6 +110,7 @@ internal fun HomeScreen(
         detailsShow = uiState.action != null,
         details = {
             ModifyScreen(
+                paddingValues = paddingValues,
                 windowSizeClass = windowSizeClass,
                 actionUpClicked = {
                     closeDetailPane()
