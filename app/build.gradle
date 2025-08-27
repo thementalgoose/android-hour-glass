@@ -134,7 +134,6 @@ dependencies {
 
     // BugShaker
     implementation libs.falcon
-    implementation libs.shakey
 
     // Accompanist
     implementation libs.accompanist.systemuicontroller

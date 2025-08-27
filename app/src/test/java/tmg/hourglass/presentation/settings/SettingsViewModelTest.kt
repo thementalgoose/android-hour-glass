@@ -35,7 +35,6 @@ internal class SettingsViewModelTest: BaseTest() {
         every { mockPreferenceManager.theme } returns ThemePref.DARK
         every { mockPreferenceManager.crashReporting } returns true
         every { mockPreferenceManager.analyticsEnabled } returns true
-        every { mockPreferenceManager.shakeToReport } returns true
     }
 
     @Test
@@ -46,7 +45,6 @@ internal class SettingsViewModelTest: BaseTest() {
             assertEquals(ThemePref.DARK, item.theme)
             assertEquals(true, item.crashReporting)
             assertEquals(true, item.anonymousAnalytics)
-            assertEquals(true, item.shakeToReport)
         }
     }
 
@@ -96,15 +94,6 @@ internal class SettingsViewModelTest: BaseTest() {
         underTest.setAnalytics(true)
         verify {
             mockPreferenceManager.analyticsEnabled = true
-        }
-    }
-
-    @Test
-    fun `shake to report updates value`() = runTest {
-        initUnderTest()
-        underTest.setShakeToReport(true)
-        verify {
-            mockPreferenceManager.shakeToReport = true
         }
     }
 

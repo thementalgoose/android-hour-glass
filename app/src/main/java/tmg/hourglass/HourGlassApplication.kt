@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.linkedin.android.shaky.EmailShakeDelegate
-import com.linkedin.android.shaky.Shaky
 import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -42,16 +40,6 @@ class HourGlassApplication : Application() {
             ThemePref.AUTO -> setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
             ThemePref.LIGHT -> setDefaultNightMode(MODE_NIGHT_NO)
             ThemePref.DARK -> setDefaultNightMode(MODE_NIGHT_YES)
-        }
-
-        // Shake to report a bug
-        if (prefs.shakeToReport) {
-            Log.i("Startup", "Enabling shake to report")
-
-            Shaky.with(this, object : EmailShakeDelegate("thementalgoose@gmail.com") {
-                override fun getTheme() = super.getTheme()
-                override fun getPopupTheme() = super.getPopupTheme()
-            })
         }
 
         // Crash Reporting

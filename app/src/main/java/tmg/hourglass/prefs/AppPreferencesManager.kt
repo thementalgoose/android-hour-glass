@@ -13,7 +13,6 @@ import javax.inject.Singleton
 private const val keyCrashReporting: String = "crashReporting"
 private const val keyAnalyticsReporting: String = "analyticsReporting"
 private const val keyDeviceUdid: String = "deviceUdid"
-private const val keyShakeToReport: String = "shakeToReport"
 private const val keyVersion: String = "version"
 private const val keyThemePref: String = "themePref"
 
@@ -43,10 +42,6 @@ class AppPreferencesManager @Inject constructor(
             }
             return getString(keyDeviceUdid, "") ?: UUID.randomUUID().toString()
         }
-
-    override var shakeToReport: Boolean
-        get() = getBoolean(keyShakeToReport, true)
-        set(value) = save(keyShakeToReport, value)
 
     override var version: Int
         get() = getInt(keyVersion, 0)
