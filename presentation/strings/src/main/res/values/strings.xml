@@ -41,9 +41,8 @@
     <string name="settings_help_suggestions_title">Have a suggestion?</string>
     <string name="settings_help_suggestions_description">Send the developer an email with any suggestions you may have. Alternately turn on shake to report and shake your device</string>
     <string name="send_email">Send email</string>
-    <string name="settings_help_shake_to_report_title">Shake the app to report a bug or a feature?</string>
-    <string name="settings_help_shake_to_report_description">Shake the app at any time to screenshot and send me any bugs, issues, or suggestions you may have for this app!</string>
-    <string name="settings_help_shake_to_report_after_app_restart">Your shake to report preference will be applied once the app has restarted</string>
+    <string name="settings_help_feedback_title">Feedback</string>
+    <string name="settings_help_feedback_description">Send the developer an email with some feedback on bugs or new features you\'d like to see</string>
     <string name="settings_help_privacy_policy_title">Privacy Policy</string>
     <string name="settings_help_privacy_policy_description">View our privacy policy here</string>
     <string name="settings_reset_all_confirm_title">Are you sure?</string>

@@ -15,14 +15,12 @@ data class UiState(
     val theme: ThemePref,
     val crashReporting: Boolean,
     val anonymousAnalytics: Boolean,
-    val shakeToReport: Boolean,
 ) {
     constructor(): this(
         screen = null,
         theme = ThemePref.AUTO,
         crashReporting = false,
         anonymousAnalytics = false,
-        shakeToReport = false,
     )
 }
 
@@ -34,7 +32,7 @@ enum class SettingsType {
 class SettingsViewModel @Inject constructor(
     private val prefManager: PreferencesManager,
     private val countdownRepository: CountdownRepository,
-    private val changeThemeUseCase: ChangeThemeUseCase
+    private val changeThemeUseCase: ChangeThemeUseCase,
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -62,11 +60,6 @@ class SettingsViewModel @Inject constructor(
         refresh()
     }
 
-    fun setShakeToReport(enabled: Boolean) {
-        prefManager.shakeToReport = enabled
-        refresh()
-    }
-
     fun setTheme(theme: ThemePref) {
         prefManager.theme = theme
         changeThemeUseCase.update(theme)
@@ -81,7 +74,6 @@ class SettingsViewModel @Inject constructor(
         update { copy(
             crashReporting = prefManager.crashReporting,
             anonymousAnalytics = prefManager.analyticsEnabled,
-            shakeToReport = prefManager.shakeToReport,
             theme = prefManager.theme
         )}
     }

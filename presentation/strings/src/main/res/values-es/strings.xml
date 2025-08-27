@@ -40,9 +40,8 @@
     <string name="settings_help_suggestions_title">¿Tienes alguna sugerencia?</string>
     <string name="settings_help_suggestions_description">Envía al desarrollador un correo electrónico con cualquier sugerencia que puedas tener. Alternativamente, activa la opción de agitar para informar y agita tu dispositivo</string>
     <string name="send_email">Enviar correo electrónico</string>
-    <string name="settings_help_shake_to_report_title">¿Agitar la aplicación para informar de un error o una función?</string>
-    <string name="settings_help_shake_to_report_description">¡Agita la aplicación en cualquier momento para hacer una captura de pantalla y enviarme cualquier error, problema o sugerencia que puedas tener para esta aplicación!</string>
-    <string name="settings_help_shake_to_report_after_app_restart">Tu preferencia de agitar para informar se aplicará una vez que la aplicación se haya reiniciado</string>
+    <string name="settings_help_feedback_title">Comentarios</string>
+    <string name="settings_help_feedback_description">Enviar un correo electrónico al desarrollador con comentarios sobre errores o nuevas funciones que te gustaría ver</string>
     <string name="settings_help_privacy_policy_title">Política de privacidad</string>
     <string name="settings_help_privacy_policy_description">Consulta nuestra política de privacidad aquí</string>
     <string name="settings_reset_all_confirm_title">¿Estás seguro?</string>

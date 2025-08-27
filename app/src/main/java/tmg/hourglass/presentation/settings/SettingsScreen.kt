@@ -63,7 +63,7 @@ internal fun SettingsScreenVM(
                 deleteAllClicked = viewModel::deleteAll,
                 setAnalytics = viewModel::setAnalytics,
                 setCrashlytics = viewModel::setCrash,
-                setShakeToReport = viewModel::setShakeToReport,
+                sendFeedback = goToAboutThisApp,
                 actionUpClicked = actionUpClicked
             )
         },
@@ -94,7 +94,7 @@ private fun SettingsOverviewScreen(
     deleteAllClicked: () -> Unit,
     setAnalytics: (Boolean) -> Unit,
     setCrashlytics: (Boolean) -> Unit,
-    setShakeToReport: (Boolean) -> Unit,
+    sendFeedback: () -> Unit,
     actionUpClicked: () -> Unit,
 ) {
     val deletionConfirmationDialog = rememberSaveable { mutableStateOf(false) }
@@ -176,11 +176,10 @@ private fun SettingsOverviewScreen(
                 )
             }
             item(key = "feedback_3") {
-                SettingsSwitch(
-                    title = string.settings_help_shake_to_report_title,
-                    subtitle = string.settings_help_shake_to_report_title,
-                    isChecked = uiState.shakeToReport,
-                    optionClicked = setShakeToReport
+                SettingsOption(
+                    title = string.settings_help_feedback_title,
+                    subtitle = string.settings_help_feedback_description,
+                    optionClicked = sendFeedback
                 )
             }
             item(key = "privacy_header") {
@@ -235,7 +234,6 @@ private fun PreviewOverview() {
                 screen = null,
                 crashReporting = true,
                 anonymousAnalytics = false,
-                shakeToReport = true,
                 theme = ThemePref.AUTO
             ),
             refreshWidgetsClicked = { },
@@ -244,7 +242,7 @@ private fun PreviewOverview() {
             setTheme = { },
             setAnalytics = { },
             setCrashlytics = { },
-            setShakeToReport = { },
+            sendFeedback = { },
             privacyPolicyClicked = { },
             deleteAllClicked = { },
             actionUpClicked = { }

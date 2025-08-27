@@ -83,7 +83,6 @@ firebase_perf = { module = "com.google.firebase:firebase-perf" }
 
 # 3.0.12 includes FOREGROUND_SERVICE permission for media projection.
 # Probably time to look for an alternative
-shakey = "com.linkedin.shaky:shaky:3.0.11"
 falcon = "com.jraska:falcon:2.2.0"
 
 tmg_utils = "com.github.thementalgoose:android-utilities:2.8.1"
