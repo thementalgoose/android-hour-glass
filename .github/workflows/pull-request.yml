@@ -52,7 +52,7 @@ jobs:
       #  Run the diff report
       - name: Generate dependency diff
         id: diff
-        uses: thementalgoose/gradle-dependency-diff@v0
+        uses: thementalgoose/gradle-dependency-diff@v0.1.0-alpha
         with:
           before: before.txt
           after: after.txt
