@@ -47,6 +47,17 @@ jobs:
           git checkout ${{ github.head_ref }}
           ./gradlew :app:dependencies --configuration liveReleaseRuntimeClasspath >> after.txt
 
+      - name: ls
+        run: | 
+          ls 
+
+      - name: cat after.txt
+        run: |
+          cat after.txt
+
+      - name: cat before.txt
+        run: |
+          cat before.txt
 
       # This action
       #  Run the diff report
