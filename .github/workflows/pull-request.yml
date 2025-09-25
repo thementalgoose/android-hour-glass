@@ -7,9 +7,9 @@ name: Pull Request
       - '**.md'
       - '**.png'
 jobs:
-  unit_test:
+  dependency-report:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 10
     steps:
       # Checkout
       - uses: actions/checkout@v5
@@ -32,98 +32,169 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # Environment
-      - name: Environment variables
+      # Optional:
+      #  If running inside a pull request, generate the dependency
+      #  outputs of previous state by checking out the base ref,
+      #  generating the report and then change back to the head ref
+      #  and generate that report in two different files
+      - name: Checkout base branch + generate report
         run: |
-          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_SAND }} | base64 --decode >> app/src/sand/google-services.json
+          git checkout ${{ github.base_ref }}
+          ./gradlew :app:dependencies --configuration releaseRuntimeClasspath >> before.txt
 
-      # Running unit tests
-      - name: Unit tests
-        run: ./gradlew cleanTestDebugUnitTest testDebugUnitTest :app:testSandDebugUnitTest
-
-      # Publish test report
-      - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v5
-        if: always()
-        with:
-          report_paths: '**/build/test-results/**/TEST-*.xml'
-
-  test_apk:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-java@v5
-        with:
-          distribution: 'zulu'
-          java-version: '21'
-
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/*.toml*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Environment and google services
+      - name: Checkout head branch + generate report
         run: |
-          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_SAND }} | base64 --decode >> app/src/sand/google-services.json
-          echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> hourglass.keystore
-          echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
+          git checkout ${{ github.head_ref }}
+          ./gradlew :app:dependencies --configuration releaseRuntimeClasspath >> after.txt
 
-      - name: Version Name
-        id: get_version_name
-        run: echo "VERSION=0.0.0" >> $GITHUB_OUTPUT
 
-      - name: Version Code
-        id: get_version_code
-        run: echo "VERSION=1" >> $GITHUB_OUTPUT
+      # This action
+      #  Run the diff report
+      - name: Generate dependency diff
+        id: diff
+        uses: thementalgoose/gradle-dependency-diff@v0
+        with:
+          before: before.txt
+          after: after.txt
+          output_to_file: true
+          output_to_file_name: diff.txt
 
-      - name: Outputting codes
-        run: |
-          echo "NAME: ${{ steps.get_version_name.outputs.VERSION }}"
-          echo "CODE: ${{ steps.get_version_code.outputs.VERSION }}"
-
-      - name: Run build
-        env:
-          KEYSTORE: ${{ github.workspace }}/hourglass.keystore
-          PRIVATE_KEY: ${{ github.workspace }}/deployment_private_key.json
-          KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          VERSION_CODE: ${{ steps.get_version_code.outputs.VERSION }}
-          VERSION_NAME: ${{ steps.get_version_name.outputs.VERSION }}
-        run: ./gradlew assembleSandRelease
-
-      - name: Making build available
-        id: artifact-upload-step
+      # Optional
+      #  Post the report to the pull request via. a comment
+      #  or use the output_to_file option and archive the file
+      #  for viewing later
+      - name: Post PR comment
+        uses: mshick/add-pr-comment@v2
+        if: ${{ steps.diff.outputs.is_difference_found }}
+        with:
+          message: |
+            ### Dependency report
+            ```diff
+            ${{ steps.diff.outputs.result }}
+            ```
+      - name: Archive dependency diff
         uses: actions/upload-artifact@v4
         with:
-          name: APK
-          path: app/build/outputs/apk/**/*.apk
-          retention-days: 2
+          name: dependency-diff
+          path: diff.txt
 
-      - name: Find Comment
-        uses: peter-evans/find-comment@v3
-        id: fc
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
-          body-includes: Test APK
-
-      - name: Create or update comment
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          comment-id: ${{ steps.fc.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            ### Test APK
-
-            A test apk built against this change is available and will be available for 48 hours
-
-            ${{ steps.artifact-upload-step.outputs.artifact-url }}
-          edit-mode: replace
+#  unit_test:
+#    runs-on: ubuntu-latest
+#    timeout-minutes: 25
+#    steps:
+#      # Checkout
+#      - uses: actions/checkout@v5
+#        with:
+#          fetch-depth: 0
+#
+#      # Setup Java 21
+#      - uses: actions/setup-java@v5
+#        with:
+#          distribution: 'zulu'
+#          java-version: '21'
+#
+#      # Caching gradle
+#      - uses: actions/cache@v4
+#        with:
+#          path: |
+#            ~/.gradle/caches
+#            ~/.gradle/wrapper
+#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/*.toml*') }}
+#          restore-keys: |
+#            ${{ runner.os }}-gradle-
+#
+#      # Environment
+#      - name: Environment variables
+#        run: |
+#          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_SAND }} | base64 --decode >> app/src/sand/google-services.json
+#
+#      # Running unit tests
+#      - name: Unit tests
+#        run: ./gradlew cleanTestDebugUnitTest testDebugUnitTest :app:testSandDebugUnitTest
+#
+#      # Publish test report
+#      - name: Publish Test Report
+#        uses: mikepenz/action-junit-report@v5
+#        if: always()
+#        with:
+#          report_paths: '**/build/test-results/**/TEST-*.xml'
+#
+#  test_apk:
+#    runs-on: ubuntu-latest
+#    timeout-minutes: 30
+#    steps:
+#      - uses: actions/checkout@v5
+#        with:
+#          fetch-depth: 0
+#
+#      - uses: actions/setup-java@v5
+#        with:
+#          distribution: 'zulu'
+#          java-version: '21'
+#
+#      - uses: actions/cache@v4
+#        with:
+#          path: |
+#            ~/.gradle/caches
+#            ~/.gradle/wrapper
+#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/*.toml*') }}
+#          restore-keys: |
+#            ${{ runner.os }}-gradle-
+#
+#      - name: Environment and google services
+#        run: |
+#          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_SAND }} | base64 --decode >> app/src/sand/google-services.json
+#          echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> hourglass.keystore
+#          echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
+#
+#      - name: Version Name
+#        id: get_version_name
+#        run: echo "VERSION=0.0.0" >> $GITHUB_OUTPUT
+#
+#      - name: Version Code
+#        id: get_version_code
+#        run: echo "VERSION=1" >> $GITHUB_OUTPUT
+#
+#      - name: Outputting codes
+#        run: |
+#          echo "NAME: ${{ steps.get_version_name.outputs.VERSION }}"
+#          echo "CODE: ${{ steps.get_version_code.outputs.VERSION }}"
+#
+#      - name: Run build
+#        env:
+#          KEYSTORE: ${{ github.workspace }}/hourglass.keystore
+#          PRIVATE_KEY: ${{ github.workspace }}/deployment_private_key.json
+#          KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+#          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+#          VERSION_CODE: ${{ steps.get_version_code.outputs.VERSION }}
+#          VERSION_NAME: ${{ steps.get_version_name.outputs.VERSION }}
+#        run: ./gradlew assembleSandRelease
+#
+#      - name: Making build available
+#        id: artifact-upload-step
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: APK
+#          path: app/build/outputs/apk/**/*.apk
+#          retention-days: 2
+#
+#      - name: Find Comment
+#        uses: peter-evans/find-comment@v3
+#        id: fc
+#        with:
+#          issue-number: ${{ github.event.pull_request.number }}
+#          comment-author: 'github-actions[bot]'
+#          body-includes: Test APK
+#
+#      - name: Create or update comment
+#        uses: peter-evans/create-or-update-comment@v4
+#        with:
+#          comment-id: ${{ steps.fc.outputs.comment-id }}
+#          issue-number: ${{ github.event.pull_request.number }}
+#          body: |
+#            ### Test APK
+#
+#            A test apk built against this change is available and will be available for 48 hours
+#
+#            ${{ steps.artifact-upload-step.outputs.artifact-url }}
+#          edit-mode: replace
