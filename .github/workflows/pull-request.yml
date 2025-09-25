@@ -40,12 +40,12 @@ jobs:
       - name: Checkout base branch + generate report
         run: |
           git checkout ${{ github.base_ref }}
-          ./gradlew :app:dependencies --configuration releaseRuntimeClasspath >> before.txt
+          ./gradlew :app:dependencies --configuration liveReleaseRuntimeClasspath >> before.txt
 
       - name: Checkout head branch + generate report
         run: |
           git checkout ${{ github.head_ref }}
-          ./gradlew :app:dependencies --configuration releaseRuntimeClasspath >> after.txt
+          ./gradlew :app:dependencies --configuration liveReleaseRuntimeClasspath >> after.txt
 
 
       # This action
