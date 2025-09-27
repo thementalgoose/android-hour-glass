@@ -64,7 +64,7 @@ jobs:
       #  for viewing later
       - name: Difference found PR comment
         uses: mshick/add-pr-comment@v2
-        if: ${{ steps.diff.outputs.is_difference_found == true }}
+        if: ${{ steps.diff.outputs.is_difference_found == 'true' }}
         with:
           message-id: dependency-difference
           message: |
@@ -79,7 +79,7 @@ jobs:
 
       - name: No difference found PR comment
         uses: mshick/add-pr-comment@v2
-        if: ${{ steps.diff.outputs.is_difference_found != true }}
+        if: ${{ steps.diff.outputs.is_difference_found != 'true' }}
         with:
           message-id: dependency-difference
           update-only: true
