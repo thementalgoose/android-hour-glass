@@ -62,9 +62,9 @@ jobs:
       #  Post the report to the pull request via. a comment
       #  or use the output_to_file option and archive the file
       #  for viewing later
-      - name: Post PR comment
+      - name: Difference found PR comment
         uses: mshick/add-pr-comment@v2
-        if: ${{ steps.diff.outputs.is_difference_found }}
+        if: ${{ steps.diff.outputs.is_difference_found == true }}
         with:
           message-id: dependency-difference
           message: |
@@ -76,6 +76,15 @@ jobs:
             ${{ steps.diff.outputs.result }}
             ```
             _Created for commit ${{ github.sha }} at ${{ github.event.repository.updated_at }}_
+
+      - name: No difference found PR comment
+        uses: mshick/add-pr-comment@v2
+        if: ${{ steps.diff.outputs.is_difference_found != true }}
+        with:
+          message-id: dependency-difference
+          update-only: true
+          message: |
+            ### No dependency difference found
 
       - name: ls
         run: | 
