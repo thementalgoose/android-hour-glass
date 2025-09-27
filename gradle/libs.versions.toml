@@ -69,6 +69,7 @@ compose_viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose",
 compose_bom = { module = "androidx.compose:compose-bom", version.ref = "compose" }
 compose_material = { module = "androidx.compose.material:material" }
 compose_material3 = { module = "androidx.compose.material3:material3" }
+compose_material3icons = { module = "androidx.compose.material:material-icons-core" }
 compose_windowsize = { module = "androidx.compose.material3:material3-window-size-class" }
 compose_animation = { module = "androidx.compose.animation:animation" }
 compose_ui_tooling = { module = "androidx.compose.ui:ui-tooling" }
