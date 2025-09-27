@@ -47,23 +47,11 @@ jobs:
           git checkout ${{ github.head_ref }}
           ./gradlew :app:dependencies --configuration liveReleaseRuntimeClasspath >> after.txt
 
-      - name: ls
-        run: | 
-          ls 
-
-      - name: cat after.txt
-        run: |
-          cat after.txt
-
-      - name: cat before.txt
-        run: |
-          cat before.txt
-
       # This action
       #  Run the diff report
       - name: Generate dependency diff
         id: diff
-        uses: thementalgoose/gradle-dependency-diff@v0.1.0-alpha02
+        uses: thementalgoose/gradle-dependency-diff@v1
         with:
           before: before.txt
           after: after.txt
@@ -78,11 +66,21 @@ jobs:
         uses: mshick/add-pr-comment@v2
         if: ${{ steps.diff.outputs.is_difference_found }}
         with:
+          message-id: dependency-difference
           message: |
-            ### Dependency report
+            ### Dependency Difference
+            
+            Differences in the dependency outputs have been introduced in this PR. Please scan the list below and check if any dependencies have had transient dependency updates
+            
             ```diff
             ${{ steps.diff.outputs.result }}
             ```
+            _Created for commit ${{ github.sha }} at ${{ github.event.repository.updated_at }}_
+
+      - name: ls
+        run: | 
+          ls
+
       - name: Archive dependency diff
         uses: actions/upload-artifact@v4
         with:
