@@ -41,35 +41,12 @@ jobs:
 
       - name: Generate dependency diff
         id: diff
-        uses: thementalgoose/gradle-dependency-diff@v1
+        uses: thementalgoose/gradle-dependency-diff@v2
         with:
           before: before.txt
           after: after.txt
           output_to_file: true
-          output_to_file_name: diff.txt
-
-      - name: PR comment - Diff found
-        uses: mshick/add-pr-comment@v2
-        if: ${{ steps.diff.outputs.is_difference_found == 'true' }}
-        with:
-          message-id: dependency-difference
-          message: |
-            ### ⚠️ Dependency difference found
-            
-            Differences in the dependency outputs have been introduced in this PR. Please scan the list below and check if any dependencies have had transient dependency updates
-            
-            ```diff
-            ${{ steps.diff.outputs.result }}
-            ```
-            _Created for commit ${{ github.sha }} at ${{ github.event.repository.pushed_at }}_
-      - name: PR comment - No diff found
-        uses: mshick/add-pr-comment@v2
-        if: ${{ steps.diff.outputs.is_difference_found != 'true' }}
-        with:
-          message-id: dependency-difference
-          update-only: true
-          message: |
-            ### ✅ No dependency difference found
+          post_pr_comment: true
 
   unit_test:
     runs-on: ubuntu-latest
