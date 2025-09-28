@@ -3,6 +3,7 @@
 </p>
 <h1 align="center">HourGlass</h1>
 <p align="center">
+  <a href="https://github.com/thementalgoose/android-hour-glass/releases"><img src="https://img.shields.io/github/v/release/thementalgoose/android-hour-glass"/></a>
   <a href="https://play.google.com/store/apps/details?id=tmg.hourglass"><img src="https://img.shields.io/static/v1?label=Google%20Play&message=%20&logo=google-play&color=success&style=flat"/></a>
   <a href="https://github.com/thementalgoose/android-hour-glass/releases"><img src="https://img.shields.io/static/v1?label=Latest%20Release&message=5.x.x&logo=github&color=blue&style=flat"/></a>
   <a href="https://github.com/thementalgoose/android-hour-glass/actions"><img src="https://github.com/thementalgoose/android-hour-glass/workflows/Release/badge.svg"/></a>
