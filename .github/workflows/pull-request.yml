@@ -47,6 +47,7 @@ jobs:
           after: after.txt
           output_to_file: true
           post_pr_comment: true
+          show_removals: false
 
   unit_test:
     runs-on: ubuntu-latest
