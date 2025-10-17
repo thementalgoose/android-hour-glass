@@ -3,7 +3,6 @@ package tmg.hourglass.migration
 import android.util.Log
 import io.realm.Realm
 import io.realm.kotlin.where
-import kotlinx.coroutines.flow.firstOrNull
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.repositories.WidgetRepository
 import tmg.hourglass.prefs.PreferencesManager
@@ -11,8 +10,6 @@ import tmg.hourglass.realm.mappers.RealmCountdownMapper
 import tmg.hourglass.realm.mappers.RealmWidgetMapper
 import tmg.hourglass.realm.models.RealmCountdown
 import tmg.hourglass.realm.models.RealmWidgetReference
-import tmg.hourglass.realm.repositories.CountdownRealmRepository
-import tmg.hourglass.realm.repositories.WidgetRealmRepository
 import javax.inject.Inject
 
 /**
