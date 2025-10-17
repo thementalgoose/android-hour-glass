@@ -6,8 +6,9 @@ import tmg.hourglass.domain.model.WidgetReference
 import tmg.hourglass.domain.repositories.WidgetRepository
 import tmg.hourglass.room.dao.WidgetDao
 import tmg.hourglass.room.mappers.WidgetMapper
+import javax.inject.Inject
 
-internal class WidgetRepositoryImpl(
+internal class WidgetRepositoryImpl @Inject constructor(
     private val widgetDao: WidgetDao,
     private val widgetMapper: WidgetMapper,
 ): WidgetRepository {

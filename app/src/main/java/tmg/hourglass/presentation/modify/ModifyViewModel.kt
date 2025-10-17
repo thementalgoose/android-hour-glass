@@ -167,6 +167,7 @@ class ModifyViewModel @Inject constructor(
 
             val countdown = uiState.toCountdown(id ?: UUID.randomUUID().toString())
             countdownRepository.saveSync(countdown)
+            id = null
         } catch (e: NullPointerException) {
             crashReporter.logException(e)
         }
