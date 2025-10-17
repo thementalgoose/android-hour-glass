@@ -135,6 +135,15 @@
     <string name="modify_field_name_required">Name required</string>
     <string name="modify_field_description_hint">Description</string>
 
+    <string name="modify_error_title_missing">Title is missing</string>
+    <string name="modify_error_colour_missing">Colour is missing</string>
+    <string name="modify_error_finish_date_null">End date is required</string>
+    <string name="modify_error_finish_date_in_past">End date cannot be in the past</string>
+    <string name="modify_error_start_date_null">Start date is required</string>
+    <string name="modify_error_finish_date_before_start">End date cannot be before the start date</string>
+    <string name="modify_error_value_empty">Both values cannot be empty</string>
+    <string name="modify_error_value_match">Values cannot match</string>
+
     <string name="modify_field_type">Type</string>
     <string name="modify_field_type_desc">Select which kind of metric you would like to countdown or count-up</string>
     <string name="modify_field_range">Range</string>

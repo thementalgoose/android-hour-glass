@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -59,6 +57,7 @@ fun ModifyScreen(
         PersonaliseLayout(
             name = uiState.value.title,
             nameUpdated = viewModel::setTitle,
+            nameError = uiState.value.errors.any { it == UiState.ErrorTypes.TITLE_BLANK },
             description = uiState.value.description,
             descriptionUpdated = viewModel::setDescription,
             color = uiState.value.colorHex,
@@ -72,31 +71,51 @@ fun ModifyScreen(
 
         when (val inputData = uiState.value.inputTypes) {
             is UiState.Types.EndDate -> {
+                val errorString = when {
+                    uiState.value.errors.any { it == UiState.ErrorTypes.FINISH_DATE_NULL } -> stringResource(R.string.modify_error_finish_date_null)
+                    uiState.value.errors.any { it == UiState.ErrorTypes.FINISH_DATE_IN_PAST } -> stringResource(R.string.modify_error_finish_date_in_past)
+                    else -> null
+                }
                 DataSingleDateLayout(
                     date = inputData.finishDate,
-                    dateUpdated = viewModel::setEndDate
+                    dateUpdated = viewModel::setEndDate,
+                    error = errorString
                 )
             }
             is UiState.Types.Values -> {
+                val errorDate = when {
+                    uiState.value.errors.any { it == UiState.ErrorTypes.FINISH_DATE_NULL } -> stringResource(R.string.modify_error_finish_date_null)
+                    uiState.value.errors.any { it == UiState.ErrorTypes.FINISH_DATE_IN_PAST } -> stringResource(R.string.modify_error_finish_date_in_past)
+                    uiState.value.errors.any { it == UiState.ErrorTypes.START_DATE_NULL } -> stringResource(R.string.modify_error_start_date_null)
+                    uiState.value.errors.any { it == UiState.ErrorTypes.FINISH_DATE_BEFORE_START_DATE } -> stringResource(R.string.modify_error_finish_date_before_start)
+                    else -> null
+                }
                 DataRangeDateLayout(
                     startDate = inputData.startDate,
                     startDateUpdated = viewModel::setStartDate,
                     endDate = inputData.endDate,
-                    endDateUpdated = viewModel::setEndDate
+                    endDateUpdated = viewModel::setEndDate,
+                    error = errorDate
                 )
 
+                val errorValue = when {
+                    uiState.value.errors.any { it == UiState.ErrorTypes.VALUES_EMPTY } -> stringResource(R.string.modify_error_value_empty)
+                    uiState.value.errors.any { it == UiState.ErrorTypes.VALUES_MATCH } -> stringResource(R.string.modify_error_value_match)
+                    else -> null
+                }
                 DataRangeInputLayout(
                     initial = inputData.startValue,
                     initialUpdated = viewModel::setStartValue,
                     finishing = inputData.endValue,
-                    finishingUpdated = viewModel::setEndValue
+                    finishingUpdated = viewModel::setEndValue,
+                    error = errorValue
                 )
             }
         }
 
         SaveLayout(
             isEdit = countdown != null,
-            saveEnabled = uiState.value.saveEnabled,
+            saveEnabled = uiState.value.isSaveEnabled,
             saveClicked = {
                 viewModel.save()
                 actionUpClicked()

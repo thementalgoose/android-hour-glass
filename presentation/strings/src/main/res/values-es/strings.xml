@@ -91,6 +91,16 @@
     <string name="modify_field_name_required">Nombre requerido</string>
     <string name="modify_field_description_hint">Descripción</string>
 
+    <string name="modify_error_title_missing">Falta el título</string>
+    <string name="modify_error_colour_missing">Falta el color</string>
+    <string name="modify_error_finish_date_null">Se requiere la fecha de finalización</string>
+    <string name="modify_error_finish_date_in_past">La fecha de finalización no puede ser en el pasado</string>
+    <string name="modify_error_start_date_null">Se requiere la fecha de inicio</string>
+    <string name="modify_error_finish_date_before_start">La fecha de finalización no puede ser anterior a la fecha de inicio</string>
+    <string name="modify_error_value_empty">Ambos valores no pueden estar vacíos</string>
+    <string name="modify_error_value_match">Los valores no pueden coincidir</string>
+
+
     <string name="modify_field_type">Tipo</string>
     <string name="modify_field_type_desc">Selecciona qué tipo de métrica quieres contar hacia atrás o hacia arriba</string>
     <string name="modify_field_range">Rango</string>
