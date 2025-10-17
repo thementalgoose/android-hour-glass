@@ -1,4 +1,6 @@
-apply plugin:  'com.android.library'
+apply plugin: 'com.android.library'
+apply plugin: 'com.google.devtools.ksp'
+apply plugin: 'androidx.room'
 
 apply from: rootDir.absolutePath + "/gradle/config-android.gradle"
 apply from: rootDir.absolutePath + "/gradle/config-util.gradle"
@@ -7,6 +9,10 @@ apply from: rootDir.absolutePath + "/gradle/config-hilt.gradle"
 
 android {
     namespace "tmg.hourglass.room"
+}
+
+room {
+    schemaDirectory("$projectDir/schemas/")
 }
 
 dependencies {

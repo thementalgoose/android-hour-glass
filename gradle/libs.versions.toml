@@ -46,6 +46,7 @@ androidx_glance_appwidget = { module = "androidx.glance:glance-appwidget", versi
 room_runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room_compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room_ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room_gradle = { module = "androidx.room:room-gradle-plugin", version.ref = "room" }
 
 hilt_android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 hilt_compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
@@ -146,3 +147,4 @@ accompanist = [
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 composecompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin"}
+room = { id = "androidx.room", version.ref = "room" }
