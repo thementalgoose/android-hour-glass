@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import tmg.hourglass.domain.repositories.CountdownRepository
-import tmg.hourglass.domain.repositories.RealmRepo
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.usecases.ChangeThemeUseCase
@@ -32,7 +31,6 @@ enum class SettingsType {
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val prefManager: PreferencesManager,
-    @param:RealmRepo
     private val countdownRepository: CountdownRepository,
     private val changeThemeUseCase: ChangeThemeUseCase,
 ): ViewModel() {

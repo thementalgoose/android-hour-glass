@@ -12,7 +12,6 @@ import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.repositories.WidgetRepository
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.WidgetReference
-import tmg.hourglass.domain.repositories.RealmRepo
 import javax.inject.Inject
 
 data class UiState(
@@ -31,9 +30,7 @@ data class UiState(
 
 @HiltViewModel
 class CountdownConfigurationViewModel @Inject constructor(
-    @param:RealmRepo
     private val countdownRepository: CountdownRepository,
-    @param:RealmRepo
     private val widgetRepository: WidgetRepository,
 ): ViewModel() {
 

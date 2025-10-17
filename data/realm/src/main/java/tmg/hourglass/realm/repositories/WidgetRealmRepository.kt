@@ -16,9 +16,9 @@ import javax.inject.Singleton
 @Singleton
 class WidgetRealmRepository @Inject constructor(
     private val widgetMapper: RealmWidgetMapper
-): BaseRealmRepository(), WidgetRepository {
+): BaseRealmRepository() {
 
-    override fun saveSync(widgetReference: WidgetReference) = realmSync { realm ->
+    fun saveSync(widgetReference: WidgetReference) = realmSync { realm ->
         Log.i("Realm", "Widgets: Saving $widgetReference")
         val model: RealmWidgetReference = realm
             .where<RealmWidgetReference>()
@@ -30,7 +30,7 @@ class WidgetRealmRepository @Inject constructor(
         widgetMapper.serialize(model, widgetReference)
     }
 
-    override fun getSync(appWidgetId: Int): WidgetReference? = realmGet { realm ->
+    fun getSync(appWidgetId: Int): WidgetReference? = realmGet { realm ->
         Log.i("Realm", "Widgets: Getting $appWidgetId")
         val realmRef = realm
             .where(RealmWidgetReference::class.java)
@@ -43,13 +43,13 @@ class WidgetRealmRepository @Inject constructor(
         }
     }
 
-    override fun all(): Flow<List<WidgetReference>> = flowableList(
+    fun all(): Flow<List<WidgetReference>> = flowableList(
         realmClass = RealmWidgetReference::class.java,
         where = { it },
         convert = { widgetMapper.deserialize(it) }
     )
 
-    override fun deleteAll() = realmSync { realm ->
+    fun deleteAll() = realmSync { realm ->
         realm.where<RealmWidgetReference>().findAll().deleteAllFromRealm()
     }
 }

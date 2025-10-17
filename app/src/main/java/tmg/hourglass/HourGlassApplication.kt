@@ -8,9 +8,13 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import dagger.Lazy
 import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import tmg.hourglass.migration.RealmToRoomMigration
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.realm.migrations.RealmDBMigration
@@ -23,6 +27,9 @@ class HourGlassApplication : Application() {
     @Inject
     lateinit var prefs: PreferencesManager
 
+    @Inject
+    lateinit var realmToRoomMigration: Lazy<RealmToRoomMigration>
+
     override fun onCreate() {
         super.onCreate()
 
@@ -30,9 +37,18 @@ class HourGlassApplication : Application() {
         Realm.init(this)
         val config = RealmConfiguration.Builder()
             .schemaVersion(5L)
-            .migration(RealmDBMigration())
+            .migration(RealmDBMigration(
+                realmToRoomMigration = {
+                    GlobalScope.launch {
+                        Log.d("Realm", "Beginning Migration to Room")
+                        realmToRoomMigration.get().migrate()
+                        Log.d("Realm", "Migration to Room complete")
+                    }
+                }
+            ))
             .allowWritesOnUiThread(true)
             .build()
+
         Realm.setDefaultConfiguration(config)
 
         // Night mode

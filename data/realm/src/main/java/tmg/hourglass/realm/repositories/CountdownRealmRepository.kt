@@ -18,9 +18,9 @@ import javax.inject.Singleton
 class CountdownRealmRepository @Inject constructor(
     private val countdownMapper: RealmCountdownMapper,
     private val countdownNotificationMapper: RealmCountdownNotificationMapper
-): BaseRealmRepository(), CountdownRepository {
+): BaseRealmRepository() {
 
-    override fun allCurrent(): Flow<List<Countdown>> = flowableList(
+    fun allCurrent(): Flow<List<Countdown>> = flowableList(
         realmClass = RealmCountdown::class.java,
         where = { it.greaterThanOrEqualTo("end", now) },
         convert = { countdownMapper.deserialize(it) }
@@ -36,7 +36,7 @@ class CountdownRealmRepository @Inject constructor(
         }
     }
 
-    override fun allDone(): Flow<List<Countdown>> = flowableList(
+    fun allDone(): Flow<List<Countdown>> = flowableList(
         realmClass = RealmCountdown::class.java,
         where = { it.lessThanOrEqualTo("end", now) },
         convert = {
@@ -44,7 +44,7 @@ class CountdownRealmRepository @Inject constructor(
         }
     )
 
-    override fun all(): Flow<List<Countdown>> = flowableList(
+    fun all(): Flow<List<Countdown>> = flowableList(
         realmClass = RealmCountdown::class.java,
         where = { it },
         convert = { countdownMapper.deserialize(it) }
@@ -53,7 +53,7 @@ class CountdownRealmRepository @Inject constructor(
             .sortedBy { it.isFinished }
     }
 
-    override fun getSync(id: String): Countdown? = realmGet { realm ->
+    fun getSync(id: String): Countdown? = realmGet { realm ->
         val model: RealmCountdown? = realm
             .where<RealmCountdown>()
             .equalTo("id", id)
@@ -65,13 +65,13 @@ class CountdownRealmRepository @Inject constructor(
         }
     }
 
-    override fun get(id: String): Flow<Countdown?> = flowable(
+    fun get(id: String): Flow<Countdown?> = flowable(
         realmClass = RealmCountdown::class.java,
         where = { it.equalTo("id", id) },
         convert = { countdownMapper.deserialize(it) }
     )
 
-    override fun saveSync(countdown: Countdown) = realmSync { realm ->
+    fun saveSync(countdown: Countdown) = realmSync { realm ->
         val model = realm
             .where<RealmCountdown>()
             .equalTo("id", countdown.id)
@@ -95,15 +95,15 @@ class CountdownRealmRepository @Inject constructor(
         model.notifications = RealmList(*notifications.toTypedArray())
     }
 
-    override fun deleteAll() = realmSync { realm ->
+    fun deleteAll() = realmSync { realm ->
         realm.where<RealmCountdown>().findAll().deleteAllFromRealm()
     }
 
-    override fun deleteDone() = realmSync { realm ->
+    fun deleteDone() = realmSync { realm ->
         realm.where<RealmCountdown>().lessThan("end", now).findAll().deleteAllFromRealm()
     }
 
-    override fun delete(id: String) = realmSync { realm ->
+    fun delete(id: String) = realmSync { realm ->
         val model = realm.where<RealmCountdown>().equalTo("id", id).findFirst()
         model?.notifications?.deleteAllFromRealm()
         model?.deleteFromRealm()

@@ -8,7 +8,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import tmg.hourglass.domain.repositories.CountdownRepository
-import tmg.hourglass.domain.repositories.RoomRepo
 import tmg.hourglass.domain.repositories.WidgetRepository
 import tmg.hourglass.room.DATABASE_NAME
 import tmg.hourglass.room.HourGlassDatabase
@@ -46,10 +45,8 @@ class RoomModule {
     ): WidgetDao = database.widgetDao()
 
     @Provides
-    @RoomRepo
     internal fun providesCountdownConnector(impl: CountdownRepositoryImpl): CountdownRepository = impl
 
     @Provides
-    @RoomRepo
     internal fun providesWidgetConnector(impl: WidgetRepositoryImpl): WidgetRepository = impl
 }

@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.domain.repositories.RealmRepo
 import tmg.hourglass.navigation.Screen
 import tmg.hourglass.presentation.navigation.NavigationController
 import javax.inject.Inject
@@ -41,7 +40,6 @@ sealed class HomeAction {
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    @param:RealmRepo
     private val countdownRepository: CountdownRepository,
     private val navigationController: NavigationController,
 ): ViewModel() {
