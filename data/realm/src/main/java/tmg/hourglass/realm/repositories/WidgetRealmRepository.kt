@@ -2,9 +2,12 @@ package tmg.hourglass.realm.repositories
 
 import android.util.Log
 import io.realm.kotlin.where
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import tmg.hourglass.domain.repositories.WidgetRepository
 import tmg.hourglass.domain.model.WidgetReference
 import tmg.hourglass.realm.mappers.RealmWidgetMapper
+import tmg.hourglass.realm.models.RealmCountdown
 import tmg.hourglass.realm.models.RealmWidgetReference
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,5 +41,15 @@ class WidgetRealmRepository @Inject constructor(
             realmRef != null -> widgetMapper.deserialize(realm.copyFromRealm(realmRef))
             else -> null
         }
+    }
+
+    override fun all(): Flow<List<WidgetReference>> = flowableList(
+        realmClass = RealmWidgetReference::class.java,
+        where = { it },
+        convert = { widgetMapper.deserialize(it) }
+    )
+
+    override fun deleteAll() = realmSync { realm ->
+        realm.where<RealmWidgetReference>().findAll().deleteAllFromRealm()
     }
 }
