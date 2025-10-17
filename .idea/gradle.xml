@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/core/metrics/googleanalytics" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/realm" />
+            <option value="$PROJECT_DIR$/data/room" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/presentation" />
             <option value="$PROJECT_DIR$/presentation/strings" />

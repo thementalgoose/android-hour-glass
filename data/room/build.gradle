@@ -1,0 +1,18 @@
+apply plugin:  'com.android.library'
+
+apply from: rootDir.absolutePath + "/gradle/config-android.gradle"
+apply from: rootDir.absolutePath + "/gradle/config-util.gradle"
+apply from: rootDir.absolutePath + "/gradle/config-junit5.gradle"
+apply from: rootDir.absolutePath + "/gradle/config-hilt.gradle"
+
+android {
+    namespace "tmg.hourglass.room"
+}
+
+dependencies {
+    implementation project(":domain")
+
+    implementation libs.room.runtime
+    implementation libs.room.ktx
+    ksp libs.room.compiler
+}
