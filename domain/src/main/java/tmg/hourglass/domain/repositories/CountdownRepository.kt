@@ -12,6 +12,7 @@ interface CountdownRepository {
     fun get(id: String): Flow<Countdown?>
 
     fun saveSync(countdown: Countdown)
+    fun saveAll(countdowns: List<Countdown>)
 
     fun deleteAll()
     fun deleteDone()

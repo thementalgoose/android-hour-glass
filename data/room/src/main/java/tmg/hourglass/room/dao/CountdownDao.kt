@@ -29,4 +29,7 @@ internal interface CountdownDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCountdown(countdown: Countdown)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllCountdown(countdown: List<Countdown>)
 }

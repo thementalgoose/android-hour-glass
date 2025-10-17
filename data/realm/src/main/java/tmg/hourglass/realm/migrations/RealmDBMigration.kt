@@ -5,16 +5,14 @@ import io.realm.DynamicRealm
 import io.realm.FieldAttribute
 import io.realm.RealmMigration
 
-class RealmDBMigration(
-    private val realmToRoomMigration: () -> Unit,
-): RealmMigration {
+class RealmDBMigration(): RealmMigration {
 
     override fun migrate(realm: DynamicRealm, oldVersion: Long, newVersion: Long) {
-        Log.i("Realm", "Performing migration $oldVersion -> $newVersion")
+        Log.i("RealmMigration", "Performing migration $oldVersion -> $newVersion")
 
         val schema = realm.schema
         for (version in (oldVersion + 1)..newVersion) {
-            Log.i("Realm", " Performing migration for $version")
+            Log.i("RealmMigration", " Performing migration for $version")
             when (version) {
                 1L -> {
                     schema.create("RealmWidgetReference")
@@ -37,13 +35,10 @@ class RealmDBMigration(
                     schema.get("RealmWidgetReference")
                         ?.addField("openAppOnClick", Boolean::class.java, FieldAttribute.REQUIRED)
                 }
-                6L -> {
-                    realmToRoomMigration()
-                }
                 else -> { }
             }
         }
 
-        Log.i("Realm", "Migration complete")
+        Log.i("RealmMigration", "Migration complete")
     }
 }

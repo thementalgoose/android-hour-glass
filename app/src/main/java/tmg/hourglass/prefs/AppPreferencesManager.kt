@@ -15,6 +15,7 @@ private const val keyAnalyticsReporting: String = "analyticsReporting"
 private const val keyDeviceUdid: String = "deviceUdid"
 private const val keyVersion: String = "version"
 private const val keyThemePref: String = "themePref"
+private const val keyRealmMigration: String = "realmMigration"
 
 @Singleton
 class AppPreferencesManager @Inject constructor(
@@ -50,4 +51,8 @@ class AppPreferencesManager @Inject constructor(
     override var theme: ThemePref
         get() = getString(keyThemePref, ThemePref.AUTO.key)?.toEnum<ThemePref> { it.key } ?: ThemePref.AUTO
         set(value) = save(keyThemePref, value.key)
+
+    override var realmMigrationRan: Boolean
+        get() = getBoolean(keyRealmMigration, false)
+        set(value) = save(keyRealmMigration, value)
 }

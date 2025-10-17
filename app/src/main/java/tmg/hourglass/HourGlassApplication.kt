@@ -14,6 +14,7 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import tmg.hourglass.migration.RealmToRoomMigration
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.presentation.ThemePref
@@ -36,19 +37,10 @@ class HourGlassApplication : Application() {
         // Realm
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-            .schemaVersion(6L)
-            .migration(RealmDBMigration(
-                realmToRoomMigration = {
-                    GlobalScope.launch {
-                        Log.d("Realm", "Beginning Migration to Room")
-                        realmToRoomMigration.get().migrate()
-                        Log.d("Realm", "Migration to Room complete")
-                    }
-                }
-            ))
+            .schemaVersion(5L)
+            .migration(RealmDBMigration())
             .allowWritesOnUiThread(true)
             .build()
-
         Realm.setDefaultConfiguration(config)
 
         // Night mode

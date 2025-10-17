@@ -80,6 +80,15 @@ internal class CountdownRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun saveAll(countdowns: List<Countdown>) {
+        runBlocking {
+            Log.d("Room", "Saving ${countdowns.joinToString { it.id }}")
+            countdownDao.insertAllCountdown(
+                countdowns.map { countdownMapper.serialize(it) }
+            )
+        }
+    }
+
     override fun deleteAll() {
         runBlocking { countdownDao.deleteAllCountdowns() }
     }
