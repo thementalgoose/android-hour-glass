@@ -36,7 +36,7 @@ class HourGlassApplication : Application() {
         // Realm
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-            .schemaVersion(5L)
+            .schemaVersion(6L)
             .migration(RealmDBMigration(
                 realmToRoomMigration = {
                     GlobalScope.launch {
