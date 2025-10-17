@@ -29,6 +29,7 @@ import tmg.hourglass.presentation.buttons.PrimaryIconButton
 import tmg.hourglass.presentation.buttons.SecondaryIconButton
 import tmg.hourglass.presentation.pickers.DatePicker
 import tmg.hourglass.presentation.textviews.TextBody1
+import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.presentation.utils.Fade
 import tmg.utilities.extensions.format
@@ -41,7 +42,8 @@ fun DataRangeDateLayout(
     startDateUpdated: (LocalDateTime) -> Unit,
     endDate: LocalDateTime?,
     endDateUpdated: (LocalDateTime) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    error: String? = null,
 ) {
     Column(
         modifier = modifier
@@ -71,6 +73,20 @@ fun DataRangeDateLayout(
                 date = endDate,
                 dateUpdated = endDateUpdated,
                 minDate = startDate
+            )
+        }
+        if (error != null) {
+            TextBody2(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = AppTheme.dimensions.paddingMedium,
+                        end = AppTheme.dimensions.paddingMedium,
+                        bottom = 4.dp,
+                        top = 2.dp
+                    ),
+                textColor = AppTheme.colors.appColors.error,
+                text = error
             )
         }
     }
@@ -144,6 +160,20 @@ private fun Preview() {
             startDateUpdated = { },
             endDate = null,
             endDateUpdated = { }
+        )
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewError() {
+    AppThemePreview {
+        DataRangeDateLayout(
+            startDate = null,
+            startDateUpdated = { },
+            endDate = null,
+            endDateUpdated = { },
+            error = "We fucked up, sir"
         )
     }
 }

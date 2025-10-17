@@ -1,9 +1,11 @@
 package tmg.hourglass.presentation.modify
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import tmg.hourglass.BuildConfig
 import java.time.LocalDate
 import java.time.LocalDateTime
 import tmg.hourglass.core.googleanalytics.CrashReporter
@@ -156,7 +158,7 @@ class ModifyViewModel @Inject constructor(
         try {
             val uiState = _uiState.value
 
-            if (!uiState.saveEnabled) {
+            if (!uiState.isSaveEnabled) {
                 crashReporter.logException(IllegalStateException("Save clicked while data is considered invalid. Model = $uiState"))
                 return
             }
@@ -182,6 +184,18 @@ data class UiState(
     val type: CountdownType,
     val inputTypes: Types
 ) {
+
+    val errors: List<ErrorTypes> by lazy {
+        val list = isDataValid()
+        if (BuildConfig.DEBUG) {
+            Log.d("Modify", "Error list:\n - ${list.joinToString(separator = "\n - ") { it.name }}")
+        }
+        return@lazy list
+    }
+    val isSaveEnabled: Boolean by lazy {
+        errors.isEmpty()
+    }
+
     sealed class Types {
         data class EndDate(
             val startDate: LocalDateTime = LocalDate.now().atStartOfDay(),
@@ -202,52 +216,64 @@ data class UiState(
         Custom
     }
 
-    private fun isDataValid(): Boolean {
-        if (title.isBlank()) {
-            return false
-        }
-        if (colorHex.isBlank()) {
-            return false
-        }
-        when (inputTypes) {
-            is Types.EndDate -> {
-                if (inputTypes.finishDate == null) {
-                    return false
-                }
-                if (inputTypes.finishDate.toLocalDate() < LocalDate.now()) {
-                    return false
-                }
-                return true
+    enum class ErrorTypes {
+        TITLE_BLANK,
+        COLOUR_BLANK,
+        FINISH_DATE_NULL,
+        FINISH_DATE_IN_PAST,
+        VALUES_EMPTY,
+        VALUES_MATCH,
+        START_DATE_NULL,
+        FINISH_DATE_BEFORE_START_DATE
+    }
+
+    private fun isDataValid(): List<ErrorTypes> {
+        return buildList {
+            if (title.isBlank()) {
+                add(ErrorTypes.TITLE_BLANK)
             }
-            is Types.Values -> {
-                val hasInitialData = inputTypes.startValue.isNotBlank() && inputTypes.startValue != "0"
-                val hasFinishingData = inputTypes.endValue.isNotBlank() && inputTypes.endValue != "0"
+            if (colorHex.isBlank()) {
+                add(ErrorTypes.COLOUR_BLANK)
+            }
+            when (inputTypes) {
+                is Types.EndDate -> {
+                    if (inputTypes.finishDate == null) {
+                        add(ErrorTypes.FINISH_DATE_NULL)
+                        return@buildList
+                    }
+                    if (inputTypes.finishDate.toLocalDate() < LocalDate.now()) {
+                        add(ErrorTypes.FINISH_DATE_IN_PAST)
+                    }
+                    return@buildList
+                }
+                is Types.Values -> {
+                    val hasInitialData = inputTypes.startValue.isNotBlank() && inputTypes.startValue != "0"
+                    val hasFinishingData = inputTypes.endValue.isNotBlank() && inputTypes.endValue != "0"
 
-                if (!hasInitialData && !hasFinishingData) {
-                    return false
-                }
-                if (inputTypes.startValue == inputTypes.endValue) {
-                    return false
-                }
+                    if (!hasInitialData && !hasFinishingData) {
+                        add(ErrorTypes.VALUES_EMPTY)
+                    }
+                    if (inputTypes.startValue == inputTypes.endValue) {
+                        add(ErrorTypes.VALUES_MATCH)
+                    }
 
-                val hasStartDate = inputTypes.startDate != null
-                val hasEndDate = inputTypes.endDate != null
-                if (!hasStartDate && !hasEndDate) {
-                    return false
+                    if (inputTypes.startDate == null) {
+                        add(ErrorTypes.START_DATE_NULL)
+                        return@buildList
+                    }
+                    if (inputTypes.endDate == null) {
+                        add(ErrorTypes.FINISH_DATE_NULL)
+                        return@buildList
+                    }
+                    if (inputTypes.endDate.toLocalDate() < LocalDate.now()) {
+                        add(ErrorTypes.FINISH_DATE_IN_PAST)
+                    }
+                    if (inputTypes.endDate.toLocalDate() <= inputTypes.startDate.toLocalDate()) {
+                        add(ErrorTypes.FINISH_DATE_BEFORE_START_DATE)
+                    }
+                    return@buildList
                 }
-                if (hasStartDate && inputTypes.startDate.toLocalDate() > LocalDate.now()) {
-                    return false
-                }
-                if (hasEndDate && inputTypes.endDate.toLocalDate() < LocalDate.now()) {
-                    return false
-                }
-                if (hasStartDate && hasEndDate && inputTypes.endDate <= inputTypes.startDate) {
-                    return false
-                }
-                return true
             }
         }
     }
-
-    val saveEnabled: Boolean by lazy { isDataValid() }
 }

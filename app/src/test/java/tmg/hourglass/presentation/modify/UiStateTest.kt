@@ -46,13 +46,13 @@ internal class UiStateTest {
     @ParameterizedTest
     @EnumSource(InvalidUiState::class)
     fun `invalid ui state is considered invalid`(invalidUiState: InvalidUiState) {
-        assertFalse(invalidUiState.uiState.saveEnabled)
+        assertFalse(invalidUiState.uiState.isSaveEnabled)
     }
 
     @ParameterizedTest
     @EnumSource(ValidUiStates::class)
     fun `valid ui state is considered valid`(validUiState: ValidUiStates) {
-        assertTrue(validUiState.uiState.saveEnabled)
+        assertTrue(validUiState.uiState.isSaveEnabled)
     }
 
 }

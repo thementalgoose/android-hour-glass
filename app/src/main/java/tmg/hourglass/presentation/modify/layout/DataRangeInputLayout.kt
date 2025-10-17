@@ -19,6 +19,7 @@ import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.inputs.Input
 import tmg.hourglass.presentation.textviews.TextBody1
+import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R
 
@@ -31,7 +32,8 @@ fun DataRangeInputLayout(
     initialUpdated: (String) -> Unit,
     finishing: String,
     finishingUpdated: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    error: String? = null,
 ) {
 
     Column(
@@ -83,6 +85,20 @@ fun DataRangeInputLayout(
                 hint = "0"
             )
         }
+        if (error != null) {
+            TextBody2(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = AppTheme.dimensions.paddingMedium,
+                        end = AppTheme.dimensions.paddingMedium,
+                        bottom = 4.dp,
+                        top = 2.dp
+                    ),
+                textColor = AppTheme.colors.appColors.error,
+                text = error
+            )
+        }
     }
 }
 
@@ -121,6 +137,20 @@ private fun PreviewDiffValues() {
             initialUpdated = { },
             finishing = "100",
             finishingUpdated = { },
+        )
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewError() {
+    AppThemePreview {
+        DataRangeInputLayout(
+            initial = "100",
+            initialUpdated = { },
+            finishing = "100",
+            finishingUpdated = { },
+            error = "We fucked up, sir"
         )
     }
 }

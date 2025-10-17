@@ -41,6 +41,7 @@ import tmg.hourglass.strings.R.string
 fun PersonaliseLayout(
     name: String,
     nameUpdated: (String) -> Unit,
+    nameError: Boolean,
     description: String,
     descriptionUpdated: (String) -> Unit,
     color: String,
@@ -64,9 +65,9 @@ fun PersonaliseLayout(
             initial = name,
             inputUpdated = nameUpdated,
             hint = stringResource(id = string.modify_field_name_hint),
-            error = when (name.isNotBlank()) {
-                true -> null
-                false -> stringResource(id = string.modify_field_name_required)
+            error = when (nameError) {
+                true -> stringResource(id = string.modify_error_title_missing)
+                false -> null
             }
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -176,10 +177,27 @@ private fun Preview() {
         PersonaliseLayout(
             name = "name",
             nameUpdated = { },
+            nameError = false,
             description = "description",
             descriptionUpdated = { },
             color = "#263892",
-            colorPicked = { }
+            colorPicked = { },
+        )
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewErrors() {
+    AppThemePreview {
+        PersonaliseLayout(
+            name = "name",
+            nameUpdated = { },
+            nameError = true,
+            description = "description",
+            descriptionUpdated = { },
+            color = "#263892",
+            colorPicked = { },
         )
     }
 }
