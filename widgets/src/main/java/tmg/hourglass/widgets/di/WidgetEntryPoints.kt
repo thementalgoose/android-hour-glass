@@ -6,13 +6,16 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import tmg.hourglass.domain.repositories.CountdownRepository
+import tmg.hourglass.domain.repositories.RealmRepo
 import tmg.hourglass.domain.repositories.WidgetRepository
 
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 internal interface WidgetsEntryPoints {
 
+    @RealmRepo
     fun widgetConnector(): WidgetRepository
+    @RealmRepo
     fun countdownConnector(): CountdownRepository
     fun navigator(): WidgetNavigator
 

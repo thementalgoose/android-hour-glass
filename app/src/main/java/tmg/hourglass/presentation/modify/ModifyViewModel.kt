@@ -12,6 +12,7 @@ import tmg.hourglass.core.googleanalytics.CrashReporter
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownType
+import tmg.hourglass.domain.repositories.RealmRepo
 import tmg.hourglass.presentation.modify.ModifyMapper.toCountdown
 import tmg.hourglass.presentation.modify.ModifyMapper.toUiState
 import tmg.hourglass.presentation.modify.UiState.Direction.CountDown
@@ -22,6 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ModifyViewModel @Inject constructor(
+    @param:RealmRepo
     private val countdownRepository: CountdownRepository,
     private val crashReporter: CrashReporter
 ): ViewModel() {
