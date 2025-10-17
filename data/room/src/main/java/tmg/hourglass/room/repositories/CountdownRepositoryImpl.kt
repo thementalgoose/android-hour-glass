@@ -1,11 +1,13 @@
 package tmg.hourglass.room.repositories
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.repositories.CountdownRepository
+import tmg.hourglass.room.BuildConfig
 import tmg.hourglass.room.dao.CountdownDao
 import tmg.hourglass.room.mappers.CountdownMapper
 import java.time.LocalDateTime
@@ -20,8 +22,13 @@ internal class CountdownRepositoryImpl @Inject constructor(
         return countdownDao.getCountdowns()
             .map { list -> list
                 .map { countdownMapper.deserialize(it) }
-                .filter { it.start <= nowLocalDateTime }
+                .filter { it.end > nowLocalDateTime }
                 .sortedBy { it.start }
+                .also {
+                    if (BuildConfig.DEBUG) {
+                        Log.d("Room", "allCurrent() Returning $it")
+                    }
+                }
             }
     }
 
@@ -32,6 +39,11 @@ internal class CountdownRepositoryImpl @Inject constructor(
                 .map { countdownMapper.deserialize(it) }
                 .filter { it.end <= nowLocalDateTime }
                 .sortedBy { it.end }
+                .also {
+                    if (BuildConfig.DEBUG) {
+                        Log.d("Room", "allDone() Returning $it")
+                    }
+                }
             }
     }
 
@@ -40,6 +52,11 @@ internal class CountdownRepositoryImpl @Inject constructor(
             .map { list -> list
                 .map { countdownMapper.deserialize(it) }
                 .sortedBy { it.end }
+                .also {
+                    if (BuildConfig.DEBUG) {
+                        Log.d("Room", "all() Returning $it")
+                    }
+                }
             }
     }
 
@@ -58,6 +75,7 @@ internal class CountdownRepositoryImpl @Inject constructor(
 
     override fun saveSync(countdown: Countdown) {
         runBlocking {
+            Log.d("Room", "Saving $countdown")
             countdownDao.insertCountdown(countdownMapper.serialize(countdown))
         }
     }

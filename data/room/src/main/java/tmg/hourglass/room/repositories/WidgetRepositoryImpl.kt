@@ -1,5 +1,6 @@
 package tmg.hourglass.room.repositories
 
+import android.util.Log
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import tmg.hourglass.domain.model.WidgetReference
@@ -13,6 +14,7 @@ internal class WidgetRepositoryImpl @Inject constructor(
     private val widgetMapper: WidgetMapper,
 ): WidgetRepository {
     override fun saveSync(widgetReference: WidgetReference) {
+        Log.d("Room", "Saving $widgetReference")
         val model = widgetMapper.serialize(widgetReference)
         runBlocking { widgetDao.insertWidgetRef(model) }
     }
