@@ -107,6 +107,7 @@
     <string name="modify_error_finish_date_before_start">La fecha de finalización no puede ser anterior a la fecha de inicio</string>
     <string name="modify_error_value_empty">Ambos valores no pueden estar vacíos</string>
     <string name="modify_error_value_match">Los valores no pueden coincidir</string>
+    <string name="modify_error_value_numbers">Los valores deben ser números</string>
 
 
     <string name="modify_field_type">Tipo</string>

@@ -101,6 +101,7 @@ fun ModifyScreen(
                 val errorValue = when {
                     uiState.value.errors.any { it == UiState.ErrorTypes.VALUES_EMPTY } -> stringResource(R.string.modify_error_value_empty)
                     uiState.value.errors.any { it == UiState.ErrorTypes.VALUES_MATCH } -> stringResource(R.string.modify_error_value_match)
+                    uiState.value.errors.any { it == UiState.ErrorTypes.VALUES_MUST_BE_NUMBER } -> stringResource(R.string.modify_error_value_match)
                     else -> null
                 }
                 DataRangeInputLayout(

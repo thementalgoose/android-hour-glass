@@ -151,6 +151,7 @@
     <string name="modify_error_finish_date_before_start">End date cannot be before the start date</string>
     <string name="modify_error_value_empty">Both values cannot be empty</string>
     <string name="modify_error_value_match">Values cannot match</string>
+    <string name="modify_error_value_numbers">Values must be numbers</string>
 
     <string name="modify_field_type">Type</string>
     <string name="modify_field_type_desc">Select which kind of metric you would like to countdown or count-up</string>
