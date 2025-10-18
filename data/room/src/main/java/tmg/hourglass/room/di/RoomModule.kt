@@ -2,6 +2,7 @@ package tmg.hourglass.room.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,6 +33,7 @@ class RoomModule {
             klass = HourGlassDatabase::class.java,
             name = DATABASE_NAME
         )
+        .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
         .build()
 
     @Provides
