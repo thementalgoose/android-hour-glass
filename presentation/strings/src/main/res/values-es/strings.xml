@@ -22,6 +22,14 @@
     <string name="settings_reset_all_done">Los elementos han sido borrados</string>
     <string name="settings_reset_all_confirm">Sí</string>
     <string name="settings_reset_all_cancel">No</string>
+    <string name="settings_autobackup_title">Copias de seguridad automáticas</string>
+    <string name="settings_autobackup_description">Las copias de seguridad automáticas están habilitadas para esta aplicación a través de Google Play, por lo que el contenido debería reaparecer al transferir dispositivos. Si deseas crear una copia de seguridad de forma explícita, utiliza las opciones a continuación.</string>
+    <string name="settings_backup_restore_title">Copia de seguridad / Restaurar</string>
+    <string name="settings_backup_restore_description">Abrir la configuración de la copia de seguridad y restauración.</string>
+    <string name="settings_backup_title">Copia de seguridad</string>
+    <string name="settings_backup_description">Haz una copia de seguridad de todas tus cuentas atrás</string>
+    <string name="settings_restore_title">Restaurar</string>
+    <string name="settings_restore_description">Restaura todas tus cuentas atrás desde una copia de seguridad anterior</string>
     <string name="settings_help">Acerca de</string>
     <string name="settings_feedback">Comentarios</string>
     <string name="settings_privacy">Privacidad</string>
