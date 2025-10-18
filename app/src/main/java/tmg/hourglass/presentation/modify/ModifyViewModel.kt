@@ -224,8 +224,9 @@ data class UiState(
         FINISH_DATE_IN_PAST,
         VALUES_EMPTY,
         VALUES_MATCH,
+        VALUES_MUST_BE_NUMBER,
         START_DATE_NULL,
-        FINISH_DATE_BEFORE_START_DATE
+        FINISH_DATE_BEFORE_START_DATE,
     }
 
     private fun isDataValid(): List<ErrorTypes> {
@@ -256,6 +257,9 @@ data class UiState(
                     }
                     if (inputTypes.startValue == inputTypes.endValue) {
                         add(ErrorTypes.VALUES_MATCH)
+                    }
+                    if (inputTypes.startValue.toIntOrNull() == null || inputTypes.endValue.toIntOrNull() == null) {
+                        add(ErrorTypes.VALUES_MUST_BE_NUMBER)
                     }
 
                     if (inputTypes.startDate == null) {
