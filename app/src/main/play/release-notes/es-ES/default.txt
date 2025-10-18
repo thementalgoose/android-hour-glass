@@ -1,3 +1,3 @@
-- Se añadieron nuevos widgets redimensionables.
-- Se añadió la temática Material You para Android 12 y versiones posteriores.
-- Se actualizaron dependencias y se corrigieron errores menores.
+- Agrega detalles desplegables a las cuentas regresivas en la página de inicio.
+- Añade opciones de copia de seguridad y restauración.
+- Mejora el manejo de errores al agregar nuevas cuentas regresivas.
