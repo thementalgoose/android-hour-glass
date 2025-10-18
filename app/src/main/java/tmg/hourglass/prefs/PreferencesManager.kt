@@ -10,4 +10,6 @@ interface PreferencesManager {
     var theme: ThemePref
 
     val deviceUdid: String
+
+    var realmMigrationRan: Boolean
 }

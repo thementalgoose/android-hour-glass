@@ -3,19 +3,16 @@ package tmg.hourglass.realm.migrations
 import android.util.Log
 import io.realm.DynamicRealm
 import io.realm.FieldAttribute
-import io.realm.RealmList
 import io.realm.RealmMigration
-import io.realm.RealmObjectSchema
-import tmg.hourglass.realm.models.RealmCountdownNotifications
 
-class RealmDBMigration: RealmMigration {
+class RealmDBMigration(): RealmMigration {
 
     override fun migrate(realm: DynamicRealm, oldVersion: Long, newVersion: Long) {
-        Log.i("Realm", "Performing migration $oldVersion -> $newVersion")
+        Log.i("RealmMigration", "Performing migration $oldVersion -> $newVersion")
 
         val schema = realm.schema
         for (version in (oldVersion + 1)..newVersion) {
-            Log.i("Realm", " Performing migration for $version")
+            Log.i("RealmMigration", " Performing migration for $version")
             when (version) {
                 1L -> {
                     schema.create("RealmWidgetReference")
@@ -42,6 +39,6 @@ class RealmDBMigration: RealmMigration {
             }
         }
 
-        Log.i("Realm", "Migration complete")
+        Log.i("RealmMigration", "Migration complete")
     }
 }

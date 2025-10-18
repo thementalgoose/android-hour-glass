@@ -13,10 +13,11 @@ coroutines = "1.10.2"
 firebase = "34.4.0"
 junit = "6.0.0"
 realm = "10.19.0"
+room = "2.8.2"
 
 [libraries]  # ===========================================================================
 ## Root build.gradle dependencies
-gradle_agp = "com.android.tools.build:gradle:8.13.0"
+gradle_agp = "com.android.tools.build:gradle:8.12.2"
 gradle_crashlytics = "com.google.firebase:firebase-crashlytics-gradle:3.0.6"
 gradle_hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
 gradle_junit5 = "de.mannodermaus.gradle.plugins:android-junit5:1.14.0.0"
@@ -41,6 +42,11 @@ androidx_window = "androidx.window:window:1.5.0"
 
 androidx_glance_core = { module = "androidx.glance:glance", version.ref = "androidx_glance" }
 androidx_glance_appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "androidx_glance" }
+
+room_runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room_compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room_ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room_gradle = { module = "androidx.room:room-gradle-plugin", version.ref = "room" }
 
 hilt_android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 hilt_compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
@@ -141,3 +147,4 @@ accompanist = [
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 composecompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin"}
+room = { id = "androidx.room", version.ref = "room" }

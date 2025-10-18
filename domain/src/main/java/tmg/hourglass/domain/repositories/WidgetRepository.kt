@@ -16,4 +16,5 @@ interface WidgetRepository {
     }
 
     fun getSync(appWidgetId: Int): WidgetReference?
+
 }
