@@ -30,7 +30,7 @@
     <string name="settings_backup_title">Backup</string>
     <string name="settings_backup_description">Take a backup of all the full database that the app uses</string>
     <string name="settings_restore_title">Restore</string>
-    <string name="settings_restore_description">Warning: This will overwrite any currently setup countdowns</string>
+    <string name="settings_restore_description">Warning: This will overwrite any currently setup countdowns, and corrupted databases may result in crashes</string>
     <string name="settings_help">About</string>
     <string name="settings_feedback">Feedback</string>
     <string name="settings_privacy">Privacy</string>
