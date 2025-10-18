@@ -26,6 +26,7 @@ data class UiState(
 
 enum class SettingsType {
     PRIVACY_POLICY,
+    BACKUP,
 }
 
 @HiltViewModel

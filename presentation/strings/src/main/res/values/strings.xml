@@ -23,6 +23,14 @@
     <string name="settings_reset_all_done">Items have been cleared</string>
     <string name="settings_reset_all_confirm">Yes</string>
     <string name="settings_reset_all_cancel">No</string>
+    <string name="settings_backup_restore_title">Backup / Restore</string>
+    <string name="settings_backup_restore_description">Open backup and restore settings</string>
+    <string name="settings_autobackup_title">Auto backups</string>
+    <string name="settings_autobackup_description">Automatic backups are enabled for this app via. Google Play, and so content should re-appear when transferring devices. If you want to explicitly take a backup, use the options below</string>
+    <string name="settings_backup_title">Backup</string>
+    <string name="settings_backup_description">Take a backup of all the full database that the app uses</string>
+    <string name="settings_restore_title">Restore</string>
+    <string name="settings_restore_description">Warning: This will overwrite any currently setup countdowns</string>
     <string name="settings_help">About</string>
     <string name="settings_feedback">Feedback</string>
     <string name="settings_privacy">Privacy</string>

@@ -32,6 +32,7 @@ data class AppColors(
     val backgroundTertiary: Color,
     val backgroundNav: Color,
     val inputBackground: Color,
+    val successColor: Color,
     val errorColor: Color,
     val onErrorColor: Color,
     val isLight: Boolean
@@ -73,6 +74,7 @@ val lightColors = AppColors(
     backgroundSecondaryInverse = Color(0xFF383838),
     backgroundNav = Color(0xFFFCFCFC),
     inputBackground = Color(0xFFE8E8E8),
+    successColor = Color(0xFFACF5B9),
     errorColor = Color(0xFFa01313),
     onErrorColor = Color(0xFFFFFFFF),
     isLight = true
@@ -98,6 +100,7 @@ val darkColors = AppColors(
     backgroundSecondaryInverse = Color(0xFFF8F8F8),
     backgroundNav = Color(0xFF202020),
     inputBackground = Color(0xFF282828),
+    successColor = Color(0xFF21502E),
     errorColor = Color(0xFFe33434),
     onErrorColor = Color(0xFFFFFFFF),
     isLight = false

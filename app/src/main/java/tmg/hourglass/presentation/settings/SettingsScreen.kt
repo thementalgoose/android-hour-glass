@@ -1,6 +1,9 @@
 package tmg.hourglass.presentation.settings
 
+import android.util.Log
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +27,7 @@ import tmg.hourglass.presentation.PreviewPhone
 import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.layouts.MasterDetailsPane
 import tmg.hourglass.presentation.layouts.TitleBar
+import tmg.hourglass.presentation.settings.backup.BackupScreen
 import tmg.hourglass.presentation.settings.components.SettingsHeader
 import tmg.hourglass.presentation.settings.components.SettingsOption
 import tmg.hourglass.presentation.settings.components.SettingsSwitch
@@ -64,7 +68,10 @@ internal fun SettingsScreenVM(
                 setAnalytics = viewModel::setAnalytics,
                 setCrashlytics = viewModel::setCrash,
                 sendFeedback = goToAboutThisApp,
-                actionUpClicked = actionUpClicked
+                actionUpClicked = actionUpClicked,
+                backupOptionsClicked = {
+                    viewModel.clickScreen(SettingsType.BACKUP)
+                }
             )
         },
         detailsShow = uiState.value.screen != null,
@@ -75,7 +82,13 @@ internal fun SettingsScreenVM(
                         backClicked = viewModel::closeDetails
                     )
                 }
-                else -> {}
+                SettingsType.BACKUP -> {
+                    BackupScreen(
+                        windowSizeClass = windowSize,
+                        backClicked = viewModel::closeDetails
+                    )
+                }
+                null -> { }
             }
         },
         detailsActionUpClicked = viewModel::closeDetails
@@ -91,6 +104,7 @@ private fun SettingsOverviewScreen(
     aboutThisAppClicked: () -> Unit,
     rateClicked: () -> Unit,
     privacyPolicyClicked: () -> Unit,
+    backupOptionsClicked: () -> Unit,
     deleteAllClicked: () -> Unit,
     setAnalytics: (Boolean) -> Unit,
     setCrashlytics: (Boolean) -> Unit,
@@ -99,6 +113,7 @@ private fun SettingsOverviewScreen(
 ) {
     val deletionConfirmationDialog = rememberSaveable { mutableStateOf(false) }
     val themeDialog = rememberSaveable { mutableStateOf(false) }
+
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -133,6 +148,16 @@ private fun SettingsOverviewScreen(
                     title = string.settings_widgets_refresh_title,
                     subtitle = string.settings_widgets_refresh_description,
                     optionClicked = refreshWidgetsClicked
+                )
+            }
+            item(key = "backup_header") {
+                SettingsHeader(title = string.settings_backup_restore_title)
+            }
+            item(key = "backup") {
+                SettingsOption(
+                    title = string.settings_backup_restore_title,
+                    subtitle = string.settings_backup_restore_description,
+                    optionClicked = backupOptionsClicked
                 )
             }
             item(key = "delete_header") {
@@ -245,7 +270,8 @@ private fun PreviewOverview() {
             sendFeedback = { },
             privacyPolicyClicked = { },
             deleteAllClicked = { },
-            actionUpClicked = { }
+            actionUpClicked = { },
+            backupOptionsClicked = { }
         )
     }
 }

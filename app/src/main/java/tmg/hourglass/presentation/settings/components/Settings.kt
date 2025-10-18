@@ -8,9 +8,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ExitToApp
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.presentation.AppTheme
@@ -54,7 +58,6 @@ internal fun SettingsOption(
     optionClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -71,6 +74,40 @@ internal fun SettingsOption(
         TextBody1(text = stringResource(id = title))
         Spacer(modifier = Modifier.height(internalSettingSpacing))
         TextBody2(text = stringResource(id = subtitle))
+    }
+}
+
+@Composable
+internal fun SettingsOption(
+    @StringRes
+    title: Int,
+    @StringRes
+    subtitle: Int,
+    optionClicked: () -> Unit,
+    label: @Composable () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(
+                onClick = optionClicked
+            )
+            .padding(
+                start = AppTheme.dimensions.paddingMedium,
+                end = AppTheme.dimensions.paddingMedium,
+                top = AppTheme.dimensions.paddingNSmall,
+                bottom = AppTheme.dimensions.paddingNSmall
+            )
+    ) {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            TextBody1(text = stringResource(id = title))
+            Spacer(modifier = Modifier.height(internalSettingSpacing))
+            TextBody2(text = stringResource(id = subtitle))
+        }
+        label()
     }
 }
 
@@ -157,6 +194,25 @@ private fun PreviewOption() {
             title = tmg.hourglass.strings.R.string.settings_theme_theme_title,
             subtitle = tmg.hourglass.strings.R.string.settings_theme_theme_description,
             optionClicked = { }
+        )
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewBadge() {
+    AppThemePreview {
+        SettingsOption(
+            title = tmg.hourglass.strings.R.string.settings_theme_theme_title,
+            subtitle = tmg.hourglass.strings.R.string.settings_theme_theme_description,
+            optionClicked = { },
+            label = {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Rounded.ExitToApp,
+                    contentDescription = null,
+                    tint = AppTheme.colors.textPrimary
+                )
+            }
         )
     }
 }
