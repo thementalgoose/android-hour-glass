@@ -1,6 +1,8 @@
 package tmg.hourglass.presentation.home.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -40,6 +42,7 @@ import tmg.hourglass.presentation.utils.darken
 import tmg.hourglass.presentation.views.ProgressBar
 import tmg.hourglass.strings.R
 import tmg.hourglass.strings.R.string
+import tmg.utilities.extensions.format
 
 @Composable
 fun Countdown(
@@ -50,6 +53,7 @@ fun Countdown(
     now: LocalDateTime = LocalDateTime.now()
 ) {
     val deleteConfirm = remember { mutableStateOf(false) }
+    val expanded = remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -65,7 +69,8 @@ fun Countdown(
             .padding(
                 start = AppTheme.dimensions.paddingMedium,
                 top = AppTheme.dimensions.paddingSmall,
-                bottom = AppTheme.dimensions.paddingMedium
+                bottom = AppTheme.dimensions.paddingMedium,
+                end = AppTheme.dimensions.paddingMedium
             )
     ) {
         Row(
@@ -111,34 +116,16 @@ fun Countdown(
                 }
             }
         }
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(end = AppTheme.dimensions.paddingMedium)
-        ) {
-            if (countdown.countdownType != CountdownType.DAYS) {
-                Row {
-                    TextBody2(countdown.countdownType.converter(countdown.startValue.toIntOrNull()?.toString() ?: ""))
-                    Spacer(Modifier.weight(1f))
-                    TextBody2(countdown.countdownType.converter(countdown.endValue.toIntOrNull()?.toString() ?: ""))
-                }
-            }
-    //        TextBody2(
-    //            text = stringResource(
-    //                R.string.home_no_description,
-    //                countdown.countdownType.converter(countdown.initial.toIntOrNull()?.toString() ?: ""),
-    //                countdown.startAtStartOfDay.format("dd MMM yyyy"),
-    //                countdown.countdownType.converter(countdown.finishing.toIntOrNull()?.toString() ?: ""),
-    //                countdown.endAtStartOfDay.format("dd MMM yyyy")
-    //            ).htmlEncode()
-    //        )
-            Spacer(modifier = Modifier.height(4.dp))
-            ProgressBar(
-                barColor = Color(countdown.colour.toColorInt()),
-                backgroundColor = AppTheme.colors.backgroundTertiary,
-                endProgress = ProgressUtils.getProgress(countdown, now),
-                label = { progress ->
-                    countdown.getProgress(progress = progress)
-                }
+
+        if (countdown.countdownType == CountdownType.DAYS) {
+            CountdownDays(
+                countdown = countdown,
+                now = now
+            )
+        } else {
+            CountdownOther(
+                countdown = countdown,
+                now = now,
             )
         }
     }
@@ -150,6 +137,69 @@ fun Countdown(
             title = string.dashboard_delete_confirmation_title,
             subtitle = string.dashboard_delete_confirmation_message
         )
+    }
+}
+
+@Composable
+private fun CountdownDays(
+    countdown: Countdown,
+    now: LocalDateTime,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        ProgressBar(
+            barColor = Color(countdown.colour.toColorInt()),
+            backgroundColor = AppTheme.colors.backgroundTertiary,
+            endProgress = ProgressUtils.getProgress(countdown, now),
+            label = { progress ->
+                countdown.getProgress(progress = progress)
+            }
+        )
+    }
+}
+
+@Composable
+private fun CountdownOther(
+    countdown: Countdown,
+    now: LocalDateTime,
+    modifier: Modifier = Modifier
+) {
+    val expanded = remember { mutableStateOf(false) }
+    Column(modifier = modifier) {
+        AnimatedVisibility(expanded.value) {
+            Row(modifier = Modifier.padding(bottom = 4.dp)) {
+                TextBody2(
+                    text = countdown.countdownType.converter(countdown.startValue.toIntOrNull()?.toString().orEmpty())
+                )
+                Spacer(Modifier.weight(1f))
+                TextBody2(
+                    text = countdown.countdownType.converter(countdown.endValue.toIntOrNull()?.toString().orEmpty())
+                )
+            }
+        }
+        ProgressBar(
+            barColor = Color(countdown.colour.toColorInt()),
+            backgroundColor = AppTheme.colors.backgroundTertiary,
+            endProgress = ProgressUtils.getProgress(countdown, now),
+            label = { progress ->
+                countdown.getProgress(progress = progress)
+            },
+            modifier = Modifier
+                .clickable {
+                    expanded.value = !expanded.value
+                }
+        )
+        AnimatedVisibility(expanded.value) {
+            Row(modifier = Modifier.padding(top = 4.dp)) {
+                TextBody2(
+                    text = countdown.start.toLocalDate().format("dd MMM yyyy").orEmpty()
+                )
+                Spacer(Modifier.weight(1f))
+                TextBody2(
+                    text = countdown.end.toLocalDate().format("dd MMM yyyy").orEmpty()
+                )
+            }
+        }
     }
 }
 
