@@ -94,7 +94,7 @@ fun CountdownConfigurationScreen(
                     actionUpClicked = backClicked
                 )
                 if (uiState.items.isEmpty()) {
-                    Box(Modifier.weight(1f)) {
+                    Box(Modifier.weight(1f).fillMaxWidth()) {
                         Placeholder(
                             modifier = Modifier.align(Alignment.Center)
                         )
@@ -239,6 +239,20 @@ private fun Preview() {
     AppThemePreview {
         CountdownConfigurationScreen(
             uiState = uiState,
+            save = { },
+            backClicked = { },
+            select = { },
+            openAppOnClick = { }
+        )
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewNothing() {
+    AppThemePreview {
+        CountdownConfigurationScreen(
+            uiState = uiState.copy(items = emptyList()),
             save = { },
             backClicked = { },
             select = { },
