@@ -1,5 +1,7 @@
 package tmg.hourglass.domain.connectors
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import tmg.hourglass.domain.model.WidgetReference
@@ -14,6 +16,9 @@ class WidgetConnectorTest {
             invokations += 1
         }
         override fun getSync(appWidgetId: Int) = null
+        override fun get(appWidgetId: Int): Flow<WidgetReference?> {
+            return flow { emit(null) }
+        }
     }
 
     @Test

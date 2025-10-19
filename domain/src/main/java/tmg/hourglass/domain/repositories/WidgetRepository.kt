@@ -1,5 +1,6 @@
 package tmg.hourglass.domain.repositories
 
+import kotlinx.coroutines.flow.Flow
 import tmg.hourglass.domain.model.WidgetReference
 
 interface WidgetRepository {
@@ -16,5 +17,6 @@ interface WidgetRepository {
     }
 
     fun getSync(appWidgetId: Int): WidgetReference?
+    fun get(appWidgetId: Int): Flow<WidgetReference?>
 
 }

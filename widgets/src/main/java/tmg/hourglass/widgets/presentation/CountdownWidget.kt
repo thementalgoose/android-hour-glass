@@ -29,6 +29,8 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.unit.ColorProvider
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.utils.ProgressUtils
 import tmg.hourglass.strings.R.string
@@ -60,27 +62,21 @@ class CountdownWidget : GlanceAppWidget() {
             val theming = getCountdownWidgetColors(context, !context.isInDayMode(ifUndefinedDefaultTo = true))
 
             Log.i("CountdownWidget", "provideContent App Widget Id ${id.appWidgetId}")
-            val widgetRef = widgetConnector.getSync(id.appWidgetId)
-            if (widgetRef == null) {
-                NoCountdown(
-                    modifier = GlanceModifier.clickable(actionRunCallback<OpenApp>()),
-                    theming = theming,
-                    context = context
-                )
-                return@provideContent
-            }
+            val countdownModel = widgetConnector.get(id.appWidgetId)
+                .flatMapLatest { model ->
+                    if (model == null) {
+                        return@flatMapLatest flow<Countdown?> { emit(null) }
+                    }
+                    return@flatMapLatest countdownConnector.get(model.countdownId)
+                }
+                .collectAsState(null)
 
-            val initial = countdownConnector.getSync(widgetRef.countdownId)
-            val countdownModel = countdownConnector.get(widgetRef.countdownId).collectAsState(initial)
-
-            val action = when (widgetRef.openAppOnClick) {
-                false -> actionRunCallback<RefreshWidget>()
-                true -> actionRunCallback<OpenApp>()
-            }
+            val action = actionRunCallback<OpenApp>()
 
             Log.i("CountdownWidget", "Countdown model loaded to be ${countdownModel.value}")
             when (val model = countdownModel.value) {
                 null -> {
+                    Log.e("CountdownWidget", "Observing countdown to be null")
                     NoCountdown(
                         modifier = GlanceModifier.clickable(action),
                         theming = theming,
@@ -89,17 +85,23 @@ class CountdownWidget : GlanceAppWidget() {
                 }
                 else -> {
                     when (config) {
-                        configCircle -> CountdownSmall(
-                            countdownModel = model,
-                            theming = theming,
-                            modifier = GlanceModifier.clickable(action),
-                        )
+                        configCircle -> {
+                            Log.d("CountdownWidget", "Drawing circle widget")
+                            CountdownSmall(
+                                countdownModel = model,
+                                theming = theming,
+                                modifier = GlanceModifier.clickable(action),
+                            )
+                        }
 
-                        configBar -> CountdownBar(
-                            countdownModel = model,
-                            theming = theming,
-                            modifier = GlanceModifier.clickable(action),
-                        )
+                        configBar -> {
+                            Log.d("CountdownWidget", "Drawing bar widget")
+                            CountdownBar(
+                                countdownModel = model,
+                                theming = theming,
+                                modifier = GlanceModifier.clickable(action),
+                            )
+                        }
 
                         else -> {
                             Log.e("UpNextWidget", "Invalid size, throwing IAW")

@@ -114,18 +114,18 @@ fun CountdownConfigurationScreen(
                             }
                         )
                     }
-                    Switch(
-                        modifier = Modifier
-                            .clickable {
-                                openAppOnClick(!uiState.openAppOnClick)
-                            }
-                            .padding(
-                                horizontal = AppTheme.dimensions.paddingMedium,
-                                vertical = AppTheme.dimensions.paddingSmall
-                            ),
-                        isChecked = uiState.openAppOnClick,
-                        label = stringResource(string.widget_open_app_on_click)
-                    )
+//                    Switch(
+//                        modifier = Modifier
+//                            .clickable {
+//                                openAppOnClick(!uiState.openAppOnClick)
+//                            }
+//                            .padding(
+//                                horizontal = AppTheme.dimensions.paddingMedium,
+//                                vertical = AppTheme.dimensions.paddingSmall
+//                            ),
+//                        isChecked = uiState.openAppOnClick,
+//                        label = stringResource(string.widget_open_app_on_click)
+//                    )
                 }
                 PrimaryButton(
                     modifier = Modifier
