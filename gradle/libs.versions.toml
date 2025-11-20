@@ -13,7 +13,7 @@ coroutines = "1.10.2"
 firebase = "34.6.0"
 junit = "6.0.1"
 realm = "10.19.0"
-room = "2.8.3"
+room = "2.8.4"
 
 [libraries]  # ===========================================================================
 ## Root build.gradle dependencies
