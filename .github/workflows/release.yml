@@ -50,7 +50,7 @@ jobs:
 
       # Unit tests
       - name: Unit tests
-        run: ./gradlew clean testSandDebugUnitTest testDebugUnitTest
+        run: ./gradlew clean testDebugUnitTest :app:testSandDebugUnitTest
 
       # Publish test report
       - name: Publish Test Report
