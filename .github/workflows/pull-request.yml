@@ -143,7 +143,7 @@ jobs:
 
       - name: Making build available
         id: artifact-upload-step
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: APK
           path: app/build/outputs/apk/**/*.apk
