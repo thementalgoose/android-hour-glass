@@ -14,7 +14,6 @@ jobs:
   build_and_archive:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    needs: []
     steps:
       - uses: actions/checkout@v6
         with:
