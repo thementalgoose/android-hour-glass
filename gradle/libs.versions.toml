@@ -1,5 +1,5 @@
 [versions]  # ===========================================================================
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 ksp = "2.3.4" # Update with kotlin https://github.com/google/ksp/releases
 dagger = "2.57.2"
 androidx_activity = "1.12.2"
