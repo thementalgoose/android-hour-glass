@@ -138,6 +138,8 @@ dependencies {
 
     // Accompanist
     implementation libs.accompanist.systemuicontroller
+    
+    ksp(libs.kotlin.metadata.jvm)
 
     testImplementation(testFixtures(project(path: ':domain')))
 }

@@ -53,8 +53,8 @@ hilt_compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dag
 hilt_compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidx_hilt" }
 hilt_kapt_compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidx_hilt" }
 
-kotlin_stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
-kotlin_reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlin_metadata_jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin"}
+
 kotlinx_coroutines_core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx_coroutines_android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx_coroutines_play_services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
@@ -130,8 +130,6 @@ androidx_glance = [
     "androidx_glance_appwidget"
 ]
 kotlin = [
-    "kotlin_stdlib",
-    "kotlin_reflect",
     "kotlinx_coroutines_core",
     "kotlinx_coroutines_android",
     "kotlinx_coroutines_play_services",
