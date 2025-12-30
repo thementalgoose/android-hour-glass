@@ -11,44 +11,20 @@ import tmg.hourglass.realm.models.RealmCountdown
 import tmg.utilities.extensions.toEnum
 import javax.inject.Inject
 
-class RealmCountdownMapper @Inject constructor(
-    private val realmCountdownNotificationMapper: RealmCountdownNotificationMapper
-) {
+class RealmCountdownMapper @Inject constructor() {
 
     fun deserialize(input: RealmCountdown): Countdown {
         Log.i("Mapper", "Deserializing ${input.id} (${input.name})")
-        return Countdown(
+        return Countdown.Static(
             id = input.id,
             name = input.name,
             description = input.description,
             colour = input.colour,
-            start = input.start.toLocalDateTime(),
-            end = input.end.toLocalDateTime(),
+            start = input.start.toString(),
+            end = input.end.toString(),
             startValue = input.initial,
             endValue = input.finishing,
-            countdownType = input.passageType.toEnum<CountdownType> { it.key } ?: CountdownType.NUMBER,
-            interpolator = input.interpolator.toEnum<CountdownInterpolator> { it.key } ?: CountdownInterpolator.LINEAR,
-            notifications = input.notifications
-                .mapNotNull {
-                    realmCountdownNotificationMapper.deserialize(it)
-                }
+            countdownType = input.passageType.toEnum<CountdownType> { it.key } ?: CountdownType.NUMBER
         )
-    }
-
-    fun serialize(model: RealmCountdown, data: Countdown) {
-        Log.i("Mapper", "Serializing ${data.id} (${data.name})")
-        model.name = data.name
-        model.description = data.description
-        model.colour = data.colour
-        model.start = data.start.toInstant(ZoneOffset.UTC).toEpochMilli()
-        model.end = data.end.toInstant(ZoneOffset.UTC).toEpochMilli()
-        model.initial = data.startValue
-        model.finishing = data.endValue
-        model.passageType = data.countdownType.key
-        model.interpolator = data.interpolator.key
-    }
-
-    private fun Long.toLocalDateTime(): LocalDateTime {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneOffset.UTC)
     }
 }

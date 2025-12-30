@@ -6,6 +6,7 @@ import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
+@Deprecated("Do not update this model as it has been migrated to Room")
 @Keep
 open class RealmCountdown(
     @PrimaryKey

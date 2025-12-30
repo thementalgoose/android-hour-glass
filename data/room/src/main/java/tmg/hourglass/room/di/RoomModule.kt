@@ -12,6 +12,7 @@ import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.repositories.WidgetRepository
 import tmg.hourglass.room.DATABASE_NAME
 import tmg.hourglass.room.HourGlassDatabase
+import tmg.hourglass.room.MIGRATION_1_2
 import tmg.hourglass.room.backups.BackupManager
 import tmg.hourglass.room.backups.BackupManagerImpl
 import tmg.hourglass.room.dao.CountdownDao
@@ -39,6 +40,7 @@ internal class RoomModule {
             name = DATABASE_NAME
         )
         .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
+        .addMigrations(MIGRATION_1_2)
         .build()
 
     @Provides
