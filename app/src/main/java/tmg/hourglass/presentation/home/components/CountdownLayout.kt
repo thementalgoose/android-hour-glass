@@ -192,11 +192,11 @@ private fun CountdownOther(
         AnimatedVisibility(expanded.value) {
             Row(modifier = Modifier.padding(top = 4.dp)) {
                 TextBody2(
-                    text = countdown.start.toLocalDate().format("dd MMM yyyy").orEmpty()
+                    text = countdown.startDate.toLocalDate().format("dd MMM yyyy").orEmpty()
                 )
                 Spacer(Modifier.weight(1f))
                 TextBody2(
-                    text = countdown.end.toLocalDate().format("dd MMM yyyy").orEmpty()
+                    text = countdown.endDate.toLocalDate().format("dd MMM yyyy").orEmpty()
                 )
             }
         }
@@ -221,7 +221,7 @@ private fun PreviewDays() {
 private fun PreviewOther() {
     AppThemePreview {
         Countdown(
-            countdown = Countdown.preview().copy(countdownType = CountdownType.NUMBER),
+            countdown = Countdown.preview(type = CountdownType.NUMBER),
             editClicked = { },
             deleteClicked = { },
             now = LocalDateTime.of(2021, 1, 28, 12, 34)

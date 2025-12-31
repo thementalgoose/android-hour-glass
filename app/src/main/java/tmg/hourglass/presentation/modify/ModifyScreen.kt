@@ -77,8 +77,12 @@ fun ModifyScreen(
                     else -> null
                 }
                 DataSingleDateLayout(
-                    date = inputData.finishDate,
-                    dateUpdated = viewModel::setEndDate,
+                    day = inputData.day,
+                    month = inputData.month,
+                    year = inputData.year,
+                    dayUpdated = { },
+                    monthUpdated = { },
+                    yearUpdated = { },
                     error = errorString
                 )
             }
@@ -94,7 +98,9 @@ fun ModifyScreen(
                     startDate = inputData.startDate,
                     startDateUpdated = viewModel::setStartDate,
                     endDate = inputData.endDate,
-                    endDateUpdated = viewModel::setEndDate,
+                    endDateUpdated = {
+                        viewModel.setEndDate(it.dayOfMonth, it.month, it.year)
+                    },
                     error = errorDate
                 )
 

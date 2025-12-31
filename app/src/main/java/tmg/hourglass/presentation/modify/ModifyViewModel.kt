@@ -17,6 +17,7 @@ import tmg.hourglass.presentation.modify.ModifyMapper.toUiState
 import tmg.hourglass.presentation.modify.UiState.Direction.CountDown
 import tmg.hourglass.presentation.modify.UiState.Direction.CountUp
 import tmg.hourglass.presentation.modify.UiState.Direction.Custom
+import java.time.Month
 import java.util.UUID
 import javax.inject.Inject
 
@@ -36,7 +37,9 @@ class ModifyViewModel @Inject constructor(
         colorHex = CountdownColors.COLOUR_1.hex,
         type = CountdownType.DAYS,
         inputTypes = UiState.Types.EndDate(
-            finishDate = null
+            day = null,
+            month = null,
+            year = null
         )
     )
 
@@ -71,7 +74,11 @@ class ModifyViewModel @Inject constructor(
         val existingType = uiState.value.inputTypes
         val newType = when (type) {
             CountdownType.DAYS -> {
-                UiState.Types.EndDate(finishDate = null)
+                UiState.Types.EndDate(
+                    day = null,
+                    month = null,
+                    year = null
+                )
             }
             else -> {
                 UiState.Types.Values(
@@ -102,19 +109,24 @@ class ModifyViewModel @Inject constructor(
             )
         }
     }
-    fun setEndDate(date: LocalDateTime) {
+    fun setEndDate(day: Int, month: Month, year: Int? = null) {
         when (val existingType = _uiState.value.inputTypes) {
             is UiState.Types.Values -> {
+                if (year == null) {
+                    return
+                }
                 _uiState.value = _uiState.value.copy(
                     inputTypes = existingType.copy(
-                        endDate = date
+                        endDate = LocalDate.of(year, month, day).atStartOfDay()
                     )
                 )
             }
             is UiState.Types.EndDate -> {
                 _uiState.value = _uiState.value.copy(
                     inputTypes = existingType.copy(
-                        finishDate = date
+                        day = day,
+                        month = month,
+                        year = year
                     )
                 )
             }
@@ -200,7 +212,9 @@ data class UiState(
     sealed class Types {
         data class EndDate(
             val startDate: LocalDateTime = LocalDate.now().atStartOfDay(),
-            val finishDate: LocalDateTime?
+            val day: Int?,
+            val month: Month?,
+            val year: Int?
         ): Types()
         data class Values(
             val valueDirection: Direction,
@@ -239,12 +253,15 @@ data class UiState(
             }
             when (inputTypes) {
                 is Types.EndDate -> {
-                    if (inputTypes.finishDate == null) {
+                    if (inputTypes.day == null || inputTypes.month == null) {
                         add(ErrorTypes.FINISH_DATE_NULL)
                         return@buildList
                     }
-                    if (inputTypes.finishDate.toLocalDate() < LocalDate.now()) {
-                        add(ErrorTypes.FINISH_DATE_IN_PAST)
+                    if (inputTypes.year != null) {
+                        val localDate = LocalDate.of(inputTypes.year, inputTypes.month, inputTypes.day)
+                        if (localDate < LocalDate.now()) {
+                            add(ErrorTypes.FINISH_DATE_IN_PAST)
+                        }
                     }
                     return@buildList
                 }
