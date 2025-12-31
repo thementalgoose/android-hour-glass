@@ -22,7 +22,7 @@ internal val MIGRATION_1_2 = object : Migration(1, 2) {
               interpolator TEXT NOT NULL
             )""".trimIndent())
         db.execSQL("""
-            INSET INTO Countdown_New (id, name, description, colour, start_date, end_date, initial, finishing, passage_type, interpolator)
+            INSERT INTO Countdown_New (id, name, description, colour, start_date, end_date, initial, finishing, passage_type, interpolator)
             SELECT id, name, description, colour, start, end, initial, finishing, passage_type, interpolator FROM Countdown
         """.trimIndent())
         db.execSQL("DROP TABLE Countdown")
