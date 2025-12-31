@@ -4,9 +4,6 @@ enum class CountdownType(
     val key: String,
     val converter: (value: String) -> String = { it }
 ) {
-    NUMBER(
-        key = "NUMBER"
-    ),
     DAYS(
         key = "DAYS",
         converter = {
@@ -15,6 +12,9 @@ enum class CountdownType(
                 else -> "$it days"
             }
         }
+    ),
+    NUMBER(
+        key = "NUMBER"
     ),
     MILES(
         key = "MILES",
