@@ -80,9 +80,9 @@ fun ModifyScreen(
                     day = inputData.day,
                     month = inputData.month,
                     year = inputData.year,
-                    dayUpdated = { },
-                    monthUpdated = { },
-                    yearUpdated = { },
+                    dayUpdated = viewModel::setEndDateDay,
+                    monthUpdated = viewModel::setEndDateMonth,
+                    yearUpdated = viewModel::setEndDateYear,
                     error = errorString
                 )
             }

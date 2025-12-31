@@ -59,7 +59,7 @@ fun DataSingleDateLayout(
     year: Int?,
     dayUpdated: (String) -> Unit,
     monthUpdated: (Month) -> Unit,
-    yearUpdated: (String?) -> Unit,
+    yearUpdated: (String) -> Unit,
     modifier: Modifier = Modifier,
     error: String? = null,
 ) {
