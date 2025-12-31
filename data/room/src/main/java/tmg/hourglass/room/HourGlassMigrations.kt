@@ -4,8 +4,6 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 internal val MIGRATION_1_2 = object : Migration(1, 2) {
-    // Moves start -> start_date
-    //       end -> end_date
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL("""
             CREATE TABLE Countdown_New(
@@ -27,6 +25,5 @@ internal val MIGRATION_1_2 = object : Migration(1, 2) {
         """.trimIndent())
         db.execSQL("DROP TABLE Countdown")
         db.execSQL("ALTER TABLE Countdown_New RENAME TO Countdown")
-        super.migrate(db)
     }
 }

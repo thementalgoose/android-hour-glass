@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -89,8 +90,10 @@ fun DataSingleDateLayout(
                             color = if (error != null) AppTheme.colors.errorColor else Color.Transparent,
                             shape = RoundedCornerShape(AppTheme.dimensions.radiusSmall),
                         ),
+                    maxLines = 1,
                     initial = day.orEmpty(),
                     inputUpdated = dayUpdated,
+                    keyboardType = KeyboardType.Number,
                     hint = stringResource(id = string.modify_field_day)
                 )
                 Box(
@@ -127,8 +130,10 @@ fun DataSingleDateLayout(
                             color = if (error != null) AppTheme.colors.errorColor else Color.Transparent,
                             shape = RoundedCornerShape(AppTheme.dimensions.radiusSmall),
                         ),
+                    maxLines = 1,
                     initial = year.orEmpty(),
                     inputUpdated = yearUpdated,
+                    keyboardType = KeyboardType.Number,
                     hint = stringResource(id = string.modify_field_year)
                 )
             }

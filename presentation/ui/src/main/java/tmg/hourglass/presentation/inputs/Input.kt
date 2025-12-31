@@ -36,6 +36,7 @@ fun Input(
     hint: String,
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
+    maxLines: Int = Int.MAX_VALUE,
     initial: String = "",
     error: String? = null,
 ) {
@@ -83,6 +84,7 @@ fun Input(
                     text = hint
                 )
             },
+            maxLines = maxLines,
             isError = error != null,
             supportingText = error?.let { errorComposable },
             colors = TextFieldDefaults.colors(
