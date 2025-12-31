@@ -1,5 +1,6 @@
 package tmg.hourglass.domain.model
 
+import tmg.hourglass.domain.BuildConfig
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.utilities.extensions.extend
@@ -68,7 +69,7 @@ sealed interface Countdown {
                 return@lazy startLong.toLocalDateTime()
             }
 
-            val startDateTime = start.toLocalDateTime()
+            val startDateTime = start.toLocalDateTime()?.atStartOfDay(ZoneId.systemDefault())?.toLocalDateTime()
             if (startDateTime != null) {
                 return@lazy startDateTime
             }
@@ -82,7 +83,7 @@ sealed interface Countdown {
                 return@lazy endLong.toLocalDateTime()
             }
 
-            val endDateTime = end.toLocalDateTime()
+            val endDateTime = end.toLocalDateTime()?.atStartOfDay(ZoneId.systemDefault())?.toLocalDateTime()
             if (endDateTime != null) {
                 return@lazy endDateTime
             }
@@ -93,10 +94,13 @@ sealed interface Countdown {
         override val isFinished: Boolean
             get() = endDate <= LocalDateTime.now()
 
-        private fun String.toLocalDateTime(): LocalDateTime? {
+        private fun String.toLocalDateTime(): LocalDate? {
             return try {
-                LocalDateTime.parse(this, YYYY_MM_DD_FORMAT)
-            } catch (_: Exception) {
+                LocalDate.parse(this, YYYY_MM_DD_FORMAT)
+            } catch (e: Exception) {
+                if (BuildConfig.DEBUG) {
+                    e.printStackTrace()
+                }
                 null
             }
         }

@@ -280,6 +280,7 @@ data class UiState(
                     val day = inputTypes.day.trim().toIntOrNull() ?: return listOf(
                         ErrorTypes.FINISH_DATE_INVALID
                     )
+
                     if (inputTypes.year.isNullOrBlank()) {
                         try {
                             LocalDate.of(Year.now().value, inputTypes.month, day)

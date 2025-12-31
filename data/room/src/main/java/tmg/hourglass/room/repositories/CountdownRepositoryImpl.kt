@@ -22,8 +22,8 @@ internal class CountdownRepositoryImpl @Inject constructor(
         return countdownDao.getCountdowns()
             .map { list -> list
                 .map { countdownMapper.deserialize(it) }
-                .filter { it.endDate > nowLocalDateTime }
-                .sortedBy { it.startDate }
+                .filter { it.endDate > nowLocalDateTime || it is Countdown.Recurring }
+                .sortedBy { it.name.lowercase() }
                 .also {
                     if (BuildConfig.DEBUG) {
                         Log.d("Room", "allCurrent() Returning $it")
@@ -37,7 +37,7 @@ internal class CountdownRepositoryImpl @Inject constructor(
         return countdownDao.getCountdowns()
             .map { list -> list
                 .map { countdownMapper.deserialize(it) }
-                .filter { it.endDate <= nowLocalDateTime }
+                .filter { it.endDate <= nowLocalDateTime && it is Countdown.Static }
                 .sortedBy { it.endDate }
                 .also {
                     if (BuildConfig.DEBUG) {
