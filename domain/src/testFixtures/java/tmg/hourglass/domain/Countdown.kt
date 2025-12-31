@@ -5,23 +5,22 @@ import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.CountdownNotifications
 import java.time.LocalDateTime
+import java.time.Month
 import kotlin.String
 
-fun Countdown.Companion.model(
+fun Countdown.Static.Companion.model(
     id: String = "countdownId",
     name: String = "name",
     description: String = "description",
     colour: String = "colour",
 
-    start: LocalDateTime = LocalDateTime.of(2025, 1, 1, 1, 1),
-    end: LocalDateTime = LocalDateTime.of(2025, 1, 10, 1, 1),
+    start: String = "2025-01-01",
+    end: String = "2025-01-10",
     startValue: String = "start",
     endValue: String = "end",
 
-    countdownType: CountdownType = CountdownType.DAYS,
-    interpolator: CountdownInterpolator = CountdownInterpolator.LINEAR,
-    notifications: List<CountdownNotifications> = emptyList<CountdownNotifications>()
-): Countdown = Countdown(
+    countdownType: CountdownType = CountdownType.DAYS
+): Countdown.Static = Countdown.Static(
     id = id,
     name = name,
     description = description,
@@ -30,7 +29,21 @@ fun Countdown.Companion.model(
     end = end,
     startValue = startValue,
     endValue = endValue,
-    countdownType = countdownType,
-    interpolator = interpolator,
-    notifications = notifications,
+    countdownType = countdownType
+)
+
+fun Countdown.Recurring.Companion.model(
+    id: String = "countdownId",
+    name: String = "name",
+    description: String = "description",
+    colour: String = "colour",
+    day: Int = 1,
+    month: Month = Month.JANUARY
+): Countdown.Recurring = Countdown.Recurring(
+    id = id,
+    name = name,
+    description = description,
+    colour = colour,
+    day = day,
+    month = month
 )

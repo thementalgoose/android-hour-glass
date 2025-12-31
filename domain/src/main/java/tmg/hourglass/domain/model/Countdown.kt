@@ -108,6 +108,8 @@ sealed interface Countdown {
         private fun Long.toLocalDateTime(): LocalDateTime {
             return LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneOffset.UTC)
         }
+
+        companion object
     }
 
     data class Recurring(
@@ -143,6 +145,8 @@ sealed interface Countdown {
 
         override val endValue: String
             get() = "0"
+
+        companion object
     }
 
 
