@@ -19,7 +19,7 @@ jobs:
         with:
           pattern: "\\.json$"
 
-  unit-tests:
+  unit_tests:
     uses: ./.github/workflows/job-unit-tests.yml
     secrets: inherit
 
