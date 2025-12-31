@@ -52,7 +52,7 @@ class HourGlassApplication : Application() {
 
         // Crash Reporting
         Log.i("HourGlass", "Crash reporting ${if (prefs.crashReporting) "enabled" else "disabled"}")
-        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(prefs.crashReporting)
+        FirebaseCrashlytics.getInstance().isCrashlyticsCollectionEnabled = prefs.crashReporting
         if (!prefs.crashReporting) {
             FirebaseCrashlytics.getInstance().deleteUnsentReports()
         }

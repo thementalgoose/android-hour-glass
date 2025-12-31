@@ -234,7 +234,8 @@ internal class ModifyViewModelTest {
         underTest.initialise(null)
 
         underTest.setTitle("Test")
-        underTest.setEndDate(tomorrow)
+        underTest.setEndDateDay(tomorrow.dayOfMonth.toString())
+        underTest.setEndDateMonth(tomorrow.month)
 
         underTest.save()
         verify {

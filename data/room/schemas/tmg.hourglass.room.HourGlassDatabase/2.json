@@ -1,0 +1,121 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "00836501137418f3e7f736417f1944b5",
+    "entities": [
+      {
+        "tableName": "WidgetReference",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`app_widget_id` INTEGER NOT NULL, `countdown_id` TEXT NOT NULL, `open_app_on_click` INTEGER NOT NULL, PRIMARY KEY(`app_widget_id`))",
+        "fields": [
+          {
+            "fieldPath": "appWidgetId",
+            "columnName": "app_widget_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countdownId",
+            "columnName": "countdown_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "openAppOnClick",
+            "columnName": "open_app_on_click",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "app_widget_id"
+          ]
+        }
+      },
+      {
+        "tableName": "Countdown",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `colour` TEXT NOT NULL, `start_date` TEXT NOT NULL, `end_date` TEXT NOT NULL, `initial` TEXT NOT NULL, `finishing` TEXT NOT NULL, `passage_type` TEXT NOT NULL, `is_recurring` INTEGER NOT NULL, `interpolator` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "colour",
+            "columnName": "colour",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "start",
+            "columnName": "start_date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "end",
+            "columnName": "end_date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "initial",
+            "columnName": "initial",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "finishing",
+            "columnName": "finishing",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "passageType",
+            "columnName": "passage_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isRecurring",
+            "columnName": "is_recurring",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interpolator",
+            "columnName": "interpolator",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '00836501137418f3e7f736417f1944b5')"
+    ]
+  }
+}

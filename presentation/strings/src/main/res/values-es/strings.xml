@@ -103,6 +103,7 @@
     <string name="modify_error_colour_missing">Falta el color</string>
     <string name="modify_error_finish_date_null">Se requiere la fecha de finalización</string>
     <string name="modify_error_finish_date_in_past">La fecha de finalización no puede ser en el pasado</string>
+    <string name="modify_error_finish_invalid">La fecha de finalización no es válida</string>
     <string name="modify_error_start_date_null">Se requiere la fecha de inicio</string>
     <string name="modify_error_finish_date_before_start">La fecha de finalización no puede ser anterior a la fecha de inicio</string>
     <string name="modify_error_value_empty">Ambos valores no pueden estar vacíos</string>
@@ -129,6 +130,9 @@
     <string name="modify_field_dates_button">Elegir fechas</string>
     <string name="modify_field_dates_start">Fecha de inicio</string>
     <string name="modify_field_dates_end">Fecha de finalización</string>
+    <string name="modify_field_day">Day</string>
+    <string name="modify_field_month">Month</string>
+    <string name="modify_field_year">Year</string>
     <string name="modify_field_date">Fecha</string>
     <string name="modify_field_date_title">Selecciona una fecha</string>
     <string name="modify_field_date_placeholder">Fecha</string>

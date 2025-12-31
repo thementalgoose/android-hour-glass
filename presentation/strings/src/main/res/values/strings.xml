@@ -147,6 +147,7 @@
     <string name="modify_error_colour_missing">Colour is missing</string>
     <string name="modify_error_finish_date_null">End date is required</string>
     <string name="modify_error_finish_date_in_past">End date cannot be in the past</string>
+    <string name="modify_error_finish_invalid">End date is invalid</string>
     <string name="modify_error_start_date_null">Start date is required</string>
     <string name="modify_error_finish_date_before_start">End date cannot be before the start date</string>
     <string name="modify_error_value_empty">Both values cannot be empty</string>
@@ -168,6 +169,9 @@
     <string name="modify_field_dates">Dates</string>
     <string name="modify_field_dates_title">Select a date range</string>
     <string name="modify_field_dates_desc">Pick the dates you want the two values above to line up with</string>
+    <string name="modify_field_day">Day</string>
+    <string name="modify_field_month">Month</string>
+    <string name="modify_field_year">Year</string>
     <string name="modify_field_date">Date</string>
     <string name="modify_field_date_title">Select a date</string>
     <string name="modify_field_date_placeholder">Date</string>

@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import tmg.hourglass.BuildConfig
 import java.time.LocalDateTime
 import java.time.ZoneId
 import tmg.hourglass.R
@@ -39,6 +40,7 @@ import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.domain.model.Countdown.Companion.YYYY_MM_DD_FORMAT
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTablet
@@ -51,6 +53,7 @@ import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.ModifyScreen
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R.string
+import java.time.format.DateTimeFormatter
 
 @Composable
 internal fun HomeScreenVM(
@@ -187,7 +190,7 @@ internal fun ListScreen(
                 Countdown(
                     modifier = Modifier.animateItem(),
                     countdown = it,
-                    editClicked = null,
+                    editClicked = editItem.takeIf { BuildConfig.DEBUG },
                     deleteClicked = deleteItem
                 )
             }
@@ -308,29 +311,25 @@ private fun UiState.Companion.upcoming(
     action = if (withAction) HomeAction.Add else null
 )
 
-private val fakeCountdownExpired = Countdown(
+private val fakeCountdownExpired = Countdown.Static(
     id = "upcoming_2",
     name = "Expired",
     description = "This is an expired countdown",
     colour = CountdownColors.COLOUR_1.hex,
-    start = LocalDateTime.now(ZoneId.of("UTC")).minusDays(2),
-    end = LocalDateTime.now(ZoneId.of("UTC")).minusDays(1),
+    start = LocalDateTime.now(ZoneId.of("UTC")).minusDays(2).format(YYYY_MM_DD_FORMAT),
+    end = LocalDateTime.now(ZoneId.of("UTC")).minusDays(1).format(YYYY_MM_DD_FORMAT),
     startValue = "0",
     endValue = "10000",
-    countdownType = CountdownType.DAYS,
-    interpolator = CountdownInterpolator.LINEAR,
-    notifications = emptyList()
+    countdownType = CountdownType.DAYS
 )
-private val fakeCountdownUpcoming = Countdown(
+private val fakeCountdownUpcoming = Countdown.Static(
     id = "upcoming_1",
     name = "Expired",
     description = "This is an expired countdown",
     colour = CountdownColors.COLOUR_1.hex,
-    start = LocalDateTime.now(ZoneId.of("UTC")).minusDays(1),
-    end = LocalDateTime.now(ZoneId.of("UTC")).plusDays(2),
+    start = LocalDateTime.now(ZoneId.of("UTC")).minusDays(1).format(YYYY_MM_DD_FORMAT),
+    end = LocalDateTime.now(ZoneId.of("UTC")).plusDays(2).format(YYYY_MM_DD_FORMAT),
     startValue = "0",
     endValue = "10000",
-    countdownType = CountdownType.DAYS,
-    interpolator = CountdownInterpolator.LINEAR,
-    notifications = emptyList()
+    countdownType = CountdownType.DAYS
 )

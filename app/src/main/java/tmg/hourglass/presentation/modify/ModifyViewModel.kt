@@ -17,6 +17,8 @@ import tmg.hourglass.presentation.modify.ModifyMapper.toUiState
 import tmg.hourglass.presentation.modify.UiState.Direction.CountDown
 import tmg.hourglass.presentation.modify.UiState.Direction.CountUp
 import tmg.hourglass.presentation.modify.UiState.Direction.Custom
+import java.time.Month
+import java.time.Year
 import java.util.UUID
 import javax.inject.Inject
 
@@ -36,7 +38,9 @@ class ModifyViewModel @Inject constructor(
         colorHex = CountdownColors.COLOUR_1.hex,
         type = CountdownType.DAYS,
         inputTypes = UiState.Types.EndDate(
-            finishDate = null
+            day = null,
+            month = null,
+            year = null
         )
     )
 
@@ -71,7 +75,11 @@ class ModifyViewModel @Inject constructor(
         val existingType = uiState.value.inputTypes
         val newType = when (type) {
             CountdownType.DAYS -> {
-                UiState.Types.EndDate(finishDate = null)
+                UiState.Types.EndDate(
+                    day = null,
+                    month = null,
+                    year = null
+                )
             }
             else -> {
                 UiState.Types.Values(
@@ -102,22 +110,44 @@ class ModifyViewModel @Inject constructor(
             )
         }
     }
+    fun setEndDateDay(day: String) {
+        val existingType = _uiState.value.inputTypes
+        if (existingType is UiState.Types.EndDate) {
+            _uiState.value = _uiState.value.copy(
+                inputTypes = existingType.copy(
+                    day = day
+                )
+            )
+        }
+    }
+    fun setEndDateMonth(month: Month) {
+        val existingType = _uiState.value.inputTypes
+        if (existingType is UiState.Types.EndDate) {
+            _uiState.value = _uiState.value.copy(
+                inputTypes = existingType.copy(
+                    month = month
+                )
+            )
+        }
+    }
+    fun setEndDateYear(year: String) {
+        val existingType = _uiState.value.inputTypes
+        if (existingType is UiState.Types.EndDate) {
+            _uiState.value = _uiState.value.copy(
+                inputTypes = existingType.copy(
+                    year = year
+                )
+            )
+        }
+    }
     fun setEndDate(date: LocalDateTime) {
-        when (val existingType = _uiState.value.inputTypes) {
-            is UiState.Types.Values -> {
-                _uiState.value = _uiState.value.copy(
-                    inputTypes = existingType.copy(
-                        endDate = date
-                    )
+        val existingType = _uiState.value.inputTypes
+        if (existingType is UiState.Types.Values) {
+            _uiState.value = _uiState.value.copy(
+                inputTypes = existingType.copy(
+                    endDate = date
                 )
-            }
-            is UiState.Types.EndDate -> {
-                _uiState.value = _uiState.value.copy(
-                    inputTypes = existingType.copy(
-                        finishDate = date
-                    )
-                )
-            }
+            )
         }
     }
 
@@ -200,7 +230,9 @@ data class UiState(
     sealed class Types {
         data class EndDate(
             val startDate: LocalDateTime = LocalDate.now().atStartOfDay(),
-            val finishDate: LocalDateTime?
+            val day: String?,
+            val month: Month?,
+            val year: String?
         ): Types()
         data class Values(
             val valueDirection: Direction,
@@ -221,6 +253,7 @@ data class UiState(
         TITLE_BLANK,
         COLOUR_BLANK,
         FINISH_DATE_NULL,
+        FINISH_DATE_INVALID,
         FINISH_DATE_IN_PAST,
         VALUES_EMPTY,
         VALUES_MATCH,
@@ -239,12 +272,36 @@ data class UiState(
             }
             when (inputTypes) {
                 is Types.EndDate -> {
-                    if (inputTypes.finishDate == null) {
+                    if (inputTypes.day == null || inputTypes.month == null) {
                         add(ErrorTypes.FINISH_DATE_NULL)
                         return@buildList
                     }
-                    if (inputTypes.finishDate.toLocalDate() < LocalDate.now()) {
-                        add(ErrorTypes.FINISH_DATE_IN_PAST)
+
+                    val day = inputTypes.day.trim().toIntOrNull() ?: return listOf(
+                        ErrorTypes.FINISH_DATE_INVALID
+                    )
+
+                    if (inputTypes.year.isNullOrBlank()) {
+                        try {
+                            LocalDate.of(Year.now().value, inputTypes.month, day)
+                        } catch (_: Exception) {
+                            add(ErrorTypes.FINISH_DATE_INVALID)
+                            return@buildList
+                        }
+                    } else {
+                        val year = inputTypes.year.trim().toIntOrNull() ?: return listOf(
+                            ErrorTypes.FINISH_DATE_INVALID
+                        )
+                        try {
+                            val localDate = LocalDate.of(year, inputTypes.month, day)
+                            if (localDate < LocalDate.now()) {
+                                add(ErrorTypes.FINISH_DATE_IN_PAST)
+                                return@buildList
+                            }
+                        } catch (_: Exception) {
+                            add(ErrorTypes.FINISH_DATE_INVALID)
+                            return@buildList
+                        }
                     }
                     return@buildList
                 }

@@ -23,8 +23,8 @@ internal class HomeViewModelTest: BaseTest() {
     private val mockCountdownRepository: CountdownRepository = mockk(relaxed = true)
     private val mockNavigationController: NavigationController = mockk(relaxed = true)
 
-    private val fakeCountdownExpired: Countdown = Countdown.model(id = "expired")
-    private val fakeCountdownUpcoming: Countdown = Countdown.model(id = "upcoming")
+    private val fakeCountdownExpired: Countdown = Countdown.Static.model(id = "expired")
+    private val fakeCountdownUpcoming: Countdown = Countdown.Static.model(id = "upcoming")
 
     private fun initUnderTest() {
         underTest = HomeViewModel(

@@ -15,16 +15,18 @@ internal data class Countdown(
     val description: String,
     @ColumnInfo("colour")
     val colour: String,
-    @ColumnInfo("start")
-    val start: Long,
-    @ColumnInfo("end")
-    val end: Long,
+    @ColumnInfo("start_date")
+    val start: String,
+    @ColumnInfo("end_date")
+    val end: String,
     @ColumnInfo("initial")
     val initial: String,
     @ColumnInfo("finishing")
     val finishing: String,
     @ColumnInfo("passage_type")
     val passageType: String,
+    @ColumnInfo("is_recurring")
+    val isRecurring: Boolean = false,
     @ColumnInfo("interpolator")
     val interpolator: String
 )

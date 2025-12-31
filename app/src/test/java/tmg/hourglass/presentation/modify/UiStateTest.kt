@@ -13,14 +13,15 @@ import tmg.hourglass.presentation.modify.ModifyData.yesterday
 import tmg.hourglass.presentation.modify.UiState.Direction.CountDown
 import tmg.hourglass.presentation.modify.UiState.Types.EndDate
 import tmg.hourglass.presentation.modify.UiState.Types.Values
+import java.time.Month
 
 internal class UiStateTest {
 
     enum class InvalidUiState(val uiState: UiState) {
         MISSING_TITLE(uiState = uiStateDays.copy(title = "")),
         MISSING_COLOR(uiState = uiStateDays.copy(colorHex = "")),
-        MISSING_DAYS_FINISH_DATE(uiState = uiStateDays.copy(inputTypes = EndDate(finishDate = null))),
-        INVALID_DAYS_FINISH_DATE(uiState = uiStateDays.copy(inputTypes = EndDate(finishDate = LocalDateTime.now().minusDays(1L)))),
+        MISSING_DAYS_FINISH_DATE(uiState = uiStateDays.copy(inputTypes = EndDate(day = null, month = Month.FEBRUARY, year = null))),
+        INVALID_DAYS_FINISH_DATE(uiState = uiStateDays.copy(inputTypes = EndDate(day = "1", month = Month.FEBRUARY, year = "1900"))),
         MISSING_NUMBER_INITIAL_AND_FINISHING(uiState = uiStateNumber.copy(
             inputTypes = Values(valueDirection = CountDown, startDate = today, endDate = tomorrow, startValue = "", endValue = ""))
         ),

@@ -74,11 +74,16 @@ fun ModifyScreen(
                 val errorString = when {
                     uiState.value.errors.any { it == UiState.ErrorTypes.FINISH_DATE_NULL } -> stringResource(R.string.modify_error_finish_date_null)
                     uiState.value.errors.any { it == UiState.ErrorTypes.FINISH_DATE_IN_PAST } -> stringResource(R.string.modify_error_finish_date_in_past)
+                    uiState.value.errors.any { it == UiState.ErrorTypes.FINISH_DATE_INVALID } -> stringResource(R.string.modify_error_finish_invalid)
                     else -> null
                 }
                 DataSingleDateLayout(
-                    date = inputData.finishDate,
-                    dateUpdated = viewModel::setEndDate,
+                    day = inputData.day,
+                    month = inputData.month,
+                    year = inputData.year,
+                    dayUpdated = viewModel::setEndDateDay,
+                    monthUpdated = viewModel::setEndDateMonth,
+                    yearUpdated = viewModel::setEndDateYear,
                     error = errorString
                 )
             }

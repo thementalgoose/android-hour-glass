@@ -69,8 +69,7 @@ fun Countdown(
             .padding(
                 start = AppTheme.dimensions.paddingMedium,
                 top = AppTheme.dimensions.paddingSmall,
-                bottom = AppTheme.dimensions.paddingMedium,
-                end = AppTheme.dimensions.paddingMedium
+                bottom = AppTheme.dimensions.paddingMedium
             )
     ) {
         Row(
@@ -119,11 +118,13 @@ fun Countdown(
 
         if (countdown.countdownType == CountdownType.DAYS) {
             CountdownDays(
+                modifier = Modifier.padding(end = AppTheme.dimensions.paddingMedium),
                 countdown = countdown,
                 now = now
             )
         } else {
             CountdownOther(
+                modifier = Modifier.padding(end = AppTheme.dimensions.paddingMedium),
                 countdown = countdown,
                 now = now,
             )
@@ -192,11 +193,11 @@ private fun CountdownOther(
         AnimatedVisibility(expanded.value) {
             Row(modifier = Modifier.padding(top = 4.dp)) {
                 TextBody2(
-                    text = countdown.start.toLocalDate().format("dd MMM yyyy").orEmpty()
+                    text = countdown.startDate.toLocalDate().format("dd MMM yyyy").orEmpty()
                 )
                 Spacer(Modifier.weight(1f))
                 TextBody2(
-                    text = countdown.end.toLocalDate().format("dd MMM yyyy").orEmpty()
+                    text = countdown.endDate.toLocalDate().format("dd MMM yyyy").orEmpty()
                 )
             }
         }
@@ -221,7 +222,7 @@ private fun PreviewDays() {
 private fun PreviewOther() {
     AppThemePreview {
         Countdown(
-            countdown = Countdown.preview().copy(countdownType = CountdownType.NUMBER),
+            countdown = Countdown.preview(type = CountdownType.NUMBER),
             editClicked = { },
             deleteClicked = { },
             now = LocalDateTime.of(2021, 1, 28, 12, 34)

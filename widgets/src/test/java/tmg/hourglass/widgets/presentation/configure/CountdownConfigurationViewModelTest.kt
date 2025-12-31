@@ -31,7 +31,7 @@ internal class CountdownConfigurationViewModelTest: BaseTest() {
 
     @Test
     fun `view model initialise loads all widgets`() = runTest {
-        val models = listOf<Countdown>(Countdown.model())
+        val models = listOf<Countdown>(Countdown.Static.model())
         every { mockCountdownRepository.all() } returns flow { emit(models) }
         initUnderTest()
 
@@ -42,8 +42,8 @@ internal class CountdownConfigurationViewModelTest: BaseTest() {
 
     @Test
     fun `loading app widget updates state with selection`() = runTest {
-        val countdown1 = Countdown.model(id = "countdownId1")
-        val countdown2 = Countdown.model(id = "countdownId2")
+        val countdown1 = Countdown.Static.model(id = "countdownId1")
+        val countdown2 = Countdown.Static.model(id = "countdownId2")
         val models = listOf<Countdown>(countdown1, countdown2)
         every { mockCountdownRepository.all() } returns flow { emit(models) }
         every { mockCountdownRepository.getSync("countdownId1") } returns countdown1
@@ -69,8 +69,8 @@ internal class CountdownConfigurationViewModelTest: BaseTest() {
 
     @Test
     fun `loading app widget updates state with not found selection`() = runTest {
-        val countdown1 = Countdown.model(id = "countdownId1")
-        val countdown2 = Countdown.model(id = "countdownId2")
+        val countdown1 = Countdown.Static.model(id = "countdownId1")
+        val countdown2 = Countdown.Static.model(id = "countdownId2")
         val models = listOf<Countdown>(countdown1, countdown2)
         every { mockCountdownRepository.all() } returns flow { emit(models) }
         every { mockCountdownRepository.getSync("countdownId3") } returns null
@@ -95,8 +95,8 @@ internal class CountdownConfigurationViewModelTest: BaseTest() {
 
     @Test
     fun `selecting item updates selection`() = runTest {
-        val countdown1 = Countdown.model(id = "countdownId1")
-        val countdown2 = Countdown.model(id = "countdownId2")
+        val countdown1 = Countdown.Static.model(id = "countdownId1")
+        val countdown2 = Countdown.Static.model(id = "countdownId2")
         val models = listOf<Countdown>(countdown1, countdown2)
         every { mockCountdownRepository.all() } returns flow { emit(models) }
 
@@ -113,8 +113,8 @@ internal class CountdownConfigurationViewModelTest: BaseTest() {
 
     @Test
     fun `saving item saves widget ref`() = runTest {
-        val countdown1 = Countdown.model(id = "countdownId1")
-        val countdown2 = Countdown.model(id = "countdownId2")
+        val countdown1 = Countdown.Static.model(id = "countdownId1")
+        val countdown2 = Countdown.Static.model(id = "countdownId2")
         val models = listOf<Countdown>(countdown1, countdown2)
         every { mockCountdownRepository.all() } returns flow { emit(models) }
         every { mockCountdownRepository.getSync("countdownId1") } returns countdown1

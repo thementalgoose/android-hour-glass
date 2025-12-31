@@ -1,16 +1,22 @@
 package tmg.hourglass.presentation.modify
 
+import io.mockk.InternalPlatformDsl.toStr
 import java.time.LocalDate
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.domain.model.Countdown.Companion.YYYY_MM_DD_FORMAT
+import java.time.ZoneId
 
 object ModifyData {
     val yesterday = LocalDate.now().atStartOfDay().minusDays(1L)
+    val yesterdayString = yesterday.format(YYYY_MM_DD_FORMAT)
     val today = LocalDate.now().atStartOfDay()
+    val todayString = today.format(YYYY_MM_DD_FORMAT)
     val tomorrow = LocalDate.now().atStartOfDay().plusDays(1L)
+    val tomorrowString = tomorrow.format(YYYY_MM_DD_FORMAT)
 
     val uiStateDaysEmpty = UiState(
         title = "",
@@ -18,7 +24,9 @@ object ModifyData {
         colorHex = CountdownColors.COLOUR_1.hex,
         type = CountdownType.DAYS,
         inputTypes = UiState.Types.EndDate(
-            finishDate = null
+            day = null,
+            month = null,
+            year = null
         )
     )
     val uiStateNumberEmpty = UiState(
@@ -35,18 +43,16 @@ object ModifyData {
         )
     )
 
-    val countdownDays = Countdown.model(
+    val countdownDays = Countdown.Static.model(
         id = "1",
         name = "name",
         description = "desc",
         colour = "#123456",
-        start = today,
-        end = tomorrow,
+        start = todayString,
+        end = tomorrowString,
         startValue = "1",
         endValue = "0",
         countdownType = CountdownType.DAYS,
-        interpolator = CountdownInterpolator.LINEAR,
-        notifications = emptyList()
     )
     val uiStateDays = UiState(
         title = "name",
@@ -54,22 +60,22 @@ object ModifyData {
         colorHex = "#123456",
         type = CountdownType.DAYS,
         inputTypes = UiState.Types.EndDate(
-            finishDate = tomorrow
+            day = tomorrow.dayOfMonth.toString(),
+            month = tomorrow.month,
+            year = tomorrow.year.toString()
         )
     )
 
-    val countdownNumber = Countdown.model(
+    val countdownNumber = Countdown.Static.model(
         id = "2",
         name = "name",
         description = "desc",
         colour = "#123456",
-        start = today,
-        end = tomorrow,
+        start = todayString,
+        end = tomorrowString,
         startValue = "0",
         endValue = "100",
         countdownType = CountdownType.NUMBER,
-        interpolator = CountdownInterpolator.LINEAR,
-        notifications = emptyList()
     )
     val uiStateNumber = UiState(
         title = "name",
