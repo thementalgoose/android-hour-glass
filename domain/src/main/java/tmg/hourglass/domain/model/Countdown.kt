@@ -9,6 +9,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
 import java.time.Year
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -27,8 +28,10 @@ sealed interface Countdown {
     val startValue: String
     val endValue: String
     val countdownType: CountdownType
+
     val interpolator: CountdownInterpolator
         get() = CountdownInterpolator.LINEAR
+
     val notifications: List<CountdownNotifications>
         get() = emptyList()
 
@@ -47,7 +50,6 @@ sealed interface Countdown {
 
         return countdownType.converter(ceil((start + (progress * (end - start)))).toInt().toString())
     }
-
 
     data class Static(
         override val id: String,
@@ -125,11 +127,11 @@ sealed interface Countdown {
 
         override val endDate: LocalDateTime by lazy {
             val string = "${Year.now().value}-${month.value.extend(2, '0')}-${day.extend(2, '0')}"
-            val date = LocalDateTime.parse(string, YYYY_MM_DD_FORMAT)
-            if (date.toLocalDate() < LocalDate.now()) {
-                return@lazy date.plusYears(1L)
+            val date = LocalDate.parse(string, YYYY_MM_DD_FORMAT)
+            if (date < LocalDate.now()) {
+                return@lazy date.plusYears(1L).atStartOfDay(ZoneId.systemDefault()).toLocalDateTime()
             }
-            return@lazy date
+            return@lazy date.atStartOfDay(ZoneId.systemDefault()).toLocalDateTime()
         }
 
         override val startValue: String

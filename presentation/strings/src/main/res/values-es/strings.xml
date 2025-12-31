@@ -103,6 +103,7 @@
     <string name="modify_error_colour_missing">Falta el color</string>
     <string name="modify_error_finish_date_null">Se requiere la fecha de finalización</string>
     <string name="modify_error_finish_date_in_past">La fecha de finalización no puede ser en el pasado</string>
+    <string name="modify_error_finish_invalid">La fecha de finalización no es válida</string>
     <string name="modify_error_start_date_null">Se requiere la fecha de inicio</string>
     <string name="modify_error_finish_date_before_start">La fecha de finalización no puede ser anterior a la fecha de inicio</string>
     <string name="modify_error_value_empty">Ambos valores no pueden estar vacíos</string>

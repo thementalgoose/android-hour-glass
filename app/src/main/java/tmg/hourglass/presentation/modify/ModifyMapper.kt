@@ -1,5 +1,6 @@
 package tmg.hourglass.presentation.modify
 
+import android.util.Log
 import java.time.LocalDate
 import java.time.LocalDateTime
 import tmg.hourglass.domain.enums.CountdownInterpolator.LINEAR
@@ -17,9 +18,9 @@ object ModifyMapper {
         val inputTypes = when (countdownType) {
             CountdownType.DAYS -> UiState.Types.EndDate(
                 startDate = startDate,
-                day = endDate.dayOfMonth,
+                day = endDate.dayOfMonth.toString(),
                 month = endDate.month,
-                year = endDate.year.takeIf { this is Countdown.Static },
+                year = endDate.year.toString().takeIf { this is Countdown.Static } ?: "",
             )
             else -> UiState.Types.Values(
                 valueDirection = when {
@@ -46,17 +47,18 @@ object ModifyMapper {
     fun UiState.toCountdown(id: String): Countdown {
         when (inputTypes) {
             is UiState.Types.EndDate -> {
-                if (inputTypes.year == null) {
+                Log.d("Modify", "Saving EndDate UI state (year=${inputTypes.year}, month=${inputTypes.month}, day=${inputTypes.day})")
+                if (inputTypes.year.isNullOrBlank()) {
                     return Countdown.Recurring(
                         id = id,
                         name = title,
                         description = description,
                         colour = colorHex,
-                        day = inputTypes.day!!,
+                        day = inputTypes.day!!.trim().toInt(),
                         month = inputTypes.month!!
                     )
                 } else {
-                    val endDate = LocalDate.of(inputTypes.year, inputTypes.month, inputTypes.day!!).atStartOfDay()
+                    val endDate = LocalDate.of(inputTypes.year.toInt(), inputTypes.month, inputTypes.day!!.toInt()).atStartOfDay()
                     val startDate = when (inputTypes.startDate < endDate) {
                         true -> inputTypes.startDate
                         false -> LocalDate.now().atStartOfDay()
@@ -77,6 +79,7 @@ object ModifyMapper {
                 }
             }
             is UiState.Types.Values -> {
+                Log.d("Modify", "Saving Values UI state (endDate=${inputTypes.endDate})")
                 val startDate = inputTypes.startDate ?: LocalDateTime.now()
                 val endDate = inputTypes.endDate ?: LocalDateTime.now()
                 val start = inputTypes.startValue.trim().takeIf { it.toIntOrNull() != null }?.ifBlank { "0" } ?: "0"

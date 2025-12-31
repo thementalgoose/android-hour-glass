@@ -147,6 +147,7 @@
     <string name="modify_error_colour_missing">Colour is missing</string>
     <string name="modify_error_finish_date_null">End date is required</string>
     <string name="modify_error_finish_date_in_past">End date cannot be in the past</string>
+    <string name="modify_error_finish_invalid">End date is invalid</string>
     <string name="modify_error_start_date_null">Start date is required</string>
     <string name="modify_error_finish_date_before_start">End date cannot be before the start date</string>
     <string name="modify_error_value_empty">Both values cannot be empty</string>

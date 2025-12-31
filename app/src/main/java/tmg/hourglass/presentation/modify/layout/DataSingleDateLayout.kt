@@ -54,9 +54,9 @@ import java.util.Locale
 
 @Composable
 fun DataSingleDateLayout(
-    day: Int?,
+    day: String?,
     month: Month?,
-    year: Int?,
+    year: String?,
     dayUpdated: (String) -> Unit,
     monthUpdated: (Month) -> Unit,
     yearUpdated: (String) -> Unit,
@@ -127,7 +127,7 @@ fun DataSingleDateLayout(
                     modifier = Modifier
                         .weight(1f).border(
                             width = 1.dp,
-                            color = if (error != null) AppTheme.colors.errorColor else Color.Transparent,
+                            color = if (error != null && !year.isNullOrBlank()) AppTheme.colors.errorColor else Color.Transparent,
                             shape = RoundedCornerShape(AppTheme.dimensions.radiusSmall),
                         ),
                     maxLines = 1,
@@ -225,7 +225,7 @@ private fun MonthDialog(
 private fun Preview() {
     AppThemePreview {
         DataSingleDateLayout(
-            day = 1,
+            day = "11",
             month = Month.FEBRUARY,
             year = null,
             dayUpdated = { },
@@ -235,16 +235,12 @@ private fun Preview() {
     }
 }
 
-private fun Int?.orEmpty(): String {
-    return this?.toString() ?: ""
-}
-
 @PreviewTheme
 @Composable
 private fun PreviewError() {
     AppThemePreview {
         DataSingleDateLayout(
-            day = 1,
+            day = "41",
             month = Month.FEBRUARY,
             year = null,
             dayUpdated = { },

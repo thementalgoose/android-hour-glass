@@ -115,7 +115,7 @@ class ModifyViewModel @Inject constructor(
         if (existingType is UiState.Types.EndDate) {
             _uiState.value = _uiState.value.copy(
                 inputTypes = existingType.copy(
-                    day = day.toIntOrNull()
+                    day = day
                 )
             )
         }
@@ -135,32 +135,19 @@ class ModifyViewModel @Inject constructor(
         if (existingType is UiState.Types.EndDate) {
             _uiState.value = _uiState.value.copy(
                 inputTypes = existingType.copy(
-                    year = year.takeIf { it != "" }?.toIntOrNull()
+                    year = year
                 )
             )
         }
     }
-    fun setEndDate(day: Int, month: Month, year: Int? = null) {
-        when (val existingType = _uiState.value.inputTypes) {
-            is UiState.Types.Values -> {
-                if (year == null) {
-                    return
-                }
-                _uiState.value = _uiState.value.copy(
-                    inputTypes = existingType.copy(
-                        endDate = LocalDate.of(year, month, day).atStartOfDay()
-                    )
+    fun setEndDate(date: LocalDateTime) {
+        val existingType = _uiState.value.inputTypes
+        if (existingType is UiState.Types.Values) {
+            _uiState.value = _uiState.value.copy(
+                inputTypes = existingType.copy(
+                    endDate = date
                 )
-            }
-            is UiState.Types.EndDate -> {
-                _uiState.value = _uiState.value.copy(
-                    inputTypes = existingType.copy(
-                        day = day,
-                        month = month,
-                        year = year
-                    )
-                )
-            }
+            )
         }
     }
 
@@ -243,9 +230,9 @@ data class UiState(
     sealed class Types {
         data class EndDate(
             val startDate: LocalDateTime = LocalDate.now().atStartOfDay(),
-            val day: Int?,
+            val day: String?,
             val month: Month?,
-            val year: Int?
+            val year: String?
         ): Types()
         data class Values(
             val valueDirection: Direction,
@@ -266,6 +253,7 @@ data class UiState(
         TITLE_BLANK,
         COLOUR_BLANK,
         FINISH_DATE_NULL,
+        FINISH_DATE_INVALID,
         FINISH_DATE_IN_PAST,
         VALUES_EMPTY,
         VALUES_MATCH,
@@ -288,22 +276,29 @@ data class UiState(
                         add(ErrorTypes.FINISH_DATE_NULL)
                         return@buildList
                     }
-                    if (inputTypes.year != null) {
+
+                    val day = inputTypes.day.trim().toIntOrNull() ?: return listOf(
+                        ErrorTypes.FINISH_DATE_INVALID
+                    )
+                    if (inputTypes.year.isNullOrBlank()) {
                         try {
-                            val localDate = LocalDate.of(inputTypes.year, inputTypes.month, inputTypes.day)
+                            LocalDate.of(Year.now().value, inputTypes.month, day)
+                        } catch (_: Exception) {
+                            add(ErrorTypes.FINISH_DATE_INVALID)
+                            return@buildList
+                        }
+                    } else {
+                        val year = inputTypes.year.trim().toIntOrNull() ?: return listOf(
+                            ErrorTypes.FINISH_DATE_INVALID
+                        )
+                        try {
+                            val localDate = LocalDate.of(year, inputTypes.month, day)
                             if (localDate < LocalDate.now()) {
                                 add(ErrorTypes.FINISH_DATE_IN_PAST)
                                 return@buildList
                             }
                         } catch (_: Exception) {
-                            add(ErrorTypes.FINISH_DATE_NULL)
-                            return@buildList
-                        }
-                    } else {
-                        try {
-                            LocalDate.of(Year.now().value, inputTypes.month, inputTypes.day)
-                        } catch (_: Exception) {
-                            add(ErrorTypes.FINISH_DATE_NULL)
+                            add(ErrorTypes.FINISH_DATE_INVALID)
                             return@buildList
                         }
                     }

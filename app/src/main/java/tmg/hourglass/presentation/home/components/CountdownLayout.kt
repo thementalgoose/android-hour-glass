@@ -69,8 +69,7 @@ fun Countdown(
             .padding(
                 start = AppTheme.dimensions.paddingMedium,
                 top = AppTheme.dimensions.paddingSmall,
-                bottom = AppTheme.dimensions.paddingMedium,
-                end = AppTheme.dimensions.paddingMedium
+                bottom = AppTheme.dimensions.paddingMedium
             )
     ) {
         Row(
@@ -119,11 +118,13 @@ fun Countdown(
 
         if (countdown.countdownType == CountdownType.DAYS) {
             CountdownDays(
+                modifier = Modifier.padding(end = AppTheme.dimensions.paddingMedium),
                 countdown = countdown,
                 now = now
             )
         } else {
             CountdownOther(
+                modifier = Modifier.padding(end = AppTheme.dimensions.paddingMedium),
                 countdown = countdown,
                 now = now,
             )

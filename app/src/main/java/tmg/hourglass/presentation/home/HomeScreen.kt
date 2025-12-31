@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import tmg.hourglass.BuildConfig
 import java.time.LocalDateTime
 import java.time.ZoneId
 import tmg.hourglass.R
@@ -189,7 +190,7 @@ internal fun ListScreen(
                 Countdown(
                     modifier = Modifier.animateItem(),
                     countdown = it,
-                    editClicked = null,
+                    editClicked = editItem.takeIf { BuildConfig.DEBUG },
                     deleteClicked = deleteItem
                 )
             }
