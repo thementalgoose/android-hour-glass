@@ -36,6 +36,7 @@ import java.time.LocalDateTime
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.domain.model.Countdown.Companion.YYYY_MM_DD_FORMAT
 import tmg.hourglass.domain.utils.ProgressUtils
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
@@ -267,16 +268,14 @@ private val uiState: UiState = UiState(
     openAppOnClick = false,
     appWidgetId = 1
 )
-private fun generateCountdown(id: String) = Countdown(
+private fun generateCountdown(id: String) = Countdown.Static(
     id = id,
     name = "Countdown $id",
     description = "Description",
     colour = "#C2B2A3",
-    start = LocalDateTime.of(2024, 1, 1, 1, 1),
-    end = LocalDateTime.of(2026, 1, 1, 1, 1),
+    start = LocalDateTime.of(2024, 1, 1, 1, 1).format(YYYY_MM_DD_FORMAT),
+    end = LocalDateTime.of(2026, 1, 1, 1, 1).format(YYYY_MM_DD_FORMAT),
     startValue = "0",
     endValue = "100",
-    countdownType = CountdownType.METRES,
-    interpolator = CountdownInterpolator.LINEAR,
-    notifications = emptyList()
+    countdownType = CountdownType.METRES
 )

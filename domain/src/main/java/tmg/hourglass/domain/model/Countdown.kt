@@ -147,6 +147,7 @@ sealed interface Countdown {
 }
 
 fun Countdown.Companion.preview(
+    type: CountdownType = CountdownType.DAYS,
     color: String = "#152793",
 ): Countdown {
     return Countdown.Static(
@@ -158,6 +159,6 @@ fun Countdown.Companion.preview(
         end = LocalDateTime.now().plusDays(2L).format(YYYY_MM_DD_FORMAT),
         startValue = "0",
         endValue = "1000",
-        countdownType = CountdownType.DAYS,
+        countdownType = type,
     )
 }

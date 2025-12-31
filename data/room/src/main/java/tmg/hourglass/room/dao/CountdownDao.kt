@@ -24,9 +24,6 @@ internal interface CountdownDao {
     @Query("DELETE FROM Countdown")
     suspend fun deleteAllCountdowns()
 
-    @Query("DELETE FROM Countdown WHERE `end` < :now")
-    suspend fun deleteAllDoneCountdowns(now: Long = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCountdown(countdown: Countdown)
 

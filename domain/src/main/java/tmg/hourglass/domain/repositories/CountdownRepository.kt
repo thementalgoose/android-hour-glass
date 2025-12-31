@@ -15,6 +15,5 @@ interface CountdownRepository {
     fun saveAll(countdowns: List<Countdown>)
 
     fun deleteAll()
-    fun deleteDone()
     fun delete(id: String)
 }

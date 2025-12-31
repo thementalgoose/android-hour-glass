@@ -168,6 +168,9 @@
     <string name="modify_field_dates">Dates</string>
     <string name="modify_field_dates_title">Select a date range</string>
     <string name="modify_field_dates_desc">Pick the dates you want the two values above to line up with</string>
+    <string name="modify_field_day">Day</string>
+    <string name="modify_field_month">Month</string>
+    <string name="modify_field_year">Year</string>
     <string name="modify_field_date">Date</string>
     <string name="modify_field_date_title">Select a date</string>
     <string name="modify_field_date_placeholder">Date</string>

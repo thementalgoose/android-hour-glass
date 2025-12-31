@@ -22,22 +22,20 @@ internal class CountdownMapper @Inject constructor() {
             is Countdown.Static -> this.startDate.toLocalDate().format(YYYY_MM_DD_FORMAT)
         }
 
-    fun serialize(model: Countdown) {
-        tmg.hourglass.room.models.Countdown(
-            id = model.id,
-            name = model.name,
-            description = model.description,
-            colour = model.colour,
-            start = model.startLabel,
-            end = model.endLabel,
-            initial = model.startValue,
-            finishing = model.endValue,
-            passageType = model.countdownType.key,
-            interpolator = model.interpolator.key
-        )
-    }
+    fun serialize(model: Countdown) = tmg.hourglass.room.models.Countdown(
+        id = model.id,
+        name = model.name,
+        description = model.description,
+        colour = model.colour,
+        start = model.startLabel,
+        end = model.endLabel,
+        initial = model.startValue,
+        finishing = model.endValue,
+        passageType = model.countdownType.key,
+        interpolator = model.interpolator.key
+    )
 
-    fun deserialize(model: tmg.hourglass.room.models.Countdown) {
+    fun deserialize(model: tmg.hourglass.room.models.Countdown) =
         if (model.isRecurring) {
             Countdown.Recurring(
                 id = model.id,
@@ -60,5 +58,4 @@ internal class CountdownMapper @Inject constructor() {
                 countdownType = model.passageType.toEnum<CountdownType> { it.key } ?: CountdownType.NUMBER
             )
         }
-    }
 }

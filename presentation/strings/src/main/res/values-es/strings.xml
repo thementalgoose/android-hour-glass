@@ -129,6 +129,9 @@
     <string name="modify_field_dates_button">Elegir fechas</string>
     <string name="modify_field_dates_start">Fecha de inicio</string>
     <string name="modify_field_dates_end">Fecha de finalización</string>
+    <string name="modify_field_day">Day</string>
+    <string name="modify_field_month">Month</string>
+    <string name="modify_field_year">Year</string>
     <string name="modify_field_date">Fecha</string>
     <string name="modify_field_date_title">Selecciona una fecha</string>
     <string name="modify_field_date_placeholder">Fecha</string>

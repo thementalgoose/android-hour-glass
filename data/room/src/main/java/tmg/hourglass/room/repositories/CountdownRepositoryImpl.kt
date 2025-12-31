@@ -22,8 +22,8 @@ internal class CountdownRepositoryImpl @Inject constructor(
         return countdownDao.getCountdowns()
             .map { list -> list
                 .map { countdownMapper.deserialize(it) }
-                .filter { it.end > nowLocalDateTime }
-                .sortedBy { it.start }
+                .filter { it.endDate > nowLocalDateTime }
+                .sortedBy { it.startDate }
                 .also {
                     if (BuildConfig.DEBUG) {
                         Log.d("Room", "allCurrent() Returning $it")
@@ -37,8 +37,8 @@ internal class CountdownRepositoryImpl @Inject constructor(
         return countdownDao.getCountdowns()
             .map { list -> list
                 .map { countdownMapper.deserialize(it) }
-                .filter { it.end <= nowLocalDateTime }
-                .sortedBy { it.end }
+                .filter { it.endDate <= nowLocalDateTime }
+                .sortedBy { it.endDate }
                 .also {
                     if (BuildConfig.DEBUG) {
                         Log.d("Room", "allDone() Returning $it")
@@ -51,7 +51,7 @@ internal class CountdownRepositoryImpl @Inject constructor(
         return countdownDao.getCountdowns()
             .map { list -> list
                 .map { countdownMapper.deserialize(it) }
-                .sortedBy { it.end }
+                .sortedBy { it.endDate }
                 .also {
                     if (BuildConfig.DEBUG) {
                         Log.d("Room", "all() Returning $it")
@@ -91,10 +91,6 @@ internal class CountdownRepositoryImpl @Inject constructor(
 
     override fun deleteAll() {
         runBlocking { countdownDao.deleteAllCountdowns() }
-    }
-
-    override fun deleteDone() {
-        runBlocking { countdownDao.deleteAllDoneCountdowns() }
     }
 
     override fun delete(id: String) {
