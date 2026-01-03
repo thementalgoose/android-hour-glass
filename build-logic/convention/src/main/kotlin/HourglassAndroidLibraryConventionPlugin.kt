@@ -1,4 +1,4 @@
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -24,7 +24,7 @@ class HourglassAndroidLibraryConventionPlugin : Plugin<Project> {
 
                 defaultConfig {
                     minSdk = libs.findVersion("minSdk").get().toString().toInt()
-                    targetSdk = libs.findVersion("targetSdk").get().toString().toInt()
+                    targetSdk  = libs.findVersion("targetSdk").get().toString().toInt()
 
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                     consumerProguardFiles("consumer-rules.pro")
