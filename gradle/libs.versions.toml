@@ -143,6 +143,36 @@ accompanist = [
 ]
 
 [plugins]
+# Android
+android_application = { id = "com.android.application", version = "8.13.2" }
+android_library = { id = "com.android.library", version = "8.13.2" }
+
+# Kotlin
+kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin_parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin_kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+
+# KSP & Room
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-composecompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin"}
 room = { id = "androidx.room", version.ref = "room" }
+
+# Compose
+composecompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin"}
+
+# Hilt
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
+
+# Testing
+junit5 = { id = "de.mannodermaus.android-junit5", version = "2.0.0" }
+
+# Realm (legacy plugin - uses classpath)
+# realm = { id = "realm-android", version.ref = "realm" }
+
+# Firebase & Google Services
+google_services = { id = "com.google.gms.google-services", version = "4.4.4" }
+firebase_crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.6" }
+firebase_perf = { id = "com.google.firebase.firebase-perf", version = "2.0.2" }
+oss_licenses = { id = "com.google.android.gms.oss-licenses-plugin", version = "0.10.10" }
+
+# Play Publisher
+play_publisher = { id = "com.github.triplet.play", version = "3.13.0" }

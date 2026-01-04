@@ -1,36 +1,31 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-
-    apply from: rootDir.absolutePath + "/versions.gradle"
-
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-        maven { url "https://plugins.gradle.org/m2/" }
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-    }
     dependencies {
-        classpath libs.gradle.agp
-        classpath libs.play.publisher
-        classpath libs.gradle.kotlin
+        // Legacy plugins that don't support the modern plugin mechanism
         classpath libs.realm
-        classpath libs.google.services
-        classpath libs.gradle.crashlytics
-        classpath libs.gradle.junit5
-        classpath libs.gradle.hilt
-        classpath libs.firebase.perf.plugin
-        classpath libs.oss.licenses.plugin
-        classpath libs.room.gradle
     }
 }
 
 plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
+    alias(libs.plugins.kotlin.kapt) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.composecompiler) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.junit5) apply false
     alias(libs.plugins.room) apply false
+    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.firebase.perf) apply false
+    alias(libs.plugins.oss.licenses) apply false
+    alias(libs.plugins.play.publisher) apply false
 }
+
+apply from: rootDir.absolutePath + "/versions.gradle"
 
 allprojects {
     repositories {

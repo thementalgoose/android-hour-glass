@@ -2,22 +2,21 @@ import com.github.triplet.gradle.androidpublisher.ResolutionStrategy
 import groovy.json.JsonSlurper
 
 plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.junit5)
     alias(libs.plugins.composecompiler)
+    alias(libs.plugins.oss.licenses)
+    alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.firebase.perf)
+    alias(libs.plugins.play.publisher)
+    alias(libs.plugins.google.services)
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-parcelize'
-apply plugin: 'com.google.devtools.ksp'
-apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'de.mannodermaus.android-junit5'
-
 apply from: rootDir.absolutePath + "/versions.gradle"
-
-apply plugin: 'com.google.android.gms.oss-licenses-plugin'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.google.firebase.firebase-perf'
-apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdk project.ext.compileSdkVersion
@@ -271,5 +270,3 @@ tasks.withType(Test) {
         showStandardStreams true
     }
 }
-
-apply plugin: 'com.google.gms.google-services'

@@ -1,9 +1,10 @@
 plugins {
     id 'hourglass.android.library'
     id 'hourglass.android.junit5'
-    id 'kotlin-kapt'
-    id 'realm-android'
+    alias(libs.plugins.kotlin.kapt)
 }
+
+apply plugin: 'realm-android'
 
 android {
     namespace "tmg.hourglass.realm"
