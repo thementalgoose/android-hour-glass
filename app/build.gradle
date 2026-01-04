@@ -1,11 +1,18 @@
 import com.github.triplet.gradle.androidpublisher.ResolutionStrategy
 import groovy.json.JsonSlurper
 
-apply plugin: 'com.android.application'
+plugins {
+    alias(libs.plugins.composecompiler)
+}
 
-apply from: rootDir.absolutePath + "/gradle/config-android.gradle"
-apply from: rootDir.absolutePath + "/gradle/config-junit5.gradle"
-apply from: rootDir.absolutePath + "/gradle/config-compose.gradle"
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-parcelize'
+apply plugin: 'com.google.devtools.ksp'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'de.mannodermaus.android-junit5'
+
+apply from: rootDir.absolutePath + "/versions.gradle"
 
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 apply plugin: 'com.google.firebase.crashlytics'
@@ -23,6 +30,75 @@ android {
         versionName project.ext.versionName // generatedVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        buildConfig true
+        compose true
+    }
+
+    compileOptions {
+        sourceCompatibility "21"
+        targetCompatibility "21"
+    }
+
+    lintOptions {
+        disable "Instantiatable"
+    }
+
+    kotlinOptions {
+        jvmTarget = 21
+        freeCompilerArgs += [
+            "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-Xopt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
+            "-Xopt-in=kotlinx.coroutines.FlowPreview",
+            "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi",
+            "-Xopt-in=androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi"
+        ]
+    }
+
+    kotlin {
+        jvmToolchain {
+            languageVersion.set(JavaLanguageVersion.of("21"))
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        androidTest.resources.srcDirs += 'src/androidTest/res'
+        test.java.srcDirs += 'src/test/java'
+    }
+
+    testOptions {
+        junitPlatform {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+            }
+        }
+        unitTests {
+            includeAndroidResources = layout.projectDirectory.dir("src/test").asFile.exists()
+            returnDefaultValues = true
+            all {
+                afterSuite { desc, result ->
+                    if (!desc.parent) {
+                        println "\n======================================================================="
+                        println "${desc.displayName}"
+                        println "Test result: ${result.resultType}"
+                        println "Test summary: ${result.testCount} tests, " +
+                                "${result.successfulTestCount} succeeded, " +
+                                "${result.failedTestCount} failed, " +
+                                "${result.skippedTestCount} skipped"
+                        println "======================================================================="
+                    }
+                }
+                useJUnitPlatform()
+                testLogging {
+                    showStandardStreams = true
+                    events "passed", "skipped", "failed", "standardOut", "standardError"
+                }
+            }
+        }
     }
 
     signingConfigs {
@@ -118,7 +194,37 @@ dependencies {
     implementation project(path: ":presentation:strings")
     implementation project(path: ":widgets")
 
+    // AndroidX
+    implementation libs.bundles.androidx
     implementation libs.androidx.splashscreen
+
+    // Hilt
+    implementation libs.hilt.android
+    ksp libs.hilt.compiler
+    ksp libs.hilt.kapt.compiler
+    implementation libs.hilt.compose
+
+    // Kotlin
+    implementation libs.bundles.kotlin
+
+    // Compose
+    implementation platform(libs.compose.bom)
+    implementation libs.compose.material
+    implementation libs.compose.material3
+    implementation libs.compose.material3icons
+    implementation libs.compose.windowsize
+    implementation libs.compose.animation
+    debugImplementation libs.compose.ui.tooling
+    implementation libs.compose.ui.toolingpreview
+    implementation libs.compose.ui.viewbinding
+    implementation libs.compose.livedata
+    implementation libs.compose.activity
+    implementation libs.compose.theme.adapter
+    implementation libs.compose.navigation
+    implementation libs.compose.viewmodel
+    implementation libs.androidx.window
+    implementation libs.coil
+    implementation libs.bundles.accompanist
 
     // Firebase
     implementation platform(libs.firebase.bom)
@@ -136,10 +242,34 @@ dependencies {
 
     // Accompanist
     implementation libs.accompanist.systemuicontroller
-    
+
     ksp(libs.kotlin.metadata.jvm)
 
+    // Test
+    testImplementation libs.bundles.kotlin
+    testImplementation libs.kotlinx.coroutines.test
+    testImplementation libs.tmg.testutils
+    testImplementation libs.junit5.api
+    testImplementation libs.junit5.engine
+    testImplementation libs.junit5.params
+    testRuntimeOnly libs.junit5.engine
+    testImplementation libs.mockk
+    testImplementation libs.turbine
+    testImplementation libs.test.androidx.core
+    testImplementation libs.test.androidx.arch
+    kspTest libs.test.androidx.lifecycle
+
     testImplementation(testFixtures(project(path: ':domain')))
+}
+
+tasks.withType(Test) {
+    testLogging {
+        exceptionFormat 'full'
+        showCauses true
+        showExceptions true
+        showStackTraces true
+        showStandardStreams true
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

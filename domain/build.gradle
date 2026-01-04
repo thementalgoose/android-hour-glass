@@ -1,6 +1,7 @@
-apply plugin:  'com.android.library'
-apply from: rootDir.absolutePath + "/gradle/config-android.gradle"
-apply from: rootDir.absolutePath + "/gradle/config-junit5.gradle"
+plugins {
+    id 'hourglass.android.library'
+    id 'hourglass.android.junit5'
+}
 
 android {
     namespace "tmg.hourglass.domain"
