@@ -3,6 +3,7 @@ package tmg.hourglass.prefs
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import tmg.hourglass.presentation.ThemePref
+import tmg.hourglass.presentation.home.SortOrder
 import tmg.utilities.extensions.toEnum
 import tmg.utilities.prefs.SharedPrefManager
 import tmg.utilities.prefs.SharedPrefManagerConfig
@@ -16,6 +17,7 @@ private const val keyDeviceUdid: String = "deviceUdid"
 private const val keyVersion: String = "version"
 private const val keyThemePref: String = "themePref"
 private const val keyRealmMigration: String = "realmMigration"
+private const val keySortOrder: String = "sortOrder"
 
 @Singleton
 class AppPreferencesManager @Inject constructor(
@@ -55,4 +57,15 @@ class AppPreferencesManager @Inject constructor(
     override var realmMigrationRan: Boolean
         get() = getBoolean(keyRealmMigration, false)
         set(value) = save(keyRealmMigration, value)
+
+    override var sortOrder: SortOrder
+        get() = getString(keySortOrder)?.toEnum<SortOrder> { it.key } ?: SortOrder.ALPHABETICAL
+        set(value) = save(keySortOrder, value.key)
+
+    private val SortOrder.key: String
+        get() = when (this) {
+            SortOrder.ALPHABETICAL -> "alphabetical"
+            SortOrder.FINISHING_SOONEST -> "finishing_soonest"
+            SortOrder.FINISHING_LATEST -> "finishing_latest"
+        }
 }
