@@ -3,6 +3,7 @@ package tmg.hourglass.domain.model
 import tmg.hourglass.domain.BuildConfig
 import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
+import tmg.hourglass.domain.utils.ProgressUtils
 import tmg.utilities.extensions.extend
 import tmg.utilities.utils.LocalDateUtils
 import java.time.Instant
@@ -45,11 +46,15 @@ sealed interface Countdown {
     val isFinished: Boolean
         get() = endDate <= LocalDateTime.now()
 
-    fun getProgress(progress: Float): String {
+    fun getLabel(progress: Float): String {
         val start: Int = startValue.toIntOrNull() ?: 0
         val end: Int = endValue.toIntOrNull() ?: 100
 
         return countdownType.converter(ceil((start + (progress * (end - start)))).toInt().toString())
+    }
+
+    fun getProgress(now: LocalDateTime = LocalDateTime.now()): Float {
+        return ProgressUtils.getProgress(this, now)
     }
 
     data class Static(

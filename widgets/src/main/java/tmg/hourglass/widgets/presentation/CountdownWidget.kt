@@ -223,6 +223,6 @@ private fun GlanceModifier.surface(color: Color): GlanceModifier = this
 
 private fun Countdown.getProgressAndInfo(): Pair<Float, String> {
     val progress = ProgressUtils.getProgress(this)
-    val label = this.getProgress(progress)
+    val label = this.getLabel(progress)
     return Pair(progress, label)
 }

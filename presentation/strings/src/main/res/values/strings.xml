@@ -125,6 +125,7 @@
     <!-- Menu -->
     <string name="menu_dashboard">Home</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_sort">Sort</string>
 
     <!-- Modify -->
     <string name="modify_header_add">Add a countdown</string>

@@ -228,7 +228,7 @@ private fun SelectableItem(
             backgroundColor = barBackground,
             endProgress = ProgressUtils.getProgress(countdown, now),
             label = { progress ->
-                countdown.getProgress(progress = progress)
+                countdown.getLabel(progress = progress)
             }
         )
     }
