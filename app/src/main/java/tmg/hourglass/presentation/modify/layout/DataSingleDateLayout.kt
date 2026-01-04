@@ -193,7 +193,7 @@ private fun MonthDialog(
                             bottom = AppTheme.dimensions.paddingMedium,
                             end = AppTheme.dimensions.paddingMedium
                         ),
-                    text = stringResource(id = string.modify_field_type)
+                    text = stringResource(id = string.modify_field_month)
                 )
                 Month.entries.forEach {
                     TextButton(
