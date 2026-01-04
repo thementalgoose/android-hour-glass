@@ -1,11 +1,11 @@
 package tmg.hourglass.presentation.textviews
 
-import android.graphics.fonts.FontStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -89,7 +89,7 @@ private fun PreviewLightItalic() {
     AppThemePreview(isLight = true) {
         TextBody1(
             text = "Body 1 Italic",
-            bold = true
+            fontStyle = FontStyle.Italic
         )
     }
 }
