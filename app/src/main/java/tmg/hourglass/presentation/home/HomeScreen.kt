@@ -24,13 +24,15 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import tmg.hourglass.BuildConfig
@@ -49,9 +51,12 @@ import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.buttons.FloatingActionButton
 import tmg.hourglass.presentation.home.components.Countdown
 import tmg.hourglass.presentation.home.components.Empty
+import tmg.hourglass.presentation.home.components.SortDialog
+import tmg.hourglass.presentation.home.components.label
 import tmg.hourglass.presentation.layouts.MasterDetailsPane
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.ModifyScreen
+import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R.string
 import java.time.format.DateTimeFormatter
@@ -72,6 +77,7 @@ internal fun HomeScreenVM(
         paddingValues = paddingValues,
         windowSizeClass = windowSize,
         uiState = uiState.value,
+        sortUpdated = viewModel::updateSortOrder,
         edit = viewModel::edit,
         delete = viewModel::delete,
         openCreateNew = viewModel::createNew,
@@ -86,6 +92,7 @@ internal fun HomeScreen(
     paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
+    sortUpdated: (SortOrder) -> Unit,
     edit: (Countdown) -> Unit,
     delete: (Countdown) -> Unit,
     openCreateNew: () -> Unit,
@@ -101,6 +108,7 @@ internal fun HomeScreen(
                 windowSizeClass = windowSizeClass,
                 editItem = edit,
                 deleteItem = delete,
+                sortUpdated = sortUpdated,
                 navigateToSettings = navigateToSettings
             )
             Box(
@@ -137,10 +145,13 @@ internal fun HomeScreen(
 internal fun ListScreen(
     windowSizeClass: WindowSizeClass,
     navigateToSettings: () -> Unit,
+    sortUpdated: (SortOrder) -> Unit,
     uiState: UiState,
     editItem: (Countdown) -> Unit,
     deleteItem: (Countdown) -> Unit
 ) {
+    val sortOrderExpanded = remember { mutableStateOf(false) }
+
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
         columns = GridCells.Adaptive(minSize = 300.dp),
@@ -155,7 +166,7 @@ internal fun ListScreen(
                     overflowActions = {
                         IconButton(
                             onClick = {
-
+                                sortOrderExpanded.value = true
                             },
                             content = {
                                 Icon(
@@ -189,6 +200,19 @@ internal fun ListScreen(
                         Empty()
                     }
                 }
+            } else {
+                item("disclaimer", span = { GridItemSpan(maxLineSpan) }) {
+                    val label = stringResource(uiState.sortOrder.label())
+                    TextBody2(
+                        text = stringResource(string.menu_sort_order, label),
+                        modifier = Modifier
+                            .animateItem()
+                            .padding(
+                                horizontal = AppTheme.dimensions.paddingMedium,
+                                vertical = AppTheme.dimensions.paddingXSmall
+                            )
+                    )
+                }
             }
             items(uiState.itemsOrdered, key = { it.id }) {
                 Countdown(
@@ -206,6 +230,13 @@ internal fun ListScreen(
             }
         }
     )
+
+    if (sortOrderExpanded.value) {
+        SortDialog(
+            sortUpdated = sortUpdated,
+            dismissed = { sortOrderExpanded.value = false },
+        )
+    }
 }
 
 @Composable
@@ -229,6 +260,7 @@ private fun PreviewEmpty() {
             paddingValues = PaddingValues.Absolute(),
             windowSizeClass = compactWindowSizeClass,
             uiState = UiState.empty(),
+            sortUpdated = { },
             edit = { },
             delete = { },
             openCreateNew = { },
@@ -247,6 +279,7 @@ private fun PreviewPopulated() {
             paddingValues = PaddingValues.Absolute(),
             windowSizeClass = compactWindowSizeClass,
             uiState = UiState.upcoming(),
+            sortUpdated = { },
             edit = { },
             delete = { },
             openCreateNew = { },
@@ -266,6 +299,7 @@ private fun PreviewPopulatedExpanded() {
             paddingValues = PaddingValues.Absolute(),
             windowSizeClass = expandedWindowSizeClass,
             uiState = UiState.upcoming(),
+            sortUpdated = { },
             edit = { },
             delete = { },
             openCreateNew = { },
