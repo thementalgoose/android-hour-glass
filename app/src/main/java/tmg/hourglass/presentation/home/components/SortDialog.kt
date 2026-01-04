@@ -57,7 +57,7 @@ fun SortDialog(
                             bottom = AppTheme.dimensions.paddingMedium,
                             end = AppTheme.dimensions.paddingMedium
                         ),
-                    text = stringResource(id = string.modify_field_type)
+                    text = stringResource(id = string.menu_sort)
                 )
                 SortOrder.entries.forEach {
                     TextButton(
