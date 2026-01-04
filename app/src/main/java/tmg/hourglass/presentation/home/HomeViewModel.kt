@@ -30,8 +30,8 @@ data class UiState(
         val now = LocalDateTime.now()
         return@lazy when (sortOrder) {
             SortOrder.ALPHABETICAL -> items.sortedBy { it.name.lowercase() }
-            SortOrder.FINISHING_SOONEST -> items.sortedByDescending { it.getProgress(now) }
-            SortOrder.FINISHING_LATEST -> items.sortedBy { it.getProgress(now) }
+            SortOrder.FINISHING_SOONEST -> items.sortedBy { it.endDate }
+            SortOrder.FINISHING_LATEST -> items.sortedByDescending { it.endDate }
         }
     }
 
