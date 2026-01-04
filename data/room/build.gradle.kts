@@ -1,0 +1,22 @@
+plugins {
+    id("hourglass.android.library")
+    id("hourglass.android.junit5")
+    alias(libs.plugins.room)
+}
+
+android {
+    namespace = "tmg.hourglass.room"
+}
+
+room {
+    schemaDirectory("$projectDir/schemas/")
+}
+
+dependencies {
+    implementation(project(":domain"))
+    implementation(project(":core:metrics:crashlytics"))
+
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+}

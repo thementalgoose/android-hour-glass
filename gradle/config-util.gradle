@@ -1,6 +1,0 @@
-dependencies {
-
-    // Utilities
-    implementation libs.tmg.utils
-    testImplementation libs.tmg.testutils
-}
