@@ -89,6 +89,7 @@
     <string name="menu_finishing_soonest">Terminar lo antes posible</string>
     <string name="menu_finishing_latest">Acabado último</string>
     <string name="menu_sort_order">Ordenado: %1$s</string>
+    <string name="menu_progress">Progreso</string>
 
     <!-- Modify -->
     <string name="modify_header_add">Añadir una cuenta atrás</string>

@@ -129,6 +129,7 @@
     <string name="menu_sort_alphabetical">Alphabetical</string>
     <string name="menu_finishing_soonest">Finishing soonest</string>
     <string name="menu_finishing_latest">Finishing latest</string>
+    <string name="menu_progress">Progress</string>
     <string name="menu_sort_order">Sorted: %1$s</string>
 
     <!-- Modify -->

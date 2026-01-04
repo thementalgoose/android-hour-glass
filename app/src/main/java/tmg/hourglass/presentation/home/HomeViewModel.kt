@@ -32,6 +32,7 @@ data class UiState(
             SortOrder.ALPHABETICAL -> items.sortedBy { it.name.lowercase() }
             SortOrder.FINISHING_SOONEST -> items.sortedBy { it.endDate }
             SortOrder.FINISHING_LATEST -> items.sortedByDescending { it.endDate }
+            SortOrder.PROGRESS -> items.sortedByDescending { it.getProgress(now) }
         }
     }
 
@@ -44,7 +45,8 @@ data class UiState(
 enum class SortOrder {
     ALPHABETICAL,
     FINISHING_SOONEST,
-    FINISHING_LATEST
+    FINISHING_LATEST,
+    PROGRESS,
 }
 
 sealed class HomeAction {
