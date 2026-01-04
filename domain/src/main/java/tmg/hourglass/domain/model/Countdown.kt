@@ -33,9 +33,6 @@ sealed interface Countdown {
     val interpolator: CountdownInterpolator
         get() = CountdownInterpolator.LINEAR
 
-    val notifications: List<CountdownNotifications>
-        get() = emptyList()
-
     val startAtStartOfDay: LocalDateTime
         get() = startDate.toLocalDate().atTime(0, 0, 0, 0)
 
@@ -128,7 +125,7 @@ sealed interface Countdown {
             get() = CountdownType.DAYS
 
         override val startDate: LocalDateTime by lazy {
-            return@lazy LocalDateTime.now()
+            return@lazy endDate.minusYears(1L)
         }
 
         override val endDate: LocalDateTime by lazy {
