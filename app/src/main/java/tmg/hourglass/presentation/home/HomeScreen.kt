@@ -220,7 +220,7 @@ internal fun ListScreen(
                 Countdown(
                     modifier = Modifier.animateItem(),
                     countdown = it,
-                    editClicked = editItem.takeIf { BuildConfig.DEBUG },
+                    editClicked = editItem,
                     deleteClicked = deleteItem
                 )
             }
