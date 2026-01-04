@@ -13,6 +13,7 @@ import tmg.hourglass.domain.model
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.navigation.Screen
+import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.presentation.navigation.NavigationController
 import tmg.testutils.BaseTest
 
@@ -22,6 +23,7 @@ internal class HomeViewModelTest: BaseTest() {
 
     private val mockCountdownRepository: CountdownRepository = mockk(relaxed = true)
     private val mockNavigationController: NavigationController = mockk(relaxed = true)
+    private val mockPrefManager: PreferencesManager = mockk(relaxed = true)
 
     private val fakeCountdownExpired: Countdown = Countdown.Static.model(id = "expired")
     private val fakeCountdownUpcoming: Countdown = Countdown.Static.model(id = "upcoming")
@@ -29,13 +31,29 @@ internal class HomeViewModelTest: BaseTest() {
     private fun initUnderTest() {
         underTest = HomeViewModel(
             countdownRepository = mockCountdownRepository,
-            navigationController = mockNavigationController
+            navigationController = mockNavigationController,
+            prefManager = mockPrefManager
         )
     }
 
     @BeforeEach
     fun setUp() {
         every { mockCountdownRepository.all() } returns flow { emit(listOf(fakeCountdownUpcoming)) }
+        every { mockPrefManager.sortOrder } returns SortOrder.ALPHABETICAL
+    }
+
+    @Test
+    fun `updates sort order`() = runTest {
+        initUnderTest()
+        underTest.uiState.test {
+            val item1 = awaitItem()
+            assertEquals(listOf(fakeCountdownUpcoming), item1.items)
+
+            underTest.updateSortOrder(SortOrder.FINISHING_LATEST)
+
+            val item2 = awaitItem()
+            assertEquals(SortOrder.FINISHING_LATEST, item2.sortOrder)
+        }
     }
 
     @Test

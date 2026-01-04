@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.navigation.Screen
+import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.presentation.navigation.NavigationController
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -58,6 +59,7 @@ sealed class HomeAction {
 class HomeViewModel @Inject constructor(
     private val countdownRepository: CountdownRepository,
     private val navigationController: NavigationController,
+    private val prefManager: PreferencesManager,
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -68,6 +70,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun updateSortOrder(order: SortOrder) {
+        prefManager.sortOrder = order
         update { copy(sortOrder = order) }
     }
 
@@ -102,6 +105,7 @@ class HomeViewModel @Inject constructor(
             update {
                 copy(
                     items = all,
+                    sortOrder = prefManager.sortOrder,
                     action = null
                 )
             }
