@@ -68,6 +68,7 @@
     <string name="theme_auto">Seguir al sistema</string>
     <string name="theme_light">Tema claro</string>
     <string name="theme_dark">Tema oscuro</string>
+
     <!-- About -->
     <string name="about_name">HourGlass</string>
     <string name="about_desc">Cuenta atrás basada en el calendario</string>
@@ -79,9 +80,15 @@
     <string name="dashboard_delete_confirmation_confirm">Sí</string>
     <string name="dashboard_delete_confirmation_cancel">No</string>
     <string name="dashboard_fab_new">Nuevo</string>
+
     <!-- Menu -->
     <string name="menu_dashboard">Inicio</string>
     <string name="menu_settings">Ajustes</string>
+    <string name="menu_sort">Ordenar</string>
+    <string name="menu_sort_alphabetical">Alfabética</string>
+    <string name="menu_finishing_soonest">Terminar lo antes posible</string>
+    <string name="menu_finishing_latest">Acabado último</string>
+    <string name="menu_sort_order">Ordenado: %1$s</string>
 
     <!-- Modify -->
     <string name="modify_header_add">Añadir una cuenta atrás</string>

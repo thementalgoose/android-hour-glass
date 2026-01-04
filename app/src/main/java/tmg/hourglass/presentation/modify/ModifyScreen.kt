@@ -15,7 +15,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.layout.DataRangeDateLayout

@@ -53,7 +53,6 @@ fun Countdown(
     now: LocalDateTime = LocalDateTime.now()
 ) {
     val deleteConfirm = remember { mutableStateOf(false) }
-    val expanded = remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -153,7 +152,7 @@ private fun CountdownDays(
             backgroundColor = AppTheme.colors.backgroundTertiary,
             endProgress = ProgressUtils.getProgress(countdown, now),
             label = { progress ->
-                countdown.getProgress(progress = progress)
+                countdown.getLabel(progress = progress)
             }
         )
     }
@@ -183,7 +182,7 @@ private fun CountdownOther(
             backgroundColor = AppTheme.colors.backgroundTertiary,
             endProgress = ProgressUtils.getProgress(countdown, now),
             label = { progress ->
-                countdown.getProgress(progress = progress)
+                countdown.getLabel(progress = progress)
             },
             modifier = Modifier
                 .clickable {

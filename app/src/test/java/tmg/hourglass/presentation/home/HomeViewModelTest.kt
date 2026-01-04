@@ -35,8 +35,7 @@ internal class HomeViewModelTest: BaseTest() {
 
     @BeforeEach
     fun setUp() {
-        every { mockCountdownRepository.allDone() } returns flow { emit(listOf(fakeCountdownExpired)) }
-        every { mockCountdownRepository.allCurrent() } returns flow { emit(listOf(fakeCountdownUpcoming)) }
+        every { mockCountdownRepository.all() } returns flow { emit(listOf(fakeCountdownUpcoming)) }
     }
 
     @Test
@@ -44,8 +43,7 @@ internal class HomeViewModelTest: BaseTest() {
         initUnderTest()
         underTest.uiState.test {
             val item = awaitItem()
-            assertEquals(listOf(fakeCountdownUpcoming), item.upcoming)
-            assertEquals(listOf(fakeCountdownExpired), item.expired)
+            assertEquals(listOf(fakeCountdownUpcoming), item.items)
             assertEquals(null, item.action)
         }
     }
@@ -65,17 +63,14 @@ internal class HomeViewModelTest: BaseTest() {
         initUnderTest()
         underTest.uiState.test {
             val item1 = awaitItem()
-            assertEquals(listOf(fakeCountdownUpcoming), item1.upcoming)
-            assertEquals(listOf(fakeCountdownExpired), item1.expired)
+            assertEquals(listOf(fakeCountdownUpcoming), item1.items)
 
-            every { mockCountdownRepository.allDone() } returns flow { emit(emptyList()) }
-            every { mockCountdownRepository.allCurrent() } returns flow { emit(emptyList()) }
+            every { mockCountdownRepository.all() } returns flow { emit(emptyList()) }
 
             underTest.refresh()
 
             val item2 = awaitItem()
-            assertEquals(emptyList<Countdown>(), item2.upcoming)
-            assertEquals(emptyList<Countdown>(), item2.expired)
+            assertEquals(emptyList<Countdown>(), item2.items)
         }
     }
 

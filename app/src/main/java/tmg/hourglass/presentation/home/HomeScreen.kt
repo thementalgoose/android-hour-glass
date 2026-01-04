@@ -24,12 +24,15 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import tmg.hourglass.BuildConfig
@@ -48,9 +51,12 @@ import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.buttons.FloatingActionButton
 import tmg.hourglass.presentation.home.components.Countdown
 import tmg.hourglass.presentation.home.components.Empty
+import tmg.hourglass.presentation.home.components.SortDialog
+import tmg.hourglass.presentation.home.components.label
 import tmg.hourglass.presentation.layouts.MasterDetailsPane
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.ModifyScreen
+import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R.string
 import java.time.format.DateTimeFormatter
@@ -71,6 +77,7 @@ internal fun HomeScreenVM(
         paddingValues = paddingValues,
         windowSizeClass = windowSize,
         uiState = uiState.value,
+        sortUpdated = viewModel::updateSortOrder,
         edit = viewModel::edit,
         delete = viewModel::delete,
         openCreateNew = viewModel::createNew,
@@ -85,6 +92,7 @@ internal fun HomeScreen(
     paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
+    sortUpdated: (SortOrder) -> Unit,
     edit: (Countdown) -> Unit,
     delete: (Countdown) -> Unit,
     openCreateNew: () -> Unit,
@@ -100,6 +108,7 @@ internal fun HomeScreen(
                 windowSizeClass = windowSizeClass,
                 editItem = edit,
                 deleteItem = delete,
+                sortUpdated = sortUpdated,
                 navigateToSettings = navigateToSettings
             )
             Box(
@@ -136,10 +145,13 @@ internal fun HomeScreen(
 internal fun ListScreen(
     windowSizeClass: WindowSizeClass,
     navigateToSettings: () -> Unit,
+    sortUpdated: (SortOrder) -> Unit,
     uiState: UiState,
     editItem: (Countdown) -> Unit,
     deleteItem: (Countdown) -> Unit
 ) {
+    val sortOrderExpanded = remember { mutableStateOf(false) }
+
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
         columns = GridCells.Adaptive(minSize = 300.dp),
@@ -152,6 +164,18 @@ internal fun ListScreen(
                     modifier = Modifier.animateItem(),
                     title = stringResource(id = R.string.app_name),
                     overflowActions = {
+                        IconButton(
+                            onClick = {
+                                sortOrderExpanded.value = true
+                            },
+                            content = {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_sort),
+                                    contentDescription = stringResource(string.menu_sort),
+                                    tint = AppTheme.colors.textPrimary
+                                )
+                            },
+                        )
                         if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
                             IconButton(
                                 onClick = navigateToSettings,
@@ -176,36 +200,25 @@ internal fun ListScreen(
                         Empty()
                     }
                 }
-            }
-            if (uiState.expired.isNotEmpty()) {
-                item("expired", span = { GridItemSpan(maxLineSpan) }) {
-                    Column(modifier = Modifier.animateItem()) {
-                        Header(
-                            label = string.dashboard_title_previous
-                        )
-                    }
+            } else {
+                item("disclaimer", span = { GridItemSpan(maxLineSpan) }) {
+                    val label = stringResource(uiState.sortOrder.label())
+                    TextBody2(
+                        text = stringResource(string.menu_sort_order, label),
+                        modifier = Modifier
+                            .animateItem()
+                            .padding(
+                                horizontal = AppTheme.dimensions.paddingMedium,
+                                vertical = AppTheme.dimensions.paddingXSmall
+                            )
+                    )
                 }
             }
-            items(uiState.expired, key = { it.id }) {
+            items(uiState.itemsOrdered, key = { it.id }) {
                 Countdown(
                     modifier = Modifier.animateItem(),
                     countdown = it,
                     editClicked = editItem.takeIf { BuildConfig.DEBUG },
-                    deleteClicked = deleteItem
-                )
-            }
-            if (uiState.upcoming.isNotEmpty()) {
-                item("upcoming", span = { GridItemSpan(maxLineSpan) }) {
-                    Column(modifier = Modifier.animateItem()) {
-                        Header(string.dashboard_title_upcoming)
-                    }
-                }
-            }
-            items(uiState.upcoming, key = { it.id }) {
-                Countdown(
-                    modifier = Modifier.animateItem(),
-                    countdown = it,
-                    editClicked = editItem,
                     deleteClicked = deleteItem
                 )
             }
@@ -217,6 +230,13 @@ internal fun ListScreen(
             }
         }
     )
+
+    if (sortOrderExpanded.value) {
+        SortDialog(
+            sortUpdated = sortUpdated,
+            dismissed = { sortOrderExpanded.value = false },
+        )
+    }
 }
 
 @Composable
@@ -240,6 +260,7 @@ private fun PreviewEmpty() {
             paddingValues = PaddingValues.Absolute(),
             windowSizeClass = compactWindowSizeClass,
             uiState = UiState.empty(),
+            sortUpdated = { },
             edit = { },
             delete = { },
             openCreateNew = { },
@@ -258,6 +279,7 @@ private fun PreviewPopulated() {
             paddingValues = PaddingValues.Absolute(),
             windowSizeClass = compactWindowSizeClass,
             uiState = UiState.upcoming(),
+            sortUpdated = { },
             edit = { },
             delete = { },
             openCreateNew = { },
@@ -277,6 +299,7 @@ private fun PreviewPopulatedExpanded() {
             paddingValues = PaddingValues.Absolute(),
             windowSizeClass = expandedWindowSizeClass,
             uiState = UiState.upcoming(),
+            sortUpdated = { },
             edit = { },
             delete = { },
             openCreateNew = { },
@@ -296,32 +319,20 @@ private val expandedWindowSizeClass: WindowSizeClass =
 private fun UiState.Companion.empty(
     withAction: Boolean = false
 ): UiState = UiState(
-    upcoming = emptyList(),
-    expired = emptyList(),
+    items = emptyList(),
+    sortOrder = SortOrder.ALPHABETICAL,
     action = if (withAction) HomeAction.Add else null
 )
 
 private fun UiState.Companion.upcoming(
     withAction: Boolean = false,
     withUpcoming: Boolean = true,
-    withExpired: Boolean = false
 ): UiState = UiState(
-    upcoming = if (withUpcoming) listOf(fakeCountdownUpcoming, fakeCountdownUpcoming.copy(id = "upcoming_2")) else emptyList(),
-    expired = if (withExpired) listOf(fakeCountdownExpired, fakeCountdownExpired.copy(id = "expired_2")) else emptyList(),
+    items = if (withUpcoming) listOf(fakeCountdownUpcoming, fakeCountdownUpcoming.copy(id = "upcoming_2")) else emptyList(),
+    sortOrder = SortOrder.ALPHABETICAL,
     action = if (withAction) HomeAction.Add else null
 )
 
-private val fakeCountdownExpired = Countdown.Static(
-    id = "upcoming_2",
-    name = "Expired",
-    description = "This is an expired countdown",
-    colour = CountdownColors.COLOUR_1.hex,
-    start = LocalDateTime.now(ZoneId.of("UTC")).minusDays(2).format(YYYY_MM_DD_FORMAT),
-    end = LocalDateTime.now(ZoneId.of("UTC")).minusDays(1).format(YYYY_MM_DD_FORMAT),
-    startValue = "0",
-    endValue = "10000",
-    countdownType = CountdownType.DAYS
-)
 private val fakeCountdownUpcoming = Countdown.Static(
     id = "upcoming_1",
     name = "Expired",
