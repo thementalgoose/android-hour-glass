@@ -67,5 +67,6 @@ class AppPreferencesManager @Inject constructor(
             SortOrder.ALPHABETICAL -> "alphabetical"
             SortOrder.FINISHING_SOONEST -> "finishing_soonest"
             SortOrder.FINISHING_LATEST -> "finishing_latest"
+            SortOrder.PROGRESS -> "progress"
         }
 }

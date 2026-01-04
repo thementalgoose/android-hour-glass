@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -204,6 +205,7 @@ internal fun ListScreen(
                 item("disclaimer", span = { GridItemSpan(maxLineSpan) }) {
                     val label = stringResource(uiState.sortOrder.label())
                     TextBody2(
+                        fontStyle = FontStyle.Italic,
                         text = stringResource(string.menu_sort_order, label),
                         modifier = Modifier
                             .animateItem()
