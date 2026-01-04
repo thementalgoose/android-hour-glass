@@ -131,11 +131,17 @@ android {
             versionNameSuffix = "-sandbox"
 
             buildConfigField("int", "ENVIRONMENT", "1")
+            firebaseCrashlytics {
+                mappingFileUploadEnabled = false
+            }
         }
 
         create("live") {
             dimension = "version"
             buildConfigField("int", "ENVIRONMENT", "0")
+            firebaseCrashlytics {
+                mappingFileUploadEnabled = true
+            }
         }
     }
 
