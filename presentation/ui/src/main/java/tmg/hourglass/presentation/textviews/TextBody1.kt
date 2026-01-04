@@ -1,5 +1,6 @@
 package tmg.hourglass.presentation.textviews
 
+import android.graphics.fonts.FontStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,6 +20,7 @@ fun TextBody1(
     bold: Boolean = false,
     textAlign: TextAlign = TextAlign.Start,
     textColor: Color? = null,
+    fontStyle: FontStyle? = null,
     style: TextStyle = AppTheme.typography.body1.copy(
         fontWeight = when (bold) {
             true -> FontWeight.Bold
@@ -34,6 +36,7 @@ fun TextBody1(
         modifier = modifier,
         maxLines = maxLines ?: Int.MAX_VALUE,
         overflow = if (maxLines != null) TextOverflow.Ellipsis else TextOverflow.Clip,
+        fontStyle = fontStyle,
         style = style
     )
 }
@@ -75,6 +78,17 @@ private fun PreviewDarkBold() {
     AppThemePreview(isLight = false) {
         TextBody1(
             text = "Body 1 Bold",
+            bold = true
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewLightItalic() {
+    AppThemePreview(isLight = true) {
+        TextBody1(
+            text = "Body 1 Italic",
             bold = true
         )
     }

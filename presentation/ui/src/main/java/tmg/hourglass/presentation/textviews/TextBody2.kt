@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,6 +19,7 @@ fun TextBody2(
     bold: Boolean = false,
     textColor: Color? = null,
     maxLines: Int? = null,
+    fontStyle: FontStyle? = null,
     style: TextStyle = AppTheme.typography.body2.copy(
         fontWeight = when (bold) {
             true -> FontWeight.Bold
@@ -31,6 +33,7 @@ fun TextBody2(
         modifier = modifier,
         maxLines = maxLines ?: Int.MAX_VALUE,
         overflow = if (maxLines != null) TextOverflow.Ellipsis else TextOverflow.Clip,
+        fontStyle = fontStyle,
         style = style
     )
 }
@@ -73,6 +76,17 @@ private fun PreviewDarkBold() {
         TextBody2(
             text = "Body 2 Bold",
             bold = true
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewLightItalic() {
+    AppThemePreview(isLight = true) {
+        TextBody2(
+            text = "Body 2 Italic",
+            fontStyle = FontStyle.Italic
         )
     }
 }
