@@ -1,0 +1,7 @@
+plugins {
+    id("hourglass.android.library")
+}
+
+android {
+    namespace = "tmg.hourglass.strings"
+}

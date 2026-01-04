@@ -3,7 +3,7 @@
 buildscript {
     dependencies {
         // Legacy plugins that don't support the modern plugin mechanism
-        classpath libs.realm
+        classpath(libs.realm)
     }
 }
 
@@ -25,18 +25,18 @@ plugins {
     alias(libs.plugins.play.publisher) apply false
 }
 
-apply from: rootDir.absolutePath + "/versions.gradle"
+apply(from = "${rootDir.absolutePath}/versions.gradle")
 
 allprojects {
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-        maven { url 'https://jitpack.io' }
+        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register<Delete>("clean") {
+    delete(rootProject.buildDir)
 }
