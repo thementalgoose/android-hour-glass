@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -152,6 +153,18 @@ internal fun ListScreen(
                     modifier = Modifier.animateItem(),
                     title = stringResource(id = R.string.app_name),
                     overflowActions = {
+                        IconButton(
+                            onClick = {
+
+                            },
+                            content = {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_sort),
+                                    contentDescription = stringResource(string.menu_sort),
+                                    tint = AppTheme.colors.textPrimary
+                                )
+                            },
+                        )
                         if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
                             IconButton(
                                 onClick = navigateToSettings,
@@ -177,35 +190,11 @@ internal fun ListScreen(
                     }
                 }
             }
-            if (uiState.expired.isNotEmpty()) {
-                item("expired", span = { GridItemSpan(maxLineSpan) }) {
-                    Column(modifier = Modifier.animateItem()) {
-                        Header(
-                            label = string.dashboard_title_previous
-                        )
-                    }
-                }
-            }
-            items(uiState.expired, key = { it.id }) {
+            items(uiState.itemsOrdered, key = { it.id }) {
                 Countdown(
                     modifier = Modifier.animateItem(),
                     countdown = it,
                     editClicked = editItem.takeIf { BuildConfig.DEBUG },
-                    deleteClicked = deleteItem
-                )
-            }
-            if (uiState.upcoming.isNotEmpty()) {
-                item("upcoming", span = { GridItemSpan(maxLineSpan) }) {
-                    Column(modifier = Modifier.animateItem()) {
-                        Header(string.dashboard_title_upcoming)
-                    }
-                }
-            }
-            items(uiState.upcoming, key = { it.id }) {
-                Countdown(
-                    modifier = Modifier.animateItem(),
-                    countdown = it,
-                    editClicked = editItem,
                     deleteClicked = deleteItem
                 )
             }
@@ -296,32 +285,20 @@ private val expandedWindowSizeClass: WindowSizeClass =
 private fun UiState.Companion.empty(
     withAction: Boolean = false
 ): UiState = UiState(
-    upcoming = emptyList(),
-    expired = emptyList(),
+    items = emptyList(),
+    sortOrder = SortOrder.ALPHABETICAL,
     action = if (withAction) HomeAction.Add else null
 )
 
 private fun UiState.Companion.upcoming(
     withAction: Boolean = false,
     withUpcoming: Boolean = true,
-    withExpired: Boolean = false
 ): UiState = UiState(
-    upcoming = if (withUpcoming) listOf(fakeCountdownUpcoming, fakeCountdownUpcoming.copy(id = "upcoming_2")) else emptyList(),
-    expired = if (withExpired) listOf(fakeCountdownExpired, fakeCountdownExpired.copy(id = "expired_2")) else emptyList(),
+    items = if (withUpcoming) listOf(fakeCountdownUpcoming, fakeCountdownUpcoming.copy(id = "upcoming_2")) else emptyList(),
+    sortOrder = SortOrder.ALPHABETICAL,
     action = if (withAction) HomeAction.Add else null
 )
 
-private val fakeCountdownExpired = Countdown.Static(
-    id = "upcoming_2",
-    name = "Expired",
-    description = "This is an expired countdown",
-    colour = CountdownColors.COLOUR_1.hex,
-    start = LocalDateTime.now(ZoneId.of("UTC")).minusDays(2).format(YYYY_MM_DD_FORMAT),
-    end = LocalDateTime.now(ZoneId.of("UTC")).minusDays(1).format(YYYY_MM_DD_FORMAT),
-    startValue = "0",
-    endValue = "10000",
-    countdownType = CountdownType.DAYS
-)
 private val fakeCountdownUpcoming = Countdown.Static(
     id = "upcoming_1",
     name = "Expired",

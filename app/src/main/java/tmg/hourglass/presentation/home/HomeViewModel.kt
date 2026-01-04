@@ -11,23 +11,39 @@ import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.navigation.Screen
 import tmg.hourglass.presentation.navigation.NavigationController
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 data class UiState(
-    val upcoming: List<Countdown>,
-    val expired: List<Countdown>,
+    val items: List<Countdown>,
+    val sortOrder: SortOrder,
     val action: HomeAction?
 ) {
     constructor(): this(
-        upcoming = emptyList(),
-        expired = emptyList(),
+        items = emptyList(),
+        sortOrder = SortOrder.ALPHABETICAL,
         action = null
     )
 
+    val itemsOrdered: List<Countdown> by lazy {
+        val now = LocalDateTime.now()
+        return@lazy when (sortOrder) {
+            SortOrder.ALPHABETICAL -> items.sortedBy { it.name.lowercase() }
+            SortOrder.FINISHING_SOONEST -> items.sortedByDescending { it.getProgress(now) }
+            SortOrder.FINISHING_LATEST -> items.sortedBy { it.getProgress(now) }
+        }
+    }
+
     val isEmpty: Boolean
-        get() = upcoming.isEmpty() && expired.isEmpty()
+        get() = items.isEmpty()
 
     companion object
+}
+
+enum class SortOrder {
+    ALPHABETICAL,
+    FINISHING_SOONEST,
+    FINISHING_LATEST
 }
 
 sealed class HomeAction {
@@ -49,6 +65,10 @@ class HomeViewModel @Inject constructor(
 
     init {
         loadDashboard()
+    }
+
+    fun updateSortOrder(order: SortOrder) {
+        update { copy(sortOrder = order) }
     }
 
     fun navigateToSettings() {
@@ -78,13 +98,10 @@ class HomeViewModel @Inject constructor(
 
     private fun loadDashboard() {
         viewModelScope.launch {
-            val expired = countdownRepository.allDone().first()
-            val upcoming = countdownRepository.allCurrent().first()
-
+            val all = countdownRepository.all().first()
             update {
                 copy(
-                    upcoming = upcoming,
-                    expired = expired,
+                    items = all,
                     action = null
                 )
             }
