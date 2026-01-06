@@ -11,7 +11,7 @@ compose = "2025.12.01"
 compose_accompanist = "0.36.0"
 coroutines = "1.10.2"
 firebase = "34.7.0"
-junit = "6.0.1"
+junit = "6.0.2"
 realm = "10.19.0"
 room = "2.8.4"
 
