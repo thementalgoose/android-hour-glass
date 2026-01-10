@@ -158,7 +158,7 @@ jobs:
         run: echo "VERSION=$((${{ github.run_number }} + $RUN_OFFSET))" >> $GITHUB_OUTPUT
 
       - name: Notify discord of success
-        uses: sarisia/actions-status-discord@v1.15.5
+        uses: sarisia/actions-status-discord@v1.16.0
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
