@@ -147,8 +147,8 @@ accompanist = [
 
 [plugins]
 # Android
-android_application = { id = "com.android.application", version = agp }
-android_library = { id = "com.android.library", version = agp }
+android_application = { id = "com.android.application", version.ref = "agp" }
+android_library = { id = "com.android.library", version.ref = "agp" }
 
 # Kotlin
 kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
