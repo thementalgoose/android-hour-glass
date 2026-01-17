@@ -1,4 +1,4 @@
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -12,7 +12,6 @@ class HourglassAndroidLibraryConventionPlugin : Plugin<Project> {
         with(target) {
             // Apply plugins
             pluginManager.apply("com.android.library")
-            pluginManager.apply("org.jetbrains.kotlin.android")
             pluginManager.apply("org.jetbrains.kotlin.plugin.parcelize")
             pluginManager.apply("com.google.devtools.ksp")
             pluginManager.apply("dagger.hilt.android.plugin")
@@ -24,7 +23,6 @@ class HourglassAndroidLibraryConventionPlugin : Plugin<Project> {
 
                 defaultConfig {
                     minSdk = 26
-                    targetSdk = 36
 
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                     consumerProguardFiles("consumer-rules.pro")

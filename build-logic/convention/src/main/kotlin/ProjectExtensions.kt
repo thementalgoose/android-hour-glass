@@ -14,6 +14,6 @@ internal val Project.libs: VersionCatalog
  * Extension function to configure Android common settings
  */
 @Suppress("UnstableApiUsage")
-internal fun Project.android(configure: CommonExtension<*, *, *, *, *, *>.() -> Unit) {
+internal fun Project.android(configure: CommonExtension.() -> Unit) {
     extensions.configure("android", configure)
 }
