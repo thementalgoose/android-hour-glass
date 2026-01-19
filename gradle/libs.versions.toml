@@ -144,7 +144,7 @@ accompanist = [
 
 [plugins]
 # Android
-android_application = { id = "com.android.application", version = "8.13.2" }
+android_application = { id = "com.android.application", version = "9.0.0" }
 android_library = { id = "com.android.library", version = "8.13.2" }
 
 # Kotlin
