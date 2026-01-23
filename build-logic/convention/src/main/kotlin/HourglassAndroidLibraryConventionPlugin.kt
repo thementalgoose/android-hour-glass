@@ -25,7 +25,6 @@ class HourglassAndroidLibraryConventionPlugin : Plugin<Project> {
                     minSdk = libs.findVersion("minSdk").get().toString().toInt()
 
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                    consumerProguardFiles("consumer-rules.pro")
                 }
 
                 buildFeatures {
