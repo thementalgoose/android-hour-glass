@@ -82,19 +82,6 @@ jobs:
           echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> hourglass.keystore
           echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
 
-      - name: Version Name
-        id: get_version_name
-        run: echo "VERSION=0.0.0" >> $GITHUB_OUTPUT
-
-      - name: Version Code
-        id: get_version_code
-        run: echo "VERSION=1" >> $GITHUB_OUTPUT
-
-      - name: Outputting codes
-        run: |
-          echo "NAME: ${{ steps.get_version_name.outputs.VERSION }}"
-          echo "CODE: ${{ steps.get_version_code.outputs.VERSION }}"
-
       - name: Run build
         env:
           KEYSTORE: ${{ github.workspace }}/hourglass.keystore
