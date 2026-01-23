@@ -1,4 +1,8 @@
 [versions]  # ===========================================================================
+minSdk = "36"
+compileSdk = "36"
+targetSdk = "36"
+
 kotlin = "2.3.0"
 ksp = "2.3.4" # Update with kotlin https://github.com/google/ksp/releases
 dagger = "2.58"
@@ -25,7 +29,6 @@ gradle_kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 google_services = "com.google.gms:google-services:4.4.4"
 firebase_perf_plugin = "com.google.firebase:perf-plugin:2.0.2"
 oss_licenses_plugin = "com.google.android.gms:oss-licenses-plugin:0.10.10"
-play_publisher = "com.github.triplet.gradle:play-publisher:3.13.0"
 realm = { module = "io.realm:realm-gradle-plugin", version.ref = "realm" }
 
 androidx_core = "androidx.core:core-ktx:1.17.0"

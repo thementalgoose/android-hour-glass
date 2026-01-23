@@ -43,33 +43,23 @@ jobs:
         run: |
           echo ${{ secrets.ENCODED_GOOGLE_SERVICES_LIVE }} | base64 --decode >> app/src/live/google-services.json
 
-      - name: Environment keys
+      # Assemble AAB
+      - name: Assemble bundle
         run: |
-          echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> hourglass.keystore
-          echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
+          ./gradlew :app:${{ inputs.variant }}
 
-      - name: Version Name
-        id: get_version_name
-        run: echo "VERSION=0.0.0" >> $GITHUB_OUTPUT
-
-      - name: Version Code
-        id: get_version_code
-        run: echo "VERSION=1" >> $GITHUB_OUTPUT
-
-      - name: Outputting codes
-        run: |
-          echo "NAME: ${{ steps.get_version_name.outputs.VERSION }}"
-          echo "CODE: ${{ steps.get_version_code.outputs.VERSION }}"
-
-      - name: Run build
+      # Sign AAB
+      - name: Sign app
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: androidApp/build/outputs/apk/sandbox/release
+          signingKeyBase64: ${{ secrets.ENCODED_KEYSTORE }}
+          alias: ${{ secrets.KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
         env:
-          KEYSTORE: ${{ github.workspace }}/hourglass.keystore
-          PRIVATE_KEY: ${{ github.workspace }}/deployment_private_key.json
-          KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          VERSION_CODE: ${{ steps.get_version_code.outputs.VERSION }}
-          VERSION_NAME: ${{ steps.get_version_name.outputs.VERSION }}
-        run: ./gradlew ${{ inputs.variant }}
+          BUILD_TOOLS_VERSION: "36.0.0"
 
       - name: Making build available
         id: artifact-upload-step
