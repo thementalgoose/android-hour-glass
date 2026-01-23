@@ -23,10 +23,8 @@ val versionNameProperty: String = try {
     "1.0.0"
 }
 
-apply(from = "${rootDir.absolutePath}/versions.gradle")
-
 android {
-    compileSdk = project.extra["compileSdkVersion"] as Int
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "tmg.hourglass"

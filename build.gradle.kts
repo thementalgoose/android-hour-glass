@@ -24,8 +24,6 @@ plugins {
     alias(libs.plugins.oss.licenses) apply false
 }
 
-apply(from = "${rootDir.absolutePath}/versions.gradle")
-
 allprojects {
     repositories {
         google()
