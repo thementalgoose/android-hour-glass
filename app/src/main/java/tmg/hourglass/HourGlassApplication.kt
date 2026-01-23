@@ -10,15 +10,8 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.Lazy
 import dagger.hilt.android.HiltAndroidApp
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import tmg.hourglass.migration.RealmToRoomMigration
 import tmg.hourglass.prefs.PreferencesManager
 import tmg.hourglass.presentation.ThemePref
-import tmg.hourglass.realm.migrations.RealmDBMigration
 import tmg.hourglass.widgets.updateAllWidgets
 import javax.inject.Inject
 
@@ -28,21 +21,9 @@ class HourGlassApplication : Application() {
     @Inject
     lateinit var prefs: PreferencesManager
 
-    @Inject
-    lateinit var realmToRoomMigration: Lazy<RealmToRoomMigration>
-
     override fun onCreate() {
         super.onCreate()
-
-        // Realm
-        Realm.init(this)
-        val config = RealmConfiguration.Builder()
-            .schemaVersion(5L)
-            .migration(RealmDBMigration())
-            .allowWritesOnUiThread(true)
-            .build()
-        Realm.setDefaultConfiguration(config)
-
+        
         // Night mode
         when (prefs.theme) {
             ThemePref.AUTO -> setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)

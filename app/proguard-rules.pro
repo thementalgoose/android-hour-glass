@@ -20,39 +20,13 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# Proguard Configuration for Realm (http://realm.io)
-# For detailed discussion see: https://groups.google.com/forum/#!topic/realm-java/umqKCc50JGU
-# Additionally you need to keep your Realm Model classes as well
-# For example:
-# -keep class com.yourcompany.realm.** { *; }
--keepnames public class * extends io.realm.RealmObject
--keep class io.realm.annotations.RealmModule
--keep @io.realm.annotations.RealmModule class *
--keep class io.realm.internal.Keep
--keep @io.realm.internal.Keep class *
--dontwarn io.realm.**
-
--keep class tmg.hourglass.realm.models.*
 -dontwarn androidx.appcompat.view.ContextThemeWrapper
 
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
 
--keep class io.realm.annotations.RealmModule
--keep @io.realm.annotations.RealmModule class *
-
--keep class io.realm.internal.Keep
--keep @io.realm.internal.Keep class * { *; }
-
--keep class io.realm.internal.KeepMember
--keep @io.realm.internal.KeepMember class * { @io.realm.internal.KeepMember *; }
-
 -dontwarn javax.**
--dontwarn io.realm.**
--keep class io.realm.RealmCollection
--keep class io.realm.OrderedRealmCollection
--keepclasseswithmembernames class io.realm.**
 
 -if @kotlinx.serialization.Serializable class **
 -keepclassmembers class <1> {

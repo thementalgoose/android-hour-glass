@@ -99,14 +99,6 @@ class AboutThisAppConfig @Inject constructor(
             )
         ),
         Dependency(
-            dependencyName = "Realm",
-            author = "Realm",
-            url = "https://realm.io",
-            icon = DependencyIcon.Image(
-                url = "https://avatars1.githubusercontent.com/u/7575099"
-            )
-        ),
-        Dependency(
             dependencyName = "Shaky",
             author = "Linked In",
             url = "https://github.com/linkedin/shaky-android",
