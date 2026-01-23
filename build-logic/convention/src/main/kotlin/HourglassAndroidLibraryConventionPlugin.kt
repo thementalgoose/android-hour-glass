@@ -20,11 +20,11 @@ class HourglassAndroidLibraryConventionPlugin : Plugin<Project> {
             // Configure Android extension
             extensions.configure<LibraryExtension> {
                 // SDK versions
-                compileSdk = 36
+                compileSdk = libs.findVersion("compileSdk").get().toString().toInt()
 
                 defaultConfig {
-                    minSdk = 26
-                    targetSdk = 36
+                    minSdk = libs.findVersion("minSdk").get().toString().toInt()
+                    targetSdk = libs.findVersion("targetSdk").get().toString().toInt()
 
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                     consumerProguardFiles("consumer-rules.pro")

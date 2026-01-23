@@ -1,5 +1,3 @@
-import com.github.triplet.gradle.androidpublisher.ResolutionStrategy
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -11,8 +9,18 @@ plugins {
     alias(libs.plugins.oss.licenses)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.firebase.perf)
-    alias(libs.plugins.play.publisher)
     alias(libs.plugins.google.services)
+}
+
+val versionCodeProperty: Int = try {
+    System.getenv("VERSION_CODE").toInt()
+} catch (e: Exception) {
+    1
+}
+val versionNameProperty: String = try {
+    System.getenv("VERSION_NAME")
+} catch (e: Exception) {
+    "1.0.0"
 }
 
 apply(from = "${rootDir.absolutePath}/versions.gradle")
@@ -22,10 +30,10 @@ android {
 
     defaultConfig {
         applicationId = "tmg.hourglass"
-        minSdk = project.extra["minSdkVersion"] as Int
-        targetSdk = project.extra["targetSdkVersion"] as Int
-        versionCode = project.extra["versionCode"] as Int
-        versionName = project.extra["versionName"] as String
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = versionCodeProperty
+        versionName = "${versionNameProperty}.${versionCodeProperty}"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -146,13 +154,6 @@ android {
     }
 
     namespace = "tmg.hourglass"
-}
-
-play {
-    track.set("internal")
-    serviceAccountCredentials.set(file(System.getenv("PRIVATE_KEY") ?: "hour-glass.json"))
-    defaultToAppBundles.set(true)
-    resolutionStrategy.set(ResolutionStrategy.IGNORE)
 }
 
 dependencies {

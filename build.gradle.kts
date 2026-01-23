@@ -22,7 +22,6 @@ plugins {
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.firebase.perf) apply false
     alias(libs.plugins.oss.licenses) apply false
-    alias(libs.plugins.play.publisher) apply false
 }
 
 apply(from = "${rootDir.absolutePath}/versions.gradle")
