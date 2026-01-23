@@ -78,7 +78,7 @@ jobs:
           VERSION_NAME: ${{ needs.versions.version_name }}
           VERSION_CODE: ${{ needs.versions.version_code }}
         run: |
-          ./gradlew :app:assembleProductionRelease
+          ./gradlew :app:assembleLiveRelease
 
       # Assemble AAB
       - name: Assemble bundle
@@ -86,14 +86,14 @@ jobs:
           VERSION_NAME: ${{ needs.versions.version_name }}
           VERSION_CODE: ${{ needs.versions.version_code }}
         run: |
-          ./gradlew :app:bundleProductionRelease
+          ./gradlew :app:bundleLiveRelease
 
       # Sign AAB
       - name: Sign app
         uses: r0adkll/sign-android-release@v1
         id: sign_aab
         with:
-          releaseDirectory: app/build/outputs/bundle/productionRelease
+          releaseDirectory: app/build/outputs/bundle/liveRelease
           signingKeyBase64: ${{ secrets.ENCODED_KEYSTORE }}
           alias: ${{ secrets.KEYSTORE_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -106,7 +106,7 @@ jobs:
         uses: r0adkll/sign-android-release@v1
         id: sign_apk
         with:
-          releaseDirectory: app/build/outputs/apk/production/release
+          releaseDirectory: app/build/outputs/apk/live/release
           signingKeyBase64: ${{ secrets.ENCODED_KEYSTORE }}
           alias: ${{ secrets.KEYSTORE_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -134,13 +134,13 @@ jobs:
           track: internal
           whatsNewDirectory: release-notes
           status: "completed"
-          mappingFile: app/build/outputs/mapping/productionRelease/mapping.txt
+          mappingFile: app/build/outputs/mapping/liveRelease/mapping.txt
 
       # Rename signed APK
       - name: Rename signed apk
         run: |
-          mv app/build/outputs/apk/production/release/app-production-release-unsigned-signed.apk app/build/outputs/apk/production/release/android.apk
-          mv app/build/outputs/bundle/productionRelease/app-production-release.aab app/build/outputs/bundle/productionRelease/android.aab
+          mv app/build/outputs/apk/live/release/app-live-release-unsigned-signed.apk app/build/outputs/apk/live/release/android.apk
+          mv app/build/outputs/bundle/liveRelease/app-live-release.aab app/build/outputs/bundle/liveRelease/android.aab
 
       # Add artifact to tag
       - name: Upload file to github tag
@@ -148,8 +148,8 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            app/build/outputs/apk/production/release/android.apk
-            app/build/outputs/bundle/productionRelease/android.aab
+            app/build/outputs/apk/live/release/android.apk
+            app/build/outputs/bundle/liveRelease/android.aab
 
   discord_notify:
     runs-on: ubuntu-latest
