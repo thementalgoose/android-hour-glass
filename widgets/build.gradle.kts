@@ -12,7 +12,6 @@ dependencies {
     implementation(libs.bundles.androidx.glance)
 
     implementation(project(":domain"))
-    implementation(project(":data:realm"))
     implementation(project(":presentation:strings"))
     implementation(project(":presentation:ui"))
 

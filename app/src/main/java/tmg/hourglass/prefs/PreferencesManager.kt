@@ -14,7 +14,5 @@ interface PreferencesManager {
 
     val deviceUdid: String
 
-    var realmMigrationRan: Boolean
-
     var sortOrder: SortOrder
 }

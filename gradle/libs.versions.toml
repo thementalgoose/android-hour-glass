@@ -16,7 +16,6 @@ compose_accompanist = "0.36.0"
 coroutines = "1.10.2"
 firebase = "34.8.0"
 junit = "6.0.2"
-realm = "10.19.0"
 room = "2.8.4"
 
 [libraries]  # ===========================================================================
@@ -29,7 +28,6 @@ gradle_kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 google_services = "com.google.gms:google-services:4.4.4"
 firebase_perf_plugin = "com.google.firebase:perf-plugin:2.0.2"
 oss_licenses_plugin = "com.google.android.gms:oss-licenses-plugin:0.10.10"
-realm = { module = "io.realm:realm-gradle-plugin", version.ref = "realm" }
 
 androidx_core = "androidx.core:core-ktx:1.17.0"
 androidx_appcompat = "androidx.appcompat:appcompat:1.7.1"
@@ -167,9 +165,6 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 
 # Testing
 junit5 = { id = "de.mannodermaus.android-junit5", version = "2.0.1" }
-
-# Realm (legacy plugin - uses classpath)
-# realm = { id = "realm-android", version.ref = "realm" }
 
 # Firebase & Google Services
 google_services = { id = "com.google.gms.google-services", version = "4.4.4" }

@@ -19,7 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import tmg.hourglass.aboutthisapp.AboutThisAppConfig
-import tmg.hourglass.migration.RealmToRoomMigration
 import tmg.hourglass.presentation.navigation.NavigationController
 import javax.inject.Inject
 
@@ -32,9 +31,6 @@ class DashboardActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition
 
     @Inject
     lateinit var navigationController: NavigationController
-
-    @Inject
-    lateinit var migration: RealmToRoomMigration
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,10 +64,6 @@ class DashboardActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition
         }
 
         splashScreen.setKeepOnScreenCondition(this)
-
-        GlobalScope.launch {
-            migration.migrate()
-        }
     }
 
     private fun goToAboutThisApp() {

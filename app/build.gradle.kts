@@ -122,7 +122,6 @@ android {
                 "META-INF/AL2.0",
                 "META-INF/licenses/ASM",
                 "META-INF/*",
-                "lib/arm64-v8a/librealm-jni.so"
             )
         }
     }
@@ -158,7 +157,6 @@ dependencies {
     implementation(project(":core:metrics:crashlytics"))
 
     // Modules
-    implementation(project(":data:realm"))
     implementation(project(":data:room"))
     implementation(project(":domain"))
     implementation(project(":presentation:ui"))

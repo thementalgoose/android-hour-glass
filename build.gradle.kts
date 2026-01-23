@@ -1,12 +1,3 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript {
-    dependencies {
-        // Legacy plugins that don't support the modern plugin mechanism
-        classpath(libs.realm)
-    }
-}
-
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false

@@ -16,7 +16,6 @@ private const val keyAnalyticsReporting: String = "analyticsReporting"
 private const val keyDeviceUdid: String = "deviceUdid"
 private const val keyVersion: String = "version"
 private const val keyThemePref: String = "themePref"
-private const val keyRealmMigration: String = "realmMigration"
 private const val keySortOrder: String = "sortOrder"
 
 @Singleton
@@ -53,10 +52,6 @@ class AppPreferencesManager @Inject constructor(
     override var theme: ThemePref
         get() = getString(keyThemePref, ThemePref.AUTO.key)?.toEnum<ThemePref> { it.key } ?: ThemePref.AUTO
         set(value) = save(keyThemePref, value.key)
-
-    override var realmMigrationRan: Boolean
-        get() = getBoolean(keyRealmMigration, false)
-        set(value) = save(keyRealmMigration, value)
 
     override var sortOrder: SortOrder
         get() = getString(keySortOrder)?.toEnum<SortOrder> { it.key } ?: SortOrder.ALPHABETICAL
