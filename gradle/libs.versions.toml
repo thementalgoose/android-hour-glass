@@ -174,4 +174,4 @@ firebase_perf = { id = "com.google.firebase.firebase-perf", version = "2.0.2" }
 oss_licenses = { id = "com.google.android.gms.oss-licenses-plugin", version = "0.10.10" }
 
 # Play Publisher
-play_publisher = { id = "com.github.triplet.play", version = "3.13.0" }
+play_publisher = { id = "com.github.triplet.play", version = "4.0.0" }
