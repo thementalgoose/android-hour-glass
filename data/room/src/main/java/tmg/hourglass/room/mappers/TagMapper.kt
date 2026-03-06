@@ -26,6 +26,6 @@ internal class TagMapper @Inject constructor() {
     }
 
     private fun String.toTagOrdering(): TagOrdering {
-        TagOrdering.entries.firstOrNull { it.sortKey == this } ?: TagOrdering.ALPHABETICAL
+        return TagOrdering.entries.firstOrNull { it.sortKey == this } ?: TagOrdering.ALPHABETICAL
     }
 }

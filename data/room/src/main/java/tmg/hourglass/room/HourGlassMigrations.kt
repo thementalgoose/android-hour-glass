@@ -37,7 +37,7 @@ enum class Migrations(
     }),
     MIGRATION_2_3(object : Migration(2, 3) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            db.execSQL("ALTER TABLE Countdown ADD COLUMN tag TEXT DEFAULT NULL")
+            db.execSQL("ALTER TABLE Countdown ADD COLUMN tag_id TEXT DEFAULT NULL")
             db.execSQL("""
                 CREATE TABLE Tag(
                   id TEXT PRIMARY KEY NOT NULL,

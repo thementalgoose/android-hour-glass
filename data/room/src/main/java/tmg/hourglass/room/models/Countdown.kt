@@ -29,6 +29,6 @@ internal data class Countdown(
     val isRecurring: Boolean = false,
     @ColumnInfo("interpolator")
     val interpolator: String,
-    @ColumnInfo("tagId")
+    @ColumnInfo("tag_id")
     val tagId: String?
 )

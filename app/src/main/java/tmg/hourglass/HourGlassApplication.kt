@@ -8,10 +8,9 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import dagger.Lazy
 import dagger.hilt.android.HiltAndroidApp
-import tmg.hourglass.prefs.PreferencesManager
-import tmg.hourglass.presentation.ThemePref
+import tmg.hourglass.domain.model.ThemeSelection
+import tmg.hourglass.domain.repositories.PreferencesManager
 import tmg.hourglass.widgets.updateAllWidgets
 import javax.inject.Inject
 
@@ -26,9 +25,9 @@ class HourGlassApplication : Application() {
         
         // Night mode
         when (prefs.theme) {
-            ThemePref.AUTO -> setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
-            ThemePref.LIGHT -> setDefaultNightMode(MODE_NIGHT_NO)
-            ThemePref.DARK -> setDefaultNightMode(MODE_NIGHT_YES)
+            ThemeSelection.FollowSystem -> setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)
+            ThemeSelection.Light -> setDefaultNightMode(MODE_NIGHT_NO)
+            ThemeSelection.Dark -> setDefaultNightMode(MODE_NIGHT_YES)
         }
 
         // Crash Reporting

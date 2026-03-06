@@ -42,6 +42,8 @@ internal fun SettingsScreenVM(
     paddingValues: PaddingValues,
     windowSize: WindowSizeClass,
     viewModel: SettingsViewModel = hiltViewModel(),
+    navigateToBackup: () -> Unit,
+    navigateToPrivacy: () -> Unit,
     goToMarketPage: () -> Unit,
     goToAboutThisApp: () -> Unit,
     actionUpClicked: () -> Unit
@@ -49,49 +51,22 @@ internal fun SettingsScreenVM(
     val uiState = viewModel.uiState.collectAsState()
     val context = LocalContext.current
 
-    MasterDetailsPane(
+    SettingsOverviewScreen(
         windowSizeClass = windowSize,
-        master = {
-            SettingsOverviewScreen(
-                windowSizeClass = windowSize,
-                uiState = uiState.value,
-                setTheme = viewModel::setTheme,
-                refreshWidgetsClicked = {
-                    context.updateAllWidgets()
-                },
-                aboutThisAppClicked = goToAboutThisApp,
-                rateClicked = goToMarketPage,
-                privacyPolicyClicked = {
-                    viewModel.clickScreen(SettingsType.PRIVACY_POLICY)
-                },
-                deleteAllClicked = viewModel::deleteAll,
-                setAnalytics = viewModel::setAnalytics,
-                setCrashlytics = viewModel::setCrash,
-                sendFeedback = goToAboutThisApp,
-                actionUpClicked = actionUpClicked,
-                backupOptionsClicked = {
-                    viewModel.clickScreen(SettingsType.BACKUP)
-                }
-            )
+        uiState = uiState.value,
+        setTheme = viewModel::setTheme,
+        refreshWidgetsClicked = {
+            context.updateAllWidgets()
         },
-        detailsShow = uiState.value.screen != null,
-        details = {
-            when (uiState.value.screen) {
-                SettingsType.PRIVACY_POLICY -> {
-                    PrivacyPolicyLayout(
-                        backClicked = viewModel::closeDetails
-                    )
-                }
-                SettingsType.BACKUP -> {
-                    BackupScreen(
-                        windowSizeClass = windowSize,
-                        backClicked = viewModel::closeDetails
-                    )
-                }
-                null -> { }
-            }
-        },
-        detailsActionUpClicked = viewModel::closeDetails
+        aboutThisAppClicked = goToAboutThisApp,
+        rateClicked = goToMarketPage,
+        privacyPolicyClicked = { navigateToPrivacy() },
+        deleteAllClicked = viewModel::deleteAll,
+        setAnalytics = viewModel::setAnalytics,
+        setCrashlytics = viewModel::setCrash,
+        sendFeedback = goToAboutThisApp,
+        actionUpClicked = actionUpClicked,
+        backupOptionsClicked = { navigateToBackup() }
     )
 }
 

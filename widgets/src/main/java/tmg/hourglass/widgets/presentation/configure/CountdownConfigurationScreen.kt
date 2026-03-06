@@ -277,5 +277,6 @@ private fun generateCountdown(id: String) = Countdown.Static(
     end = LocalDateTime.of(2026, 1, 1, 1, 1).format(YYYY_MM_DD_FORMAT),
     startValue = "0",
     endValue = "100",
-    countdownType = CountdownType.METRES
+    countdownType = CountdownType.METRES,
+    tag = null
 )

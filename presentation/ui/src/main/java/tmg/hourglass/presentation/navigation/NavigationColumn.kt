@@ -39,7 +39,7 @@ import tmg.hourglass.strings.R.string
 val columnWidthCollapsed: Dp = 64.dp
 private val itemSize: Dp = 48.dp
 private val iconSize: Dp = 24.dp
-val columnWidthExpanded: Dp = 240.dp
+val columnWidthExpanded: Dp = 200.dp
 
 @Composable
 fun NavigationColumn(

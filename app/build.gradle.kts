@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.firebase.perf)
     alias(libs.plugins.google.services)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 val versionCodeProperty: Int = try {
@@ -166,6 +167,10 @@ dependencies {
     // AndroidX
     implementation(libs.bundles.androidx)
     implementation(libs.androidx.splashscreen)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.kotlinx.serialization)
 
     // Hilt
     implementation(libs.hilt.android)

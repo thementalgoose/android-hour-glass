@@ -80,18 +80,20 @@ class SettingsViewModel @Inject constructor(
         )}
     }
 
-    private val ThemeMapping = mapOf(
-        ThemeSelection.FollowSystem to ThemePref.AUTO,
-        ThemeSelection.Dark to ThemePref.DARK,
-        ThemeSelection.Light to ThemePref.LIGHT,
-    )
-
     private fun ThemeSelection.toPref(): ThemePref {
-        return ThemeMapping.firstNotNullOf { if (it.key == this) it.value else null }
+        return when (this) {
+            ThemeSelection.FollowSystem -> ThemePref.AUTO
+            ThemeSelection.Light -> ThemePref.LIGHT
+            ThemeSelection.Dark -> ThemePref.DARK
+        }
     }
 
     private fun ThemePref.toSelection(): ThemeSelection {
-        return ThemeMapping.firstNotNullOf { if (it.value == this) it.key else null }
+        return when (this) {
+            ThemePref.AUTO -> ThemeSelection.FollowSystem
+            ThemePref.LIGHT -> ThemeSelection.Light
+            ThemePref.DARK -> ThemeSelection.Dark
+        }
     }
 
     private fun update(callback: UiState.() -> UiState) {

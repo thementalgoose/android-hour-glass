@@ -1,7 +1,6 @@
 package tmg.hourglass.presentation.home
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,12 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import java.time.LocalDateTime
-import java.time.ZoneId
+import androidx.navigation3.runtime.NavKey
 import tmg.hourglass.R
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownType
@@ -43,6 +40,10 @@ import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.Countdown.Companion.YYYY_MM_DD_FORMAT
 import tmg.hourglass.domain.model.Tag
 import tmg.hourglass.domain.model.TagOrdering
+import tmg.hourglass.domain.model.TaggedCountdowns
+import tmg.hourglass.navigation.Add
+import tmg.hourglass.navigation.Modify
+import tmg.hourglass.navigation.Settings
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTablet
@@ -50,19 +51,19 @@ import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.buttons.FloatingActionButton
 import tmg.hourglass.presentation.home.components.Countdown
 import tmg.hourglass.presentation.home.components.Empty
-import tmg.hourglass.presentation.home.components.SortDialog
-import tmg.hourglass.presentation.home.components.label
-import tmg.hourglass.presentation.layouts.MasterDetailsPane
 import tmg.hourglass.presentation.layouts.TitleBar
-import tmg.hourglass.presentation.modify.ModifyScreen
-import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R.string
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 @Composable
 internal fun HomeScreenVM(
     paddingValues: PaddingValues,
     windowSize: WindowSizeClass,
+    navigateToAdd: () -> Unit,
+    navigateToModify: (id: String) -> Unit,
+    navigateToSettings: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState()
@@ -72,11 +73,10 @@ internal fun HomeScreenVM(
         windowSizeClass = windowSize,
         uiState = uiState.value,
         tagSortUpdated = viewModel::tagSortUpdated,
-        edit = viewModel::edit,
+        edit = { navigateToModify(it.id) },
         delete = viewModel::delete,
-        openCreateNew = viewModel::createNew,
-        closeDetailPane = viewModel::closeAction,
-        navigateToSettings = viewModel::navigateToSettings,
+        openCreateNew = { navigateToAdd() },
+        navigateToSettings = { navigateToSettings() },
     )
 }
 
@@ -89,51 +89,35 @@ internal fun HomeScreen(
     edit: (Countdown) -> Unit,
     delete: (Countdown) -> Unit,
     openCreateNew: () -> Unit,
-    closeDetailPane: () -> Unit,
     navigateToSettings: () -> Unit,
 ) {
-    MasterDetailsPane(
+    ListScreen(
+        paddingValues = paddingValues,
+        uiState = uiState,
         windowSizeClass = windowSizeClass,
-        master = {
-            ListScreen(
-                uiState = uiState,
-                windowSizeClass = windowSizeClass,
-                editItem = edit,
-                deleteItem = delete,
-                tagSortUpdated = tagSortUpdated,
-                navigateToSettings = navigateToSettings
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .navigationBarsPadding()
-                    .padding(AppTheme.dimensions.paddingMedium),
-                contentAlignment = Alignment.BottomEnd
-            ) {
-                FloatingActionButton(
-                    label = stringResource(id = string.dashboard_fab_new),
-                    icon = Icons.Outlined.Add,
-                    onClick = openCreateNew
-                )
-            }
-        },
-        detailsShow = uiState.action != null,
-        details = {
-            ModifyScreen(
-                paddingValues = paddingValues,
-                windowSizeClass = windowSizeClass,
-                actionUpClicked = {
-                    closeDetailPane()
-                },
-                countdown = (uiState.action as? HomeAction.Modify)?.countdown
-            )
-        },
-        detailsActionUpClicked = closeDetailPane
+        editItem = edit,
+        deleteItem = delete,
+        tagSortUpdated = tagSortUpdated,
+        navigateToSettings = navigateToSettings
     )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .navigationBarsPadding()
+            .padding(AppTheme.dimensions.paddingMedium),
+        contentAlignment = Alignment.BottomEnd
+    ) {
+        FloatingActionButton(
+            label = stringResource(id = string.dashboard_fab_new),
+            icon = Icons.Outlined.Add,
+            onClick = openCreateNew
+        )
+    }
 }
 
 @Composable
 internal fun ListScreen(
+    paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     navigateToSettings: () -> Unit,
     tagSortUpdated: (Tag, TagOrdering) -> Unit,
@@ -192,13 +176,17 @@ internal fun ListScreen(
                     }
                 }
             }
-            items(uiState.itemsOrdered, key = { it.id }) {
-                Countdown(
-                    modifier = Modifier.animateItem(),
-                    countdown = it,
-                    editClicked = editItem,
-                    deleteClicked = deleteItem
-                )
+            items(uiState.items, key = { it.id }) {
+                Column {
+                    for (x in it.countdowns) {
+                        Countdown(
+                            modifier = Modifier.animateItem(),
+                            countdown = x,
+                            editClicked = editItem,
+                            deleteClicked = deleteItem
+                        )
+                    }
+                }
             }
             item("spacer", span = { GridItemSpan(maxLineSpan) }) {
                 Spacer(modifier = Modifier.height(64.dp))
@@ -208,13 +196,6 @@ internal fun ListScreen(
             }
         }
     )
-
-    if (sortOrderExpanded.value) {
-        SortDialog(
-            sortUpdated = sortUpdated,
-            dismissed = { sortOrderExpanded.value = false },
-        )
-    }
 }
 
 @Composable
@@ -241,7 +222,6 @@ private fun PreviewEmpty() {
             edit = { },
             delete = { },
             openCreateNew = { },
-            closeDetailPane = { },
             tagSortUpdated = { _, _ -> },
             navigateToSettings = { }
         )
@@ -259,7 +239,6 @@ private fun PreviewPopulated() {
             edit = { },
             delete = { },
             openCreateNew = { },
-            closeDetailPane = { },
             tagSortUpdated = { _, _ -> },
             navigateToSettings = { }
         )
@@ -278,7 +257,6 @@ private fun PreviewPopulatedExpanded() {
             edit = { },
             delete = { },
             openCreateNew = { },
-            closeDetailPane = { },
             tagSortUpdated = { _, _ -> },
             navigateToSettings = { }
         )
@@ -294,19 +272,14 @@ private val expandedWindowSizeClass: WindowSizeClass =
 private fun UiState.Companion.empty(
     withAction: Boolean = false
 ): UiState = UiState(
-    items = emptyList(),
-    sortOrder = TagOrdering.ALPHABETICAL,
-    action = if (withAction) HomeAction.Add else null
+    items = emptyList()
 )
 
-private fun UiState.Companion.upcoming(
-    withAction: Boolean = false,
-    withUpcoming: Boolean = true,
-): UiState = UiState(
-    items = if (withUpcoming) listOf(fakeCountdownUpcoming, fakeCountdownUpcoming.copy(id = "upcoming_2")) else emptyList(),
-    sortOrder = TagOrdering.ALPHABETICAL,
-    action = if (withAction) HomeAction.Add else null
-)
+private fun UiState.Companion.upcoming(): UiState = UiState(
+    items = listOf(
+        TaggedCountdowns.Untagged(listOf(fakeCountdownUpcoming, fakeCountdownUpcoming.copy(id = "upcoming_2"))
+    )
+))
 
 private val fakeCountdownUpcoming = Countdown.Static(
     id = "upcoming_1",
