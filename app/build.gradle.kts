@@ -157,6 +157,7 @@ dependencies {
 
     // Modules
     implementation(project(":data:room"))
+    implementation(project(":data:prefs"))
     implementation(project(":domain"))
     implementation(project(":presentation:ui"))
     implementation(project(":presentation:strings"))

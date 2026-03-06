@@ -7,7 +7,7 @@ interface TagRepository {
     fun getAll(): Flow<List<Tag>>
     fun insertTag(tag: Tag)
     fun deleteTag(id: String)
-    fun deleteTag(tag: Tag) {
+    fun deleteTag(tag: Tag.Custom) {
         deleteTag(tag.tagId)
     }
 }

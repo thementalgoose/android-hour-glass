@@ -60,7 +60,6 @@ import tmg.hourglass.presentation.modify.ModifyScreen
 import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R.string
-import java.time.format.DateTimeFormatter
 
 @Composable
 internal fun HomeScreenVM(
@@ -344,5 +343,6 @@ private val fakeCountdownUpcoming = Countdown.Static(
     end = LocalDateTime.now(ZoneId.of("UTC")).plusDays(2).format(YYYY_MM_DD_FORMAT),
     startValue = "0",
     endValue = "10000",
-    countdownType = CountdownType.DAYS
+    countdownType = CountdownType.DAYS,
+    tag = null
 )

@@ -42,13 +42,6 @@ data class UiState(
     companion object
 }
 
-enum class SortOrder {
-    ALPHABETICAL,
-    FINISHING_SOONEST,
-    FINISHING_LATEST,
-    PROGRESS,
-}
-
 sealed class HomeAction {
     data class Modify(
         val countdown: Countdown
