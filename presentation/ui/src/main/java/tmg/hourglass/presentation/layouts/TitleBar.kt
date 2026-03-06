@@ -42,6 +42,7 @@ fun TitleBar(
 fun TitleBar(
     title: String,
     modifier: Modifier = Modifier,
+    titleModifier: Modifier = Modifier,
     showBack: Boolean,
     actionUpClicked: () -> Unit,
     @DrawableRes
@@ -76,9 +77,9 @@ fun TitleBar(
         ) {
             TextHeader1(
                 text = title,
-                modifier = Modifier
+                modifier = titleModifier
                     .weight(1f)
-                    .padding(horizontal = AppTheme.dimensions.paddingMedium)
+                    .padding(end = AppTheme.dimensions.paddingMedium)
                     .align(Alignment.CenterVertically),
             )
             if (!showBack) {

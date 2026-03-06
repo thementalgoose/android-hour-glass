@@ -36,6 +36,7 @@ fun PrivacyPolicyLayout(
     ) {
         Spacer(Modifier.statusBarsPadding())
         TitleBar(
+            titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
             title = stringResource(id = string.settings_help_privacy_policy_title),
             showBack = true,
             actionUpClicked = backClicked

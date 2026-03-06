@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -22,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewPhone
 import tmg.hourglass.presentation.ThemePref
@@ -98,6 +100,7 @@ private fun SettingsOverviewScreen(
             }
             item(key = "header") {
                 TitleBar(
+                    titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
                     title = stringResource(id = string.settings_title),
                     showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
                     actionUpClicked = actionUpClicked

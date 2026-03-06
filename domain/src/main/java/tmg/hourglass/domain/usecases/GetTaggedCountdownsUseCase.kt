@@ -38,21 +38,23 @@ class GetTaggedCountdownsUseCase @Inject constructor(
                 }
 
                 if (countdownSet.isNotEmpty()) {
-                    add(TaggedCountdowns.Untagged(countdownSet
-                        .toList()
-                        .sortBy(now, preferencesManager.sortOrder)
-                    ))
+                    add(TaggedCountdowns.Untagged(
+                        sort = preferencesManager.sortOrder,
+                        countdowns = countdownSet
+                            .toList()
+                            .sortBy(now, preferencesManager.sortOrder)
+                        ))
                 }
             }
         }
     }
+}
 
-    private fun List<Countdown>.sortBy(now: LocalDateTime, tagOrdering: TagOrdering): List<Countdown> {
-        return when (tagOrdering) {
-            TagOrdering.ALPHABETICAL -> this.sortedBy { it.name.lowercase() }
-            TagOrdering.FINISHING_SOONEST -> this.sortedBy { it.endDate }
-            TagOrdering.FINISHING_LATEST -> this.sortedByDescending { it.endDate }
-            TagOrdering.PROGRESS -> this.sortedByDescending { it.getProgress(now) }
-        }
+fun List<Countdown>.sortBy(now: LocalDateTime, tagOrdering: TagOrdering): List<Countdown> {
+    return when (tagOrdering) {
+        TagOrdering.ALPHABETICAL -> this.sortedBy { it.name.lowercase() }
+        TagOrdering.FINISHING_SOONEST -> this.sortedBy { it.endDate }
+        TagOrdering.FINISHING_LATEST -> this.sortedByDescending { it.endDate }
+        TagOrdering.PROGRESS -> this.sortedByDescending { it.getProgress(now) }
     }
 }

@@ -1,6 +1,7 @@
 package tmg.hourglass.presentation.home
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,9 +17,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -27,23 +25,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation3.runtime.NavKey
-import tmg.hourglass.R
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.Countdown.Companion.YYYY_MM_DD_FORMAT
 import tmg.hourglass.domain.model.Tag
 import tmg.hourglass.domain.model.TagOrdering
-import tmg.hourglass.domain.model.TaggedCountdowns
-import tmg.hourglass.navigation.Add
-import tmg.hourglass.navigation.Modify
-import tmg.hourglass.navigation.Settings
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTablet
@@ -51,8 +42,10 @@ import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.buttons.FloatingActionButton
 import tmg.hourglass.presentation.home.components.Countdown
 import tmg.hourglass.presentation.home.components.Empty
-import tmg.hourglass.presentation.layouts.TitleBar
+import tmg.hourglass.presentation.home.components.Header
+import tmg.hourglass.presentation.home.components.TagHeader
 import tmg.hourglass.presentation.textviews.TextHeader2
+import tmg.hourglass.strings.R
 import tmg.hourglass.strings.R.string
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -73,6 +66,8 @@ internal fun HomeScreenVM(
         windowSizeClass = windowSize,
         uiState = uiState.value,
         tagSortUpdated = viewModel::tagSortUpdated,
+        tagExpanded = viewModel::tagExpanded,
+        untaggedSort = viewModel::untaggedSort,
         edit = { navigateToModify(it.id) },
         delete = viewModel::delete,
         openCreateNew = { navigateToAdd() },
@@ -86,6 +81,8 @@ internal fun HomeScreen(
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
     tagSortUpdated: (Tag, TagOrdering) -> Unit,
+    untaggedSort: (TagOrdering) -> Unit,
+    tagExpanded: (Tag, Boolean) -> Unit,
     edit: (Countdown) -> Unit,
     delete: (Countdown) -> Unit,
     openCreateNew: () -> Unit,
@@ -97,7 +94,9 @@ internal fun HomeScreen(
         windowSizeClass = windowSizeClass,
         editItem = edit,
         deleteItem = delete,
+        untaggedSort = untaggedSort,
         tagSortUpdated = tagSortUpdated,
+        tagExpanded = tagExpanded,
         navigateToSettings = navigateToSettings
     )
     Box(
@@ -121,49 +120,29 @@ internal fun ListScreen(
     windowSizeClass: WindowSizeClass,
     navigateToSettings: () -> Unit,
     tagSortUpdated: (Tag, TagOrdering) -> Unit,
+    untaggedSort: (TagOrdering) -> Unit,
+    tagExpanded: (Tag, Boolean) -> Unit,
     uiState: UiState,
     editItem: (Countdown) -> Unit,
     deleteItem: (Countdown) -> Unit
 ) {
-    val sortOrderExpanded = remember { mutableStateOf(false) }
-
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
         columns = GridCells.Adaptive(minSize = 300.dp),
+        contentPadding = PaddingValues(
+            horizontal = AppTheme.dimensions.paddingMedium
+        ),
+        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall),
+        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall),
         content = {
             item(key = "edgetoedge-header", span = { GridItemSpan(maxLineSpan) }) {
                 Spacer(Modifier.statusBarsPadding())
             }
             item("header", span = { GridItemSpan(maxLineSpan) }) {
-                TitleBar(
+                Header(
                     modifier = Modifier.animateItem(),
-                    title = stringResource(id = R.string.app_name),
-                    overflowActions = {
-                        IconButton(
-                            onClick = {
-                                sortOrderExpanded.value = true
-                            },
-                            content = {
-                                Icon(
-                                    painter = painterResource(R.drawable.ic_sort),
-                                    contentDescription = stringResource(string.menu_sort),
-                                    tint = AppTheme.colors.textPrimary
-                                )
-                            },
-                        )
-                        if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
-                            IconButton(
-                                onClick = navigateToSettings,
-                                content = {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Settings,
-                                        contentDescription = stringResource(string.menu_settings),
-                                        tint = AppTheme.colors.textPrimary
-                                    )
-                                }
-                            )
-                        }
-                    }
+                    windowSizeClass = windowSizeClass,
+                    navigateToSettings = navigateToSettings
                 )
             }
             if (uiState.isEmpty) {
@@ -176,18 +155,55 @@ internal fun ListScreen(
                     }
                 }
             }
-            items(uiState.items, key = { it.id }) {
-                Column {
-                    for (x in it.countdowns) {
-                        Countdown(
-                            modifier = Modifier.animateItem(),
-                            countdown = x,
-                            editClicked = editItem,
-                            deleteClicked = deleteItem
-                        )
+            items(
+                items = uiState.items,
+                key = { it.id },
+                span = {
+                    when (it) {
+                        is ListItem.CountdownItem -> GridItemSpan(1)
+                        is ListItem.TagHeader -> GridItemSpan(maxLineSpan)
+                        is ListItem.UntaggedHeader -> GridItemSpan(maxLineSpan)
+                    }
+                },
+                itemContent = {
+                    when (it) {
+                        is ListItem.CountdownItem -> {
+                            Countdown(
+                                modifier = Modifier.animateItem(),
+                                countdown = it.countdown,
+                                editClicked = editItem,
+                                deleteClicked = deleteItem
+                            )
+                        }
+                        is ListItem.TagHeader -> {
+                            TagHeader(
+                                name = it.tag.name,
+                                sortClicked = { sort ->
+                                    tagSortUpdated(it.tag, sort)
+                                },
+                                expandClicked = { expanded ->
+                                    tagExpanded(it.tag, expanded)
+                                },
+                                expanded = it.expand ?: false,
+                                showCollapse = true,
+                                modifier = Modifier.padding(top = AppTheme.dimensions.paddingMedium)
+                            )
+                        }
+                        is ListItem.UntaggedHeader -> {
+                            TagHeader(
+                                name = stringResource(R.string.title_all),
+                                sortClicked = { sort ->
+                                    untaggedSort(sort)
+                                },
+                                expandClicked = { },
+                                expanded = false,
+                                showCollapse = false,
+                                modifier = Modifier.padding(top = AppTheme.dimensions.paddingMedium)
+                            )
+                        }
                     }
                 }
-            }
+            )
             item("spacer", span = { GridItemSpan(maxLineSpan) }) {
                 Spacer(modifier = Modifier.height(64.dp))
             }
@@ -223,41 +239,49 @@ private fun PreviewEmpty() {
             delete = { },
             openCreateNew = { },
             tagSortUpdated = { _, _ -> },
+            tagExpanded = { _, _ -> },
+            untaggedSort = { },
             navigateToSettings = { }
         )
     }
 }
 
 @PreviewTheme
+@PreviewTablet
 @Composable
-private fun PreviewPopulated() {
+private fun PreviewUntagged() {
     AppThemePreview {
         HomeScreen(
             paddingValues = PaddingValues.Absolute(),
             windowSizeClass = compactWindowSizeClass,
-            uiState = UiState.upcoming(),
+            uiState = UiState.untagged(),
             edit = { },
             delete = { },
             openCreateNew = { },
             tagSortUpdated = { _, _ -> },
+            tagExpanded = { _, _ -> },
+            untaggedSort = { },
             navigateToSettings = { }
         )
     }
 }
 
 
+@PreviewTheme
 @PreviewTablet
 @Composable
-private fun PreviewPopulatedExpanded() {
+private fun PreviewTagged() {
     AppThemePreview {
         HomeScreen(
             paddingValues = PaddingValues.Absolute(),
             windowSizeClass = expandedWindowSizeClass,
-            uiState = UiState.upcoming(),
+            uiState = UiState.tagged(),
             edit = { },
             delete = { },
             openCreateNew = { },
             tagSortUpdated = { _, _ -> },
+            tagExpanded = { _, _ -> },
+            untaggedSort = { },
             navigateToSettings = { }
         )
     }
@@ -269,17 +293,43 @@ private val compactWindowSizeClass: WindowSizeClass =
 private val expandedWindowSizeClass: WindowSizeClass =
     WindowSizeClass.calculateFromSize(DpSize(910.dp, 600.dp))
 
-private fun UiState.Companion.empty(
-    withAction: Boolean = false
-): UiState = UiState(
+private fun UiState.Companion.empty(): UiState = UiState(
     items = emptyList()
 )
 
-private fun UiState.Companion.upcoming(): UiState = UiState(
+private fun UiState.Companion.untagged(): UiState = UiState(
     items = listOf(
-        TaggedCountdowns.Untagged(listOf(fakeCountdownUpcoming, fakeCountdownUpcoming.copy(id = "upcoming_2"))
-    )
-))
+        ListItem.CountdownItem(
+            countdown = fakeCountdownUpcoming
+        ),
+        ListItem.CountdownItem(
+            countdown = fakeCountdownUpcoming.copy(id = "upcoming_2")
+        )
+    ))
+
+private fun UiState.Companion.tagged(): UiState = UiState(
+    items = listOf(
+        ListItem.TagHeader(
+            tag = Tag("tag1", "A", "", TagOrdering.ALPHABETICAL),
+            expand = true
+        ),
+        ListItem.CountdownItem(
+            countdown = fakeCountdownUpcoming.copy(id = "upcoming_1")
+        ),
+        ListItem.CountdownItem(
+            countdown = fakeCountdownUpcoming.copy(id = "upcoming_2")
+        ),
+        ListItem.TagHeader(
+            tag = Tag("tag2", "A", "", TagOrdering.ALPHABETICAL),
+            expand = true
+        ),
+        ListItem.CountdownItem(
+            countdown = fakeCountdownUpcoming.copy(id = "upcoming_3")
+        ),
+        ListItem.CountdownItem(
+            countdown = fakeCountdownUpcoming.copy(id = "upcoming_4")
+        )
+    ))
 
 private val fakeCountdownUpcoming = Countdown.Static(
     id = "upcoming_1",

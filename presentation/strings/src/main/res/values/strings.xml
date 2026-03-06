@@ -5,6 +5,8 @@
     <!-- Placeholder -->
     <string name="placeholder_title">No items found</string>
 
+    <string name="title_all">All</string>
+
     <!-- Settings -->
     <string name="settings_title">Settings</string>
     <string name="settings_theme">Theme</string>

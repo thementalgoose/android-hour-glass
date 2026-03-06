@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.layout.DataRangeDateLayout
 import tmg.hourglass.presentation.modify.layout.DataRangeInputLayout
@@ -49,6 +50,7 @@ fun ModifyScreenVM(
             .padding(paddingValues),
     ) {
         TitleBar(
+            titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
             title = stringResource(id = if (countdownId != null) R.string.modify_header_edit else R.string.modify_header_add),
             showBack = true,
             actionUpClicked = actionUpClicked
