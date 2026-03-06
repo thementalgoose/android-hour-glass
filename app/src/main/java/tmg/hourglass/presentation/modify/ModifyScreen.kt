@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -52,7 +53,7 @@ fun ModifyScreenVM(
         TitleBar(
             titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
             title = stringResource(id = if (countdownId != null) R.string.modify_header_edit else R.string.modify_header_add),
-            showBack = true,
+            showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
             actionUpClicked = actionUpClicked
         )
 

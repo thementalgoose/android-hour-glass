@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import dagger.hilt.android.AndroidEntryPoint
 import tmg.hourglass.presentation.AppTheme
 
@@ -16,6 +17,7 @@ class PrivacyPolicyActivity: AppCompatActivity() {
             AppTheme {
                 Scaffold(content = {
                     PrivacyPolicyLayout(
+                        windowSizeClass = calculateWindowSizeClass(this@PrivacyPolicyActivity),
                         backClicked = {
                             finish()
                         }

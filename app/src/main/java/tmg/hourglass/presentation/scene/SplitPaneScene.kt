@@ -47,7 +47,6 @@ class SplitPaneScene<T : Any>(
         BoxWithConstraints(modifier = Modifier
             .fillMaxSize()
             .padding(paddingInsets)
-            .padding(end = AppTheme.dimensions.paddingMedium)
             .consumeWindowInsets(WindowInsets.safeDrawing),
         ) {
             val listWidth = animateDpAsState(

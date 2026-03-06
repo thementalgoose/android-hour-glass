@@ -103,6 +103,7 @@ fun AppGraph(
             }
             entry<SettingsPrivacyPolicy>(metadata = listPane()) {
                 PrivacyPolicyLayout(
+                    windowSizeClass = windowSize,
                     backClicked = {
                         backStack.removeDetail()
                     }
