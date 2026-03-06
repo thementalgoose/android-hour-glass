@@ -42,7 +42,8 @@ enum class Migrations(
                 CREATE TABLE Tag(
                   id TEXT PRIMARY KEY NOT NULL,
                   name TEXT NOT NULL,
-                  colour TEXT NOT NULL
+                  colour TEXT NOT NULL,
+                  sort TEXT NOT NULL
                 )
             """.trimIndent())
         }
