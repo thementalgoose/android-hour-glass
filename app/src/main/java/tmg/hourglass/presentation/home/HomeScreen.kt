@@ -34,17 +34,15 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.LifecycleEventEffect
-import tmg.hourglass.BuildConfig
 import java.time.LocalDateTime
 import java.time.ZoneId
 import tmg.hourglass.R
 import tmg.hourglass.domain.enums.CountdownColors
-import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.Countdown.Companion.YYYY_MM_DD_FORMAT
+import tmg.hourglass.domain.model.Tag
+import tmg.hourglass.domain.model.TagOrdering
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTablet
@@ -69,21 +67,16 @@ internal fun HomeScreenVM(
 ) {
     val uiState = viewModel.uiState.collectAsState()
 
-    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-        viewModel.refresh()
-    }
-
     HomeScreen(
         paddingValues = paddingValues,
         windowSizeClass = windowSize,
         uiState = uiState.value,
-        sortUpdated = viewModel::updateSortOrder,
+        tagSortUpdated = viewModel::tagSortUpdated,
         edit = viewModel::edit,
         delete = viewModel::delete,
         openCreateNew = viewModel::createNew,
         closeDetailPane = viewModel::closeAction,
         navigateToSettings = viewModel::navigateToSettings,
-        refresh = viewModel::refresh
     )
 }
 
@@ -92,13 +85,12 @@ internal fun HomeScreen(
     paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
-    sortUpdated: (SortOrder) -> Unit,
+    tagSortUpdated: (Tag, TagOrdering) -> Unit,
     edit: (Countdown) -> Unit,
     delete: (Countdown) -> Unit,
     openCreateNew: () -> Unit,
     closeDetailPane: () -> Unit,
     navigateToSettings: () -> Unit,
-    refresh: () -> Unit
 ) {
     MasterDetailsPane(
         windowSizeClass = windowSizeClass,
@@ -108,7 +100,7 @@ internal fun HomeScreen(
                 windowSizeClass = windowSizeClass,
                 editItem = edit,
                 deleteItem = delete,
-                sortUpdated = sortUpdated,
+                tagSortUpdated = tagSortUpdated,
                 navigateToSettings = navigateToSettings
             )
             Box(
@@ -132,7 +124,6 @@ internal fun HomeScreen(
                 windowSizeClass = windowSizeClass,
                 actionUpClicked = {
                     closeDetailPane()
-                    refresh()
                 },
                 countdown = (uiState.action as? HomeAction.Modify)?.countdown
             )
@@ -145,7 +136,7 @@ internal fun HomeScreen(
 internal fun ListScreen(
     windowSizeClass: WindowSizeClass,
     navigateToSettings: () -> Unit,
-    sortUpdated: (SortOrder) -> Unit,
+    tagSortUpdated: (Tag, TagOrdering) -> Unit,
     uiState: UiState,
     editItem: (Countdown) -> Unit,
     deleteItem: (Countdown) -> Unit
@@ -200,20 +191,6 @@ internal fun ListScreen(
                         Empty()
                     }
                 }
-            } else {
-                item("disclaimer", span = { GridItemSpan(maxLineSpan) }) {
-                    val label = stringResource(uiState.sortOrder.label())
-                    TextBody2(
-                        fontStyle = FontStyle.Italic,
-                        text = stringResource(string.menu_sort_order, label),
-                        modifier = Modifier
-                            .animateItem()
-                            .padding(
-                                horizontal = AppTheme.dimensions.paddingMedium,
-                                vertical = AppTheme.dimensions.paddingXSmall
-                            )
-                    )
-                }
             }
             items(uiState.itemsOrdered, key = { it.id }) {
                 Countdown(
@@ -261,12 +238,11 @@ private fun PreviewEmpty() {
             paddingValues = PaddingValues.Absolute(),
             windowSizeClass = compactWindowSizeClass,
             uiState = UiState.empty(),
-            sortUpdated = { },
             edit = { },
             delete = { },
             openCreateNew = { },
             closeDetailPane = { },
-            refresh = { },
+            tagSortUpdated = { _, _ -> },
             navigateToSettings = { }
         )
     }
@@ -280,12 +256,11 @@ private fun PreviewPopulated() {
             paddingValues = PaddingValues.Absolute(),
             windowSizeClass = compactWindowSizeClass,
             uiState = UiState.upcoming(),
-            sortUpdated = { },
             edit = { },
             delete = { },
             openCreateNew = { },
             closeDetailPane = { },
-            refresh = { },
+            tagSortUpdated = { _, _ -> },
             navigateToSettings = { }
         )
     }
@@ -300,12 +275,11 @@ private fun PreviewPopulatedExpanded() {
             paddingValues = PaddingValues.Absolute(),
             windowSizeClass = expandedWindowSizeClass,
             uiState = UiState.upcoming(),
-            sortUpdated = { },
             edit = { },
             delete = { },
             openCreateNew = { },
             closeDetailPane = { },
-            refresh = { },
+            tagSortUpdated = { _, _ -> },
             navigateToSettings = { }
         )
     }
@@ -321,7 +295,7 @@ private fun UiState.Companion.empty(
     withAction: Boolean = false
 ): UiState = UiState(
     items = emptyList(),
-    sortOrder = SortOrder.ALPHABETICAL,
+    sortOrder = TagOrdering.ALPHABETICAL,
     action = if (withAction) HomeAction.Add else null
 )
 
@@ -330,7 +304,7 @@ private fun UiState.Companion.upcoming(
     withUpcoming: Boolean = true,
 ): UiState = UiState(
     items = if (withUpcoming) listOf(fakeCountdownUpcoming, fakeCountdownUpcoming.copy(id = "upcoming_2")) else emptyList(),
-    sortOrder = SortOrder.ALPHABETICAL,
+    sortOrder = TagOrdering.ALPHABETICAL,
     action = if (withAction) HomeAction.Add else null
 )
 
