@@ -36,7 +36,8 @@ internal class CountdownMapper @Inject constructor() {
             finishing = model.endValue,
             isRecurring = model is Countdown.Recurring,
             passageType = model.countdownType.key,
-            interpolator = model.interpolator.key
+            interpolator = model.interpolator.key,
+            tagId = model.tag,
         )
     }
 
@@ -49,7 +50,8 @@ internal class CountdownMapper @Inject constructor() {
                 description = model.description,
                 colour = model.colour,
                 day = model.end.split("-")[1].toIntOrNull() ?: 31,
-                month = Month.of(model.end.split("-")[0].toIntOrNull() ?: 12)
+                month = Month.of(model.end.split("-")[0].toIntOrNull() ?: 12),
+                tag = model.tagId
             )
         } else {
             Countdown.Static(
@@ -62,7 +64,8 @@ internal class CountdownMapper @Inject constructor() {
                 startValue = model.initial,
                 endValue = model.finishing,
                 countdownType = model.passageType.toEnum<CountdownType> { it.key }
-                    ?: CountdownType.NUMBER
+                    ?: CountdownType.NUMBER,
+                tag = model.tagId
             )
         }
     }
