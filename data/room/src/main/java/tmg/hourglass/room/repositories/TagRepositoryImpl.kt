@@ -1,6 +1,8 @@
 package tmg.hourglass.room.repositories
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import tmg.hourglass.domain.model.Tag

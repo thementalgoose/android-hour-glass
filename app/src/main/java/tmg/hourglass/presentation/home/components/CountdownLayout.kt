@@ -54,6 +54,7 @@ import tmg.utilities.extensions.format
 @Composable
 fun TagHeader(
     name: String,
+    sort: TagOrdering,
     expanded: Boolean,
     sortClicked: (TagOrdering) -> Unit,
     expandClicked: (Boolean) -> Unit,
@@ -113,6 +114,7 @@ fun TagHeader(
 
     if (sortDialog.value) {
         SortDialog(
+            itemSelected = sort,
             sortUpdated = {
                 sortClicked(it)
             },
@@ -308,7 +310,8 @@ private fun PreviewHeaderExpanded() {
             name = "Tag",
             sortClicked = { _ -> },
             expandClicked = { },
-            expanded = true
+            expanded = true,
+            sort = TagOrdering.ALPHABETICAL
         )
     }
 }
@@ -321,7 +324,8 @@ private fun PreviewHeader() {
             name = "Tag",
             sortClicked = { _ -> },
             expandClicked = { },
-            expanded = false
+            expanded = false,
+            sort = TagOrdering.ALPHABETICAL
         )
     }
 }

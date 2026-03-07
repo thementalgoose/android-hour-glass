@@ -40,12 +40,15 @@ sealed interface ListItem {
     data class TagHeader(
         val tag: Tag,
         val expand: Boolean?,
+        val sort: TagOrdering
     ): ListItem {
         override val id: String
             get() = tag.tagId
     }
 
-    data object UntaggedHeader: ListItem {
+    data class UntaggedHeader(
+        val sort: TagOrdering
+    ): ListItem {
         override val id: String
             get() = "untagged"
     }
@@ -93,7 +96,7 @@ class HomeViewModel @Inject constructor(
     ): List<ListItem> {
         val now = LocalDateTime.now()
         if (list.size == 1 && list.first() is TaggedCountdowns.Untagged) {
-            return listOf(ListItem.UntaggedHeader) + list.first()
+            return listOf(ListItem.UntaggedHeader(untaggedSort)) + list.first()
                 .countdowns
                 .sortBy(now, untaggedSort)
                 .map { ListItem.CountdownItem(it) }
@@ -103,11 +106,11 @@ class HomeViewModel @Inject constructor(
             .map {
                 when (it) {
                     is TaggedCountdowns.Tagged -> {
-                        listOf(ListItem.TagHeader(it.tag, sections.isExpanded(it.tag.tagId))) +
+                        listOf(ListItem.TagHeader(it.tag, sections.isExpanded(it.tag.tagId), it.sort)) +
                                 it.countdowns.map { countdown -> ListItem.CountdownItem(countdown) }
                     }
                     is TaggedCountdowns.Untagged -> {
-                        listOf(ListItem.UntaggedHeader) +
+                        listOf(ListItem.UntaggedHeader(untaggedSort)) +
                                 it.countdowns
                                     .sortBy(now, untaggedSort)
                                     .map { countdown -> ListItem.CountdownItem(countdown) }

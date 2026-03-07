@@ -28,6 +28,7 @@ fun NavKey.isList() = when (this) {
     is Home -> true
     is Modify -> false
     is Add -> false
+    is Tags -> false
     is Settings -> true
     is SettingsBackup -> false
     is SettingsPrivacyPolicy -> false

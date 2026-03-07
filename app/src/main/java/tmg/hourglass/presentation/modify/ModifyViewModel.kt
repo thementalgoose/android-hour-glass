@@ -12,6 +12,9 @@ import tmg.hourglass.core.googleanalytics.CrashReporter
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownType
+import tmg.hourglass.domain.model.Tag
+import tmg.hourglass.domain.repositories.TagRepository
+import tmg.hourglass.navigation.Tags
 import tmg.hourglass.presentation.modify.ModifyMapper.toCountdown
 import tmg.hourglass.presentation.modify.ModifyMapper.toUiState
 import tmg.hourglass.presentation.modify.UiState.Direction.CountDown
@@ -25,6 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ModifyViewModel @Inject constructor(
     private val countdownRepository: CountdownRepository,
+    private val tagRepository: TagRepository,
     private val crashReporter: CrashReporter
 ): ViewModel() {
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(getUiState())
@@ -213,7 +217,7 @@ data class UiState(
     val description: String,
     val colorHex: String,
     val type: CountdownType,
-    val inputTypes: Types
+    val inputTypes: Types,
 ) {
 
     val errors: List<ErrorTypes> by lazy {

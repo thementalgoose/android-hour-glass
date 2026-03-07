@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import kotlinx.coroutines.launch
@@ -60,7 +62,7 @@ internal fun TagScreenVM(
     TagContent(
         paddingValues = paddingValues,
         uiState = uiState.value,
-        showActionUp = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
+        windowSizeClass = windowSizeClass,
         actionUpClicked = actionUpClicked,
         insertTag = viewModel::insertTag,
         deleteTag = viewModel::deleteTag,
@@ -72,7 +74,7 @@ internal fun TagScreenVM(
 private fun TagContent(
     paddingValues: PaddingValues,
     uiState: TagUiState,
-    showActionUp: Boolean,
+    windowSizeClass: WindowSizeClass,
     actionUpClicked: () -> Unit,
     insertTag: (String) -> Unit,
     deleteTag: (Tag) -> Unit,
@@ -88,11 +90,10 @@ private fun TagContent(
     ) {
         item(key = "header") {
             TitleBar(
-                modifier = Modifier.animateItem(),
                 titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
                 title = stringResource(string.tag_title),
+                showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
                 actionUpClicked = actionUpClicked,
-                showBack = showActionUp
             )
         }
         item("add") {
@@ -120,6 +121,12 @@ private fun TagContent(
                     },
                 )
             }
+        }
+        item(key = "divider") {
+            HorizontalDivider(
+                color = AppTheme.colors.backgroundTertiary,
+                modifier = Modifier.padding(AppTheme.dimensions.paddingMedium)
+            )
         }
         items(uiState.tags, key = { it.tagId }) {
             TagView(
@@ -181,7 +188,7 @@ private fun Preview() {
         TagContent(
             paddingValues = PaddingValues(),
             uiState = uiState,
-            showActionUp = true,
+            windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(400.dp, 700.dp)),
             actionUpClicked = { },
             insertTag = { },
             deleteTag = { },

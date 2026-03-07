@@ -1,5 +1,6 @@
 package tmg.hourglass.presentation
 
+import android.util.Log
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -67,7 +68,9 @@ fun AppGraph(
                     navigateToAdd = { backStack.replaceDetail(Add) },
                     navigateToModify = { backStack.replaceDetail(Modify(it)) },
                     navigateToSettings = { backStack.navigateToSettings() },
-                    navigateToTags = { backStack.replaceDetail(Tags) }
+                    navigateToTags = {
+                        backStack.replaceDetail(Tags)
+                    }
                 )
             }
             entry<Add>(metadata = detailPane()) {

@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import kotlinx.coroutines.selects.select
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.layout.DataRangeDateLayout
@@ -30,6 +31,7 @@ import tmg.hourglass.presentation.modify.layout.PersonaliseLayout
 import tmg.hourglass.presentation.modify.layout.DataSingleDateLayout
 import tmg.hourglass.presentation.modify.layout.SaveLayout
 import tmg.hourglass.presentation.modify.layout.TypeLayout
+import tmg.hourglass.presentation.modify.tag.TagDialog
 import tmg.hourglass.presentation.tag.TagScreenVM
 import tmg.hourglass.strings.R
 
@@ -62,17 +64,17 @@ fun ModifyScreenVM(
             showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
             actionUpClicked = actionUpClicked,
             overflowActions = {
-                IconButton(
-                    onClick = {
-
-                    }
-                ) {
-                    Icon(
-                        painter = painterResource(tmg.hourglass.R.drawable.ic_tag),
-                        contentDescription = null,
-                        tint = AppTheme.colors.textPrimary,
-                    )
-                }
+//                IconButton(
+//                    onClick = {
+//                        tagDialog.value = true
+//                    }
+//                ) {
+//                    Icon(
+//                        painter = painterResource(tmg.hourglass.R.drawable.ic_tag),
+//                        contentDescription = null,
+//                        tint = AppTheme.colors.textPrimary,
+//                    )
+//                }
             }
         )
 

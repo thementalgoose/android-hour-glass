@@ -27,7 +27,7 @@ fun Header(
         modifier = modifier,
         title = stringResource(id = R.string.app_name),
         overflowActions = {
-            if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
+            if (BuildConfig.DEBUG) {
                 IconButton(
                     onClick = navigateToTags,
                     content = {
@@ -39,16 +39,18 @@ fun Header(
                     }
                 )
             }
-            IconButton(
-                onClick = navigateToSettings,
-                content = {
-                    Icon(
-                        imageVector = Icons.Outlined.Settings,
-                        contentDescription = stringResource(string.menu_settings),
-                        tint = AppTheme.colors.textPrimary
-                    )
-                }
-            )
+            if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
+                IconButton(
+                    onClick = navigateToSettings,
+                    content = {
+                        Icon(
+                            imageVector = Icons.Outlined.Settings,
+                            contentDescription = stringResource(string.menu_settings),
+                            tint = AppTheme.colors.textPrimary
+                        )
+                    }
+                )
+            }
         }
     )
 }

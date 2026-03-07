@@ -192,7 +192,8 @@ internal fun ListScreen(
                                 },
                                 expanded = it.expand ?: false,
                                 showCollapse = true,
-                                modifier = Modifier.padding(top = AppTheme.dimensions.paddingMedium)
+                                modifier = Modifier.padding(top = AppTheme.dimensions.paddingMedium),
+                                sort = it.sort
                             )
                         }
                         is ListItem.UntaggedHeader -> {
@@ -204,7 +205,8 @@ internal fun ListScreen(
                                 expandClicked = { },
                                 expanded = false,
                                 showCollapse = false,
-                                modifier = Modifier.padding(top = AppTheme.dimensions.paddingMedium)
+                                modifier = Modifier.padding(top = AppTheme.dimensions.paddingMedium),
+                                sort = it.sort
                             )
                         }
                     }
@@ -320,7 +322,8 @@ private fun UiState.Companion.tagged(): UiState = UiState(
     items = listOf(
         ListItem.TagHeader(
             tag = Tag("tag1", "A", "", TagOrdering.ALPHABETICAL),
-            expand = true
+            expand = true,
+            sort = TagOrdering.ALPHABETICAL
         ),
         ListItem.CountdownItem(
             countdown = fakeCountdownUpcoming.copy(id = "upcoming_1")
@@ -330,7 +333,8 @@ private fun UiState.Companion.tagged(): UiState = UiState(
         ),
         ListItem.TagHeader(
             tag = Tag("tag2", "A", "", TagOrdering.ALPHABETICAL),
-            expand = true
+            expand = true,
+            sort = TagOrdering.ALPHABETICAL
         ),
         ListItem.CountdownItem(
             countdown = fakeCountdownUpcoming.copy(id = "upcoming_3")
