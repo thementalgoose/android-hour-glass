@@ -1,8 +1,8 @@
 package tmg.hourglass.presentation.settings.backup
 
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -31,6 +30,7 @@ const val MIME_TYPE = "application/octet-stream"
 
 @Composable
 fun BackupScreen(
+    paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     backClicked: () -> Unit,
     viewModel: BackupViewModel = hiltViewModel()
@@ -44,6 +44,7 @@ fun BackupScreen(
     }
 
     LazyColumn(
+        contentPadding = paddingValues,
         modifier = Modifier.fillMaxSize()
     ) {
         item(key = "edgetoedge-header") {

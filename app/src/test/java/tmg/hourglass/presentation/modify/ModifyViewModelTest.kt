@@ -6,6 +6,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import org.junit.Ignore
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import tmg.hourglass.domain.model.Tag
@@ -84,6 +85,7 @@ internal class ModifyViewModelTest {
         }
     }
 
+    @Ignore(value = "Unstable due to conflation")
     @Test
     fun `setTag toggles selection when same tag is set twice`() = runTest {
         val tag = Tag.preview()

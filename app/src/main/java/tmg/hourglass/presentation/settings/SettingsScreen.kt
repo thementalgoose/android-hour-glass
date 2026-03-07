@@ -54,6 +54,7 @@ internal fun SettingsScreenVM(
     val context = LocalContext.current
 
     SettingsOverviewScreen(
+        paddingValues = paddingValues,
         windowSizeClass = windowSize,
         uiState = uiState.value,
         setTheme = viewModel::setTheme,
@@ -74,6 +75,7 @@ internal fun SettingsScreenVM(
 
 @Composable
 private fun SettingsOverviewScreen(
+    paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
     setTheme: (ThemePref) -> Unit,
@@ -94,6 +96,7 @@ private fun SettingsOverviewScreen(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
+        contentPadding = paddingValues,
         content = {
             item(key = "edgetoedge-header") {
                 Spacer(Modifier.statusBarsPadding())
@@ -232,6 +235,7 @@ private fun SettingsOverviewScreen(
 private fun PreviewOverview() {
     AppThemePreview {
         SettingsOverviewScreen(
+            paddingValues = PaddingValues(),
             windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(300.dp, 400.dp)),
             uiState = UiState(
                 screen = null,

@@ -17,6 +17,7 @@ class PrivacyPolicyActivity: AppCompatActivity() {
             AppTheme {
                 Scaffold(content = {
                     PrivacyPolicyLayout(
+                        paddingValues = it,
                         windowSizeClass = calculateWindowSizeClass(this@PrivacyPolicyActivity),
                         backClicked = {
                             finish()
