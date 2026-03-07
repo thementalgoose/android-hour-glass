@@ -1,12 +1,9 @@
 package tmg.hourglass.domain
 
-import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.domain.model.CountdownNotifications
-import java.time.LocalDateTime
+import tmg.hourglass.domain.model.Tag
 import java.time.Month
-import kotlin.String
 
 fun Countdown.Static.Companion.model(
     id: String = "countdownId",
@@ -20,7 +17,7 @@ fun Countdown.Static.Companion.model(
     endValue: String = "end",
 
     countdownType: CountdownType = CountdownType.DAYS,
-    tag: String? = null
+    tag: Tag? = null
 ): Countdown.Static = Countdown.Static(
     id = id,
     name = name,
@@ -41,7 +38,7 @@ fun Countdown.Recurring.Companion.model(
     colour: String = "colour",
     day: Int = 1,
     month: Month = Month.JANUARY,
-    tag: String? = null
+    tag: Tag? = null
 ): Countdown.Recurring = Countdown.Recurring(
     id = id,
     name = name,
