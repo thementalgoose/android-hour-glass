@@ -4,11 +4,13 @@ import android.text.method.LinkMovementMethod
 import android.widget.TextView
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -30,40 +32,41 @@ import tmg.hourglass.presentation.layouts.TitleBar
 
 @Composable
 fun PrivacyPolicyLayout(
+    paddingValues: PaddingValues,
     backClicked: () -> Unit,
     windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier
 ) {
-    val scrollState = rememberScrollState()
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
+    LazyColumn(
+        modifier = modifier.fillMaxSize(),
+        contentPadding = paddingValues
     ) {
-        Spacer(Modifier.statusBarsPadding())
-        TitleBar(
-            titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
-            title = stringResource(id = string.settings_help_privacy_policy_title),
-            showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
-            actionUpClicked = backClicked
-        )
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = AppTheme.dimensions.paddingMedium,
-                end = AppTheme.dimensions.paddingMedium,
-                bottom = AppTheme.dimensions.paddingLarge
-            )) {
-            val textColor = AppTheme.colors.textPrimary.toArgb()
-            AndroidView(factory = { context ->
-                TextView(context).apply {
-                    setTextColor(textColor)
-                    text = HtmlCompat.fromHtml(context.getString(string.privacy_policy_data), HtmlCompat.FROM_HTML_MODE_LEGACY)
-                    movementMethod = LinkMovementMethod.getInstance()
-                }
-            })
+        item("title") {
+            TitleBar(
+                titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
+                title = stringResource(id = string.settings_help_privacy_policy_title),
+                showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
+                actionUpClicked = backClicked
+            )
         }
-        Spacer(Modifier.navigationBarsPadding())
+        item("content") {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    start = AppTheme.dimensions.paddingMedium,
+                    end = AppTheme.dimensions.paddingMedium,
+                    bottom = AppTheme.dimensions.paddingLarge
+                )) {
+                val textColor = AppTheme.colors.textPrimary.toArgb()
+                AndroidView(factory = { context ->
+                    TextView(context).apply {
+                        setTextColor(textColor)
+                        text = HtmlCompat.fromHtml(context.getString(string.privacy_policy_data), HtmlCompat.FROM_HTML_MODE_LEGACY)
+                        movementMethod = LinkMovementMethod.getInstance()
+                    }
+                })
+            }
+        }
     }
 }
 
@@ -72,8 +75,9 @@ fun PrivacyPolicyLayout(
 private fun Preview() {
     AppThemePreview(isLight = true) {
         PrivacyPolicyLayout(
+            paddingValues = PaddingValues(),
             windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(400.dp, 600.dp)),
-            backClicked = { }
+            backClicked = { },
         )
     }
 }

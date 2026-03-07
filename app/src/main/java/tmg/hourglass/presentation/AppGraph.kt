@@ -121,16 +121,18 @@ fun AppGraph(
                     }
                 )
             }
-            entry<SettingsPrivacyPolicy>(metadata = listPane()) {
+            entry<SettingsPrivacyPolicy>(metadata = detailPane()) {
                 PrivacyPolicyLayout(
+                    paddingValues = paddingValues,
                     windowSizeClass = windowSize,
                     backClicked = {
                         backStack.removeDetail()
                     }
                 )
             }
-            entry<SettingsBackup>(metadata = listPane()) {
+            entry<SettingsBackup>(metadata = detailPane()) {
                 BackupScreen(
+                    paddingValues = paddingValues,
                     windowSizeClass = windowSize,
                     backClicked = {
                         backStack.removeDetail()
