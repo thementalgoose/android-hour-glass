@@ -125,14 +125,12 @@ fun ModifyScreenVM(
             }
         }
 
-        if (BuildConfig.DEBUG) {
-            TagLayout(
-                tags = uiState.value.allTags,
-                selected = uiState.value.tag,
-                selectTag = viewModel::setTag,
-                navigateToTag = navigateToTag
-            )
-        }
+        TagLayout(
+            tags = uiState.value.allTags,
+            selected = uiState.value.tag,
+            selectTag = viewModel::setTag,
+            navigateToTag = navigateToTag
+        )
 
         SaveLayout(
             isEdit = countdownId != null,

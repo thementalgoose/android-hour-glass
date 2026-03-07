@@ -31,18 +31,16 @@ fun Header(
         modifier = modifier,
         title = stringResource(id = R.string.app_name),
         overflowActions = {
-            if (BuildConfig.DEBUG) {
-                IconButton(
-                    onClick = navigateToTags,
-                    content = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_tag),
-                            contentDescription = stringResource(string.menu_tags),
-                            tint = AppTheme.colors.textPrimary
-                        )
-                    }
-                )
-            }
+            IconButton(
+                onClick = navigateToTags,
+                content = {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_tag),
+                        contentDescription = stringResource(string.menu_tags),
+                        tint = AppTheme.colors.textPrimary
+                    )
+                }
+            )
             if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
                 IconButton(
                     onClick = navigateToSettings,
