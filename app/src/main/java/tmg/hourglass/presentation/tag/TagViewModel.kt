@@ -1,4 +1,4 @@
-package tmg.hourglass.presentation.modify.tag
+package tmg.hourglass.presentation.tag
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

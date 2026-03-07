@@ -6,9 +6,9 @@ import tmg.hourglass.presentation.navigation.NavigationItem
 import tmg.hourglass.strings.R.string
 
 enum class Tab(
-    @DrawableRes
+    @param:DrawableRes
     val icon: Int,
-    @StringRes
+    @param:StringRes
     val label: Int
 ) {
     DASHBOARD(

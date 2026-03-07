@@ -43,6 +43,9 @@ data class Modify(
 ): NavKey
 
 @Serializable
+data object Tags: NavKey
+
+@Serializable
 data object Add: NavKey
 
 @Serializable

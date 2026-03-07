@@ -57,6 +57,7 @@ internal fun HomeScreenVM(
     navigateToAdd: () -> Unit,
     navigateToModify: (id: String) -> Unit,
     navigateToSettings: () -> Unit,
+    navigateToTags: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState()
@@ -70,8 +71,9 @@ internal fun HomeScreenVM(
         untaggedSort = viewModel::untaggedSort,
         edit = { navigateToModify(it.id) },
         delete = viewModel::delete,
-        openCreateNew = { navigateToAdd() },
-        navigateToSettings = { navigateToSettings() },
+        openCreateNew = navigateToAdd,
+        navigateToSettings = navigateToSettings,
+        navigateToTags = navigateToTags
     )
 }
 
@@ -87,6 +89,7 @@ internal fun HomeScreen(
     delete: (Countdown) -> Unit,
     openCreateNew: () -> Unit,
     navigateToSettings: () -> Unit,
+    navigateToTags: () -> Unit,
 ) {
     ListScreen(
         paddingValues = paddingValues,
@@ -97,7 +100,8 @@ internal fun HomeScreen(
         untaggedSort = untaggedSort,
         tagSortUpdated = tagSortUpdated,
         tagExpanded = tagExpanded,
-        navigateToSettings = navigateToSettings
+        navigateToSettings = navigateToSettings,
+        navigateToTags = navigateToTags
     )
     Box(
         modifier = Modifier
@@ -119,6 +123,7 @@ internal fun ListScreen(
     paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     navigateToSettings: () -> Unit,
+    navigateToTags: () -> Unit,
     tagSortUpdated: (Tag, TagOrdering) -> Unit,
     untaggedSort: (TagOrdering) -> Unit,
     tagExpanded: (Tag, Boolean) -> Unit,
@@ -142,7 +147,8 @@ internal fun ListScreen(
                 Header(
                     modifier = Modifier.animateItem(),
                     windowSizeClass = windowSizeClass,
-                    navigateToSettings = navigateToSettings
+                    navigateToSettings = navigateToSettings,
+                    navigateToTags = navigateToTags
                 )
             }
             if (uiState.isEmpty) {
@@ -241,7 +247,8 @@ private fun PreviewEmpty() {
             tagSortUpdated = { _, _ -> },
             tagExpanded = { _, _ -> },
             untaggedSort = { },
-            navigateToSettings = { }
+            navigateToSettings = { },
+            navigateToTags = { }
         )
     }
 }
@@ -261,7 +268,8 @@ private fun PreviewUntagged() {
             tagSortUpdated = { _, _ -> },
             tagExpanded = { _, _ -> },
             untaggedSort = { },
-            navigateToSettings = { }
+            navigateToSettings = { },
+            navigateToTags = { }
         )
     }
 }
@@ -282,7 +290,8 @@ private fun PreviewTagged() {
             tagSortUpdated = { _, _ -> },
             tagExpanded = { _, _ -> },
             untaggedSort = { },
-            navigateToSettings = { }
+            navigateToSettings = { },
+            navigateToTags = { }
         )
     }
 }

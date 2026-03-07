@@ -1,10 +1,11 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package tmg.hourglass.presentation.modify.tag
+package tmg.hourglass.presentation.tag
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,9 +15,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import kotlinx.coroutines.launch
 import tmg.hourglass.R
@@ -35,13 +37,16 @@ import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.buttons.PrimaryButton
 import tmg.hourglass.presentation.inputs.Input
+import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.textviews.TextBody1
-import tmg.hourglass.presentation.textviews.TextHeader1
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R.string
 
 @Composable
-internal fun TagBottomSheet(
+internal fun TagScreenVM(
+    paddingValues: PaddingValues,
+    actionUpClicked: () -> Unit,
+    windowSizeClass: WindowSizeClass,
     viewModel: TagViewModel = hiltViewModel()
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -52,50 +57,23 @@ internal fun TagBottomSheet(
         coroutineScope.launch { sheetState.expand() }
     }
 
-    TagBottomSheet(
+    TagContent(
+        paddingValues = paddingValues,
         uiState = uiState.value,
+        showActionUp = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
+        actionUpClicked = actionUpClicked,
         insertTag = viewModel::insertTag,
         deleteTag = viewModel::deleteTag,
         inputTag = viewModel::inputTag,
-        sheetState = sheetState
-    )
-}
-
-@Composable
-private fun TagBottomSheet(
-    uiState: TagUiState,
-    insertTag: (String) -> Unit,
-    deleteTag: (Tag) -> Unit,
-    inputTag: (String) -> Unit,
-    sheetState: SheetState,
-    modifier: Modifier = Modifier,
-) {
-    val coroutineScope = rememberCoroutineScope()
-
-    ModalBottomSheet(
-        modifier = modifier,
-        sheetState = sheetState,
-        onDismissRequest = {
-            coroutineScope.launch { sheetState.hide() }
-        },
-        content = {
-            TagContent(
-                uiState = uiState,
-                close = {
-                    coroutineScope.launch { sheetState.hide() }
-                },
-                insertTag = insertTag,
-                deleteTag = deleteTag,
-                inputTag = inputTag,
-            )
-        }
     )
 }
 
 @Composable
 private fun TagContent(
+    paddingValues: PaddingValues,
     uiState: TagUiState,
-    close: () -> Unit,
+    showActionUp: Boolean,
+    actionUpClicked: () -> Unit,
     insertTag: (String) -> Unit,
     deleteTag: (Tag) -> Unit,
     inputTag: (String) -> Unit,
@@ -104,39 +82,30 @@ private fun TagContent(
     LazyColumn(
         modifier = modifier
             .padding(
-                horizontal = AppTheme.dimensions.paddingMedium,
                 vertical = AppTheme.dimensions.paddingMedium
             ),
-        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall)
+        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingSmall)
     ) {
         item(key = "header") {
-            Row {
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    TextHeader1(stringResource(string.tag_title))
-                    TextBody1(stringResource(string.tag_subtitle))
-                }
-                IconButton(
-                    onClick = close
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_close),
-                        contentDescription = null,
-                        tint = AppTheme.colors.textSecondary
-                    )
-                }
-            }
-        }
-        items(uiState.tags, key = { it.tagId }) {
-            TagView(
-                tag = it,
-                deleteTag = deleteTag,
+            TitleBar(
+                modifier = Modifier.animateItem(),
+                titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
+                title = stringResource(string.tag_title),
+                actionUpClicked = actionUpClicked,
+                showBack = showActionUp
             )
         }
         item("add") {
-            Column(Modifier.fillMaxWidth()) {
-                TextHeader2(stringResource(string.tag_save))
+            Column(
+                modifier = Modifier
+                    .animateItem()
+                    .fillMaxWidth()
+                    .padding(horizontal = AppTheme.dimensions.paddingMedium),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                TextHeader2(
+                    text = stringResource(string.tag_save)
+                )
                 Input(
                     inputUpdated = inputTag,
                     hint = stringResource(string.tag_hint),
@@ -152,6 +121,15 @@ private fun TagContent(
                 )
             }
         }
+        items(uiState.tags, key = { it.tagId }) {
+            TagView(
+                modifier = Modifier
+                    .animateItem()
+                    .padding(horizontal = AppTheme.dimensions.paddingMedium),
+                tag = it,
+                deleteTag = deleteTag,
+            )
+        }
     }
 }
 
@@ -166,8 +144,9 @@ private fun TagView(
             .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
             .background(AppTheme.colors.backgroundSecondary)
             .padding(
-                horizontal = AppTheme.dimensions.paddingMedium,
-                vertical = AppTheme.dimensions.paddingSmall
+                start = AppTheme.dimensions.paddingMedium,
+                top = AppTheme.dimensions.paddingSmall,
+                bottom = AppTheme.dimensions.paddingSmall
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -176,7 +155,7 @@ private fun TagView(
             text = tag.name
         )
         IconButton(
-            onClick = { }
+            onClick = { deleteTag(tag) }
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_delete),
@@ -200,8 +179,10 @@ private fun Preview() {
             tagInput = ""
         )
         TagContent(
+            paddingValues = PaddingValues(),
             uiState = uiState,
-            close = { },
+            showActionUp = true,
+            actionUpClicked = { },
             insertTag = { },
             deleteTag = { },
             inputTag = { },

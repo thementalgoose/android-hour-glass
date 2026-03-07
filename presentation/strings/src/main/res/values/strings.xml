@@ -131,6 +131,7 @@
     <!-- Menu -->
     <string name="menu_dashboard">Home</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_tags">Tags</string>
     <string name="menu_sort">Sort</string>
     <string name="menu_sort_alphabetical">Alphabetical</string>
     <string name="menu_finishing_soonest">Finishing soonest</string>

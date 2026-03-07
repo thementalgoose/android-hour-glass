@@ -90,6 +90,7 @@
     <!-- Menu -->
     <string name="menu_dashboard">Inicio</string>
     <string name="menu_settings">Ajustes</string>
+    <string name="menu_tags">Tags</string>
     <string name="menu_sort">Ordenar</string>
     <string name="menu_sort_alphabetical">Alfabética</string>
     <string name="menu_finishing_soonest">Terminar lo antes posible</string>

@@ -8,7 +8,9 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.layouts.TitleBar
@@ -18,7 +20,8 @@ import tmg.hourglass.strings.R.string
 fun Header(
     windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier,
-    navigateToSettings: () -> Unit
+    navigateToSettings: () -> Unit,
+    navigateToTags: () -> Unit,
 ) {
     TitleBar(
         modifier = modifier,
@@ -26,16 +29,26 @@ fun Header(
         overflowActions = {
             if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
                 IconButton(
-                    onClick = navigateToSettings,
+                    onClick = navigateToTags,
                     content = {
                         Icon(
-                            imageVector = Icons.Outlined.Settings,
-                            contentDescription = stringResource(string.menu_settings),
+                            painter = painterResource(R.drawable.ic_tag),
+                            contentDescription = stringResource(string.menu_tags),
                             tint = AppTheme.colors.textPrimary
                         )
                     }
                 )
             }
+            IconButton(
+                onClick = navigateToSettings,
+                content = {
+                    Icon(
+                        imageVector = Icons.Outlined.Settings,
+                        contentDescription = stringResource(string.menu_settings),
+                        tint = AppTheme.colors.textPrimary
+                    )
+                }
+            )
         }
     )
 }

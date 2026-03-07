@@ -29,12 +29,17 @@ class GetTaggedCountdownsUseCase @Inject constructor(
                 for (tag in tags) {
                     val taggedCountdowns = countdowns.filter { it.tag == tag.tagId }
                         .also { countdownSet.removeAll(it) }
-                    add(TaggedCountdowns.Tagged(
-                        tag = tag,
-                        countdowns = taggedCountdowns
-                            .toList()
-                            .sortBy(now, tag.sort)
-                    ))
+
+                    if (taggedCountdowns.isNotEmpty()) {
+                        add(
+                            TaggedCountdowns.Tagged(
+                                tag = tag,
+                                countdowns = taggedCountdowns
+                                    .toList()
+                                    .sortBy(now, tag.sort)
+                            )
+                        )
+                    }
                 }
 
                 if (countdownSet.isNotEmpty()) {
