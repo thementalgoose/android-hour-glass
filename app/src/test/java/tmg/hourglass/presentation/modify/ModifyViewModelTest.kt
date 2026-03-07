@@ -85,29 +85,6 @@ internal class ModifyViewModelTest {
         }
     }
 
-    @Ignore(value = "Unstable due to conflation")
-    @Test
-    fun `setTag toggles selection when same tag is set twice`() = runTest {
-        val tag = Tag.preview()
-        every { mockTagRepository.getAll() } returns flow { emit(listOf(tag)) }
-
-        initUnderTest()
-
-        underTest.uiState.test {
-            // consume initial emissions (initial + tags) to ensure combined state has applied tags
-            awaitItem()
-            awaitItem()
-
-            underTest.setTag(tag)
-            val withTag = awaitItem()
-            assertEquals(tag, withTag.tag)
-
-            underTest.setTag(tag)
-            val toggled = awaitItem()
-            assertEquals(null, toggled.tag)
-        }
-    }
-
     @Test
     fun `save when invalid logs exception and does not save`() = runTest {
         every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
