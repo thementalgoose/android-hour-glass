@@ -47,9 +47,6 @@ fun BackupScreen(
         contentPadding = paddingValues,
         modifier = Modifier.fillMaxSize()
     ) {
-        item(key = "edgetoedge-header") {
-            Spacer(Modifier.statusBarsPadding())
-        }
         item(key = "header") {
             TitleBar(
                 titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),

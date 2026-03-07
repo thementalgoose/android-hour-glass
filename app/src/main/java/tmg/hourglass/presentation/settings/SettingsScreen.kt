@@ -98,9 +98,6 @@ private fun SettingsOverviewScreen(
         modifier = Modifier.fillMaxSize(),
         contentPadding = paddingValues,
         content = {
-            item(key = "edgetoedge-header") {
-                Spacer(Modifier.statusBarsPadding())
-            }
             item(key = "header") {
                 TitleBar(
                     titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
