@@ -6,6 +6,10 @@
     <string name="placeholder_title">No items found</string>
 
     <string name="title_all">All</string>
+    <string name="tag_title">Tags</string>
+    <string name="tag_subtitle">Group countdowns together by assigning them a tag</string>
+    <string name="tag_hint">Tag</string>
+    <string name="tag_save">Add tag</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>

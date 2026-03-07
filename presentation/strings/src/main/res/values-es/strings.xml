@@ -4,6 +4,12 @@
     <!-- Placeholder -->
     <string name="placeholder_title">No se encontraron elementos</string>
 
+    <string name="title_all">Todos</string>
+    <string name="tag_title">Etiquetas</string>
+    <string name="tag_subtitle">Agrupa las cuentas atrás asignándoles una etiqueta</string>
+    <string name="tag_hint">Etiqueta</string>
+    <string name="tag_save">Agregar etiqueta</string>
+
     <!-- Settings -->
     <string name="settings_title">Ajustes</string>
     <string name="settings_theme">Tema</string>

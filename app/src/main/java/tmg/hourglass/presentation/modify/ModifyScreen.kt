@@ -3,18 +3,23 @@ package tmg.hourglass.presentation.modify
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material3.SegmentedButtonDefaults.Icon
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import tmg.hourglass.domain.model.Countdown
@@ -54,7 +59,18 @@ fun ModifyScreenVM(
             titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
             title = stringResource(id = if (countdownId != null) R.string.modify_header_edit else R.string.modify_header_add),
             showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
-            actionUpClicked = actionUpClicked
+            actionUpClicked = actionUpClicked,
+            overflowActions = {
+                IconButton(
+                    onClick = { }
+                ) {
+                    Icon(
+                        painter = painterResource(tmg.hourglass.R.drawable.ic_tag),
+                        contentDescription = null,
+                        tint = AppTheme.colors.textPrimary,
+                    )
+                }
+            }
         )
 
         PersonaliseLayout(
