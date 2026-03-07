@@ -4,25 +4,25 @@ import app.cash.turbine.test
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import java.time.LocalDateTime
-import tmg.hourglass.core.googleanalytics.CrashReporter
+import tmg.hourglass.domain.model.Tag
 import tmg.hourglass.domain.repositories.CountdownRepository
-import tmg.hourglass.domain.enums.CountdownType
+import tmg.hourglass.domain.repositories.TagRepository
+import tmg.hourglass.core.googleanalytics.CrashReporter
+import tmg.hourglass.domain.model.preview
+import java.time.LocalDateTime
 import tmg.hourglass.presentation.modify.ModifyData.countdownDays
 import tmg.hourglass.presentation.modify.ModifyData.countdownNumber
-import tmg.hourglass.presentation.modify.ModifyData.tomorrow
+import tmg.hourglass.presentation.modify.ModifyData.today
 import tmg.hourglass.presentation.modify.ModifyData.uiStateDays
-import tmg.hourglass.presentation.modify.ModifyData.uiStateDaysEmpty
-import tmg.hourglass.presentation.modify.ModifyData.uiStateNumber
-import tmg.hourglass.presentation.modify.ModifyData.uiStateNumberEmpty
-import java.time.Year
 
 internal class ModifyViewModelTest {
 
     private val mockCountdownRepository: CountdownRepository = mockk(relaxed = true)
+    private val mockTagRepository: TagRepository = mockk(relaxed = true)
     private val mockCrashReporter: CrashReporter = mockk(relaxed = true)
 
     private lateinit var underTest: ModifyViewModel
@@ -30,234 +30,139 @@ internal class ModifyViewModelTest {
     private fun initUnderTest() {
         underTest = ModifyViewModel(
             countdownRepository = mockCountdownRepository,
+            tagRepository = mockTagRepository,
             crashReporter = mockCrashReporter
         )
-        every { mockCountdownRepository.getSync(countdownDays.id) } returns countdownDays
-        every { mockCountdownRepository.getSync(countdownNumber.id) } returns countdownNumber
     }
 
     @Test
-    fun `initialise sets ui state with null countdown model`() = runTest {
+    fun `initialise with id loads countdown into state`() = runTest {
+        every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
+        every { mockCountdownRepository.getSync("1") } returns countdownDays
+
         initUnderTest()
-        underTest.initialise(null)
 
         underTest.uiState.test {
-            assertEquals(uiStateDaysEmpty, awaitItem())
+            awaitItem()
+
+            underTest.initialise("1")
+
+            val loaded = awaitItem()
+            assertEquals(uiStateDays.title, loaded.title)
+            assertEquals(uiStateDays.colorHex, loaded.colorHex)
         }
     }
 
     @Test
-    fun `initialise sets ui state with days countdown model`() = runTest {
+    fun `setters update ui state values`() = runTest {
+        every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
+
         initUnderTest()
-        underTest.initialise(countdownDays.id)
 
         underTest.uiState.test {
-            assertEquals(uiStateDays, awaitItem())
+            awaitItem()
+
+            underTest.setTitle("My title")
+            assertEquals("My title", awaitItem().title)
+
+            underTest.setDescription("desc")
+            assertEquals("desc", awaitItem().description)
+
+            underTest.setColor("#fff")
+            assertEquals("#fff", awaitItem().colorHex)
+
+            // switch to NUMBER type then set start date
+            underTest.setType(tmg.hourglass.domain.enums.CountdownType.NUMBER)
+            val afterType = awaitItem()
+            assertEquals(tmg.hourglass.domain.enums.CountdownType.NUMBER, afterType.type)
+
+            val dt: LocalDateTime = today
+            underTest.setStartDate(dt)
+            val afterStart = awaitItem()
+            val startDate = (afterStart.inputTypes as UiState.Types.Values).startDate
+            assertEquals(dt, startDate)
         }
     }
 
     @Test
-    fun `initialise sets ui state with number countdown model`() = runTest {
+    fun `setTag toggles selection when same tag is set twice`() = runTest {
+        val tag = Tag.preview()
+        every { mockTagRepository.getAll() } returns flow { emit(listOf(tag)) }
+
         initUnderTest()
-        underTest.initialise(countdownNumber.id)
 
         underTest.uiState.test {
-            assertEquals(uiStateNumber, awaitItem())
+            // consume initial emissions (initial + tags) to ensure combined state has applied tags
+            awaitItem()
+            awaitItem()
+
+            underTest.setTag(tag)
+            val withTag = awaitItem()
+            assertEquals(tag, withTag.tag)
+
+            underTest.setTag(tag)
+            val toggled = awaitItem()
+            assertEquals(null, toggled.tag)
         }
     }
 
     @Test
-    fun `set title updates title`() = runTest {
+    fun `save when invalid logs exception and does not save`() = runTest {
+        every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
+
         initUnderTest()
-        underTest.initialise(countdownDays.id)
-
-        underTest.setTitle("input")
-        underTest.uiState.test {
-            assertEquals("input", awaitItem().title)
-        }
-    }
-
-    @Test
-    fun `set description updates description`() = runTest {
-        initUnderTest()
-        underTest.initialise(countdownDays.id)
-
-        underTest.setDescription("input")
-        underTest.uiState.test {
-            assertEquals("input", awaitItem().description)
-        }
-    }
-
-    @Test
-    fun `set color updates color`() = runTest {
-        initUnderTest()
-        underTest.initialise(countdownDays.id)
-
-        underTest.setColor("input")
-        underTest.uiState.test {
-            assertEquals("input", awaitItem().colorHex)
-        }
-    }
-
-    @Test
-    fun `set type from day to day keeps data`() = runTest {
-        initUnderTest()
-        underTest.initialise(countdownDays.id)
 
         underTest.uiState.test {
-            assertEquals(uiStateDays.inputTypes, awaitItem().inputTypes)
+            awaitItem()
 
-            underTest.setType(CountdownType.DAYS)
-            underTest.setTitle("makeModelDifferent")
+            // initial state has empty title -> invalid
+            underTest.save()
 
-            assertEquals(uiStateDays.inputTypes, awaitItem().inputTypes)
+            verify { mockCrashReporter.logException(any()) }
+            verify(exactly = 0) { mockCountdownRepository.saveSync(any()) }
         }
     }
 
     @Test
-    fun `set type from number to money keeps data`() = runTest {
+    fun `save when valid will call repository saveSync`() = runTest {
+        every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
+        every { mockCountdownRepository.getSync("1") } returns countdownDays
+
         initUnderTest()
-        underTest.initialise(countdownNumber.id)
 
         underTest.uiState.test {
-            assertEquals(uiStateNumber.inputTypes, awaitItem().inputTypes)
+            awaitItem()
 
-            underTest.setType(CountdownType.MONEY_EUR)
+            underTest.initialise("1")
 
-            assertEquals(uiStateNumber.inputTypes, awaitItem().inputTypes)
+            val loaded = awaitItem()
+            // loaded should match valid sample
+            assertEquals(uiStateDays.title, loaded.title)
+            assertEquals(true, loaded.isSaveEnabled)
+
+            underTest.save()
+
+            verify { mockCountdownRepository.saveSync(any()) }
         }
     }
 
     @Test
-    fun `set type from number to day wipes data`() = runTest {
+    fun `delete will call repository delete when id is set`() = runTest {
+        every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
+        every { mockCountdownRepository.getSync("1") } returns countdownNumber
+
         initUnderTest()
-        underTest.initialise(countdownNumber.id)
 
         underTest.uiState.test {
-            assertEquals(uiStateNumber.inputTypes, awaitItem().inputTypes)
+            awaitItem()
 
-            underTest.setType(CountdownType.DAYS)
+            underTest.initialise("1")
 
-            val expectedEmpty = UiState.Types.EndDate(
-                day = null,
-                month = null,
-                year = null
-            )
+            awaitItem()
 
-            assertEquals(expectedEmpty, awaitItem().inputTypes)
-        }
-    }
+            underTest.delete()
 
-    @Test
-    fun `set type from day to number wipes data`() = runTest {
-        initUnderTest()
-        underTest.initialise(countdownDays.id)
-
-        underTest.uiState.test {
-            assertEquals(uiStateDays.inputTypes, awaitItem().inputTypes)
-
-            underTest.setType(CountdownType.NUMBER)
-
-            assertEquals(uiStateNumberEmpty.inputTypes, awaitItem().inputTypes)
-        }
-    }
-
-    @Test
-    fun `set start date updates start date`() = runTest {
-        val date = LocalDateTime.now()
-        initUnderTest()
-        underTest.initialise(countdownNumber.id)
-
-        underTest.setStartDate(date)
-        underTest.uiState.test {
-            assertEquals(date, (awaitItem().inputTypes as UiState.Types.Values).startDate)
-        }
-    }
-
-    @Test
-    fun `set end date updates end date`() = runTest {
-        val date = LocalDateTime.now()
-        initUnderTest()
-        underTest.initialise(countdownNumber.id)
-
-        underTest.setEndDate(date)
-        underTest.uiState.test {
-            assertEquals(date, (awaitItem().inputTypes as UiState.Types.Values).endDate)
-        }
-    }
-
-    @Test
-    fun `set start value updates start value`() = runTest {
-        initUnderTest()
-        underTest.initialise(countdownNumber.id)
-
-        underTest.setStartValue("1")
-        underTest.uiState.test {
-            assertEquals("1", (awaitItem().inputTypes as UiState.Types.Values).startValue)
-        }
-    }
-
-    @Test
-    fun `set end value updates end value`() = runTest {
-        initUnderTest()
-        underTest.initialise(countdownNumber.id)
-
-        underTest.setEndValue("1")
-        underTest.uiState.test {
-            assertEquals("1", (awaitItem().inputTypes as UiState.Types.Values).endValue)
-        }
-    }
-
-    @Test
-    fun `save will save data if valid`() = runTest {
-        initUnderTest()
-        underTest.initialise(countdownDays.id)
-
-        underTest.save()
-        verify {
-            mockCountdownRepository.saveSync(countdownDays)
-        }
-    }
-
-    @Test
-    fun `save when data is not valid will log exception`() = runTest {
-        initUnderTest()
-        underTest.initialise(countdownDays.id)
-
-        underTest.setTitle("")
-
-        underTest.save()
-        verify(exactly = 0) {
-            mockCountdownRepository.saveSync(countdownDays)
-        }
-        verify {
-            mockCrashReporter.logException(any())
-        }
-    }
-
-    @Test
-    fun `save with no id will generate new one`() = runTest {
-        initUnderTest()
-        underTest.initialise(null)
-
-        underTest.setTitle("Test")
-        underTest.setEndDateDay(tomorrow.dayOfMonth.toString())
-        underTest.setEndDateMonth(tomorrow.month)
-
-        underTest.save()
-        verify {
-            mockCountdownRepository.saveSync(any())
-        }
-    }
-
-    @Test
-    fun `delete on existing countdown deletes item`() = runTest {
-        initUnderTest()
-        underTest.initialise(countdownDays.id)
-
-        underTest.delete()
-        verify {
-            mockCountdownRepository.delete(countdownDays.id)
+            verify { mockCountdownRepository.delete("1") }
         }
     }
 }

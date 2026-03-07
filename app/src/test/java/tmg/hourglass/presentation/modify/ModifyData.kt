@@ -1,15 +1,12 @@
 package tmg.hourglass.presentation.modify
 
-import io.mockk.InternalPlatformDsl.toStr
-import java.time.LocalDate
 import tmg.hourglass.domain.enums.CountdownColors
-import tmg.hourglass.domain.enums.CountdownInterpolator
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.Countdown.Companion.YYYY_MM_DD_FORMAT
+import java.time.LocalDate
 import java.time.Year
-import java.time.ZoneId
 
 object ModifyData {
     val yesterday = LocalDate.now().atStartOfDay().minusDays(1L)
@@ -28,7 +25,9 @@ object ModifyData {
             day = null,
             month = null,
             year = Year.now().value.toString()
-        )
+        ),
+        allTags = emptyList(),
+        tag = null
     )
     val uiStateNumberEmpty = UiState(
         title = "",
@@ -41,7 +40,9 @@ object ModifyData {
             endDate = null,
             startValue = "",
             endValue = ""
-        )
+        ),
+        allTags = emptyList(),
+        tag = null
     )
 
     val countdownDays = Countdown.Static.model(
@@ -64,7 +65,9 @@ object ModifyData {
             day = tomorrow.dayOfMonth.toString(),
             month = tomorrow.month,
             year = tomorrow.year.toString()
-        )
+        ),
+        allTags = emptyList(),
+        tag = null
     )
 
     val countdownNumber = Countdown.Static.model(
@@ -89,6 +92,8 @@ object ModifyData {
             endDate = tomorrow,
             startValue = "0",
             endValue = "100"
-        )
+        ),
+        allTags = emptyList(),
+        tag = null
     )
 }

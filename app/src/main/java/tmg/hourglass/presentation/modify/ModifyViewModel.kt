@@ -33,7 +33,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ModifyViewModel @Inject constructor(
     private val countdownRepository: CountdownRepository,
-    private val tagRepository: TagRepository,
+    tagRepository: TagRepository,
     private val crashReporter: CrashReporter
 ): ViewModel() {
     private val allTags: Flow<List<Tag>> = tagRepository.getAll()
