@@ -80,7 +80,10 @@ fun AppGraph(
                     actionUpClicked = {
                         backStack.removeDetail()
                     },
-                    countdownId = null
+                    countdownId = null,
+                    navigateToTag = {
+                        backStack.replaceDetail(Tags)
+                    }
                 )
             }
             entry<Modify>(metadata = detailPane()) {
@@ -90,7 +93,10 @@ fun AppGraph(
                     actionUpClicked = {
                         backStack.removeDetail()
                     },
-                    countdownId = it.id
+                    countdownId = it.id,
+                    navigateToTag = {
+                        backStack.replaceDetail(Tags)
+                    }
                 )
             }
             entry<Tags>(metadata = detailPane()) {

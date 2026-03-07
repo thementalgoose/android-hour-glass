@@ -2,6 +2,7 @@ package tmg.hourglass.presentation.modify.tag
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +20,7 @@ import tmg.hourglass.domain.model.TagOrdering
 fun TagLabel(
     tag: Tag,
     selected: Boolean,
+    selectTag: (Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val selectionModifier = when (selected) {
@@ -31,9 +33,12 @@ fun TagLabel(
     Row(modifier = modifier
         .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
         .then(selectionModifier)
+        .clickable {
+            selectTag(tag)
+        }
         .padding(
-            vertical = AppTheme.dimensions.paddingSmall,
-            horizontal = AppTheme.dimensions.paddingNSmall
+            vertical = AppTheme.dimensions.paddingMedium,
+            horizontal = AppTheme.dimensions.paddingMedium
         )
     ) {
         TextBody2(tag.name)
@@ -46,7 +51,8 @@ private fun PreviewUnselected() {
     AppTheme {
         TagLabel(
             tag = Tag("id", "Name", "#888888", TagOrdering.ALPHABETICAL),
-            selected = false
+            selected = false,
+            selectTag = { }
         )
     }
 }
@@ -57,7 +63,8 @@ private fun PreviewSelected() {
     AppTheme {
         TagLabel(
             tag = Tag("id", "Name", "#888888", TagOrdering.ALPHABETICAL),
-            selected = true
+            selected = true,
+            selectTag = { }
         )
     }
 }

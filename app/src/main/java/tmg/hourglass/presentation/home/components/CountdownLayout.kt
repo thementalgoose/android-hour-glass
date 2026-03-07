@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -61,13 +62,11 @@ fun TagHeader(
     modifier: Modifier = Modifier,
     showCollapse: Boolean = false,
 ) {
-
     val sortDialog = remember { mutableStateOf(false) }
-
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(AppTheme.dimensions.radiusMedium))
+            .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
             .background(AppTheme.colors.backgroundSecondary)
             .padding(
                 horizontal = AppTheme.dimensions.paddingMedium,
@@ -94,7 +93,8 @@ fun TagHeader(
             contentDescription = null
         )
         if (showCollapse) {
-            val float = animateFloatAsState(if (expanded) 90f else 0f, label = "Expand")
+            val float = animateFloatAsState(if (expanded) 0f else 90f, label = "Expand")
+            Spacer(Modifier.width(AppTheme.dimensions.paddingSmall))
             Icon(
                 modifier = Modifier
                     .size(24.dp)
@@ -136,7 +136,7 @@ fun Countdown(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(AppTheme.dimensions.radiusMedium))
+            .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
             .background(AppTheme.colors.backgroundSecondary)
             .padding(
                 start = AppTheme.dimensions.paddingMedium,

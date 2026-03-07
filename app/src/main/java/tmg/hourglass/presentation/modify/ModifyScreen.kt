@@ -17,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import tmg.hourglass.BuildConfig
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.layout.DataRangeDateLayout
@@ -24,6 +25,7 @@ import tmg.hourglass.presentation.modify.layout.DataRangeInputLayout
 import tmg.hourglass.presentation.modify.layout.DataSingleDateLayout
 import tmg.hourglass.presentation.modify.layout.PersonaliseLayout
 import tmg.hourglass.presentation.modify.layout.SaveLayout
+import tmg.hourglass.presentation.modify.layout.TagLayout
 import tmg.hourglass.presentation.modify.layout.TypeLayout
 import tmg.hourglass.strings.R
 
@@ -32,6 +34,7 @@ fun ModifyScreenVM(
     paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     actionUpClicked: () -> Unit,
+    navigateToTag: () -> Unit,
     countdownId: String?,
     viewModel: ModifyViewModel = hiltViewModel()
 ) {
@@ -120,6 +123,15 @@ fun ModifyScreenVM(
                     error = errorValue
                 )
             }
+        }
+
+        if (BuildConfig.DEBUG) {
+            TagLayout(
+                tags = uiState.value.allTags,
+                selected = uiState.value.tag,
+                selectTag = viewModel::setTag,
+                navigateToTag = navigateToTag
+            )
         }
 
         SaveLayout(

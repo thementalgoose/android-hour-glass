@@ -41,6 +41,8 @@ object ModifyMapper {
             colorHex = this.colour,
             type = this.countdownType,
             inputTypes = inputTypes,
+            allTags = emptyList(),
+            tag = this.tag
         )
     }
 
@@ -57,7 +59,7 @@ object ModifyMapper {
                         colour = colorHex,
                         day = inputTypes.day!!.trim().toInt(),
                         month = inputTypes.month!!,
-                        tag = null,
+                        tag = this.tag,
                     )
                 } else {
                     val endDate = LocalDate.of(inputTypes.year.toInt(), inputTypes.month, inputTypes.day!!.toInt()).atStartOfDay()
@@ -77,7 +79,7 @@ object ModifyMapper {
                         startValue = start,
                         endValue = end,
                         countdownType = type,
-                        tag = null,
+                        tag = this.tag,
                     )
                 }
             }
@@ -97,7 +99,7 @@ object ModifyMapper {
                     startValue = start,
                     endValue = end,
                     countdownType = type,
-                    tag = null,
+                    tag = this.tag,
                 )
             }
         }

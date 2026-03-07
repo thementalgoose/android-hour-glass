@@ -19,6 +19,7 @@ internal class TagRepositoryImpl @Inject constructor(
         return tagDao.getTags()
             .map { list ->
                 list.map { tagMapper.deserialize(it) }
+                    .sortedBy { it.name.lowercase() }
             }
     }
 

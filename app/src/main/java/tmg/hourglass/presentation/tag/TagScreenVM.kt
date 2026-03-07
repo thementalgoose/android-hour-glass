@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,6 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
@@ -81,20 +84,47 @@ private fun TagContent(
     inputTag: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val keyboard = LocalSoftwareKeyboardController.current
     LazyColumn(
-        modifier = modifier
-            .padding(
-                vertical = AppTheme.dimensions.paddingMedium
-            ),
+        modifier = modifier,
+        contentPadding = paddingValues,
         verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingSmall)
     ) {
         item(key = "header") {
             TitleBar(
+                modifier = Modifier.animateItem(),
                 titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
                 title = stringResource(string.tag_title),
                 showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
                 actionUpClicked = actionUpClicked,
             )
+        }
+        item(key = "divider") {
+            HorizontalDivider(
+                color = AppTheme.colors.backgroundTertiary,
+                modifier = Modifier
+                    .animateItem()
+                    .padding(AppTheme.dimensions.paddingMedium)
+            )
+        }
+        items(uiState.tags, key = { it.tagId }) {
+            TagView(
+                modifier = Modifier
+                    .animateItem()
+                    .padding(horizontal = AppTheme.dimensions.paddingMedium),
+                tag = it,
+                deleteTag = deleteTag,
+            )
+        }
+        if (uiState.tags.isNotEmpty()) {
+            item(key = "divider2") {
+                HorizontalDivider(
+                    color = AppTheme.colors.backgroundTertiary,
+                    modifier = Modifier
+                        .animateItem()
+                        .padding(AppTheme.dimensions.paddingMedium)
+                )
+            }
         }
         item("add") {
             Column(
@@ -118,24 +148,13 @@ private fun TagContent(
                     isEnabled = uiState.tagInput.isNotBlank(),
                     onClick = {
                         insertTag(uiState.tagInput)
+                        keyboard?.hide()
                     },
                 )
             }
         }
-        item(key = "divider") {
-            HorizontalDivider(
-                color = AppTheme.colors.backgroundTertiary,
-                modifier = Modifier.padding(AppTheme.dimensions.paddingMedium)
-            )
-        }
-        items(uiState.tags, key = { it.tagId }) {
-            TagView(
-                modifier = Modifier
-                    .animateItem()
-                    .padding(horizontal = AppTheme.dimensions.paddingMedium),
-                tag = it,
-                deleteTag = deleteTag,
-            )
+        item("spacer") {
+            Spacer(Modifier.height(AppTheme.dimensions.paddingMedium))
         }
     }
 }

@@ -133,16 +133,16 @@ internal fun ListScreen(
 ) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
-        columns = GridCells.Adaptive(minSize = 300.dp),
+        columns = GridCells.Adaptive(minSize = 250.dp),
         contentPadding = PaddingValues(
-            horizontal = AppTheme.dimensions.paddingMedium
+            start = AppTheme.dimensions.paddingMedium,
+            end = AppTheme.dimensions.paddingMedium,
+            top = paddingValues.calculateTopPadding(),
+            bottom = paddingValues.calculateBottomPadding()
         ),
         verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall),
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall),
         content = {
-            item(key = "edgetoedge-header", span = { GridItemSpan(maxLineSpan) }) {
-                Spacer(Modifier.statusBarsPadding())
-            }
             item("header", span = { GridItemSpan(maxLineSpan) }) {
                 Header(
                     modifier = Modifier.animateItem(),
@@ -153,7 +153,7 @@ internal fun ListScreen(
             }
             if (uiState.isEmpty) {
                 item("empty", span = { GridItemSpan(maxLineSpan) }) {
-                    Column(modifier = Modifier.animateItem(),) {
+                    Column(modifier = Modifier.animateItem()) {
                         if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
                             Spacer(Modifier.height(AppTheme.dimensions.paddingLarge))
                         }
@@ -175,7 +175,8 @@ internal fun ListScreen(
                     when (it) {
                         is ListItem.CountdownItem -> {
                             Countdown(
-                                modifier = Modifier.animateItem(),
+                                modifier = Modifier
+                                    .animateItem(),
                                 countdown = it.countdown,
                                 editClicked = editItem,
                                 deleteClicked = deleteItem
@@ -192,7 +193,9 @@ internal fun ListScreen(
                                 },
                                 expanded = it.expand ?: false,
                                 showCollapse = true,
-                                modifier = Modifier.padding(top = AppTheme.dimensions.paddingMedium),
+                                modifier = Modifier
+                                    .animateItem()
+                                    .padding(top = AppTheme.dimensions.paddingNSmall),
                                 sort = it.sort
                             )
                         }
@@ -205,7 +208,9 @@ internal fun ListScreen(
                                 expandClicked = { },
                                 expanded = false,
                                 showCollapse = false,
-                                modifier = Modifier.padding(top = AppTheme.dimensions.paddingMedium),
+                                modifier = Modifier
+                                    .animateItem()
+                                    .padding(top = AppTheme.dimensions.paddingNSmall),
                                 sort = it.sort
                             )
                         }

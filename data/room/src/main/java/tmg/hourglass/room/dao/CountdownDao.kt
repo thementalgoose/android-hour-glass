@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import tmg.hourglass.room.models.Countdown
+import tmg.hourglass.room.models.CountdownWithTag
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -13,10 +14,10 @@ import java.time.ZoneOffset
 internal interface CountdownDao {
 
     @Query("SELECT * FROM Countdown")
-    fun getCountdowns(): Flow<List<Countdown>>
+    fun getCountdowns(): Flow<List<CountdownWithTag>>
 
     @Query("SELECT * FROM Countdown WHERE id == :id")
-    fun getCountdown(id: String): Flow<Countdown?>
+    fun getCountdown(id: String): Flow<CountdownWithTag?>
 
     @Query("DELETE FROM Countdown WHERE id == :id")
     suspend fun deleteCountdown(id: String)

@@ -21,13 +21,11 @@ class GetTaggedCountdownsUseCase @Inject constructor(
             flow = tagRepository.getAll(),
             flow2 = countdownRepository.all(),
         ) { tags, countdowns ->
-
             val now = LocalDateTime.now()
-
             val countdownSet = countdowns.toMutableSet()
             return@combine buildList {
                 for (tag in tags) {
-                    val taggedCountdowns = countdowns.filter { it.tag == tag.tagId }
+                    val taggedCountdowns = countdowns.filter { it.tag?.tagId == tag.tagId }
                         .also { countdownSet.removeAll(it) }
 
                     if (taggedCountdowns.isNotEmpty()) {

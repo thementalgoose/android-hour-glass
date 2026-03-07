@@ -44,7 +44,7 @@ class TagViewModel @Inject constructor(
     fun insertTag(name: String) {
         val tag = Tag(
             tagId = UUID.randomUUID().toString(),
-            name = name,
+            name = name.trim(),
             colour = "#AD1457",
             sort = TagOrdering.FINISHING_SOONEST
         )
