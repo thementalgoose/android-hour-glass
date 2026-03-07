@@ -5,6 +5,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -50,6 +51,7 @@ fun BackupScreen(
         }
         item(key = "header") {
             TitleBar(
+                titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
                 title = stringResource(id = string.settings_backup_restore_title),
                 showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
                 actionUpClicked = backClicked

@@ -8,8 +8,9 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import tmg.hourglass.domain.model.ThemeSelection
 import tmg.hourglass.domain.repositories.CountdownRepository
-import tmg.hourglass.prefs.PreferencesManager
+import tmg.hourglass.domain.repositories.PreferencesManager
 import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.usecases.ChangeThemeUseCase
 import tmg.testutils.BaseTest
@@ -32,7 +33,7 @@ internal class SettingsViewModelTest: BaseTest() {
 
     @BeforeEach
     fun setUp() {
-        every { mockPreferenceManager.theme } returns ThemePref.DARK
+        every { mockPreferenceManager.theme } returns ThemeSelection.Dark
         every { mockPreferenceManager.crashReporting } returns true
         every { mockPreferenceManager.analyticsEnabled } returns true
     }
@@ -103,7 +104,7 @@ internal class SettingsViewModelTest: BaseTest() {
         underTest.setTheme(ThemePref.DARK)
         verify {
             mockChangeThemeUseCase.update(ThemePref.DARK)
-            mockPreferenceManager.theme = ThemePref.DARK
+            mockPreferenceManager.theme = ThemeSelection.Dark
         }
     }
 

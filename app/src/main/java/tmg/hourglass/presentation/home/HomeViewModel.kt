@@ -4,117 +4,135 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import tmg.hourglass.domain.repositories.CountdownRepository
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import tmg.hourglass.domain.model.Countdown
-import tmg.hourglass.navigation.Screen
-import tmg.hourglass.prefs.PreferencesManager
-import tmg.hourglass.presentation.navigation.NavigationController
+import tmg.hourglass.domain.model.Tag
+import tmg.hourglass.domain.model.TagOrdering
+import tmg.hourglass.domain.model.TaggedCountdowns
+import tmg.hourglass.domain.repositories.CountdownRepository
+import tmg.hourglass.domain.repositories.PreferencesManager
+import tmg.hourglass.domain.repositories.TagRepository
+import tmg.hourglass.domain.usecases.GetTaggedCountdownsUseCase
+import tmg.hourglass.domain.usecases.sortBy
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 data class UiState(
-    val items: List<Countdown>,
-    val sortOrder: SortOrder,
-    val action: HomeAction?
+    val items: List<ListItem>,
 ) {
     constructor(): this(
         items = emptyList(),
-        sortOrder = SortOrder.ALPHABETICAL,
-        action = null
     )
-
-    val itemsOrdered: List<Countdown> by lazy {
-        val now = LocalDateTime.now()
-        return@lazy when (sortOrder) {
-            SortOrder.ALPHABETICAL -> items.sortedBy { it.name.lowercase() }
-            SortOrder.FINISHING_SOONEST -> items.sortedBy { it.endDate }
-            SortOrder.FINISHING_LATEST -> items.sortedByDescending { it.endDate }
-            SortOrder.PROGRESS -> items.sortedByDescending { it.getProgress(now) }
-        }
-    }
-
     val isEmpty: Boolean
         get() = items.isEmpty()
 
     companion object
 }
 
-enum class SortOrder {
-    ALPHABETICAL,
-    FINISHING_SOONEST,
-    FINISHING_LATEST,
-    PROGRESS,
-}
+sealed interface ListItem {
+    val id: String
 
-sealed class HomeAction {
-    data class Modify(
+    data class TagHeader(
+        val tag: Tag,
+        val expand: Boolean?,
+    ): ListItem {
+        override val id: String
+            get() = tag.tagId
+    }
+
+    data object UntaggedHeader: ListItem {
+        override val id: String
+            get() = "untagged"
+    }
+
+    data class CountdownItem(
         val countdown: Countdown
-    ): HomeAction()
-
-    data object Add: HomeAction()
+    ): ListItem {
+        override val id: String
+            get() = countdown.id
+    }
 }
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    getTaggedCountdownsUseCase: GetTaggedCountdownsUseCase,
     private val countdownRepository: CountdownRepository,
-    private val navigationController: NavigationController,
-    private val prefManager: PreferencesManager,
+    private val tagRepository: TagRepository,
+    private val preferencesManager: PreferencesManager,
 ): ViewModel() {
 
-    private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
-    val uiState: StateFlow<UiState> = _uiState
+    private val sectionExpanded = MutableStateFlow<MutableMap<String, Boolean>>(mutableMapOf())
+    private val untaggedSort = MutableStateFlow(preferencesManager.sortOrder)
 
-    init {
-        loadDashboard()
+    val uiState: StateFlow<UiState> =
+        combine(
+            flow = getTaggedCountdownsUseCase(),
+            flow2 = sectionExpanded,
+            flow3 = untaggedSort,
+            transform = { list, sections, untaggedSort ->
+                UiState(buildList(list, sections, untaggedSort))
+            }
+        )
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = UiState()
+        )
+
+    private fun Map<String, Boolean>.isExpanded(tabId: String) = this.get(tabId) ?: true
+
+    private fun buildList(
+        list: List<TaggedCountdowns>,
+        sections: Map<String, Boolean>,
+        untaggedSort: TagOrdering
+    ): List<ListItem> {
+        val now = LocalDateTime.now()
+        if (list.size == 1 && list.first() is TaggedCountdowns.Untagged) {
+            return listOf(ListItem.UntaggedHeader) + list.first()
+                .countdowns
+                .sortBy(now, untaggedSort)
+                .map { ListItem.CountdownItem(it) }
+
+        }
+        return list
+            .map {
+                when (it) {
+                    is TaggedCountdowns.Tagged -> {
+                        listOf(ListItem.TagHeader(it.tag, sections.isExpanded(it.tag.tagId))) +
+                                it.countdowns.map { countdown -> ListItem.CountdownItem(countdown) }
+                    }
+                    is TaggedCountdowns.Untagged -> {
+                        listOf(ListItem.UntaggedHeader) +
+                                it.countdowns
+                                    .sortBy(now, untaggedSort)
+                                    .map { countdown -> ListItem.CountdownItem(countdown) }
+                    }
+                }
+            }
+            .flatten()
     }
 
-    fun updateSortOrder(order: SortOrder) {
-        prefManager.sortOrder = order
-        update { copy(sortOrder = order) }
+    fun tagExpanded(tag: Tag, expanded: Boolean) {
+        val sections = sectionExpanded.value
+        sections[tag.tagId] = expanded
+        sectionExpanded.update { sections }
     }
 
-    fun navigateToSettings() {
-        navigationController.navigate(Screen.Settings)
+    fun untaggedSort(tagOrdering: TagOrdering) {
+        preferencesManager.sortOrder = tagOrdering
+        untaggedSort.update { tagOrdering }
     }
 
-    fun closeAction() {
-        update { copy(action = null) }
-    }
-
-    fun createNew() {
-        update { copy(action = HomeAction.Add) }
-    }
-
-    fun refresh() {
-        loadDashboard()
-    }
-
-    fun edit(countdown: Countdown) {
-        update { copy(action = HomeAction.Modify(countdown)) }
+    fun tagSortUpdated(tag: Tag, tagOrdering: TagOrdering) {
+        tagRepository.insertTag(tag.copy(sort = tagOrdering))
     }
 
     fun delete(countdown: Countdown) {
         countdownRepository.delete(countdown.id)
-        loadDashboard()
-    }
-
-    private fun loadDashboard() {
-        viewModelScope.launch {
-            val all = countdownRepository.all().first()
-            update {
-                copy(
-                    items = all,
-                    sortOrder = prefManager.sortOrder,
-                    action = null
-                )
-            }
-        }
-    }
-
-    private fun update(callback: UiState.() -> UiState) {
-        _uiState.value = callback(_uiState.value)
     }
 }

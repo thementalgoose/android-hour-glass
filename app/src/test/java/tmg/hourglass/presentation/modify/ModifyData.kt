@@ -8,6 +8,7 @@ import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.Countdown.Companion.YYYY_MM_DD_FORMAT
+import java.time.Year
 import java.time.ZoneId
 
 object ModifyData {
@@ -26,7 +27,7 @@ object ModifyData {
         inputTypes = UiState.Types.EndDate(
             day = null,
             month = null,
-            year = null
+            year = Year.now().value.toString()
         )
     )
     val uiStateNumberEmpty = UiState(

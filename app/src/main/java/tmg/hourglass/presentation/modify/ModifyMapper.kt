@@ -55,7 +55,8 @@ object ModifyMapper {
                         description = description,
                         colour = colorHex,
                         day = inputTypes.day!!.trim().toInt(),
-                        month = inputTypes.month!!
+                        month = inputTypes.month!!,
+                        tag = null,
                     )
                 } else {
                     val endDate = LocalDate.of(inputTypes.year.toInt(), inputTypes.month, inputTypes.day!!.toInt()).atStartOfDay()
@@ -74,7 +75,8 @@ object ModifyMapper {
                         end = endDate.format(YYYY_MM_DD_FORMAT),
                         startValue = start,
                         endValue = end,
-                        countdownType = type
+                        countdownType = type,
+                        tag = null,
                     )
                 }
             }
@@ -93,7 +95,8 @@ object ModifyMapper {
                     end = endDate.format(YYYY_MM_DD_FORMAT),
                     startValue = start,
                     endValue = end,
-                    countdownType = type
+                    countdownType = type,
+                    tag = null,
                 )
             }
         }

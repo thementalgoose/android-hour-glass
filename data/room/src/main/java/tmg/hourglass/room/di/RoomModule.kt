@@ -9,15 +9,18 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import tmg.hourglass.domain.repositories.CountdownRepository
+import tmg.hourglass.domain.repositories.TagRepository
 import tmg.hourglass.domain.repositories.WidgetRepository
 import tmg.hourglass.room.DATABASE_NAME
 import tmg.hourglass.room.HourGlassDatabase
-import tmg.hourglass.room.MIGRATION_1_2
+import tmg.hourglass.room.Migrations
 import tmg.hourglass.room.backups.BackupManager
 import tmg.hourglass.room.backups.BackupManagerImpl
 import tmg.hourglass.room.dao.CountdownDao
+import tmg.hourglass.room.dao.TagDao
 import tmg.hourglass.room.dao.WidgetDao
 import tmg.hourglass.room.repositories.CountdownRepositoryImpl
+import tmg.hourglass.room.repositories.TagRepositoryImpl
 import tmg.hourglass.room.repositories.WidgetRepositoryImpl
 import javax.inject.Singleton
 
@@ -40,7 +43,7 @@ internal class RoomModule {
             name = DATABASE_NAME
         )
         .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
-        .addMigrations(MIGRATION_1_2)
+        .addMigrations(*Migrations.entries.map { it.migration }.toTypedArray())
         .build()
 
     @Provides
@@ -54,8 +57,16 @@ internal class RoomModule {
     ): WidgetDao = database.widgetDao()
 
     @Provides
-    fun providesCountdownConnector(impl: CountdownRepositoryImpl): CountdownRepository = impl
+    fun provideTagDao(
+        database: HourGlassDatabase
+    ): TagDao = database.tagDao()
 
     @Provides
-    internal fun providesWidgetConnector(impl: WidgetRepositoryImpl): WidgetRepository = impl
+    internal fun providesCountdownRepository(impl: CountdownRepositoryImpl): CountdownRepository = impl
+
+    @Provides
+    internal fun providesWidgetRepository(impl: WidgetRepositoryImpl): WidgetRepository = impl
+
+    @Provides
+    internal fun providesTagRepository(impl: TagRepositoryImpl): TagRepository = impl
 }

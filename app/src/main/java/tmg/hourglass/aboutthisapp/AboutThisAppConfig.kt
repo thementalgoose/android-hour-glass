@@ -15,8 +15,8 @@ import tmg.aboutthisapp.configuration.Dependency
 import tmg.aboutthisapp.configuration.DependencyIcon
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.R
-import tmg.hourglass.prefs.PreferencesManager
-import tmg.hourglass.presentation.ThemePref
+import tmg.hourglass.domain.model.ThemeSelection
+import tmg.hourglass.domain.repositories.PreferencesManager
 import tmg.hourglass.presentation.darkColors
 import tmg.hourglass.presentation.dynamic
 import tmg.hourglass.presentation.lightColors
@@ -24,7 +24,7 @@ import tmg.utilities.extensions.isInNightMode
 import javax.inject.Inject
 
 class AboutThisAppConfig @Inject constructor(
-    @ApplicationContext
+    @param:ApplicationContext
     private val context: Context,
     private val prefManager: PreferencesManager,
 ) {
@@ -47,9 +47,9 @@ class AboutThisAppConfig @Inject constructor(
             lightColors = getColours(isLight = true),
             darkColors = getColours(isLight = false),
             setIsDarkMode = when (prefManager.theme) {
-                ThemePref.AUTO -> context.isInNightMode()
-                ThemePref.LIGHT -> false
-                ThemePref.DARK -> true
+                ThemeSelection.FollowSystem -> context.isInNightMode()
+                ThemeSelection.Light -> false
+                ThemeSelection.Dark -> true
             }
         )
 

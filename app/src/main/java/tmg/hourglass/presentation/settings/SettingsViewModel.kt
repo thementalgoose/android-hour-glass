@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import tmg.hourglass.domain.model.ThemeSelection
 import tmg.hourglass.domain.repositories.CountdownRepository
-import tmg.hourglass.prefs.PreferencesManager
+import tmg.hourglass.domain.repositories.PreferencesManager
 import tmg.hourglass.presentation.ThemePref
 import tmg.hourglass.presentation.usecases.ChangeThemeUseCase
 import javax.inject.Inject
@@ -62,7 +63,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setTheme(theme: ThemePref) {
-        prefManager.theme = theme
+        prefManager.theme = theme.toSelection()
         changeThemeUseCase.update(theme)
         refresh()
     }
@@ -75,9 +76,26 @@ class SettingsViewModel @Inject constructor(
         update { copy(
             crashReporting = prefManager.crashReporting,
             anonymousAnalytics = prefManager.analyticsEnabled,
-            theme = prefManager.theme
+            theme = prefManager.theme.toPref()
         )}
     }
+
+    private fun ThemeSelection.toPref(): ThemePref {
+        return when (this) {
+            ThemeSelection.FollowSystem -> ThemePref.AUTO
+            ThemeSelection.Light -> ThemePref.LIGHT
+            ThemeSelection.Dark -> ThemePref.DARK
+        }
+    }
+
+    private fun ThemePref.toSelection(): ThemeSelection {
+        return when (this) {
+            ThemePref.AUTO -> ThemeSelection.FollowSystem
+            ThemePref.LIGHT -> ThemeSelection.Light
+            ThemePref.DARK -> ThemeSelection.Dark
+        }
+    }
+
     private fun update(callback: UiState.() -> UiState) {
         _uiState.value = callback(_uiState.value)
     }

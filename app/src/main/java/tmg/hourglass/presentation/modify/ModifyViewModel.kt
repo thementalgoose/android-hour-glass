@@ -40,7 +40,7 @@ class ModifyViewModel @Inject constructor(
         inputTypes = UiState.Types.EndDate(
             day = null,
             month = null,
-            year = null
+            year = "${Year.now().value}"
         )
     )
 

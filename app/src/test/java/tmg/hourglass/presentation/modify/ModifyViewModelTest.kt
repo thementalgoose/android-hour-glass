@@ -18,6 +18,7 @@ import tmg.hourglass.presentation.modify.ModifyData.uiStateDays
 import tmg.hourglass.presentation.modify.ModifyData.uiStateDaysEmpty
 import tmg.hourglass.presentation.modify.ModifyData.uiStateNumber
 import tmg.hourglass.presentation.modify.ModifyData.uiStateNumberEmpty
+import java.time.Year
 
 internal class ModifyViewModelTest {
 
@@ -137,7 +138,13 @@ internal class ModifyViewModelTest {
 
             underTest.setType(CountdownType.DAYS)
 
-            assertEquals(uiStateDaysEmpty.inputTypes, awaitItem().inputTypes)
+            val expectedEmpty = UiState.Types.EndDate(
+                day = null,
+                month = null,
+                year = null
+            )
+
+            assertEquals(expectedEmpty, awaitItem().inputTypes)
         }
     }
 

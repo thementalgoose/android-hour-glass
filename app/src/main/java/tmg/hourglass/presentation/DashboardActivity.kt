@@ -19,8 +19,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import tmg.hourglass.aboutthisapp.AboutThisAppConfig
-import tmg.hourglass.presentation.navigation.NavigationController
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 
 @AndroidEntryPoint
@@ -28,9 +28,6 @@ class DashboardActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition
 
     @Inject
     lateinit var aboutThisAppConfig: AboutThisAppConfig
-
-    @Inject
-    lateinit var navigationController: NavigationController
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,10 +50,6 @@ class DashboardActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition
                 DashboardNavScreen(
                     windowSize = windowSizeClass,
                     windowLayoutInfo = windowInfoTracker.collectAsState(WindowLayoutInfo(emptyList())).value,
-                    navigator = navigationController,
-                    closeApp = { finish() },
-                    viewModelStore = this.viewModelStore,
-                    deeplink = null,
                     goToAboutThisApp = ::goToAboutThisApp,
                     goToMarketPage = ::goToMarketPage,
                 )
@@ -72,10 +65,10 @@ class DashboardActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition
 
     private fun goToMarketPage() {
         try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
+            startActivity(Intent(Intent.ACTION_VIEW, "market://details?id=$packageName".toUri()))
         } catch (anfe: ActivityNotFoundException) {
             startActivity(
-                Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName"))
+                Intent(Intent.ACTION_VIEW, "https://play.google.com/store/apps/details?id=$packageName".toUri())
             )
         }
     }

@@ -1,66 +1,122 @@
 package tmg.hourglass.presentation
 
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
 import androidx.window.layout.WindowLayoutInfo
-import tmg.hourglass.navigation.Screen
+import tmg.hourglass.navigation.Add
+import tmg.hourglass.navigation.Home
+import tmg.hourglass.navigation.Modify
+import tmg.hourglass.navigation.Settings
+import tmg.hourglass.navigation.SettingsBackup
+import tmg.hourglass.navigation.SettingsPrivacyPolicy
+import tmg.hourglass.navigation.navigateToHome
+import tmg.hourglass.navigation.navigateToSettings
+import tmg.hourglass.navigation.removeDetail
+import tmg.hourglass.navigation.replaceDetail
 import tmg.hourglass.presentation.home.HomeScreenVM
-import tmg.hourglass.presentation.navigation.navigateTo
+import tmg.hourglass.presentation.modify.ModifyScreenVM
+import tmg.hourglass.presentation.scene.SplitPaneScene.Companion.detailPane
+import tmg.hourglass.presentation.scene.SplitPaneScene.Companion.listPane
+import tmg.hourglass.presentation.scene.rememberSplitPaneSceneStrategy
 import tmg.hourglass.presentation.settings.SettingsScreenVM
+import tmg.hourglass.presentation.settings.backup.BackupScreen
+import tmg.hourglass.presentation.settings.privacy.PrivacyPolicyLayout
 
 @Composable
 fun AppGraph(
-    navController: NavHostController,
     windowSize: WindowSizeClass,
     paddingValues: PaddingValues,
     windowInfo: WindowLayoutInfo,
-    deeplink: String?,
     goToMarketPage: () -> Unit,
     goToAboutThisApp: () -> Unit,
+    backStack: NavBackStack<NavKey>,
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Home.route,
-        enterTransition = {
-            fadeIn(tween(300))
+    val listDetailStrategy = rememberSplitPaneSceneStrategy<NavKey>(windowSize)
+    NavDisplay(
+        backStack = backStack,
+        onBack = {
+            backStack.removeLastOrNull()
         },
-        exitTransition = {
-            fadeOut(tween(300))
+        sceneStrategy = listDetailStrategy,
+        transitionSpec = {
+            fadeIn() togetherWith fadeOut()
         },
-        modifier = Modifier
-    ) {
-        composable(Screen.Home.route) {
-            HomeScreenVM(
-                paddingValues = paddingValues,
-                windowSize = windowSize,
-            )
+        popTransitionSpec = {
+            fadeIn() togetherWith fadeOut()
+        },
+        predictivePopTransitionSpec = {
+            fadeIn() togetherWith fadeOut()
+        },
+        modifier = Modifier,
+        entryProvider = entryProvider {
+            entry<Home>(metadata = listPane()) {
+                HomeScreenVM(
+                    paddingValues = paddingValues,
+                    windowSize = windowSize,
+                    navigateToAdd = { backStack.replaceDetail(Add) },
+                    navigateToModify = { backStack.replaceDetail(Modify(it)) },
+                    navigateToSettings = { backStack.navigateToSettings() }
+                )
+            }
+            entry<Add>(metadata = detailPane()) {
+                ModifyScreenVM(
+                    paddingValues = paddingValues,
+                    windowSizeClass = windowSize,
+                    actionUpClicked = {
+                        backStack.removeDetail()
+                    },
+                    countdownId = null
+                )
+            }
+            entry<Modify>(metadata = detailPane()) {
+                ModifyScreenVM(
+                    paddingValues = paddingValues,
+                    windowSizeClass = windowSize,
+                    actionUpClicked = {
+                        backStack.removeDetail()
+                    },
+                    countdownId = it.id
+                )
+            }
+            entry<Settings>(metadata = listPane()) {
+                SettingsScreenVM(
+                    paddingValues = paddingValues,
+                    windowSize = windowSize,
+                    goToMarketPage = goToMarketPage,
+                    goToAboutThisApp = goToAboutThisApp,
+                    navigateToBackup = { backStack.replaceDetail(SettingsBackup) },
+                    navigateToPrivacy = { backStack.replaceDetail(SettingsPrivacyPolicy) },
+                    actionUpClicked = {
+                        backStack.navigateToHome()
+                    }
+                )
+            }
+            entry<SettingsPrivacyPolicy>(metadata = listPane()) {
+                PrivacyPolicyLayout(
+                    windowSizeClass = windowSize,
+                    backClicked = {
+                        backStack.removeDetail()
+                    }
+                )
+            }
+            entry<SettingsBackup>(metadata = listPane()) {
+                BackupScreen(
+                    windowSizeClass = windowSize,
+                    backClicked = {
+                        backStack.removeDetail()
+                    }
+                )
+            }
         }
-
-        composable(Screen.Settings.route) {
-            SettingsScreenVM(
-                paddingValues = paddingValues,
-                windowSize = windowSize,
-                goToMarketPage = goToMarketPage,
-                goToAboutThisApp = goToAboutThisApp,
-                actionUpClicked = {
-                    navController.popBackStack()
-                }
-            )
-        }
-    }
-    DisposableEffect(Unit) {
-        when (deeplink) {
-            Screen.Home.route -> navController.navigateTo(Screen.Home)
-        }
-        this.onDispose { }
-    }
+    )
 }

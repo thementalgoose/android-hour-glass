@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.layout.DataRangeDateLayout
 import tmg.hourglass.presentation.modify.layout.DataRangeInputLayout
@@ -27,16 +29,16 @@ import tmg.hourglass.presentation.modify.layout.TypeLayout
 import tmg.hourglass.strings.R
 
 @Composable
-fun ModifyScreen(
+fun ModifyScreenVM(
     paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     actionUpClicked: () -> Unit,
-    countdown: Countdown?,
+    countdownId: String?,
     viewModel: ModifyViewModel = hiltViewModel()
 ) {
-    DisposableEffect(countdown) {
-        Log.d("Modify", "Initialising VM with value ${countdown?.id}")
-        viewModel.initialise(countdown?.id)
+    DisposableEffect(countdownId) {
+        Log.d("Modify", "Initialising VM with value ${countdownId}")
+        viewModel.initialise(countdownId)
         return@DisposableEffect onDispose { }
     }
 
@@ -49,8 +51,9 @@ fun ModifyScreen(
             .padding(paddingValues),
     ) {
         TitleBar(
-            title = stringResource(id = if (countdown != null) R.string.modify_header_edit else R.string.modify_header_add),
-            showBack = true,
+            titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
+            title = stringResource(id = if (countdownId != null) R.string.modify_header_edit else R.string.modify_header_add),
+            showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
             actionUpClicked = actionUpClicked
         )
 
@@ -120,7 +123,7 @@ fun ModifyScreen(
         }
 
         SaveLayout(
-            isEdit = countdown != null,
+            isEdit = countdownId != null,
             saveEnabled = uiState.value.isSaveEnabled,
             saveClicked = {
                 viewModel.save()

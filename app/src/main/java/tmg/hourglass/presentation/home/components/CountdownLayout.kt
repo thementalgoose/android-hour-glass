@@ -1,6 +1,7 @@
 package tmg.hourglass.presentation.home.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,15 +24,20 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import java.time.LocalDateTime
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.domain.model.Tag
+import tmg.hourglass.domain.model.TagOrdering
 import tmg.hourglass.domain.model.preview
 import tmg.hourglass.domain.utils.ProgressUtils
 import tmg.hourglass.presentation.AppTheme
@@ -38,11 +46,80 @@ import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.utils.DeleteDialog
-import tmg.hourglass.presentation.utils.darken
 import tmg.hourglass.presentation.views.ProgressBar
 import tmg.hourglass.strings.R
 import tmg.hourglass.strings.R.string
 import tmg.utilities.extensions.format
+
+@Composable
+fun TagHeader(
+    name: String,
+    expanded: Boolean,
+    sortClicked: (TagOrdering) -> Unit,
+    expandClicked: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    showCollapse: Boolean = false,
+) {
+
+    val sortDialog = remember { mutableStateOf(false) }
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(AppTheme.dimensions.radiusMedium))
+            .background(AppTheme.colors.backgroundSecondary)
+            .padding(
+                horizontal = AppTheme.dimensions.paddingMedium,
+                vertical = AppTheme.dimensions.paddingSmall,
+            ),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextBody1(
+            modifier = Modifier.weight(1f),
+            text = name,
+            bold = true
+        )
+        Icon(
+            modifier = Modifier
+                .size(24.dp)
+                .clip(CircleShape)
+                .background(AppTheme.colors.backgroundTertiary)
+                .clickable {
+                    sortDialog.value = true
+                }
+                .padding(4.dp),
+            painter = painterResource(tmg.hourglass.R.drawable.ic_sort),
+            tint = AppTheme.colors.textPrimary,
+            contentDescription = null
+        )
+        if (showCollapse) {
+            val float = animateFloatAsState(if (expanded) 90f else 0f, label = "Expand")
+            Icon(
+                modifier = Modifier
+                    .size(24.dp)
+                    .clip(CircleShape)
+                    .background(AppTheme.colors.backgroundTertiary)
+                    .rotate(float.value)
+                    .clickable {
+                        expandClicked(!expanded)
+                    }
+                    .padding(4.dp),
+                painter = painterResource(tmg.hourglass.R.drawable.ic_chevron_down),
+                tint = AppTheme.colors.textPrimary,
+                contentDescription = null
+            )
+        }
+    }
+
+    if (sortDialog.value) {
+        SortDialog(
+            sortUpdated = {
+                sortClicked(it)
+            },
+            dismissed = { sortDialog.value = false },
+        )
+    }
+}
 
 @Composable
 fun Countdown(
@@ -57,12 +134,6 @@ fun Countdown(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(
-                start = AppTheme.dimensions.paddingMedium,
-                top = AppTheme.dimensions.paddingSmall,
-                bottom = AppTheme.dimensions.paddingMedium,
-                end = AppTheme.dimensions.paddingMedium
-            )
             .clip(RoundedCornerShape(AppTheme.dimensions.radiusMedium))
             .background(AppTheme.colors.backgroundSecondary)
             .padding(
@@ -225,6 +296,32 @@ private fun PreviewOther() {
             editClicked = { },
             deleteClicked = { },
             now = LocalDateTime.of(2021, 1, 28, 12, 34)
+        )
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewHeaderExpanded() {
+    AppThemePreview {
+        TagHeader(
+            name = "Tag",
+            sortClicked = { _ -> },
+            expandClicked = { },
+            expanded = true
+        )
+    }
+}
+
+@PreviewTheme
+@Composable
+private fun PreviewHeader() {
+    AppThemePreview {
+        TagHeader(
+            name = "Tag",
+            sortClicked = { _ -> },
+            expandClicked = { },
+            expanded = false
         )
     }
 }

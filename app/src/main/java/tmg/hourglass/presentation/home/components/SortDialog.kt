@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import tmg.hourglass.domain.model.TagOrdering
 import tmg.hourglass.presentation.AppTheme
-import tmg.hourglass.presentation.home.SortOrder
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R.string
@@ -22,7 +22,7 @@ import tmg.hourglass.strings.R.string
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SortDialog(
-    sortUpdated: (SortOrder) -> Unit,
+    sortUpdated: (TagOrdering) -> Unit,
     dismissed: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -52,7 +52,7 @@ fun SortDialog(
                         ),
                     text = stringResource(id = string.menu_sort)
                 )
-                SortOrder.entries.forEach {
+                TagOrdering.entries.forEach {
                     TextButton(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {
@@ -77,11 +77,11 @@ fun SortDialog(
 }
 
 @Composable
-fun SortOrder.label(): Int {
+fun TagOrdering.label(): Int {
     return when (this) {
-        SortOrder.ALPHABETICAL -> string.menu_sort_alphabetical
-        SortOrder.FINISHING_SOONEST -> string.menu_finishing_soonest
-        SortOrder.FINISHING_LATEST -> string.menu_finishing_latest
-        SortOrder.PROGRESS -> string.menu_progress
+        TagOrdering.ALPHABETICAL -> string.menu_sort_alphabetical
+        TagOrdering.FINISHING_SOONEST -> string.menu_finishing_soonest
+        TagOrdering.FINISHING_LATEST -> string.menu_finishing_latest
+        TagOrdering.PROGRESS -> string.menu_progress
     }
 }

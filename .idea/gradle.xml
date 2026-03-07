@@ -30,6 +30,7 @@
             <option value="$PROJECT_DIR$/core/metrics/crashlytics" />
             <option value="$PROJECT_DIR$/core/metrics/googleanalytics" />
             <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/data/prefs" />
             <option value="$PROJECT_DIR$/data/room" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/presentation" />

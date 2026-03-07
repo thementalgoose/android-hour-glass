@@ -19,7 +19,8 @@ fun Countdown.Static.Companion.model(
     startValue: String = "start",
     endValue: String = "end",
 
-    countdownType: CountdownType = CountdownType.DAYS
+    countdownType: CountdownType = CountdownType.DAYS,
+    tag: String? = null
 ): Countdown.Static = Countdown.Static(
     id = id,
     name = name,
@@ -29,7 +30,8 @@ fun Countdown.Static.Companion.model(
     end = end,
     startValue = startValue,
     endValue = endValue,
-    countdownType = countdownType
+    countdownType = countdownType,
+    tag = tag
 )
 
 fun Countdown.Recurring.Companion.model(
@@ -38,12 +40,14 @@ fun Countdown.Recurring.Companion.model(
     description: String = "description",
     colour: String = "colour",
     day: Int = 1,
-    month: Month = Month.JANUARY
+    month: Month = Month.JANUARY,
+    tag: String? = null
 ): Countdown.Recurring = Countdown.Recurring(
     id = id,
     name = name,
     description = description,
     colour = colour,
     day = day,
-    month = month
+    month = month,
+    tag = tag
 )
