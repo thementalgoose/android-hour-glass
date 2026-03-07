@@ -125,6 +125,9 @@
     <string name="modify_error_value_match">Los valores no pueden coincidir</string>
     <string name="modify_error_value_numbers">Los valores deben ser números</string>
 
+    <string name="modify_field_tags">Etiqueta</string>
+    <string name="modify_field_tags_desc">Asignar etiquetas</string>
+    <string name="modify_field_tags_no_tags">No se han configurado etiquetas. Haga clic aquí para agregar etiquetas.</string>
 
     <string name="modify_field_type">Tipo</string>
     <string name="modify_field_type_desc">Selecciona qué tipo de métrica quieres contar hacia atrás o hacia arriba</string>

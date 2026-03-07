@@ -167,6 +167,10 @@
     <string name="modify_error_value_match">Values cannot match</string>
     <string name="modify_error_value_numbers">Values must be numbers</string>
 
+    <string name="modify_field_tags">Tag</string>
+    <string name="modify_field_tags_desc">Assign tags</string>
+    <string name="modify_field_tags_no_tags">No tags setup. Click here to add tags</string>
+
     <string name="modify_field_type">Type</string>
     <string name="modify_field_type_desc">Select which kind of metric you would like to countdown or count-up</string>
     <string name="modify_field_range">Range</string>
