@@ -17,14 +17,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.BuildConfig
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.layout.DataRangeDateLayout
 import tmg.hourglass.presentation.modify.layout.DataRangeInputLayout
-import tmg.hourglass.presentation.modify.layout.PersonaliseLayout
 import tmg.hourglass.presentation.modify.layout.DataSingleDateLayout
+import tmg.hourglass.presentation.modify.layout.PersonaliseLayout
 import tmg.hourglass.presentation.modify.layout.SaveLayout
+import tmg.hourglass.presentation.modify.layout.TagLayout
 import tmg.hourglass.presentation.modify.layout.TypeLayout
 import tmg.hourglass.strings.R
 
@@ -33,17 +34,19 @@ fun ModifyScreenVM(
     paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     actionUpClicked: () -> Unit,
+    navigateToTag: () -> Unit,
     countdownId: String?,
     viewModel: ModifyViewModel = hiltViewModel()
 ) {
     DisposableEffect(countdownId) {
-        Log.d("Modify", "Initialising VM with value ${countdownId}")
+        Log.d("Modify", "Initialising VM with value $countdownId")
         viewModel.initialise(countdownId)
         return@DisposableEffect onDispose { }
     }
 
     val uiState = viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,7 +57,7 @@ fun ModifyScreenVM(
             titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
             title = stringResource(id = if (countdownId != null) R.string.modify_header_edit else R.string.modify_header_add),
             showBack = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact,
-            actionUpClicked = actionUpClicked
+            actionUpClicked = actionUpClicked,
         )
 
         PersonaliseLayout(
@@ -121,6 +124,13 @@ fun ModifyScreenVM(
                 )
             }
         }
+
+        TagLayout(
+            tags = uiState.value.allTags,
+            selected = uiState.value.tag,
+            selectTag = viewModel::setTag,
+            navigateToTag = navigateToTag
+        )
 
         SaveLayout(
             isEdit = countdownId != null,

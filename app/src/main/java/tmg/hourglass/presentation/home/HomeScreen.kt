@@ -57,6 +57,7 @@ internal fun HomeScreenVM(
     navigateToAdd: () -> Unit,
     navigateToModify: (id: String) -> Unit,
     navigateToSettings: () -> Unit,
+    navigateToTags: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState()
@@ -70,8 +71,9 @@ internal fun HomeScreenVM(
         untaggedSort = viewModel::untaggedSort,
         edit = { navigateToModify(it.id) },
         delete = viewModel::delete,
-        openCreateNew = { navigateToAdd() },
-        navigateToSettings = { navigateToSettings() },
+        openCreateNew = navigateToAdd,
+        navigateToSettings = navigateToSettings,
+        navigateToTags = navigateToTags
     )
 }
 
@@ -87,6 +89,7 @@ internal fun HomeScreen(
     delete: (Countdown) -> Unit,
     openCreateNew: () -> Unit,
     navigateToSettings: () -> Unit,
+    navigateToTags: () -> Unit,
 ) {
     ListScreen(
         paddingValues = paddingValues,
@@ -97,7 +100,8 @@ internal fun HomeScreen(
         untaggedSort = untaggedSort,
         tagSortUpdated = tagSortUpdated,
         tagExpanded = tagExpanded,
-        navigateToSettings = navigateToSettings
+        navigateToSettings = navigateToSettings,
+        navigateToTags = navigateToTags
     )
     Box(
         modifier = Modifier
@@ -119,6 +123,7 @@ internal fun ListScreen(
     paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     navigateToSettings: () -> Unit,
+    navigateToTags: () -> Unit,
     tagSortUpdated: (Tag, TagOrdering) -> Unit,
     untaggedSort: (TagOrdering) -> Unit,
     tagExpanded: (Tag, Boolean) -> Unit,
@@ -128,26 +133,27 @@ internal fun ListScreen(
 ) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
-        columns = GridCells.Adaptive(minSize = 300.dp),
+        columns = GridCells.Adaptive(minSize = 250.dp),
         contentPadding = PaddingValues(
-            horizontal = AppTheme.dimensions.paddingMedium
+            start = AppTheme.dimensions.paddingMedium,
+            end = AppTheme.dimensions.paddingMedium,
+            top = paddingValues.calculateTopPadding(),
+            bottom = paddingValues.calculateBottomPadding()
         ),
         verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall),
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall),
         content = {
-            item(key = "edgetoedge-header", span = { GridItemSpan(maxLineSpan) }) {
-                Spacer(Modifier.statusBarsPadding())
-            }
             item("header", span = { GridItemSpan(maxLineSpan) }) {
                 Header(
                     modifier = Modifier.animateItem(),
                     windowSizeClass = windowSizeClass,
-                    navigateToSettings = navigateToSettings
+                    navigateToSettings = navigateToSettings,
+                    navigateToTags = navigateToTags
                 )
             }
             if (uiState.isEmpty) {
                 item("empty", span = { GridItemSpan(maxLineSpan) }) {
-                    Column(modifier = Modifier.animateItem(),) {
+                    Column(modifier = Modifier.animateItem()) {
                         if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
                             Spacer(Modifier.height(AppTheme.dimensions.paddingLarge))
                         }
@@ -169,7 +175,8 @@ internal fun ListScreen(
                     when (it) {
                         is ListItem.CountdownItem -> {
                             Countdown(
-                                modifier = Modifier.animateItem(),
+                                modifier = Modifier
+                                    .animateItem(),
                                 countdown = it.countdown,
                                 editClicked = editItem,
                                 deleteClicked = deleteItem
@@ -186,7 +193,10 @@ internal fun ListScreen(
                                 },
                                 expanded = it.expand ?: false,
                                 showCollapse = true,
-                                modifier = Modifier.padding(top = AppTheme.dimensions.paddingMedium)
+                                modifier = Modifier
+                                    .animateItem()
+                                    .padding(top = AppTheme.dimensions.paddingNSmall),
+                                sort = it.sort
                             )
                         }
                         is ListItem.UntaggedHeader -> {
@@ -198,7 +208,10 @@ internal fun ListScreen(
                                 expandClicked = { },
                                 expanded = false,
                                 showCollapse = false,
-                                modifier = Modifier.padding(top = AppTheme.dimensions.paddingMedium)
+                                modifier = Modifier
+                                    .animateItem()
+                                    .padding(top = AppTheme.dimensions.paddingNSmall),
+                                sort = it.sort
                             )
                         }
                     }
@@ -241,7 +254,8 @@ private fun PreviewEmpty() {
             tagSortUpdated = { _, _ -> },
             tagExpanded = { _, _ -> },
             untaggedSort = { },
-            navigateToSettings = { }
+            navigateToSettings = { },
+            navigateToTags = { }
         )
     }
 }
@@ -261,7 +275,8 @@ private fun PreviewUntagged() {
             tagSortUpdated = { _, _ -> },
             tagExpanded = { _, _ -> },
             untaggedSort = { },
-            navigateToSettings = { }
+            navigateToSettings = { },
+            navigateToTags = { }
         )
     }
 }
@@ -282,7 +297,8 @@ private fun PreviewTagged() {
             tagSortUpdated = { _, _ -> },
             tagExpanded = { _, _ -> },
             untaggedSort = { },
-            navigateToSettings = { }
+            navigateToSettings = { },
+            navigateToTags = { }
         )
     }
 }
@@ -311,7 +327,8 @@ private fun UiState.Companion.tagged(): UiState = UiState(
     items = listOf(
         ListItem.TagHeader(
             tag = Tag("tag1", "A", "", TagOrdering.ALPHABETICAL),
-            expand = true
+            expand = true,
+            sort = TagOrdering.ALPHABETICAL
         ),
         ListItem.CountdownItem(
             countdown = fakeCountdownUpcoming.copy(id = "upcoming_1")
@@ -321,7 +338,8 @@ private fun UiState.Companion.tagged(): UiState = UiState(
         ),
         ListItem.TagHeader(
             tag = Tag("tag2", "A", "", TagOrdering.ALPHABETICAL),
-            expand = true
+            expand = true,
+            sort = TagOrdering.ALPHABETICAL
         ),
         ListItem.CountdownItem(
             countdown = fakeCountdownUpcoming.copy(id = "upcoming_3")

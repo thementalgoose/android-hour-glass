@@ -28,8 +28,10 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.window.layout.WindowLayoutInfo
 import tmg.hourglass.navigation.Home
 import tmg.hourglass.navigation.Settings
+import tmg.hourglass.navigation.Tags
 import tmg.hourglass.navigation.navigateToHome
 import tmg.hourglass.navigation.navigateToSettings
+import tmg.hourglass.navigation.replaceDetail
 import tmg.hourglass.presentation.navigation.NavigationColumn
 import tmg.utilities.extensions.toEnum
 

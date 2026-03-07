@@ -4,6 +4,12 @@
     <!-- Placeholder -->
     <string name="placeholder_title">No se encontraron elementos</string>
 
+    <string name="title_all">Todos</string>
+    <string name="tag_title">Etiquetas</string>
+    <string name="tag_subtitle">Agrupa las cuentas atrás asignándoles una etiqueta</string>
+    <string name="tag_hint">Etiqueta</string>
+    <string name="tag_save">Agregar etiqueta</string>
+
     <!-- Settings -->
     <string name="settings_title">Ajustes</string>
     <string name="settings_theme">Tema</string>
@@ -84,6 +90,7 @@
     <!-- Menu -->
     <string name="menu_dashboard">Inicio</string>
     <string name="menu_settings">Ajustes</string>
+    <string name="menu_tags">Tags</string>
     <string name="menu_sort">Ordenar</string>
     <string name="menu_sort_alphabetical">Alfabética</string>
     <string name="menu_finishing_soonest">Terminar lo antes posible</string>
@@ -118,6 +125,9 @@
     <string name="modify_error_value_match">Los valores no pueden coincidir</string>
     <string name="modify_error_value_numbers">Los valores deben ser números</string>
 
+    <string name="modify_field_tags">Etiqueta</string>
+    <string name="modify_field_tags_desc">Asignar etiquetas</string>
+    <string name="modify_field_tags_no_tags">No se han configurado etiquetas. Haga clic aquí para agregar etiquetas.</string>
 
     <string name="modify_field_type">Tipo</string>
     <string name="modify_field_type_desc">Selecciona qué tipo de métrica quieres contar hacia atrás o hacia arriba</string>

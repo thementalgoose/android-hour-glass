@@ -34,8 +34,6 @@ import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.presentation.utils.Fade
 import tmg.utilities.extensions.format
 
-private val spacing = 8.dp
-
 @Composable
 fun DataRangeDateLayout(
     startDate: LocalDateTime?,
@@ -61,7 +59,7 @@ fun DataRangeDateLayout(
         Spacer(modifier = Modifier.height(8.dp))
         Column(
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(spacing)
+            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall)
         ) {
             DateSelection(
                 text = string.modify_field_dates_start,
@@ -124,7 +122,7 @@ private fun ColumnScope.DateSelection(
             visible = date?.toLocalDate() != LocalDate.now(),
         ) {
             Row {
-                Spacer(Modifier.width(spacing))
+                Spacer(Modifier.width(AppTheme.dimensions.paddingXSmall))
                 SecondaryIconButton(
                     modifier = Modifier.height(IntrinsicSize.Max),
                     icon = Icons.Outlined.PlayArrow,

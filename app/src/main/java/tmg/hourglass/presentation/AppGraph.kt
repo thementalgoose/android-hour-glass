@@ -1,5 +1,6 @@
 package tmg.hourglass.presentation
 
+import android.util.Log
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -7,7 +8,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -19,6 +19,7 @@ import tmg.hourglass.navigation.Modify
 import tmg.hourglass.navigation.Settings
 import tmg.hourglass.navigation.SettingsBackup
 import tmg.hourglass.navigation.SettingsPrivacyPolicy
+import tmg.hourglass.navigation.Tags
 import tmg.hourglass.navigation.navigateToHome
 import tmg.hourglass.navigation.navigateToSettings
 import tmg.hourglass.navigation.removeDetail
@@ -31,6 +32,7 @@ import tmg.hourglass.presentation.scene.rememberSplitPaneSceneStrategy
 import tmg.hourglass.presentation.settings.SettingsScreenVM
 import tmg.hourglass.presentation.settings.backup.BackupScreen
 import tmg.hourglass.presentation.settings.privacy.PrivacyPolicyLayout
+import tmg.hourglass.presentation.tag.TagScreenVM
 
 @Composable
 fun AppGraph(
@@ -65,7 +67,10 @@ fun AppGraph(
                     windowSize = windowSize,
                     navigateToAdd = { backStack.replaceDetail(Add) },
                     navigateToModify = { backStack.replaceDetail(Modify(it)) },
-                    navigateToSettings = { backStack.navigateToSettings() }
+                    navigateToSettings = { backStack.navigateToSettings() },
+                    navigateToTags = {
+                        backStack.replaceDetail(Tags)
+                    }
                 )
             }
             entry<Add>(metadata = detailPane()) {
@@ -75,7 +80,10 @@ fun AppGraph(
                     actionUpClicked = {
                         backStack.removeDetail()
                     },
-                    countdownId = null
+                    countdownId = null,
+                    navigateToTag = {
+                        backStack.replaceDetail(Tags)
+                    }
                 )
             }
             entry<Modify>(metadata = detailPane()) {
@@ -85,7 +93,19 @@ fun AppGraph(
                     actionUpClicked = {
                         backStack.removeDetail()
                     },
-                    countdownId = it.id
+                    countdownId = it.id,
+                    navigateToTag = {
+                        backStack.replaceDetail(Tags)
+                    }
+                )
+            }
+            entry<Tags>(metadata = detailPane()) {
+                TagScreenVM(
+                    paddingValues = paddingValues,
+                    windowSizeClass = windowSize,
+                    actionUpClicked = {
+                        backStack.removeDetail()
+                    }
                 )
             }
             entry<Settings>(metadata = listPane()) {

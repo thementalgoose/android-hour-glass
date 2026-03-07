@@ -43,7 +43,7 @@ sealed interface Countdown {
     val isFinished: Boolean
         get() = endDate <= LocalDateTime.now()
 
-    val tag: String?
+    val tag: Tag?
 
     fun getLabel(progress: Float): String {
         val start: Int = startValue.toIntOrNull() ?: 0
@@ -66,7 +66,7 @@ sealed interface Countdown {
         override val startValue: String,
         override val endValue: String,
         override val countdownType: CountdownType,
-        override val tag: String?
+        override val tag: Tag?
     ): Countdown {
         override val startDate: LocalDateTime by lazy {
             val startLong = start.toLongOrNull()
@@ -124,7 +124,7 @@ sealed interface Countdown {
         override val colour: String,
         private val day: Int,
         private val month: Month,
-        override val tag: String?
+        override val tag: Tag?
     ): Countdown {
 
         override val isFinished: Boolean
@@ -165,6 +165,7 @@ sealed interface Countdown {
 fun Countdown.Companion.preview(
     type: CountdownType = CountdownType.DAYS,
     color: String = "#152793",
+    tag: Tag? = Tag.preview()
 ): Countdown {
     return Countdown.Static(
         id = "countdown",
@@ -176,6 +177,6 @@ fun Countdown.Companion.preview(
         startValue = "0",
         endValue = "1000",
         countdownType = type,
-        tag = "Tag"
+        tag = tag
     )
 }

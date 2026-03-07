@@ -1,5 +1,6 @@
 package tmg.hourglass.presentation.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,12 +41,15 @@ sealed interface ListItem {
     data class TagHeader(
         val tag: Tag,
         val expand: Boolean?,
+        val sort: TagOrdering
     ): ListItem {
         override val id: String
             get() = tag.tagId
     }
 
-    data object UntaggedHeader: ListItem {
+    data class UntaggedHeader(
+        val sort: TagOrdering
+    ): ListItem {
         override val id: String
             get() = "untagged"
     }
@@ -66,7 +70,7 @@ class HomeViewModel @Inject constructor(
     private val preferencesManager: PreferencesManager,
 ): ViewModel() {
 
-    private val sectionExpanded = MutableStateFlow<MutableMap<String, Boolean>>(mutableMapOf())
+    private val sectionExpanded = MutableStateFlow<Map<String, Boolean>>(emptyMap())
     private val untaggedSort = MutableStateFlow(preferencesManager.sortOrder)
 
     val uiState: StateFlow<UiState> =
@@ -84,7 +88,7 @@ class HomeViewModel @Inject constructor(
             initialValue = UiState()
         )
 
-    private fun Map<String, Boolean>.isExpanded(tabId: String) = this.get(tabId) ?: true
+    private fun Map<String, Boolean>.isExpanded(tabId: String) = this[tabId] ?: true
 
     private fun buildList(
         list: List<TaggedCountdowns>,
@@ -93,39 +97,42 @@ class HomeViewModel @Inject constructor(
     ): List<ListItem> {
         val now = LocalDateTime.now()
         if (list.size == 1 && list.first() is TaggedCountdowns.Untagged) {
-            return listOf(ListItem.UntaggedHeader) + list.first()
+            return listOf(ListItem.UntaggedHeader(untaggedSort)) + list.first()
                 .countdowns
                 .sortBy(now, untaggedSort)
                 .map { ListItem.CountdownItem(it) }
 
         }
-        return list
-            .map {
-                when (it) {
+        return buildList {
+            for (item in list) {
+                when (item) {
                     is TaggedCountdowns.Tagged -> {
-                        listOf(ListItem.TagHeader(it.tag, sections.isExpanded(it.tag.tagId))) +
-                                it.countdowns.map { countdown -> ListItem.CountdownItem(countdown) }
+                        val isExpand = sections.isExpanded(item.tag.tagId)
+                        add(ListItem.TagHeader(item.tag, isExpand, item.sort))
+                        if (isExpand) {
+                            addAll(item.countdowns.map { countdown -> ListItem.CountdownItem(countdown) })
+                        }
                     }
                     is TaggedCountdowns.Untagged -> {
-                        listOf(ListItem.UntaggedHeader) +
-                                it.countdowns
-                                    .sortBy(now, untaggedSort)
-                                    .map { countdown -> ListItem.CountdownItem(countdown) }
+                        add(ListItem.UntaggedHeader(untaggedSort))
+                        addAll(item.countdowns
+                            .sortBy(now, untaggedSort)
+                            .map { countdown -> ListItem.CountdownItem(countdown) })
                     }
                 }
             }
-            .flatten()
+        }
     }
 
     fun tagExpanded(tag: Tag, expanded: Boolean) {
-        val sections = sectionExpanded.value
+        val sections = sectionExpanded.value.toMutableMap()
         sections[tag.tagId] = expanded
-        sectionExpanded.update { sections }
+        sectionExpanded.value = sections.toMap()
     }
 
     fun untaggedSort(tagOrdering: TagOrdering) {
         preferencesManager.sortOrder = tagOrdering
-        untaggedSort.update { tagOrdering }
+        untaggedSort.value = tagOrdering
     }
 
     fun tagSortUpdated(tag: Tag, tagOrdering: TagOrdering) {

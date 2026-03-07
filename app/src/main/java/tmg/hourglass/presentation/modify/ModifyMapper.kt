@@ -8,6 +8,7 @@ import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.Countdown.Companion.MM_DD_FORMAT
 import tmg.hourglass.domain.model.Countdown.Companion.YYYY_MM_DD_FORMAT
+import tmg.hourglass.domain.model.Tag
 import tmg.hourglass.utils.DateUtils
 import tmg.utilities.extensions.extend
 import java.time.Year
@@ -39,7 +40,9 @@ object ModifyMapper {
             description = this.description,
             colorHex = this.colour,
             type = this.countdownType,
-            inputTypes = inputTypes
+            inputTypes = inputTypes,
+            allTags = emptyList(),
+            tag = this.tag
         )
     }
 
@@ -56,7 +59,7 @@ object ModifyMapper {
                         colour = colorHex,
                         day = inputTypes.day!!.trim().toInt(),
                         month = inputTypes.month!!,
-                        tag = null,
+                        tag = this.tag,
                     )
                 } else {
                     val endDate = LocalDate.of(inputTypes.year.toInt(), inputTypes.month, inputTypes.day!!.toInt()).atStartOfDay()
@@ -76,7 +79,7 @@ object ModifyMapper {
                         startValue = start,
                         endValue = end,
                         countdownType = type,
-                        tag = null,
+                        tag = this.tag,
                     )
                 }
             }
@@ -96,7 +99,7 @@ object ModifyMapper {
                     startValue = start,
                     endValue = end,
                     countdownType = type,
-                    tag = null,
+                    tag = this.tag,
                 )
             }
         }

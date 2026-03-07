@@ -70,14 +70,14 @@ fun PersonaliseLayout(
                 false -> null
             }
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         Input(
             modifier = Modifier,
             initial = description,
             inputUpdated = descriptionUpdated,
             hint = stringResource(id = string.modify_field_description_hint)
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()

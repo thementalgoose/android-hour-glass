@@ -75,7 +75,7 @@ fun DataRangeInputLayout(
                 keyboardType = KeyboardType.Number,
                 hint = "0"
             )
-            Spacer(Modifier.width(8.dp))
+            Spacer(Modifier.width(AppTheme.dimensions.paddingXSmall))
             Input(
                 modifier = Modifier
                     .weight(endWeight.value),

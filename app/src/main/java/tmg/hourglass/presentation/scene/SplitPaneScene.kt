@@ -41,7 +41,6 @@ class SplitPaneScene<T : Any>(
         val paddingInsets = PaddingValues(
             start = 0.dp,
             end = 0.dp,
-            top = safeDrawingInsets.calculateTopPadding(),
             bottom = safeDrawingInsets.calculateBottomPadding()
         )
         BoxWithConstraints(modifier = Modifier

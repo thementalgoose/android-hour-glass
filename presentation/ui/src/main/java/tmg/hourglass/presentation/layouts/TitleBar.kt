@@ -27,11 +27,13 @@ import tmg.hourglass.strings.R.string
 fun TitleBar(
     title: String,
     modifier: Modifier = Modifier,
+    titleModifier: Modifier = Modifier,
     overflowActions: @Composable RowScope.() -> Unit = { },
 ) {
     TitleBar(
         title = title,
         modifier = modifier,
+        titleModifier = titleModifier,
         overflowActions = overflowActions,
         showBack = false,
         actionUpClicked = { }
@@ -70,10 +72,6 @@ fun TitleBar(
         }
         Row(modifier = Modifier
             .fillMaxWidth()
-            .padding(
-                top = AppTheme.dimensions.paddingSmall,
-                bottom = AppTheme.dimensions.paddingMedium
-            )
         ) {
             TextHeader1(
                 text = title,

@@ -9,7 +9,9 @@ import tmg.utilities.extensions.toEnum
 import java.time.Month
 import javax.inject.Inject
 
-internal class CountdownMapper @Inject constructor() {
+internal class CountdownMapper @Inject constructor(
+    private val tagMapper: TagMapper
+) {
 
     private val Countdown.startLabel: String
         get() = when (this) {
@@ -37,35 +39,35 @@ internal class CountdownMapper @Inject constructor() {
             isRecurring = model is Countdown.Recurring,
             passageType = model.countdownType.key,
             interpolator = model.interpolator.key,
-            tagId = model.tag,
+            tagId = model.tag?.tagId,
         )
     }
 
-    fun deserialize(model: tmg.hourglass.room.models.Countdown): Countdown {
+    fun deserialize(model: tmg.hourglass.room.models.CountdownWithTag): Countdown {
         Log.d("CountdownMapper", "Deserializing countdown $model")
-        return if (model.isRecurring) {
+        return if (model.countdown.isRecurring) {
             Countdown.Recurring(
-                id = model.id,
-                name = model.name,
-                description = model.description,
-                colour = model.colour,
-                day = model.end.split("-")[1].toIntOrNull() ?: 31,
-                month = Month.of(model.end.split("-")[0].toIntOrNull() ?: 12),
-                tag = model.tagId
+                id = model.countdown.id,
+                name = model.countdown.name,
+                description = model.countdown.description,
+                colour = model.countdown.colour,
+                day = model.countdown.end.split("-")[1].toIntOrNull() ?: 31,
+                month = Month.of(model.countdown.end.split("-")[0].toIntOrNull() ?: 12),
+                tag = model.tag?.let { tagMapper.deserialize(it) }
             )
         } else {
             Countdown.Static(
-                id = model.id,
-                name = model.name,
-                description = model.description,
-                colour = model.colour,
-                start = model.start,
-                end = model.end,
-                startValue = model.initial,
-                endValue = model.finishing,
-                countdownType = model.passageType.toEnum<CountdownType> { it.key }
+                id = model.countdown.id,
+                name = model.countdown.name,
+                description = model.countdown.description,
+                colour = model.countdown.colour,
+                start = model.countdown.start,
+                end = model.countdown.end,
+                startValue = model.countdown.initial,
+                endValue = model.countdown.finishing,
+                countdownType = model.countdown.passageType.toEnum<CountdownType> { it.key }
                     ?: CountdownType.NUMBER,
-                tag = model.tagId
+                tag = model.tag?.let { tagMapper.deserialize(it) }
             )
         }
     }

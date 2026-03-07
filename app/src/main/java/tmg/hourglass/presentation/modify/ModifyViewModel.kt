@@ -2,9 +2,14 @@ package tmg.hourglass.presentation.modify
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import tmg.hourglass.BuildConfig
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -12,6 +17,9 @@ import tmg.hourglass.core.googleanalytics.CrashReporter
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownType
+import tmg.hourglass.domain.model.Tag
+import tmg.hourglass.domain.repositories.TagRepository
+import tmg.hourglass.navigation.Tags
 import tmg.hourglass.presentation.modify.ModifyMapper.toCountdown
 import tmg.hourglass.presentation.modify.ModifyMapper.toUiState
 import tmg.hourglass.presentation.modify.UiState.Direction.CountDown
@@ -25,10 +33,23 @@ import javax.inject.Inject
 @HiltViewModel
 class ModifyViewModel @Inject constructor(
     private val countdownRepository: CountdownRepository,
+    tagRepository: TagRepository,
     private val crashReporter: CrashReporter
 ): ViewModel() {
+    private val allTags: Flow<List<Tag>> = tagRepository.getAll()
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(getUiState())
-    val uiState: StateFlow<UiState> = _uiState
+    val uiState: StateFlow<UiState> =
+        combine(
+            flow = _uiState,
+            flow2 = allTags
+        ) { uiState, tags ->
+            uiState.copy(allTags = tags)
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = getUiState()
+        )
 
     private var id: String? = null
 
@@ -41,7 +62,9 @@ class ModifyViewModel @Inject constructor(
             day = null,
             month = null,
             year = "${Year.now().value}"
-        )
+        ),
+        allTags = emptyList(),
+        tag = null
     )
 
     fun initialise(id: String?) {
@@ -173,6 +196,17 @@ class ModifyViewModel @Inject constructor(
             )
         }
     }
+
+    fun setTag(tag: Tag?) {
+        val existing = _uiState.value.tag
+        Log.d("Modify", "Setting tag to $tag")
+        if (existing == tag && existing != null) {
+            _uiState.value = _uiState.value.copy(tag = null)
+        } else {
+            _uiState.value = _uiState.value.copy(tag = tag)
+        }
+    }
+
     fun setEndValue(value: String) {
         val existingType = _uiState.value.inputTypes
         if (existingType is UiState.Types.Values) {
@@ -194,6 +228,7 @@ class ModifyViewModel @Inject constructor(
             }
 
             val countdown = uiState.toCountdown(id ?: UUID.randomUUID().toString())
+            Log.d("Modify", "Saving countdown $countdown")
             countdownRepository.saveSync(countdown)
             id = null
         } catch (e: NullPointerException) {
@@ -213,7 +248,9 @@ data class UiState(
     val description: String,
     val colorHex: String,
     val type: CountdownType,
-    val inputTypes: Types
+    val inputTypes: Types,
+    val allTags: List<Tag>,
+    val tag: Tag?
 ) {
 
     val errors: List<ErrorTypes> by lazy {

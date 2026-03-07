@@ -28,6 +28,7 @@ fun NavKey.isList() = when (this) {
     is Home -> true
     is Modify -> false
     is Add -> false
+    is Tags -> false
     is Settings -> true
     is SettingsBackup -> false
     is SettingsPrivacyPolicy -> false
@@ -41,6 +42,9 @@ data object Home: NavKey
 data class Modify(
     val id: String
 ): NavKey
+
+@Serializable
+data object Tags: NavKey
 
 @Serializable
 data object Add: NavKey

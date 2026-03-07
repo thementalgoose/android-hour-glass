@@ -22,6 +22,8 @@ import java.time.LocalDate
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import tmg.hourglass.presentation.AppTheme
+import tmg.hourglass.presentation.AppThemePreview
+import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.R
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.strings.R.string
@@ -78,7 +80,7 @@ fun DatePicker(
                 }
             )
 
-            Spacer(modifier = Modifier.size(8.dp))
+            Spacer(modifier = Modifier.size(AppTheme.dimensions.paddingXSmall))
 
             Row(
                 modifier = Modifier

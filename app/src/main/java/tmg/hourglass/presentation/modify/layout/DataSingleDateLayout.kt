@@ -80,7 +80,7 @@ fun DataSingleDateLayout(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(IntrinsicSize.Min),
-                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingMedium)
+                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall)
             ) {
                 Input(
                     modifier = Modifier
