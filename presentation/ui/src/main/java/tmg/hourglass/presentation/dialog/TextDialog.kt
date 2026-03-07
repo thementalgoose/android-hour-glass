@@ -2,6 +2,7 @@ package tmg.hourglass.presentation.dialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,13 +40,11 @@ fun <T> TextDialog(
             LazyColumn(
                 modifier = modifier
                     .clip(RoundedCornerShape(AppTheme.dimensions.radiusMedium))
-                    .background(AppTheme.colors.backgroundPrimary)
-                    .padding(
-                        start = AppTheme.dimensions.paddingSmall,
-                        end = AppTheme.dimensions.paddingSmall,
-                        top = AppTheme.dimensions.paddingMedium,
-                        bottom = AppTheme.dimensions.paddingMedium
-                    ),
+                    .background(AppTheme.colors.backgroundPrimary),
+                contentPadding = PaddingValues(
+                    horizontal = AppTheme.dimensions.paddingSmall,
+                    vertical = AppTheme.dimensions.paddingSmall
+                ),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 item("header") {
