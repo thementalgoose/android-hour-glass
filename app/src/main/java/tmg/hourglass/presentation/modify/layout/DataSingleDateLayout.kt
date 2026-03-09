@@ -32,8 +32,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -68,6 +74,8 @@ fun DataSingleDateLayout(
     dayUpdated: (String) -> Unit,
     monthUpdated: (Month) -> Unit,
     yearUpdated: (String) -> Unit,
+    startDate: LocalDateTime?,
+    startDateUpdated: (LocalDateTime) -> Unit,
     modifier: Modifier = Modifier,
     error: String? = null,
 ) {
@@ -76,12 +84,14 @@ fun DataSingleDateLayout(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(AppTheme.dimensions.paddingMedium)
+            .padding(AppTheme.dimensions.paddingMedium),
+        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingSmall)
     ) {
-        TextHeader2(text = stringResource(id = R.string.modify_field_date))
-        Spacer(modifier = Modifier.height(8.dp))
-        TextBody1(text = stringResource(id = R.string.modify_field_date_desc))
-        Spacer(modifier = Modifier.height(8.dp))
+        TextHeader2(text = stringResource(id = string.modify_field_date))
+        Subtitle(
+            startDate = startDate,
+            startDateUpdated = startDateUpdated
+        )
 
         Column {
             Row(
@@ -171,6 +181,55 @@ fun DataSingleDateLayout(
     }
 }
 
+@Composable
+private fun Subtitle(
+    startDate: LocalDateTime?,
+    startDateUpdated: (LocalDateTime) -> Unit,
+) {
+    val showDialog = remember { mutableStateOf(false) }
+    val today = stringResource(string.modify_field_date_today)
+    val now = remember(startDate) {
+        when (startDate?.toLocalDate()) {
+            LocalDate.now() -> today
+            null -> today
+            else -> startDate.format("dd MMM yyyy")
+        }
+    }
+    val pickADate = stringResource(string.modify_field_date_desc)
+    val label = stringResource(string.modify_field_date_change_start_desc, now)
+    val myAnnotatedString = buildAnnotatedString {
+        append(pickADate)
+        append(" ")
+        withLink(
+            LinkAnnotation.Url(
+                url = "https://google.com",
+                styles = TextLinkStyles(
+                    style = SpanStyle(textDecoration = TextDecoration.Underline),
+                    hoveredStyle = SpanStyle(color = AppTheme.colors.primary)
+                ),
+                linkInteractionListener = {
+                    showDialog.value = true
+                }
+            )
+        ) {
+            append(label)
+        }
+    }
+    TextBody1(myAnnotatedString)
+
+    if (showDialog.value) {
+        DatePicker(
+            minDate = null,
+            currentlySelectedDate = startDate?.toLocalDate(),
+            onDateSelected = {
+                startDateUpdated(it.atStartOfDay())
+            },
+            onDismissRequest = {
+                showDialog.value = false
+            }
+        )
+    }
+}
 
 @Composable
 private fun MonthDialog(
@@ -205,6 +264,8 @@ private fun Preview() {
             dayUpdated = { },
             monthUpdated = { },
             yearUpdated = { },
+            startDate = LocalDateTime.now(),
+            startDateUpdated = { }
         )
     }
 }
@@ -220,6 +281,8 @@ private fun PreviewError() {
             dayUpdated = { },
             monthUpdated = { },
             yearUpdated = { },
+            startDate = LocalDateTime.now(),
+            startDateUpdated = { },
             error = "Help me bro"
         )
     }
