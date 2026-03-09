@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import tmg.hourglass.aboutthisapp.AboutThisAppConfig
 import javax.inject.Inject
 import androidx.core.net.toUri
+import tmg.hourglass.migration.LogOldEvents
 
 
 @AndroidEntryPoint

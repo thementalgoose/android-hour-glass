@@ -12,6 +12,7 @@ import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private const val keyLoggedInitialEvents: String = "logInitialEvents"
 private const val keyCrashReporting: String = "crashReporting"
 private const val keyAnalyticsReporting: String = "analyticsReporting"
 private const val keyDeviceUdid: String = "deviceUdid"
@@ -28,6 +29,10 @@ class AppPreferencesManager @Inject constructor(
         get() = SharedPrefManagerConfig.Custom(
             prefsKey = "tmg.passage"
         )
+
+    override var hasLoggedInitialEvents: Boolean
+        get() = getBoolean(keyLoggedInitialEvents, false)
+        set(value) = save(keyLoggedInitialEvents, value)
 
     override var crashReporting: Boolean
         get() = getBoolean(keyCrashReporting, true)
