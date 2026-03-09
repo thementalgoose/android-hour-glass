@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import tmg.hourglass.core.crashlytics.AnalyticsManager
 import tmg.hourglass.domain.model.ThemeSelection
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.repositories.PreferencesManager
@@ -35,6 +36,7 @@ class SettingsViewModel @Inject constructor(
     private val prefManager: PreferencesManager,
     private val countdownRepository: CountdownRepository,
     private val changeThemeUseCase: ChangeThemeUseCase,
+    private val analyticsManager: AnalyticsManager
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -69,6 +71,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun deleteAll() {
+        analyticsManager.event("countdown_removeall")
         countdownRepository.deleteAll()
     }
 

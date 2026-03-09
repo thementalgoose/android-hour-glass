@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import tmg.hourglass.core.crashlytics.AnalyticsManager
+import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.Tag
 import tmg.hourglass.domain.model.TagOrdering
@@ -68,6 +70,7 @@ class HomeViewModel @Inject constructor(
     private val countdownRepository: CountdownRepository,
     private val tagRepository: TagRepository,
     private val preferencesManager: PreferencesManager,
+    private val analyticsManager: AnalyticsManager
 ): ViewModel() {
 
     private val sectionExpanded = MutableStateFlow<Map<String, Boolean>>(emptyMap())
@@ -140,6 +143,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun delete(countdown: Countdown) {
+        analyticsManager.event("countdown_remove")
         countdownRepository.delete(countdown.id)
     }
 }

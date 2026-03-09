@@ -9,8 +9,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import tmg.hourglass.core.crashlytics.AnalyticsManager
 import tmg.hourglass.domain.model.Tag
 import tmg.hourglass.domain.model.TagOrdering
+import tmg.hourglass.domain.repositories.PreferencesManager
 import tmg.hourglass.domain.repositories.TagRepository
 import java.util.UUID
 import javax.inject.Inject
@@ -22,7 +24,8 @@ data class TagUiState(
 
 @HiltViewModel
 class TagViewModel @Inject constructor(
-    private val tagRepository: TagRepository
+    private val tagRepository: TagRepository,
+    private val analyticsManager: AnalyticsManager
 ): ViewModel() {
     private val tagInput: MutableStateFlow<String> = MutableStateFlow("")
     val uiState: StateFlow<TagUiState> =
@@ -49,6 +52,7 @@ class TagViewModel @Inject constructor(
             sort = TagOrdering.FINISHING_SOONEST
         )
         tagRepository.insertTag(tag)
+        analyticsManager.event("tag_add")
     }
 
     fun inputTag(tag: String) {
@@ -56,6 +60,7 @@ class TagViewModel @Inject constructor(
     }
 
     fun deleteTag(tag: Tag) {
+        analyticsManager.event("tag_remove")
         tagRepository.deleteTag(tag)
     }
 }

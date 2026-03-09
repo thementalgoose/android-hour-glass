@@ -11,13 +11,16 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import tmg.hourglass.BuildConfig
+import tmg.hourglass.core.crashlytics.AnalyticsManager
 import java.time.LocalDate
 import java.time.LocalDateTime
 import tmg.hourglass.core.googleanalytics.CrashReporter
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownType
+import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.Tag
+import tmg.hourglass.domain.repositories.PreferencesManager
 import tmg.hourglass.domain.repositories.TagRepository
 import tmg.hourglass.navigation.Tags
 import tmg.hourglass.presentation.modify.ModifyMapper.toCountdown
@@ -34,7 +37,8 @@ import javax.inject.Inject
 class ModifyViewModel @Inject constructor(
     private val countdownRepository: CountdownRepository,
     tagRepository: TagRepository,
-    private val crashReporter: CrashReporter
+    private val crashReporter: CrashReporter,
+    private val analyticsManager: AnalyticsManager,
 ): ViewModel() {
     private val allTags: Flow<List<Tag>> = tagRepository.getAll()
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(getUiState())
@@ -230,6 +234,16 @@ class ModifyViewModel @Inject constructor(
             val countdown = uiState.toCountdown(id ?: UUID.randomUUID().toString())
             Log.d("Modify", "Saving countdown $countdown")
             countdownRepository.saveSync(countdown)
+
+            val key = when (id == null) {
+                true -> "countdown_add"
+                false -> "countdown_modify"
+            }
+            val label = countdown.countdownType.key
+            analyticsManager.event(key, mapOf(
+                "type" to label
+            ))
+
             id = null
         } catch (e: NullPointerException) {
             crashReporter.logException(e)
