@@ -252,6 +252,7 @@ class ModifyViewModel @Inject constructor(
 
     fun delete() {
         id?.let {
+            analyticsManager.event("countdown_remove")
             countdownRepository.delete(it)
         }
     }

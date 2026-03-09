@@ -9,6 +9,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Ignore
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import tmg.hourglass.core.crashlytics.AnalyticsManager
 import tmg.hourglass.domain.model.Tag
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.repositories.TagRepository
@@ -25,6 +26,7 @@ internal class ModifyViewModelTest {
     private val mockCountdownRepository: CountdownRepository = mockk(relaxed = true)
     private val mockTagRepository: TagRepository = mockk(relaxed = true)
     private val mockCrashReporter: CrashReporter = mockk(relaxed = true)
+    private val mockAnalyticsManager: AnalyticsManager = mockk(relaxed = true)
 
     private lateinit var underTest: ModifyViewModel
 
@@ -32,7 +34,8 @@ internal class ModifyViewModelTest {
         underTest = ModifyViewModel(
             countdownRepository = mockCountdownRepository,
             tagRepository = mockTagRepository,
-            crashReporter = mockCrashReporter
+            crashReporter = mockCrashReporter,
+            analyticsManager = mockAnalyticsManager
         )
     }
 
@@ -121,6 +124,7 @@ internal class ModifyViewModelTest {
 
             underTest.save()
 
+            verify { mockAnalyticsManager.event(any(), any()) }
             verify { mockCountdownRepository.saveSync(any()) }
         }
     }
@@ -141,6 +145,7 @@ internal class ModifyViewModelTest {
 
             underTest.delete()
 
+            verify { mockAnalyticsManager.event(any()) }
             verify { mockCountdownRepository.delete("1") }
         }
     }

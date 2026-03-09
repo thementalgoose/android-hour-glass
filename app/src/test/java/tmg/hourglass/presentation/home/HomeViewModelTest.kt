@@ -12,6 +12,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import tmg.hourglass.core.crashlytics.AnalyticsManager
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.Tag
 import tmg.hourglass.domain.model.TagOrdering
@@ -28,6 +29,7 @@ internal class HomeViewModelTest {
     private val mockCountdownRepository: CountdownRepository = mockk(relaxed = true)
     private val mockTagRepository: TagRepository = mockk(relaxed = true)
     private val mockPreferencesManager: PreferencesManager = mockk(relaxed = true)
+    private val mockAnalyticsManager: AnalyticsManager = mockk(relaxed = true)
 
     private lateinit var underTest: HomeViewModel
 
@@ -38,7 +40,8 @@ internal class HomeViewModelTest {
             getTaggedCountdownsUseCase = mockGetTagged,
             countdownRepository = mockCountdownRepository,
             tagRepository = mockTagRepository,
-            preferencesManager = mockPreferencesManager
+            preferencesManager = mockPreferencesManager,
+            analyticsManager = mockAnalyticsManager
         )
     }
 
@@ -120,6 +123,7 @@ internal class HomeViewModelTest {
 
         underTest.delete(cd)
 
+        verify { mockAnalyticsManager.event(any()) }
         verify { mockCountdownRepository.delete(cd.id) }
     }
 }
