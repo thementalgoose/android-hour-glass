@@ -1,11 +1,14 @@
 package tmg.hourglass.presentation.modify.layout
 
+import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +20,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Updater
@@ -37,6 +42,8 @@ import tmg.hourglass.domain.extensions.label
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTheme
+import tmg.hourglass.presentation.buttons.SecondaryIconButton
+import tmg.hourglass.presentation.dialog.TextDialog
 import tmg.hourglass.presentation.inputs.Input
 import tmg.hourglass.presentation.pickers.DatePicker
 import tmg.hourglass.presentation.textviews.TextBody1
@@ -46,6 +53,7 @@ import tmg.hourglass.strings.R
 import tmg.hourglass.strings.R.string
 import tmg.utilities.extensions.format
 import tmg.utilities.extensions.ordinalAbbreviation
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
 import java.time.format.TextStyle
@@ -156,6 +164,7 @@ fun DataSingleDateLayout(
 
     if (showDialog.value) {
         MonthDialog(
+            monthSelected = month,
             monthUpdated = monthUpdated,
             dismissed = { showDialog.value = false }
         )
@@ -165,56 +174,21 @@ fun DataSingleDateLayout(
 
 @Composable
 private fun MonthDialog(
+    monthSelected: Month?,
     monthUpdated: (Month) -> Unit,
     dismissed: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Dialog(
-        properties = DialogProperties(),
-        onDismissRequest = dismissed,
-        content = {
-            Column(
-                modifier = modifier
-                    .background(AppTheme.colors.backgroundSecondary)
-                    .padding(
-                        start = AppTheme.dimensions.paddingSmall,
-                        end = AppTheme.dimensions.paddingSmall,
-                        top = AppTheme.dimensions.paddingMedium,
-                        bottom = AppTheme.dimensions.paddingMedium
-                    )
-                    .verticalScroll(rememberScrollState())
-            ) {
-                TextHeader2(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = AppTheme.dimensions.paddingMedium,
-                            top = AppTheme.dimensions.paddingMedium,
-                            bottom = AppTheme.dimensions.paddingMedium,
-                            end = AppTheme.dimensions.paddingMedium
-                        ),
-                    text = stringResource(id = string.modify_field_month)
-                )
-                Month.entries.forEach {
-                    TextButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = {
-                            monthUpdated(it)
-                            dismissed()
-                        }
-                    ) {
-                        TextBody1(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    start = AppTheme.dimensions.paddingSmall,
-                                    end = AppTheme.dimensions.paddingSmall
-                                ),
-                            text = it.getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault())
-                        )
-                    }
-                }
-            }
+    TextDialog(
+        modifier = modifier,
+        items = Month.entries,
+        itemClicked = monthUpdated,
+        dismissed = dismissed,
+        title = stringResource(id = string.modify_field_month),
+        showSelection = true,
+        itemSelected = monthSelected,
+        itemLabel = {
+            it.getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault())
         }
     )
 }
