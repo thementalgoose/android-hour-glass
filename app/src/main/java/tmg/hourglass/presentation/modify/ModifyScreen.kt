@@ -87,6 +87,8 @@ fun ModifyScreenVM(
                     uiState.value.errors.any { it == UiState.ErrorTypes.FINISH_DATE_NULL } -> stringResource(R.string.modify_error_finish_date_null)
                     uiState.value.errors.any { it == UiState.ErrorTypes.FINISH_DATE_IN_PAST } -> stringResource(R.string.modify_error_finish_date_in_past)
                     uiState.value.errors.any { it == UiState.ErrorTypes.FINISH_DATE_INVALID } -> stringResource(R.string.modify_error_finish_invalid)
+                    uiState.value.errors.any { it == UiState.ErrorTypes.FINISH_DATE_BEFORE_START_DATE } -> stringResource(R.string.modify_error_finish_date_before_start)
+                    uiState.value.errors.any { it == UiState.ErrorTypes.START_DATE_IN_FUTURE } -> stringResource(R.string.modify_error_start_date_in_past)
                     else -> null
                 }
                 DataSingleDateLayout(
@@ -96,6 +98,8 @@ fun ModifyScreenVM(
                     dayUpdated = viewModel::setEndDateDay,
                     monthUpdated = viewModel::setEndDateMonth,
                     yearUpdated = viewModel::setEndDateYear,
+                    startDate = inputData.startDate,
+                    startDateUpdated = viewModel::setStartDate,
                     error = errorString
                 )
             }

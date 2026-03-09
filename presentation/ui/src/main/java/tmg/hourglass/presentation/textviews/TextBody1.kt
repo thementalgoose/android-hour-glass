@@ -4,6 +4,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -16,6 +17,34 @@ import tmg.hourglass.presentation.AppThemePreview
 @Composable
 fun TextBody1(
     text: String,
+    modifier: Modifier = Modifier,
+    bold: Boolean = false,
+    textAlign: TextAlign = TextAlign.Start,
+    textColor: Color? = null,
+    fontStyle: FontStyle? = null,
+    style: TextStyle = AppTheme.typography.body1.copy(
+        fontWeight = when (bold) {
+            true -> FontWeight.Bold
+            false -> FontWeight.Normal
+        },
+        color = textColor ?: AppTheme.colors.textPrimary
+    ),
+    maxLines: Int? = null
+) {
+    Text(
+        text,
+        textAlign = textAlign,
+        modifier = modifier,
+        maxLines = maxLines ?: Int.MAX_VALUE,
+        overflow = if (maxLines != null) TextOverflow.Ellipsis else TextOverflow.Clip,
+        fontStyle = fontStyle,
+        style = style
+    )
+}
+
+@Composable
+fun TextBody1(
+    text: AnnotatedString,
     modifier: Modifier = Modifier,
     bold: Boolean = false,
     textAlign: TextAlign = TextAlign.Start,

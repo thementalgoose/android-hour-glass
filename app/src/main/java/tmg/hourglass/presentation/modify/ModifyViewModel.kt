@@ -128,13 +128,22 @@ class ModifyViewModel @Inject constructor(
     }
     fun setStartDate(date: LocalDateTime) {
         val existingType = _uiState.value.inputTypes
-        if (existingType is UiState.Types.Values) {
-            _uiState.value = _uiState.value.copy(
-                inputTypes = existingType.copy(
-                    startDate = date,
-                    endDate = null
+        when (existingType) {
+            is UiState.Types.EndDate -> {
+                _uiState.value = _uiState.value.copy(
+                    inputTypes = existingType.copy(
+                        startDate = date
+                    )
                 )
-            )
+            }
+            is UiState.Types.Values -> {
+                _uiState.value = _uiState.value.copy(
+                    inputTypes = existingType.copy(
+                        startDate = date,
+                        endDate = null
+                    )
+                )
+            }
         }
     }
     fun setEndDateDay(day: String) {
@@ -311,6 +320,7 @@ data class UiState(
         VALUES_MATCH,
         VALUES_MUST_BE_NUMBER,
         START_DATE_NULL,
+        START_DATE_IN_FUTURE,
         FINISH_DATE_BEFORE_START_DATE,
     }
 
@@ -324,6 +334,12 @@ data class UiState(
             }
             when (inputTypes) {
                 is Types.EndDate -> {
+
+                    if (inputTypes.startDate.toLocalDate() > LocalDate.now().minusDays(1)) {
+                        add(ErrorTypes.START_DATE_IN_FUTURE)
+                        return@buildList
+                    }
+
                     if (inputTypes.day == null || inputTypes.month == null) {
                         add(ErrorTypes.FINISH_DATE_NULL)
                         return@buildList
@@ -335,7 +351,11 @@ data class UiState(
 
                     if (inputTypes.year.isNullOrBlank()) {
                         try {
-                            LocalDate.of(Year.now().value, inputTypes.month, day)
+                            val localDate = LocalDate.of(Year.now().value, inputTypes.month, day)
+                            if (localDate < inputTypes.startDate.toLocalDate()) {
+                                add(ErrorTypes.FINISH_DATE_BEFORE_START_DATE)
+                                return@buildList
+                            }
                         } catch (_: Exception) {
                             add(ErrorTypes.FINISH_DATE_INVALID)
                             return@buildList
@@ -346,6 +366,10 @@ data class UiState(
                         )
                         try {
                             val localDate = LocalDate.of(year, inputTypes.month, day)
+                            if (localDate < inputTypes.startDate.toLocalDate()) {
+                                add(ErrorTypes.FINISH_DATE_BEFORE_START_DATE)
+                                return@buildList
+                            }
                             if (localDate < LocalDate.now()) {
                                 add(ErrorTypes.FINISH_DATE_IN_PAST)
                                 return@buildList
