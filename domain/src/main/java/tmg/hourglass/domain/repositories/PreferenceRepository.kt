@@ -4,6 +4,7 @@ import tmg.hourglass.domain.model.TagOrdering
 import tmg.hourglass.domain.model.ThemeSelection
 
 interface PreferencesManager {
+    var hasLoggedInitialEvents: Boolean
     var analyticsEnabled: Boolean
 
     var crashReporting: Boolean

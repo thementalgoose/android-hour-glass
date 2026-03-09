@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import tmg.hourglass.BuildConfig
+import tmg.hourglass.core.crashlytics.screenview.ScreenView
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.layout.DataRangeDateLayout
@@ -38,6 +39,11 @@ fun ModifyScreenVM(
     countdownId: String?,
     viewModel: ModifyViewModel = hiltViewModel()
 ) {
+    if (countdownId != null) {
+        ScreenView("Modify", updateKey = countdownId)
+    } else {
+        ScreenView("Add")
+    }
     DisposableEffect(countdownId) {
         Log.d("Modify", "Initialising VM with value $countdownId")
         viewModel.initialise(countdownId)

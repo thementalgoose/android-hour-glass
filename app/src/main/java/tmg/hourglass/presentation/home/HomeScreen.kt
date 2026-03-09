@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import tmg.hourglass.core.crashlytics.screenview.ScreenView
 import tmg.hourglass.domain.enums.CountdownColors
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
@@ -60,6 +61,7 @@ internal fun HomeScreenVM(
     navigateToTags: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    ScreenView("Home")
     val uiState = viewModel.uiState.collectAsState()
 
     HomeScreen(

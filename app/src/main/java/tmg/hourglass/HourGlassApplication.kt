@@ -9,8 +9,11 @@ import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import tmg.hourglass.domain.model.ThemeSelection
 import tmg.hourglass.domain.repositories.PreferencesManager
+import tmg.hourglass.migration.LogOldEvents
 import tmg.hourglass.widgets.updateAllWidgets
 import javax.inject.Inject
 
@@ -19,6 +22,9 @@ class HourGlassApplication : Application() {
 
     @Inject
     lateinit var prefs: PreferencesManager
+
+    @Inject
+    lateinit var logOldEvents: LogOldEvents
 
     override fun onCreate() {
         super.onCreate()
@@ -41,6 +47,14 @@ class HourGlassApplication : Application() {
         Log.i("HourGlass", "Analytics reporting ${if (prefs.analyticsEnabled) "enabled" else "disabled"}")
         FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(prefs.analyticsEnabled)
         FirebaseAnalytics.getInstance(this).setUserId(prefs.deviceUdid)
+
+        // Log migration analytics
+        if (!prefs.hasLoggedInitialEvents) {
+            GlobalScope.launch {
+                logOldEvents.invoke()
+            }
+            prefs.hasLoggedInitialEvents = true
+        }
 
         this.updateAllWidgets()
     }
