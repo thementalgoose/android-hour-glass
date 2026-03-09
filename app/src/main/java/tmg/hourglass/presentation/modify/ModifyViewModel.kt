@@ -335,7 +335,7 @@ data class UiState(
             when (inputTypes) {
                 is Types.EndDate -> {
 
-                    if (inputTypes.startDate.toLocalDate() > LocalDate.now().minusDays(1)) {
+                    if (inputTypes.startDate.toLocalDate() > LocalDate.now()) {
                         add(ErrorTypes.START_DATE_IN_FUTURE)
                         return@buildList
                     }
