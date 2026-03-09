@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
+import tmg.hourglass.core.crashlytics.screenview.ScreenView
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
@@ -37,6 +38,8 @@ fun PrivacyPolicyLayout(
     windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier
 ) {
+    ScreenView("Settings - Privacy Policy")
+
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = paddingValues

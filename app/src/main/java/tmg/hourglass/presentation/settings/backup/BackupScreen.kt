@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import tmg.hourglass.core.crashlytics.screenview.ScreenView
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.settings.components.SettingsHeader
@@ -35,6 +36,8 @@ fun BackupScreen(
     backClicked: () -> Unit,
     viewModel: BackupViewModel = hiltViewModel()
 ) {
+    ScreenView("Settings - Backup")
+
     val uiState = viewModel.uiState.collectAsState()
     val createDocument = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/octet-stream")) {
         viewModel.createBackup(it)

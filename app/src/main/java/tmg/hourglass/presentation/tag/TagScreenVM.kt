@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import kotlinx.coroutines.launch
 import tmg.hourglass.R
+import tmg.hourglass.core.crashlytics.screenview.ScreenView
 import tmg.hourglass.domain.model.Tag
 import tmg.hourglass.domain.model.TagOrdering
 import tmg.hourglass.presentation.AppTheme
@@ -84,6 +85,8 @@ private fun TagContent(
     inputTag: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    ScreenView("Tags")
+
     val keyboard = LocalSoftwareKeyboardController.current
     LazyColumn(
         modifier = modifier,

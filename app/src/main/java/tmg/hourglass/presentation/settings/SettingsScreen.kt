@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import tmg.hourglass.core.crashlytics.screenview.ScreenView
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewPhone
@@ -93,6 +94,7 @@ private fun SettingsOverviewScreen(
     val deletionConfirmationDialog = rememberSaveable { mutableStateOf(false) }
     val themeDialog = rememberSaveable { mutableStateOf(false) }
 
+    ScreenView("Settings")
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
