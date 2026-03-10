@@ -12,7 +12,8 @@ internal class TagMapper @Inject constructor() {
             id = model.tagId,
             name = model.name,
             colour = model.colour,
-            sort = model.sort.sortKey
+            sort = model.sort.sortKey,
+            expanded = model.expanded
         )
     }
 
@@ -21,7 +22,8 @@ internal class TagMapper @Inject constructor() {
             tagId = model.id,
             name = model.name,
             colour = model.colour,
-            sort = model.sort.toTagOrdering()
+            sort = model.sort.toTagOrdering(),
+            expanded = model.expanded
         )
     }
 

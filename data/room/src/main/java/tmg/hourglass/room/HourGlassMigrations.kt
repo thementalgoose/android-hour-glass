@@ -47,5 +47,10 @@ enum class Migrations(
                 )
             """.trimIndent())
         }
+    }),
+    MIGRATION_3_4(object : Migration(3, 4) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE Tag ADD COLUMN expanded INTEGER NOT NULL DEFAULT 1")
+        }
     });
 }
