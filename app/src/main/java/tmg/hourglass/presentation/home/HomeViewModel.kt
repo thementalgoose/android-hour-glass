@@ -73,16 +73,14 @@ class HomeViewModel @Inject constructor(
     private val analyticsManager: AnalyticsManager
 ): ViewModel() {
 
-    private val sectionExpanded = MutableStateFlow<Map<String, Boolean>>(emptyMap())
     private val untaggedSort = MutableStateFlow(preferencesManager.sortOrder)
 
     val uiState: StateFlow<UiState> =
         combine(
             flow = getTaggedCountdownsUseCase(),
-            flow2 = sectionExpanded,
-            flow3 = untaggedSort,
-            transform = { list, sections, untaggedSort ->
-                UiState(buildList(list, sections, untaggedSort))
+            flow2 = untaggedSort,
+            transform = { list, untaggedSort ->
+                UiState(buildList(list,  untaggedSort))
             }
         )
         .stateIn(
@@ -91,11 +89,8 @@ class HomeViewModel @Inject constructor(
             initialValue = UiState()
         )
 
-    private fun Map<String, Boolean>.isExpanded(tabId: String) = this[tabId] ?: true
-
     private fun buildList(
         list: List<TaggedCountdowns>,
-        sections: Map<String, Boolean>,
         untaggedSort: TagOrdering
     ): List<ListItem> {
         val now = LocalDateTime.now()
@@ -110,9 +105,8 @@ class HomeViewModel @Inject constructor(
             for (item in list) {
                 when (item) {
                     is TaggedCountdowns.Tagged -> {
-                        val isExpand = sections.isExpanded(item.tag.tagId)
-                        add(ListItem.TagHeader(item.tag, isExpand, item.sort))
-                        if (isExpand) {
+                        add(ListItem.TagHeader(item.tag, item.tag.expanded, item.sort))
+                        if (item.tag.expanded) {
                             addAll(item.countdowns.map { countdown -> ListItem.CountdownItem(countdown) })
                         }
                     }
@@ -128,9 +122,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun tagExpanded(tag: Tag, expanded: Boolean) {
-        val sections = sectionExpanded.value.toMutableMap()
-        sections[tag.tagId] = expanded
-        sectionExpanded.value = sections.toMap()
+        tagRepository.insertTag(tag.copy(expanded = expanded))
     }
 
     fun untaggedSort(tagOrdering: TagOrdering) {
