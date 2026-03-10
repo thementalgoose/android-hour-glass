@@ -223,5 +223,6 @@ private fun tagPreview(id: String = "1") = Tag(
     tagId = id,
     name = "Tag $id",
     colour = "#888888",
-    sort = TagOrdering.FINISHING_SOONEST
+    sort = TagOrdering.FINISHING_SOONEST,
+    expanded = false,
 )
