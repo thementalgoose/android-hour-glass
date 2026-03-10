@@ -328,7 +328,7 @@ private fun UiState.Companion.untagged(): UiState = UiState(
 private fun UiState.Companion.tagged(): UiState = UiState(
     items = listOf(
         ListItem.TagHeader(
-            tag = Tag("tag1", "A", "", TagOrdering.ALPHABETICAL),
+            tag = Tag("tag1", "A", "", TagOrdering.ALPHABETICAL, false),
             expand = true,
             sort = TagOrdering.ALPHABETICAL
         ),
@@ -339,7 +339,7 @@ private fun UiState.Companion.tagged(): UiState = UiState(
             countdown = fakeCountdownUpcoming.copy(id = "upcoming_2")
         ),
         ListItem.TagHeader(
-            tag = Tag("tag2", "A", "", TagOrdering.ALPHABETICAL),
+            tag = Tag("tag2", "A", "", TagOrdering.ALPHABETICAL, false),
             expand = true,
             sort = TagOrdering.ALPHABETICAL
         ),

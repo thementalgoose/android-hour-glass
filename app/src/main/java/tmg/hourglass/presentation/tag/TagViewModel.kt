@@ -49,7 +49,8 @@ class TagViewModel @Inject constructor(
             tagId = UUID.randomUUID().toString(),
             name = name.trim(),
             colour = "#AD1457",
-            sort = TagOrdering.FINISHING_SOONEST
+            sort = TagOrdering.FINISHING_SOONEST,
+            expanded = true
         )
         tagRepository.insertTag(tag)
         analyticsManager.event("tag_add")

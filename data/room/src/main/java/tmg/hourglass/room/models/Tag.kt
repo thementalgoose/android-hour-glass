@@ -16,6 +16,8 @@ data class Tag(
     val colour: String,
     @ColumnInfo(name = "sort")
     val sort: String,
+    @ColumnInfo(name = "expanded")
+    val expanded: Boolean,
 )
 
 val TagOrdering.sortKey: String

@@ -50,7 +50,7 @@ fun TagLabel(
 private fun PreviewUnselected() {
     AppTheme {
         TagLabel(
-            tag = Tag("id", "Name", "#888888", TagOrdering.ALPHABETICAL),
+            tag = Tag("id", "Name", "#888888", TagOrdering.ALPHABETICAL, false),
             selected = false,
             selectTag = { }
         )
@@ -62,7 +62,7 @@ private fun PreviewUnselected() {
 private fun PreviewSelected() {
     AppTheme {
         TagLabel(
-            tag = Tag("id", "Name", "#888888", TagOrdering.ALPHABETICAL),
+            tag = Tag("id", "Name", "#888888", TagOrdering.ALPHABETICAL, false),
             selected = true,
             selectTag = { }
         )
