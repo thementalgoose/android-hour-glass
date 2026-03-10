@@ -104,7 +104,7 @@ internal class HomeViewModelTest {
 
     @Test
     fun `tagSortUpdated calls tagRepository insertTag with updated sort`() = runTest {
-        val tag = Tag(tagId = "tag1", name = "Tag One", colour = "#000", sort = TagOrdering.ALPHABETICAL)
+        val tag = Tag(tagId = "tag1", name = "Tag One", colour = "#000", sort = TagOrdering.ALPHABETICAL, expanded = false)
         coEvery { mockGetTagged() } returns flowOf(emptyList())
 
         initUnderTest()
