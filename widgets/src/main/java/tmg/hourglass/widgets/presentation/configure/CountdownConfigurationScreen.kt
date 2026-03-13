@@ -93,6 +93,7 @@ fun CountdownConfigurationScreen(
             ) {
                 TitleBar(
                     title = stringResource(id = string.widget_title),
+                    modifier = Modifier.padding(bottom = AppTheme.dimensions.paddingMedium),
                     showBack = true,
                     titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
                     actionUpClicked = backClicked
