@@ -56,7 +56,7 @@ fun ProgressBar(
         val progressState = remember { mutableFloatStateOf(0f) }
         val progress = animateFloatAsState(
             visibilityThreshold = 0.0f,
-            targetValue = progressState.value,
+            targetValue = progressState.floatValue,
             animationSpec = tween(
                 durationMillis = animationDuration,
                 easing = FastOutSlowInEasing,
@@ -90,7 +90,7 @@ fun ProgressBar(
         ) { textWidth ->
 
             val onBar = when {
-                maxWidth * progress < maxWidth - ((textPadding * 2) + textWidth) -> false
+                maxWidth * endProgress < maxWidth - ((textPadding * 2) + textWidth) -> false
                 else -> true
             }
 
