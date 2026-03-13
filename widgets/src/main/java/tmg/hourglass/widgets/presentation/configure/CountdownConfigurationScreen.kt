@@ -3,6 +3,7 @@ package tmg.hourglass.widgets.presentation.configure
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -92,6 +93,7 @@ fun CountdownConfigurationScreen(
                 TitleBar(
                     title = stringResource(id = string.widget_title),
                     showBack = true,
+                    titleModifier = Modifier.padding(start = AppTheme.dimensions.paddingMedium),
                     actionUpClicked = backClicked
                 )
                 if (uiState.items.isEmpty()) {
@@ -104,6 +106,7 @@ fun CountdownConfigurationScreen(
                     Column(Modifier.weight(1f)) {
                         LazyColumn(
                             modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall),
                             content = {
                                 items(uiState.items, key = { it.id }) {
                                     SelectableItem(
@@ -115,18 +118,6 @@ fun CountdownConfigurationScreen(
                             }
                         )
                     }
-//                    Switch(
-//                        modifier = Modifier
-//                            .clickable {
-//                                openAppOnClick(!uiState.openAppOnClick)
-//                            }
-//                            .padding(
-//                                horizontal = AppTheme.dimensions.paddingMedium,
-//                                vertical = AppTheme.dimensions.paddingSmall
-//                            ),
-//                        isChecked = uiState.openAppOnClick,
-//                        label = stringResource(string.widget_open_app_on_click)
-//                    )
                 }
                 PrimaryButton(
                     modifier = Modifier
@@ -180,8 +171,7 @@ private fun SelectableItem(
     Column(
         modifier = modifier
             .padding(
-                horizontal = AppTheme.dimensions.paddingSmall,
-                vertical = AppTheme.dimensions.paddingSmall
+                horizontal = AppTheme.dimensions.paddingSmall
             )
             .clip(RoundedCornerShape(AppTheme.dimensions.radiusMedium))
             .background(when (isChecked) {
