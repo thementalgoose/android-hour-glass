@@ -2,6 +2,7 @@ package tmg.hourglass.widgets.presentation.configure
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -168,24 +169,26 @@ private fun SelectableItem(
     now: LocalDateTime = LocalDateTime.now(),
     isChecked: Boolean = false,
 ) {
+
+
+    val selectionModifier = when (isChecked) {
+        true -> Modifier
+            .background(AppTheme.colors.backgroundTertiary)
+            .border(1.dp, AppTheme.colors.primary, RoundedCornerShape(AppTheme.dimensions.radiusSmall))
+        false -> Modifier
+            .background(AppTheme.colors.backgroundSecondary)
+    }
     Column(
         modifier = modifier
-            .padding(
-                horizontal = AppTheme.dimensions.paddingSmall
-            )
-            .clip(RoundedCornerShape(AppTheme.dimensions.radiusMedium))
-            .background(when (isChecked) {
-                true -> AppTheme.colors.backgroundSecondary
-                false -> Color.Transparent
-            })
-            .fillMaxWidth()
+            .padding(horizontal = AppTheme.dimensions.paddingMedium)
+            .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
+            .then(selectionModifier)
             .clickable(onClick = { selectItem(countdown) })
             .padding(
-                start = AppTheme.dimensions.paddingSmall,
-                top = AppTheme.dimensions.paddingNSmall,
-                bottom = AppTheme.dimensions.paddingNSmall,
-                end = AppTheme.dimensions.paddingSmall
+                horizontal = AppTheme.dimensions.paddingMedium,
+                vertical = AppTheme.dimensions.paddingMedium
             )
+
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
