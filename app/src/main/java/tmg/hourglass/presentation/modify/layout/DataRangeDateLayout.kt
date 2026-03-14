@@ -27,6 +27,7 @@ import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.buttons.PrimaryIconButton
 import tmg.hourglass.presentation.buttons.SecondaryIconButton
+import tmg.hourglass.presentation.date.displayDate
 import tmg.hourglass.presentation.pickers.DatePicker
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
@@ -102,10 +103,10 @@ private fun ColumnScope.DateSelection(
 
     Row(modifier = Modifier.fillMaxWidth()) {
         TextBody1(
-            text = when (date?.toLocalDate()) {
+            text = when (val date = date?.toLocalDate()) {
                 null -> stringResource(id = text)
                 LocalDate.now() -> stringResource(id = string.modify_field_date_today)
-                else -> date.format("dd MMM yyyy")
+                else -> date.displayDate()
             },
             modifier = Modifier
                 .weight(1f)

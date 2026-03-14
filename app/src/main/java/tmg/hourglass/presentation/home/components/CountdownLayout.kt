@@ -44,6 +44,7 @@ import tmg.hourglass.domain.utils.ProgressUtils
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTheme
+import tmg.hourglass.presentation.date.displayDate
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
 import tmg.hourglass.presentation.utils.DeleteDialog
@@ -219,6 +220,7 @@ private fun CountdownDays(
     now: LocalDateTime,
     modifier: Modifier = Modifier
 ) {
+    val expanded = remember { mutableStateOf(false) }
     Column(modifier = modifier) {
         ProgressBar(
             barColor = Color(countdown.colour.toColorInt()),
@@ -226,8 +228,20 @@ private fun CountdownDays(
             endProgress = ProgressUtils.getProgress(countdown, now),
             label = { progress ->
                 countdown.getLabel(progress = progress)
-            }
+            },
+            modifier = Modifier
+                .clickable {
+                    expanded.value = !expanded.value
+                }
         )
+        AnimatedVisibility(expanded.value) {
+            Row(modifier = Modifier.padding(top = 4.dp)) {
+                Spacer(Modifier.weight(1f))
+                TextBody2(
+                    text = countdown.endDate.toLocalDate().displayDate()
+                )
+            }
+        }
     }
 }
 
@@ -265,11 +279,11 @@ private fun CountdownOther(
         AnimatedVisibility(expanded.value) {
             Row(modifier = Modifier.padding(top = 4.dp)) {
                 TextBody2(
-                    text = countdown.startDate.toLocalDate().format("dd MMM yyyy").orEmpty()
+                    text = countdown.startDate.toLocalDate().displayDate()
                 )
                 Spacer(Modifier.weight(1f))
                 TextBody2(
-                    text = countdown.endDate.toLocalDate().format("dd MMM yyyy").orEmpty()
+                    text = countdown.endDate.toLocalDate().displayDate()
                 )
             }
         }
