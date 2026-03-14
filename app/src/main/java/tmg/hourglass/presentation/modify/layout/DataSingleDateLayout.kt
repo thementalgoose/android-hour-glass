@@ -49,6 +49,7 @@ import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.buttons.SecondaryIconButton
+import tmg.hourglass.presentation.date.displayDate
 import tmg.hourglass.presentation.dialog.TextDialog
 import tmg.hourglass.presentation.inputs.Input
 import tmg.hourglass.presentation.pickers.DatePicker
@@ -189,10 +190,10 @@ private fun Subtitle(
     val showDialog = remember { mutableStateOf(false) }
     val today = stringResource(string.modify_field_date_today)
     val now = remember(startDate) {
-        when (startDate?.toLocalDate()) {
+        when (val date = startDate?.toLocalDate()) {
             LocalDate.now() -> today
             null -> today
-            else -> startDate.format("dd MMM yyyy")
+            else -> date.displayDate()
         }
     }
     val pickADate = stringResource(string.modify_field_date_desc)
