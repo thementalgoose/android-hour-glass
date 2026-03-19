@@ -18,6 +18,7 @@ coroutines = "1.10.2"
 firebase = "34.10.0"
 junit = "6.0.3"
 room = "2.8.4"
+osslicense = "1.11.0"
 
 agp = "9.1.0"
 
@@ -30,7 +31,7 @@ gradle_junit5 = "de.mannodermaus.gradle.plugins:android-junit5:2.0.1"
 gradle_kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 google_services = "com.google.gms:google-services:4.4.4"
 firebase_perf_plugin = "com.google.firebase:perf-plugin:2.0.2"
-oss_licenses_plugin = "com.google.android.gms:oss-licenses-plugin:0.11.0"
+oss_licenses_plugin = { module = "com.google.android.gms:oss-licenses-plugin", version.ref = "osslicense" }
 
 androidx_core = "androidx.core:core-ktx:1.18.0"
 androidx_appcompat = "androidx.appcompat:appcompat:1.7.1"
@@ -175,5 +176,5 @@ junit5 = { id = "de.mannodermaus.android-junit5", version = "2.0.1" }
 google_services = { id = "com.google.gms.google-services", version = "4.4.4" }
 firebase_crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.6" }
 firebase_perf = { id = "com.google.firebase.firebase-perf", version = "2.0.2" }
-oss_licenses = { id = "com.google.android.gms.oss-licenses-plugin", version = "0.10.10" }
+oss_licenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "osslicense" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
