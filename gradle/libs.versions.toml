@@ -174,7 +174,7 @@ junit5 = { id = "de.mannodermaus.android-junit5", version = "2.0.1" }
 
 # Firebase & Google Services
 google_services = { id = "com.google.gms.google-services", version = "4.4.4" }
-firebase_crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.6" }
+firebase_crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.7" }
 firebase_perf = { id = "com.google.firebase.firebase-perf", version = "2.0.2" }
 oss_licenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "osslicense" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
