@@ -49,7 +49,7 @@ fun AppGraph(
         onBack = {
             backStack.removeLastOrNull()
         },
-        sceneStrategy = listDetailStrategy,
+        sceneStrategies = listOf(listDetailStrategy),
         transitionSpec = {
             fadeIn() togetherWith fadeOut()
         },
