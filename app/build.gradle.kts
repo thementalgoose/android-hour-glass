@@ -1,3 +1,5 @@
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.parcelize)
@@ -21,6 +23,10 @@ val versionNameProperty: String = try {
     System.getenv("VERSION_NAME")
 } catch (e: Exception) {
     "1.0.0"
+}
+
+kotlin {
+    jvmToolchain(21)
 }
 
 android {
@@ -48,10 +54,6 @@ android {
 
     lint {
         disable += "Instantiatable"
-    }
-
-    kotlin {
-        jvmToolchain(21)
     }
 
     sourceSets {
@@ -103,10 +105,16 @@ android {
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = false
+            }
         }
         getByName("release") {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = true
+            }
         }
     }
 
@@ -135,17 +143,11 @@ android {
             versionNameSuffix = "-sandbox"
 
             buildConfigField("int", "ENVIRONMENT", "1")
-            firebaseCrashlytics {
-                mappingFileUploadEnabled = false
-            }
         }
 
         create("live") {
             dimension = "version"
             buildConfigField("int", "ENVIRONMENT", "0")
-            firebaseCrashlytics {
-                mappingFileUploadEnabled = true
-            }
         }
     }
 
