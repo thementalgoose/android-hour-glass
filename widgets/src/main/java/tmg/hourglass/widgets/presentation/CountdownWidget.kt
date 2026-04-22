@@ -59,7 +59,7 @@ class CountdownWidget : GlanceAppWidget() {
 
         provideContent {
             val config = LocalSize.current
-            val theming = getCountdownWidgetColors(context, !context.isInDayMode(ifUndefinedDefaultTo = true))
+            val theming = getCountdownWidgetColors()
 
             Log.i("CountdownWidget", "provideContent App Widget Id ${id.appWidgetId}")
             val countdownModel = widgetConnector.get(id.appWidgetId)
@@ -142,7 +142,7 @@ internal fun CountdownSmall(
                 .fillMaxWidth()
                 .height(32.dp),
             progress = progress,
-            backgroundColor = ColorProvider(theming.barBackgroundColor),
+            backgroundColor = theming.barBackgroundColor,
             color = ColorProvider(Color.fromHex(countdownModel.colour))
         )
     }
@@ -191,7 +191,7 @@ internal fun CountdownBar(
                 modifier = GlanceModifier.fillMaxWidth()
                     .height(30.dp),
                 progress = progress,
-                backgroundColor = ColorProvider(theming.barBackgroundColor),
+                backgroundColor = theming.barBackgroundColor,
                 color = ColorProvider(Color.fromHex(countdownModel.colour))
             )
         }
@@ -216,7 +216,7 @@ internal fun NoCountdown(
 }
 
 @Composable
-private fun GlanceModifier.surface(color: Color): GlanceModifier = this
+private fun GlanceModifier.surface(color: ColorProvider): GlanceModifier = this
     .fillMaxSize()
     .background(color)
     .padding(0.dp)
