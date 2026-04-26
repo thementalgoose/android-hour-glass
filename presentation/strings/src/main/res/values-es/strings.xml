@@ -43,6 +43,8 @@
     <string name="settings_help_about_description">Acerca de la aplicación y el desarrollador</string>
     <string name="settings_help_review_title">Valorar</string>
     <string name="settings_help_review_description">Reseña esta aplicación en Google Play Store</string>
+    <string name="settings_help_changelog_title">Registro de cambios</string>
+    <string name="settings_help_changelog_description">Ver qué está cambiando en la aplicación</string>
     <string name="settings_help_release_notes_title">Notas de la versión</string>
     <string name="settings_help_release_notes_description">Ver el historial de notas de la versión</string>
     <string name="settings_help_crash_reporting_title">Informe de fallos</string>
