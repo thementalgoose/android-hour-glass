@@ -22,6 +22,7 @@ import tmg.hourglass.aboutthisapp.AboutThisAppConfig
 import javax.inject.Inject
 import androidx.core.net.toUri
 import tmg.hourglass.migration.LogOldEvents
+import tmg.utilities.extensions.copyToClipboard
 
 
 @AndroidEntryPoint
@@ -53,6 +54,7 @@ class DashboardActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition
                     windowLayoutInfo = windowInfoTracker.collectAsState(WindowLayoutInfo(emptyList())).value,
                     goToAboutThisApp = ::goToAboutThisApp,
                     goToMarketPage = ::goToMarketPage,
+                    goToChangelog = ::goToChangelog
                 )
             }
         }
@@ -62,6 +64,15 @@ class DashboardActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition
 
     private fun goToAboutThisApp() {
         aboutThisAppConfig.startActivity(this)
+    }
+
+    private fun goToChangelog() {
+        val url = "https://github.com/thementalgoose/android-hour-glass/releases"
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
+        } catch (anfe: ActivityNotFoundException) {
+            copyToClipboard(url, label = "", copySuccessfulToastMessage = "URL copied to clipboard")
+        }
     }
 
     private fun goToMarketPage() {

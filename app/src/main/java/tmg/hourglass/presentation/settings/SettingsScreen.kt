@@ -48,6 +48,7 @@ internal fun SettingsScreenVM(
     navigateToBackup: () -> Unit,
     navigateToPrivacy: () -> Unit,
     goToMarketPage: () -> Unit,
+    goToChangelog: () -> Unit,
     goToAboutThisApp: () -> Unit,
     actionUpClicked: () -> Unit
 ) {
@@ -69,6 +70,7 @@ internal fun SettingsScreenVM(
         setAnalytics = viewModel::setAnalytics,
         setCrashlytics = viewModel::setCrash,
         sendFeedback = goToAboutThisApp,
+        changelogClicked = goToChangelog,
         actionUpClicked = actionUpClicked,
         backupOptionsClicked = { navigateToBackup() }
     )
@@ -82,6 +84,7 @@ private fun SettingsOverviewScreen(
     setTheme: (ThemePref) -> Unit,
     refreshWidgetsClicked: () -> Unit,
     aboutThisAppClicked: () -> Unit,
+    changelogClicked: () -> Unit,
     rateClicked: () -> Unit,
     privacyPolicyClicked: () -> Unit,
     backupOptionsClicked: () -> Unit,
@@ -169,6 +172,13 @@ private fun SettingsOverviewScreen(
                     optionClicked = rateClicked
                 )
             }
+            item(key = "about_3") {
+                SettingsOption(
+                    title = string.settings_help_changelog_title,
+                    subtitle = string.settings_help_changelog_description,
+                    optionClicked = changelogClicked
+                )
+            }
             item(key = "feedback_header") {
                 SettingsHeader(title = string.settings_feedback)
             }
@@ -246,6 +256,7 @@ private fun PreviewOverview() {
             aboutThisAppClicked = { },
             rateClicked = { },
             setTheme = { },
+            changelogClicked = { },
             setAnalytics = { },
             setCrashlytics = { },
             sendFeedback = { },
