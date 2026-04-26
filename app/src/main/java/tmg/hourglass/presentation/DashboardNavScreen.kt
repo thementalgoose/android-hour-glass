@@ -41,6 +41,7 @@ internal fun DashboardNavScreen(
     windowLayoutInfo: WindowLayoutInfo,
     goToMarketPage: () -> Unit,
     goToAboutThisApp: () -> Unit,
+    goToChangelog: () -> Unit,
     dashboardNavViewModel: DashboardNavViewModel = hiltViewModel(),
 ) {
     val uiState = dashboardNavViewModel.uiState.collectAsState()
@@ -84,7 +85,8 @@ internal fun DashboardNavScreen(
                             windowSize = windowSize,
                             windowInfo = windowLayoutInfo,
                             goToMarketPage = goToMarketPage,
-                            goToAboutThisApp= goToAboutThisApp,
+                            goToAboutThisApp = goToAboutThisApp,
+                            goToChangelog = goToChangelog,
                             backStack = backStack
                         )
 

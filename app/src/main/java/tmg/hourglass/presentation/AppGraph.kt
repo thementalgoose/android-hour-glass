@@ -41,6 +41,7 @@ fun AppGraph(
     windowInfo: WindowLayoutInfo,
     goToMarketPage: () -> Unit,
     goToAboutThisApp: () -> Unit,
+    goToChangelog: () -> Unit,
     backStack: NavBackStack<NavKey>,
 ) {
     val listDetailStrategy = rememberSplitPaneSceneStrategy<NavKey>(windowSize)
@@ -114,6 +115,7 @@ fun AppGraph(
                     windowSize = windowSize,
                     goToMarketPage = goToMarketPage,
                     goToAboutThisApp = goToAboutThisApp,
+                    goToChangelog = goToChangelog,
                     navigateToBackup = { backStack.replaceDetail(SettingsBackup) },
                     navigateToPrivacy = { backStack.replaceDetail(SettingsPrivacyPolicy) },
                     actionUpClicked = {
