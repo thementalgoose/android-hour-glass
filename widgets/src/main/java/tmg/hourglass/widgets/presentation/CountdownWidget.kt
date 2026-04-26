@@ -15,6 +15,7 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.LinearProgressIndicator
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.action.actionRunCallback
+import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
@@ -137,14 +138,24 @@ internal fun CountdownSmall(
                 )
             )
         }
-        LinearProgressIndicator(
-            modifier = GlanceModifier
-                .fillMaxWidth()
-                .height(32.dp),
-            progress = progress,
-            backgroundColor = theming.barBackgroundColor,
-            color = ColorProvider(Color.fromHex(countdownModel.colour))
-        )
+        Box(
+            modifier = GlanceModifier.fillMaxWidth()
+                .padding(
+                    start = 8.dp,
+                    end = 8.dp,
+                    bottom = 8.dp
+                ),
+        ) {
+            LinearProgressIndicator(
+                modifier = GlanceModifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+                    .cornerRadius(16.dp),
+                progress = progress,
+                backgroundColor = theming.barBackgroundColor,
+                color = ColorProvider(Color.fromHex(countdownModel.colour))
+            )
+        }
     }
 }
 
@@ -158,26 +169,28 @@ internal fun CountdownBar(
     Column(
         modifier = modifier
             .surface(theming.backgroundColor)
-            .padding(12.dp),
+            .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
             modifier = GlanceModifier
                 .fillMaxWidth()
+                .padding(4.dp)
                 .defaultWeight(),
             verticalAlignment = Alignment.Top
         ) {
             Text(
                 text = countdownModel.name,
-                modifier = GlanceModifier.defaultWeight(),
+                modifier = GlanceModifier.defaultWeight()
+                    .padding(end = 4.dp),
+                maxLines = 1,
                 style = theming.title.copy(
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Start
-                )
+                ),
             )
             Text(
                 text = label,
-                modifier = GlanceModifier.defaultWeight(),
                 style = theming.content.copy(
                     textAlign = TextAlign.End
                 )
@@ -188,8 +201,10 @@ internal fun CountdownBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             LinearProgressIndicator(
-                modifier = GlanceModifier.fillMaxWidth()
-                    .height(30.dp),
+                modifier = GlanceModifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+                    .cornerRadius(16.dp),
                 progress = progress,
                 backgroundColor = theming.barBackgroundColor,
                 color = ColorProvider(Color.fromHex(countdownModel.colour))

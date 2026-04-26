@@ -27,6 +27,6 @@ fun getCountdownWidgetColors(): CountdownWidgetTheming {
     return CountdownWidgetTheming(
         textColor = GlanceTheme.colors.onBackground,
         backgroundColor = GlanceTheme.colors.widgetBackground,
-        barBackgroundColor = GlanceTheme.colors.background
+        barBackgroundColor = GlanceTheme.colors.secondaryContainer
     )
 }
