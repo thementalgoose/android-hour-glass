@@ -13,7 +13,6 @@ androidx_lifecycle = "2.10.0"
 androidx_glance = "1.1.1" #beta01 has update frequency issues!
 androidx_nav3 = "1.1.1"
 compose = "2026.04.01"
-compose_accompanist = "0.36.0"
 coroutines = "1.10.2"
 firebase = "34.12.0"
 junit = "6.0.3"
@@ -69,11 +68,6 @@ kotlinx_coroutines_core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx_coroutines_android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx_coroutines_play_services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
 kotlinx_serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0"
-
-accompanist_swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "compose_accompanist" }
-accompanist_horizontalpager = { module = "com.google.accompanist:accompanist-pager", version.ref = "compose_accompanist" }
-accompanist_systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "compose_accompanist" }
-accompanist_placeholder = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "compose_accompanist" }
 
 coil = "io.coil-kt:coil-compose:2.7.0"
 
@@ -147,12 +141,6 @@ kotlin = [
     "kotlinx_coroutines_android",
     "kotlinx_coroutines_play_services",
     "kotlinx_serialization"
-]
-accompanist = [
-    "accompanist_swiperefresh",
-    "accompanist_horizontalpager",
-    "accompanist_systemuicontroller",
-    "accompanist_placeholder"
 ]
 
 [plugins]
