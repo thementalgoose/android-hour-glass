@@ -11,3 +11,7 @@ jobs:
   unit-tests:
     uses: ./.github/workflows/job-unit-tests.yml
     secrets: inherit
+
+  ui-tests:
+    uses: ./.github/workflows/job-ui-tests.yml
+    secrets: inherit
