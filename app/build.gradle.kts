@@ -165,6 +165,7 @@ dependencies {
     implementation(project(":presentation:ui"))
     implementation(project(":presentation:strings"))
     implementation(project(":widgets"))
+    implementation(libs.androidx.ui.test.junit4)
 
     // AndroidX
     implementation(libs.bundles.androidx)
@@ -236,6 +237,11 @@ dependencies {
     kspTest(libs.test.androidx.lifecycle)
 
     testImplementation(testFixtures(project(":domain")))
+
+    // Android UI Testing
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
