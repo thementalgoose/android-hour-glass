@@ -4,6 +4,8 @@ import app.cash.turbine.test
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -20,6 +22,11 @@ internal class TagViewModelTest {
     private val mockAnalyticsManager: AnalyticsManager = mockk(relaxed = true)
 
     private lateinit var underTest: TagViewModel
+
+    private fun emitTagsWithDelay(tags: List<Tag>) = flow {
+        delay(100)
+        emit(tags)
+    }
 
     private fun initUnderTest() {
         underTest = TagViewModel(
@@ -44,7 +51,7 @@ internal class TagViewModelTest {
     @Test
     fun `tags from repository are emitted into ui state`() = runTest {
         val tag = Tag.preview()
-        every { mockTagRepository.getAll() } returns flowOf(listOf(tag))
+        every { mockTagRepository.getAll() } returns emitTagsWithDelay(listOf(tag))
 
         initUnderTest()
 
@@ -62,7 +69,7 @@ internal class TagViewModelTest {
         val tagB = Tag.preview(tagId = "1", name = "Banana")
         val tagA = Tag.preview(tagId = "2", name = "Apple")
         val tagC = Tag.preview(tagId = "3", name = "Cherry")
-        every { mockTagRepository.getAll() } returns flowOf(listOf(tagB, tagA, tagC))
+        every { mockTagRepository.getAll() } returns emitTagsWithDelay(listOf(tagB, tagA, tagC))
 
         initUnderTest()
 
@@ -78,7 +85,7 @@ internal class TagViewModelTest {
     fun `tags are sorted case-insensitively`() = runTest {
         val tagLower = Tag.preview(tagId = "1", name = "apple")
         val tagUpper = Tag.preview(tagId = "2", name = "Banana")
-        every { mockTagRepository.getAll() } returns flowOf(listOf(tagUpper, tagLower))
+        every { mockTagRepository.getAll() } returns emitTagsWithDelay(listOf(tagUpper, tagLower))
 
         initUnderTest()
 
