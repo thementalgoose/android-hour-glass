@@ -201,7 +201,6 @@ dependencies {
     implementation(libs.compose.viewmodel)
     implementation(libs.androidx.window)
     implementation(libs.coil)
-    implementation(libs.bundles.accompanist)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -216,9 +215,6 @@ dependencies {
 
     // BugShaker
     implementation(libs.falcon)
-
-    // Accompanist
-    implementation(libs.accompanist.systemuicontroller)
 
     ksp(libs.kotlin.metadata.jvm)
 

@@ -40,8 +40,6 @@ class HourglassAndroidComposeConventionPlugin : Plugin<Project> {
 
                 add("implementation", libs.findLibrary("androidx.window").get())
                 add("implementation", libs.findLibrary("coil").get())
-
-                add("implementation", libs.findBundle("accompanist").get())
             }
         }
     }

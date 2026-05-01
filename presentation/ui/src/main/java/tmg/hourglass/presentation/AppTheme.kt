@@ -12,7 +12,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 object AppTheme {
     val colors: AppColors
@@ -51,10 +50,6 @@ fun AppTheme(
     }
 
     AppTheme.isLight = isLight
-
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(color = colors.systemStatusBarColor)
-    systemUiController.setNavigationBarColor(color = colors.systemNavigationBarColor)
 
     CompositionLocalProvider(
         LocalColors provides colors,
