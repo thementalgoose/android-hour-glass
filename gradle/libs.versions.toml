@@ -19,7 +19,7 @@ junit = "6.0.3"
 room = "2.8.4"
 osslicense = "0.11.0"
 
-agp = "9.2.0"
+agp = "9.2.1"
 
 uiTest = "1.11.0"
 
