@@ -17,7 +17,7 @@ coroutines = "1.10.2"
 firebase = "34.12.0"
 junit = "6.0.3"
 room = "2.8.4"
-osslicense = "0.11.0"
+osslicense = "0.12.0"
 
 agp = "9.2.1"
 
