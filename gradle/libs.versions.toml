@@ -48,6 +48,7 @@ androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", vers
 androidx_preference = "androidx.preference:preference-ktx:1.2.1"
 androidx_splashscreen = "androidx.core:core-splashscreen:1.2.0"
 androidx_window = "androidx.window:window:1.5.1"
+androidx_wearos = "androidx.wear.watchface:watchface-complications-data-source-ktx:1.3.0"
 
 androidx_glance_core = { module = "androidx.glance:glance", version.ref = "androidx_glance" }
 androidx_glance_appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "androidx_glance" }
