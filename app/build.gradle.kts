@@ -165,6 +165,7 @@ dependencies {
     implementation(project(":presentation:ui"))
     implementation(project(":presentation:strings"))
     implementation(project(":widgets"))
+    implementation(project(":wearos"))
     implementation(libs.androidx.ui.test.junit4)
 
     // AndroidX
