@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="empty" translatable="false" />
+
+    <!-- Placeholder -->
+    <string name="placeholder_title">未找到项目</string>
+
+    <string name="title_all">全部</string>
+    <string name="tag_title">标签</string>
+    <string name="tag_subtitle">通过为倒计时分配标签来对其进行分组</string>
+    <string name="tag_hint">标签</string>
+    <string name="tag_save">添加标签</string>
+
+    <!-- Settings -->
+    <string name="settings_title">设置</string>
+    <string name="settings_theme">主题</string>
+    <string name="settings_theme_theme_title">应用主题</string>
+    <string name="settings_theme_theme_description">选择你的主题偏好</string>
+    <string name="settings_theme_theme_summary">在这里选择跟随系统主题或覆盖为浅色或深色主题</string>
+    <string name="settings_widgets">小部件</string>
+    <string name="settings_widgets_refresh_title">刷新小部件</string>
+    <string name="settings_widgets_refresh_description">小部件应每小时刷新，但你可以点击此处强制刷新。你也可以直接点击小部件随时更新它</string>
+    <string name="settings_widgets_refresh_refreshed">小部件已刷新</string>
+    <string name="settings_widgets_updated_title">显示小部件“更新于”时间</string>
+    <string name="settings_widgets_updated_description">在小部件上隐藏或显示“已更新于”标签。</string>
+    <string name="settings_reset">重置</string>
+    <string name="settings_reset_all_title">全部删除</string>
+    <string name="settings_reset_all_description">删除你在应用中设置的所有项目</string>
+    <string name="settings_reset_all_done">项目已清除</string>
+    <string name="settings_reset_all_confirm">是</string>
+    <string name="settings_reset_all_cancel">否</string>
+    <string name="settings_backup_restore_title">备份 / 恢复</string>
+    <string name="settings_backup_restore_description">打开备份和恢复设置</string>
+    <string name="settings_autobackup_title">自动备份</string>
+    <string name="settings_autobackup_description">此应用的自动备份已通过 Google Play 启用，因此在更换设备时内容应会恢复。如果你想手动备份，请使用下面的选项</string>
+    <string name="settings_backup_title">备份</string>
+    <string name="settings_backup_description">备份应用使用的完整数据库</string>
+    <string name="settings_restore_title">恢复</string>
+    <string name="settings_restore_description">警告：这将覆盖当前设置的任何倒计时，损坏的数据库可能导致崩溃</string>
+    <string name="settings_help">关于</string>
+    <string name="settings_feedback">反馈</string>
+    <string name="settings_privacy">隐私</string>
+    <string name="settings_help_about_title">关于此应用</string>
+    <string name="settings_help_about_description">关于应用和开发者的信息</string>
+    <string name="settings_help_review_title">评分</string>
+    <string name="settings_help_review_description">在 Google Play 商店评价此应用</string>
+    <string name="settings_help_changelog_title">更新日志</string>
+    <string name="settings_help_changelog_description">查看应用有哪些变化</string>
+    <string name="settings_help_release_notes_title">发行说明</string>
+    <string name="settings_help_release_notes_description">查看发行说明历史</string>
+    <string name="settings_help_crash_reporting_title">崩溃报告</string>
+    <string name="settings_help_crash_reporting_description">向开发者发送设备信息和崩溃堆栈</string>
+    <string name="settings_help_crash_reporting_after_app_restart">你的崩溃报告设置将在应用重启后生效</string>
+    <string name="settings_help_analytics_title">匿名分析</string>
+    <string name="settings_help_analytics_description">选择是否启用关于应用使用情况的匿名分析 </string>
+    <string name="settings_help_analytics_after_app_restart">你的分析设置将在应用重启后生效</string>
+    <string name="settings_help_suggestions_title">有建议吗？</string>
+    <string name="settings_help_suggestions_description">给开发者发送邮件提出任何建议。或者开启摇一摇报告并摇动设备</string>
+    <string name="send_email">发送邮件</string>
+    <string name="settings_help_feedback_title">反馈</string>
+    <string name="settings_help_feedback_description">给开发者发送邮件，反馈错误或想要的功能</string>
+    <string name="settings_help_privacy_policy_title">隐私政策</string>
+    <string name="settings_help_privacy_policy_description">在此查看我们的隐私政策</string>
+    <string name="settings_reset_all_confirm_title">你确定吗？</string>
+    <string name="settings_reset_all_confirm_description">这将移除你所有以前和当前设置的倒计时项目！</string>
+    <string name="settings_reset_all_confirm_confirm">是</string>
+    <string name="settings_reset_all_confirm_cancel">取消</string>
+    <string name="settings_all_deleted">所有项目已删除</string>
+    <string name="settings_reset_done_confirm_title">你确定吗？</string>
+    <string name="settings_reset_done_confirm_description">这将移除你在上一个选项卡中的所有项目。</string>
+    <string name="settings_reset_done_confirm_confirm">是</string>
+    <string name="settings_reset_done_confirm_cancel">取消</string>
+
+    <string name="dashboard_empty_title">这里什么也没有…</string>
+    <string name="dashboard_empty_subtitle">目前没有设置任何倒计时，点击“新建”开始</string>
+
+    <!-- Theme -->
+    <string name="theme_auto">跟随系统</string>
+    <string name="theme_light">浅色主题</string>
+    <string name="theme_dark">深色主题</string>
+
+    <!-- About -->
+    <string name="about_name">HourGlass</string>
+    <string name="about_desc">基于日历的倒计时</string>
+    <string name="dependency_thank_you">非常感谢下面列出的所有人，正是你们让这个应用成为可能！ :)</string>
+
+    <string name="dashboard_title_upcoming">即将到来</string>
+    <string name="dashboard_title_previous">已过期</string>
+
+    <string name="dashboard_delete_confirmation_title">确认</string>
+    <string name="dashboard_delete_confirmation_message">您确定要删除此项目吗？</string>
+    <string name="dashboard_delete_confirmation_confirm">是</string>
+    <string name="dashboard_delete_confirmation_cancel">否</string>
+    <string name="dashboard_fab_new">新建</string>
+
+    <!-- Menu -->
+    <string name="menu_dashboard">主页</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_tags">标签</string>
+    <string name="menu_sort">排序</string>
+    <string name="menu_sort_alphabetical">按字母</string>
+    <string name="menu_finishing_soonest">最先结束</string>
+    <string name="menu_finishing_latest">最后结束</string>
+    <string name="menu_progress">进度</string>
+    <string name="menu_sort_order">排序：%1$s</string>
+
+    <!-- Modify -->
+    <string name="modify_header_add">添加倒计时</string>
+    <string name="modify_header_edit">编辑你的倒计时</string>
+    <string name="modify_header_save">保存</string>
+    <string name="modify_header_delete">删除</string>
+    <string name="modify_header_cancel">取消</string>
+
+    <string name="home_description">%s<br/>
+    ▲ 开始于 %s，<b>%s</b><br/>
+    ▼ 结束于 %s，<b>%s</b></string>
+    <string name="home_no_description">▲ 开始于 %s，<b>%s</b>\n▼ 结束于 %s，<b>%s</b></string>
+    <string name="modify_field_name">个性化</string>
+    <string name="modify_field_name_desc">为你的倒计时选择名称、描述和颜色</string>
+    <string name="modify_field_name_hint">名称</string>
+    <string name="modify_field_name_required">需要名称</string>
+    <string name="modify_field_description_hint">描述</string>
+
+    <string name="modify_error_title_missing">缺少标题</string>
+    <string name="modify_error_colour_missing">缺少颜色</string>
+    <string name="modify_error_finish_date_null">必须指定结束日期</string>
+    <string name="modify_error_finish_date_in_past">结束日期不能早于现在</string>
+    <string name="modify_error_finish_invalid">结束日期无效</string>
+    <string name="modify_error_start_date_null">必须指定开始日期</string>
+    <string name="modify_error_start_date_in_past">开始日期必须在过去</string>
+    <string name="modify_error_finish_date_before_start">结束日期不能早于开始日期</string>
+    <string name="modify_error_value_empty">两个值都不能为空</string>
+    <string name="modify_error_value_match">两个值不能相同</string>
+    <string name="modify_error_value_numbers">值必须为数字</string>
+
+    <string name="modify_field_tags">标签</string>
+    <string name="modify_field_tags_desc">分配标签</string>
+    <string name="modify_field_tags_no_tags">尚未设置标签。点击此处添加标签</string>
+
+    <string name="modify_field_type">类型</string>
+    <string name="modify_field_type_desc">选择您想用于倒计时/计时的度量类型</string>
+    <string name="modify_field_range">范围</string>
+    <string name="modify_field_range_desc">输入起始和结束值（仅数字）。</string>
+    <string name="modify_field_range_initial">从</string>
+    <string name="modify_field_range_final">到</string>
+    <string name="modify_field_interpolator">进度类型</string>
+    <string name="modify_field_interpolator_desc">选择这些值以线性方式进展的方式</string>
+    <string name="modify_field_interpolator_accelerate_decelerate">加速 / 减速</string>
+    <string name="modify_field_interpolator_accelerate">加速</string>
+    <string name="modify_field_interpolator_decelerate">减速</string>
+    <string name="modify_field_interpolator_linear">线性</string>
+    <string name="modify_field_dates">日期</string>
+    <string name="modify_field_dates_title">选择日期范围</string>
+    <string name="modify_field_dates_desc">选择希望上述两个值对应的日期</string>
+    <string name="modify_field_day">日</string>
+    <string name="modify_field_month">月</string>
+    <string name="modify_field_year">年</string>
+    <string name="modify_field_date">日期</string>
+    <string name="modify_field_date_title">选择日期</string>
+    <string name="modify_field_date_placeholder">日期</string>
+    <string name="modify_field_date_desc">选择一个日期来开始倒计时。</string>
+    <string name="modify_field_date_change_start_desc">从 %s 开始</string>
+    <string name="modify_field_dates_format" translatable="false"><b>%s</b> ......... <b>%s</b></string>
+    <string name="modify_field_dates_button">选择日期</string>
+    <string name="modify_field_dates_start">开始日期</string>
+    <string name="modify_field_dates_end">结束日期</string>
+    <string name="modify_field_colour_hint">颜色</string>
+    <string name="settings_theme_applied_later">主题将在应用重启后生效</string>
+    <string name="modify_type_title">倒计时类型</string>
+
+    <string name="modify_field_date_today">今天</string>
+
+    <string name="error_activity_not_found">抱歉，发生错误</string>
+
+    <!-- Widgets -->
+    <string name="widget_error">未找到项目</string>
+    <string name="widget_value">无</string>
+    <string name="widget_title">配置</string>
+
+    <string name="widget_label">倒计时</string>
+    <string name="widget_bar_label_light">条 - 浅色</string>
+    <string name="widget_bar_label_dark">条 - 深色</string>
+    <string name="widget_circle_label_light">单一 - 浅色</string>
+    <string name="widget_circle_label_dark">单一 - 深色</string>
+
+    <string name="widget_finished">已完成</string>
+    <string name="widget_not_started">未开始。点击以更新</string>
+    <string name="widget_progress">已于 %s 更新</string>
+
+    <string name="widget_not_started_short">0</string>
+
+    <string name="widget_open_app_on_click">点击打开应用</string>
+
+    <string name="widget_migration_needed">请打开应用</string>
+    <string name="widget_migration_needed_value" />
+    <string name="widget_migration_needed_label">打开应用以恢复倒计时</string>
+    <string name="widget_migration_needed_label_short">错误</string>
+
+    <string name="countdown_type_number">数字</string>
+    <string name="countdown_type_days">天</string>
+    <string name="countdown_type_money_gbp">货币 (£)</string>
+    <string name="countdown_type_money_usd">货币 ($)</string>
+    <string name="countdown_type_money_eur">货币 (€)</string>
+    <string name="countdown_type_money_yen">货币 (¥)</string>
+    <string name="countdown_type_millimetres">毫米</string>
+    <string name="countdown_type_metres">米</string>
+    <string name="countdown_type_kilometres">千米</string>
+    <string name="countdown_type_miles">英里</string>
+    <string name="countdown_type_grams">克</string>
+    <string name="countdown_type_kilograms">千克</string>
+    <string name="countdown_type_millilitres">毫升</string>
+    <string name="countdown_type_litres">升</string>
+    <string name="countdown_type_seconds">秒</string>
+    <string name="countdown_type_celsius">摄氏度</string>
+    <string name="countdown_type_fahrenheit">华氏度</string>
+
+    <string name="select_date">选择日期</string>
+    <string name="select_date_confirm">确认</string>
+    <string name="select_date_cancel">取消</string>
+</resources>
+
