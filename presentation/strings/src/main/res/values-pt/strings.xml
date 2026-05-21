@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="empty" translatable="false" />
+
+    <!-- Placeholder -->
+    <string name="placeholder_title">Nenhum item encontrado</string>
+
+    <string name="title_all">Todos</string>
+    <string name="tag_title">Etiquetas</string>
+    <string name="tag_subtitle">Agrupe contagens regressivas atribuindo-lhes uma etiqueta</string>
+    <string name="tag_hint">Etiqueta</string>
+    <string name="tag_save">Adicionar etiqueta</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Definições</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_theme_theme_title">Tema da aplicação</string>
+    <string name="settings_theme_theme_description">Escolha a sua preferência de tema</string>
+    <string name="settings_theme_theme_summary">Escolha aqui entre seguir o sistema ou forçar um tema claro ou escuro</string>
+    <string name="settings_widgets">Widgets</string>
+    <string name="settings_widgets_refresh_title">Atualizar widgets</string>
+    <string name="settings_widgets_refresh_description">Os widgets devem atualizar-se a cada hora, mas pode forçar a atualização clicando aqui. Também pode tocar no widget para atualizá-lo a qualquer momento</string>
+    <string name="settings_widgets_refresh_refreshed">Os widgets foram atualizados</string>
+    <string name="settings_widgets_updated_title">Mostrar data de atualização do widget</string>
+    <string name="settings_widgets_updated_description">Ocultar ou mostrar a etiqueta \'Atualizado às\' nos seus widgets.</string>
+    <string name="settings_reset">Repor</string>
+    <string name="settings_reset_all_title">Eliminar tudo</string>
+    <string name="settings_reset_all_description">Eliminar todos os itens que configurou na aplicação</string>
+    <string name="settings_reset_all_done">Itens foram apagados</string>
+    <string name="settings_reset_all_confirm">Sim</string>
+    <string name="settings_reset_all_cancel">Não</string>
+    <string name="settings_backup_restore_title">Backup / Restaurar</string>
+    <string name="settings_backup_restore_description">Abrir definições de backup e restauração</string>
+    <string name="settings_autobackup_title">Backups automáticos</string>
+    <string name="settings_autobackup_description">Backups automáticos estão ativados para esta app via Google Play, por isso o conteúdo deverá reaparecer ao transferir dispositivos. Se quiser fazer um backup explícito, use as opções abaixo</string>
+    <string name="settings_backup_title">Backup</string>
+    <string name="settings_backup_description">Faça um backup de toda a base de dados completa que a app usa</string>
+    <string name="settings_restore_title">Restaurar</string>
+    <string name="settings_restore_description">Aviso: isto irá sobrescrever quaisquer contagens regressivas atualmente configuradas e bases de dados corrompidas podem provocar falhas</string>
+    <string name="settings_help">Sobre</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_privacy">Privacidade</string>
+    <string name="settings_help_about_title">Sobre esta app</string>
+    <string name="settings_help_about_description">Sobre a aplicação e o programador</string>
+    <string name="settings_help_review_title">Avaliar</string>
+    <string name="settings_help_review_description">Avalie esta app na Play Store</string>
+    <string name="settings_help_changelog_title">Registo de alterações</string>
+    <string name="settings_help_changelog_description">Veja o que está a mudar na app</string>
+    <string name="settings_help_release_notes_title">Notas de versão</string>
+    <string name="settings_help_release_notes_description">Veja o histórico das notas de versão</string>
+    <string name="settings_help_crash_reporting_title">Relatórios de erros</string>
+    <string name="settings_help_crash_reporting_description">Enviar informações do dispositivo e stack traces de falhas ao programador</string>
+    <string name="settings_help_crash_reporting_after_app_restart">A sua preferência de relatórios de falhas será aplicada quando a app for reiniciada</string>
+    <string name="settings_help_analytics_title">Análises anónimas</string>
+    <string name="settings_help_analytics_description">Opte por análises anónimas sobre o uso da app </string>
+    <string name="settings_help_analytics_after_app_restart">A sua preferência de análises será aplicada quando a app for reiniciada</string>
+    <string name="settings_help_suggestions_title">Tem uma sugestão?</string>
+    <string name="settings_help_suggestions_description">Envie ao programador um email com quaisquer sugestões que possa ter. Alternativamente ative \'shake to report\' e sacuda o dispositivo</string>
+    <string name="send_email">Enviar email</string>
+    <string name="settings_help_feedback_title">Feedback</string>
+    <string name="settings_help_feedback_description">Envie ao programador um email com feedback sobre bugs ou novas funcionalidades que gostaria de ver</string>
+    <string name="settings_help_privacy_policy_title">Política de privacidade</string>
+    <string name="settings_help_privacy_policy_description">Veja a nossa política de privacidade aqui</string>
+    <string name="settings_reset_all_confirm_title">Tem a certeza?</string>
+    <string name="settings_reset_all_confirm_description">Isto removerá todos os itens passados e presentes que tem!</string>
+    <string name="settings_reset_all_confirm_confirm">Sim</string>
+    <string name="settings_reset_all_confirm_cancel">Cancelar</string>
+    <string name="settings_all_deleted">Todos os itens apagados</string>
+    <string name="settings_reset_done_confirm_title">Tem a certeza?</string>
+    <string name="settings_reset_done_confirm_description">Isto removerá todos os itens que tem no separador precedente.</string>
+    <string name="settings_reset_done_confirm_confirm">Sim</string>
+    <string name="settings_reset_done_confirm_cancel">Cancelar</string>
+
+    <string name="dashboard_empty_title">Não há nada para ver…</string>
+    <string name="dashboard_empty_subtitle">Ainda não há contagens regressivas configuradas, clique em \'Novo\' para começar</string>
+
+    <!-- Theme -->
+    <string name="theme_auto">Seguir sistema</string>
+    <string name="theme_light">Tema claro</string>
+    <string name="theme_dark">Tema escuro</string>
+
+    <!-- About -->
+    <string name="about_name">HourGlass</string>
+    <string name="about_desc">Contagens regressivas basadas em calendário</string>
+    <string name="dependency_thank_you">Um grande obrigado a todos abaixo por ajudarem a tornar esta app possível! :)</string>
+
+    <string name="dashboard_title_upcoming">Próximos</string>
+    <string name="dashboard_title_previous">Expirados</string>
+
+    <string name="dashboard_delete_confirmation_title">Confirmar</string>
+    <string name="dashboard_delete_confirmation_message">Tem a certeza de que pretende eliminar este item?</string>
+    <string name="dashboard_delete_confirmation_confirm">Sim</string>
+    <string name="dashboard_delete_confirmation_cancel">Não</string>
+    <string name="dashboard_fab_new">Novo</string>
+
+    <!-- Menu -->
+    <string name="menu_dashboard">Página inicial</string>
+    <string name="menu_settings">Definições</string>
+    <string name="menu_tags">Etiquetas</string>
+    <string name="menu_sort">Ordenar</string>
+    <string name="menu_sort_alphabetical">Alfabético</string>
+    <string name="menu_finishing_soonest">Termina primeiro</string>
+    <string name="menu_finishing_latest">Termina mais tarde</string>
+    <string name="menu_progress">Progresso</string>
+    <string name="menu_sort_order">Ordenado: %1$s</string>
+
+    <!-- Modify -->
+    <string name="modify_header_add">Adicionar uma contagem regressiva</string>
+    <string name="modify_header_edit">Editar a sua contagem regressiva</string>
+    <string name="modify_header_save">Guardar</string>
+    <string name="modify_header_delete">Eliminar</string>
+    <string name="modify_header_cancel">Cancelar</string>
+
+    <string name="home_description">%s<br/>
+    ▲ Começa às %s em <b>%s</b><br/>
+    ▼ Termina às %s em <b>%s</b></string>
+    <string name="home_no_description">▲ Começa às %s em <b>%s</b>\n▼ Termina às %s em <b>%s</b></string>
+    <string name="modify_field_name">Personalizar</string>
+    <string name="modify_field_name_desc">Escolha um nome, uma descrição e uma cor para a sua contagem regressiva abaixo</string>
+    <string name="modify_field_name_hint">Nome</string>
+    <string name="modify_field_name_required">Nome obrigatório</string>
+    <string name="modify_field_description_hint">Descrição</string>
+
+    <string name="modify_error_title_missing">Falta o título</string>
+    <string name="modify_error_colour_missing">Falta a cor</string>
+    <string name="modify_error_finish_date_null">A data de fim é obrigatória</string>
+    <string name="modify_error_finish_date_in_past">A data de fim não pode estar no passado</string>
+    <string name="modify_error_finish_invalid">Data de fim inválida</string>
+    <string name="modify_error_start_date_null">A data de início é obrigatória</string>
+    <string name="modify_error_start_date_in_past">A data de início deve estar no passado</string>
+    <string name="modify_error_finish_date_before_start">A data de fim não pode ser anterior à data de início</string>
+    <string name="modify_error_value_empty">Ambos os valores não podem estar vazios</string>
+    <string name="modify_error_value_match">Os valores não podem coincidir</string>
+    <string name="modify_error_value_numbers">Os valores devem ser numéricos</string>
+
+    <string name="modify_field_tags">Etiqueta</string>
+    <string name="modify_field_tags_desc">Atribuir etiquetas</string>
+    <string name="modify_field_tags_no_tags">Nenhuma etiqueta configurada. Clique aqui para adicionar etiquetas</string>
+
+    <string name="modify_field_type">Tipo</string>
+    <string name="modify_field_type_desc">Selecione que tipo de métrica deseja para contagem regressiva ou contagem</string>
+    <string name="modify_field_range">Intervalo</string>
+    <string name="modify_field_range_desc">Introduza os valores inicial e final (apenas números).</string>
+    <string name="modify_field_range_initial">De</string>
+    <string name="modify_field_range_final">Para</string>
+    <string name="modify_field_interpolator">Tipo de progresso</string>
+    <string name="modify_field_interpolator_desc">Selecione como deseja que estes valores progridam in modo lineare</string>
+    <string name="modify_field_interpolator_accelerate_decelerate">Acelerar / Desacelerar</string>
+    <string name="modify_field_interpolator_accelerate">Acelerar</string>
+    <string name="modify_field_interpolator_decelerate">Desacelerar</string>
+    <string name="modify_field_interpolator_linear">Linear</string>
+    <string name="modify_field_dates">Datas</string>
+    <string name="modify_field_dates_title">Selecionar um intervalo de datas</string>
+    <string name="modify_field_dates_desc">Escolha as datas que quer que os dois valores acima alinhem</string>
+    <string name="modify_field_day">Dia</string>
+    <string name="modify_field_month">Mês</string>
+    <string name="modify_field_year">Ano</string>
+    <string name="modify_field_date">Data</string>
+    <string name="modify_field_date_title">Selecionar uma data</string>
+    <string name="modify_field_date_placeholder">Data</string>
+    <string name="modify_field_date_desc">Escolha uma data per iniziare la contagem regressiva.</string>
+    <string name="modify_field_date_change_start_desc">A começar em %s</string>
+    <string name="modify_field_dates_format" translatable="false"><b>%s</b> ......... <b>%s</b></string>
+    <string name="modify_field_dates_button">Escolher datas</string>
+    <string name="modify_field_dates_start">Data de início</string>
+    <string name="modify_field_dates_end">Data de fim</string>
+    <string name="modify_field_colour_hint">Cor</string>
+    <string name="settings_theme_applied_later">O tema será aplicado quando a app for reiniciada</string>
+    <string name="modify_type_title">Tipo de contagem regressiva</string>
+
+    <string name="modify_field_date_today">Hoje</string>
+
+    <string name="error_activity_not_found">Desculpe, ocorreu um erro</string>
+
+    <!-- Widgets -->
+    <string name="widget_error">Item não encontrado</string>
+    <string name="widget_value">N/A</string>
+    <string name="widget_title">Configurar</string>
+
+    <string name="widget_label">Contagem regressiva</string>
+    <string name="widget_bar_label_light">Barra - Claro</string>
+    <string name="widget_bar_label_dark">Barra - Escuro</string>
+    <string name="widget_circle_label_light">Simples - Claro</string>
+    <string name="widget_circle_label_dark">Simples - Escuro</string>
+
+    <string name="widget_finished">Concluído</string>
+    <string name="widget_not_started">Não iniciado. Toque para atualizar</string>
+    <string name="widget_progress">Atualizado às %s</string>
+
+    <string name="widget_not_started_short">0</string>
+
+    <string name="widget_open_app_on_click">Abrir app ao clicar</string>
+
+    <string name="widget_migration_needed">Por favor abra a app</string>
+    <string name="widget_migration_needed_value" />
+    <string name="widget_migration_needed_label">Abra a app para restaurar a contagem regressiva</string>
+    <string name="widget_migration_needed_label_short">Erro</string>
+
+    <string name="countdown_type_number">Número</string>
+    <string name="countdown_type_days">Dias</string>
+    <string name="countdown_type_money_gbp">Dinheiro (£)</string>
+    <string name="countdown_type_money_usd">Dinheiro ($)</string>
+    <string name="countdown_type_money_eur">Dinheiro (€)</string>
+    <string name="countdown_type_money_yen">Dinheiro (¥)</string>
+    <string name="countdown_type_millimetres">Milímetros</string>
+    <string name="countdown_type_metres">Metros</string>
+    <string name="countdown_type_kilometres">Quilómetros</string>
+    <string name="countdown_type_miles">Milhas</string>
+    <string name="countdown_type_grams">Gramas</string>
+    <string name="countdown_type_kilograms">Quilogramas</string>
+    <string name="countdown_type_millilitres">Mililitros</string>
+    <string name="countdown_type_litres">Litros</string>
+    <string name="countdown_type_seconds">Segundos</string>
+    <string name="countdown_type_celsius">Celsius</string>
+    <string name="countdown_type_fahrenheit">Fahrenheit</string>
+
+    <string name="select_date">Selecionar data</string>
+    <string name="select_date_confirm">Confirmar</string>
+    <string name="select_date_cancel">Cancelar</string>
+</resources>
+

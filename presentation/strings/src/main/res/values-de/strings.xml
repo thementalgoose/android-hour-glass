@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="empty" translatable="false" />
+
+    <!-- Placeholder -->
+    <string name="placeholder_title">Keine Elemente gefunden</string>
+
+    <string name="title_all">Alle</string>
+    <string name="tag_title">Tags</string>
+    <string name="tag_subtitle">Gruppiere Countdown-Elemente, indem du ihnen ein Tag zuweist</string>
+    <string name="tag_hint">Tag</string>
+    <string name="tag_save">Tag hinzufügen</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_theme">Design</string>
+    <string name="settings_theme_theme_title">App-Design</string>
+    <string name="settings_theme_theme_description">Wähle deine Design-Vorliebe</string>
+    <string name="settings_theme_theme_summary">Wähle hier, ob die App das System-Design verwendet oder ein helles bzw. dunkles Design erzwingt</string>
+    <string name="settings_widgets">Widgets</string>
+    <string name="settings_widgets_refresh_title">Widgets aktualisieren</string>
+    <string name="settings_widgets_refresh_description">Widgets sollten sich jede Stunde aktualisieren, du kannst sie aber hier erzwingen. Du kannst das Widget auch direkt antippen, um es jederzeit zu aktualisieren</string>
+    <string name="settings_widgets_refresh_refreshed">Widgets wurden aktualisiert</string>
+    <string name="settings_widgets_updated_title">Widget-Aktualisierungsdatum anzeigen</string>
+    <string name="settings_widgets_updated_description">Die Beschriftung \'Aktualisiert um\' in den Widgets aus- oder einblenden.</string>
+    <string name="settings_reset">Zurücksetzen</string>
+    <string name="settings_reset_all_title">Alles löschen</string>
+    <string name="settings_reset_all_description">Lösche alle Elemente, die du in der App eingerichtet hast</string>
+    <string name="settings_reset_all_done">Elemente wurden gelöscht</string>
+    <string name="settings_reset_all_confirm">Ja</string>
+    <string name="settings_reset_all_cancel">Nein</string>
+    <string name="settings_backup_restore_title">Backup / Wiederherstellen</string>
+    <string name="settings_backup_restore_description">Öffne Backup- und Wiederherstellungs-Einstellungen</string>
+    <string name="settings_autobackup_title">Automatische Backups</string>
+    <string name="settings_autobackup_description">Automatische Backups sind für diese App über Google Play aktiviert, daher sollten Inhalte beim Gerätewechsel wiederhergestellt werden. Wenn du ein Backup manuell erstellen willst, nutze die Optionen unten</string>
+    <string name="settings_backup_title">Backup</string>
+    <string name="settings_backup_description">Erstelle ein Backup der gesamten Datenbank, die die App verwendet</string>
+    <string name="settings_restore_title">Wiederherstellen</string>
+    <string name="settings_restore_description">Warnung: Dies überschreibt derzeit eingerichtete Countdowns und beschädigte Datenbanken können zu Abstürzen führen</string>
+    <string name="settings_help">Info</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_privacy">Datenschutz</string>
+    <string name="settings_help_about_title">Über diese App</string>
+    <string name="settings_help_about_description">Informationen über die Anwendung und den Entwickler</string>
+    <string name="settings_help_review_title">Bewerten</string>
+    <string name="settings_help_review_description">Bewerte diese App im Google Play Store</string>
+    <string name="settings_help_changelog_title">Änderungsprotokoll</string>
+    <string name="settings_help_changelog_description">Sieh, was sich in der App ändert</string>
+    <string name="settings_help_release_notes_title">Versionshinweise</string>
+    <string name="settings_help_release_notes_description">Sieh den Verlauf der Versionshinweise</string>
+    <string name="settings_help_crash_reporting_title">Crash-Berichte</string>
+    <string name="settings_help_crash_reporting_description">Sende Geräteinformationen und Crash-Stacks an den Entwickler</string>
+    <string name="settings_help_crash_reporting_after_app_restart">Deine Einstellung für Crash-Berichte wird nach einem App-Neustart angewendet</string>
+    <string name="settings_help_analytics_title">Anonyme Analysen</string>
+    <string name="settings_help_analytics_description">Opt-in für anonyme Analysen zur Nutzung der App </string>
+    <string name="settings_help_analytics_after_app_restart">Deine Einstellung für Analysen wird nach einem App-Neustart angewendet</string>
+    <string name="settings_help_suggestions_title">Vorschlag?</string>
+    <string name="settings_help_suggestions_description">Sende dem Entwickler eine E-Mail mit Vorschlägen. Alternativ aktiviere \'shake to report\' und schüttle dein Gerät</string>
+    <string name="send_email">E-Mail senden</string>
+    <string name="settings_help_feedback_title">Feedback</string>
+    <string name="settings_help_feedback_description">Sende dem Entwickler eine E-Mail mit Feedback zu Fehlern oder neuen Funktionen, die du gern sehen würdest</string>
+    <string name="settings_help_privacy_policy_title">Datenschutzerklärung</string>
+    <string name="settings_help_privacy_policy_description">Sieh dir hier unsere Datenschutzerklärung an</string>
+    <string name="settings_reset_all_confirm_title">Bist du sicher?</string>
+    <string name="settings_reset_all_confirm_description">Dies entfernt alle bisherigen und aktuellen Countdown-Elemente, die du hast!</string>
+    <string name="settings_reset_all_confirm_confirm">Ja</string>
+    <string name="settings_reset_all_confirm_cancel">Abbrechen</string>
+    <string name="settings_all_deleted">Alle Elemente gelöscht</string>
+    <string name="settings_reset_done_confirm_title">Bist du sicher?</string>
+    <string name="settings_reset_done_confirm_description">Dies entfernt alle Elemente in deinem vorherigen Tab.</string>
+    <string name="settings_reset_done_confirm_confirm">Ja</string>
+    <string name="settings_reset_done_confirm_cancel">Abbrechen</string>
+
+    <string name="dashboard_empty_title">Nichts zu sehen…</string>
+    <string name="dashboard_empty_subtitle">Es sind momentan keine Countdowns eingerichtet. Tippe auf \'Neu\', um zu beginnen</string>
+
+    <!-- Theme -->
+    <string name="theme_auto">System folgen</string>
+    <string name="theme_light">Helles Design</string>
+    <string name="theme_dark">Dunkles Design</string>
+
+    <!-- About -->
+    <string name="about_name">HourGlass</string>
+    <string name="about_desc">Kalenderbasierte Countdowns</string>
+    <string name="dependency_thank_you">Ein großes Dankeschön an alle unten aufgelisteten Personen für ihre Unterstützung bei der Entwicklung dieser App! :)</string>
+
+    <string name="dashboard_title_upcoming">Bevorstehend</string>
+    <string name="dashboard_title_previous">Abgelaufen</string>
+
+    <string name="dashboard_delete_confirmation_title">Bestätigen</string>
+    <string name="dashboard_delete_confirmation_message">Möchtest du dieses Element wirklich löschen?</string>
+    <string name="dashboard_delete_confirmation_confirm">Ja</string>
+    <string name="dashboard_delete_confirmation_cancel">Nein</string>
+    <string name="dashboard_fab_new">Neu</string>
+
+    <!-- Menu -->
+    <string name="menu_dashboard">Start</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="menu_tags">Tags</string>
+    <string name="menu_sort">Sortieren</string>
+    <string name="menu_sort_alphabetical">Alphabetisch</string>
+    <string name="menu_finishing_soonest">Zuerst fertig</string>
+    <string name="menu_finishing_latest">Zuletzt fertig</string>
+    <string name="menu_progress">Fortschritt</string>
+    <string name="menu_sort_order">Sortiert: %1$s</string>
+
+    <!-- Modify -->
+    <string name="modify_header_add">Einen Countdown hinzufügen</string>
+    <string name="modify_header_edit">Deinen Countdown bearbeiten</string>
+    <string name="modify_header_save">Speichern</string>
+    <string name="modify_header_delete">Löschen</string>
+    <string name="modify_header_cancel">Abbrechen</string>
+
+    <string name="home_description">%s<br/>
+    ▲ Beginnt um %s am <b>%s</b><br/>
+    ▼ Endet um %s am <b>%s</b></string>
+    <string name="home_no_description">▲ Beginnt um %s am <b>%s</b>\n▼ Endet um %s am <b>%s</b></string>
+    <string name="modify_field_name">Personalisieren</string>
+    <string name="modify_field_name_desc">Wähle einen Namen, eine Beschreibung und eine Farbe für deinen Countdown unten</string>
+    <string name="modify_field_name_hint">Name</string>
+    <string name="modify_field_name_required">Name erforderlich</string>
+    <string name="modify_field_description_hint">Beschreibung</string>
+
+    <string name="modify_error_title_missing">Titel fehlt</string>
+    <string name="modify_error_colour_missing">Farbe fehlt</string>
+    <string name="modify_error_finish_date_null">Enddatum erforderlich</string>
+    <string name="modify_error_finish_date_in_past">Enddatum darf nicht in der Vergangenheit liegen</string>
+    <string name="modify_error_finish_invalid">Ungültiges Enddatum</string>
+    <string name="modify_error_start_date_null">Startdatum erforderlich</string>
+    <string name="modify_error_start_date_in_past">Startdatum muss in der Vergangenheit liegen</string>
+    <string name="modify_error_finish_date_before_start">Enddatum darf nicht vor dem Startdatum liegen</string>
+    <string name="modify_error_value_empty">Beide Werte dürfen nicht leer sein</string>
+    <string name="modify_error_value_match">Werte dürfen nicht übereinstimmen</string>
+    <string name="modify_error_value_numbers">Werte müssen Zahlen sein</string>
+
+    <string name="modify_field_tags">Tag</string>
+    <string name="modify_field_tags_desc">Tags zuweisen</string>
+    <string name="modify_field_tags_no_tags">Keine Tags vorhanden. Klicke hier, um Tags hinzuzufügen</string>
+
+    <string name="modify_field_type">Typ</string>
+    <string name="modify_field_type_desc">Wähle, welche Art von Metrik du für Countdown oder Count-up verwenden möchtest</string>
+    <string name="modify_field_range">Bereich</string>
+    <string name="modify_field_range_desc">Gib Start- und Endwerte ein (nur Zahlen).</string>
+    <string name="modify_field_range_initial">Von</string>
+    <string name="modify_field_range_final">Bis</string>
+    <string name="modify_field_interpolator">Progresstyp</string>
+    <string name="modify_field_interpolator_desc">Wähle, wie diese Werte linear fortschreiten sollen</string>
+    <string name="modify_field_interpolator_accelerate_decelerate">Beschleunigen / Verzögern</string>
+    <string name="modify_field_interpolator_accelerate">Beschleunigen</string>
+    <string name="modify_field_interpolator_decelerate">Verzögern</string>
+    <string name="modify_field_interpolator_linear">Linear</string>
+    <string name="modify_field_dates">Daten</string>
+    <string name="modify_field_dates_title">Wähle einen Datumsbereich</string>
+    <string name="modify_field_dates_desc">Wähle die Daten, zwischen denen die beiden obigen Werte liegen sollen</string>
+    <string name="modify_field_day">Tag</string>
+    <string name="modify_field_month">Monat</string>
+    <string name="modify_field_year">Jahr</string>
+    <string name="modify_field_date">Datum</string>
+    <string name="modify_field_date_title">Wähle ein Datum</string>
+    <string name="modify_field_date_placeholder">Datum</string>
+    <string name="modify_field_date_desc">Wähle ein Datum, um den Countdown zu starten.</string>
+    <string name="modify_field_date_change_start_desc">Beginnt am %s</string>
+    <string name="modify_field_dates_format" translatable="false"><b>%s</b> ......... <b>%s</b></string>
+    <string name="modify_field_dates_button">Daten wählen</string>
+    <string name="modify_field_dates_start">Startdatum</string>
+    <string name="modify_field_dates_end">Enddatum</string>
+    <string name="modify_field_colour_hint">Farbe</string>
+    <string name="settings_theme_applied_later">Das Design wird nach einem App-Neustart angewendet</string>
+    <string name="modify_type_title">Countdown-Typ</string>
+
+    <string name="modify_field_date_today">Heute</string>
+
+    <string name="error_activity_not_found">Entschuldigung, ein Fehler ist aufgetreten</string>
+
+    <!-- Widgets -->
+    <string name="widget_error">Element nicht gefunden</string>
+    <string name="widget_value">k.A.</string>
+    <string name="widget_title">Konfigurieren</string>
+
+    <string name="widget_label">Countdown</string>
+    <string name="widget_bar_label_light">Leiste - Hell</string>
+    <string name="widget_bar_label_dark">Leiste - Dunkel</string>
+    <string name="widget_circle_label_light">Einzeln - Hell</string>
+    <string name="widget_circle_label_dark">Einzeln - Dunkel</string>
+
+    <string name="widget_finished">Beendet</string>
+    <string name="widget_not_started">Nicht gestartet. Tippe, um zu aktualisieren</string>
+    <string name="widget_progress">Aktualisiert um %s</string>
+
+    <string name="widget_not_started_short">0</string>
+
+    <string name="widget_open_app_on_click">App beim Tippen öffnen</string>
+
+    <string name="widget_migration_needed">Bitte öffne die App</string>
+    <string name="widget_migration_needed_value" />
+    <string name="widget_migration_needed_label">Öffne die App, um den Countdown wiederherzustellen</string>
+    <string name="widget_migration_needed_label_short">Fehler</string>
+
+    <string name="countdown_type_number">Zahl</string>
+    <string name="countdown_type_days">Tage</string>
+    <string name="countdown_type_money_gbp">Geld (£)</string>
+    <string name="countdown_type_money_usd">Geld ($)</string>
+    <string name="countdown_type_money_eur">Geld (€)</string>
+    <string name="countdown_type_money_yen">Geld (¥)</string>
+    <string name="countdown_type_millimetres">Millimeter</string>
+    <string name="countdown_type_metres">Meter</string>
+    <string name="countdown_type_kilometres">Kilometer</string>
+    <string name="countdown_type_miles">Meilen</string>
+    <string name="countdown_type_grams">Gramm</string>
+    <string name="countdown_type_kilograms">Kilogramm</string>
+    <string name="countdown_type_millilitres">Milliliter</string>
+    <string name="countdown_type_litres">Liter</string>
+    <string name="countdown_type_seconds">Sekunden</string>
+    <string name="countdown_type_celsius">Celsius</string>
+    <string name="countdown_type_fahrenheit">Fahrenheit</string>
+
+    <string name="select_date">Datum auswählen</string>
+    <string name="select_date_confirm">Bestätigen</string>
+    <string name="select_date_cancel">Abbrechen</string>
+</resources>
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ab_back">返回</string>
+    <string name="ab_menu">菜单</string>
+    <string name="ab_add">添加</string>
+
+    <string name="ab_settings">设置</string>
+
+    <string name="ab_edit">编辑</string>
+    <string name="ab_select">选择</string>
+    <string name="ab_selected">已选</string>
+    <string name="ab_delete">删除</string>
+    <string name="ab_favourite">收藏</string>
+</resources>
+

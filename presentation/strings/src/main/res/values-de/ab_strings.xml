@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ab_back">Zurück</string>
+    <string name="ab_menu">Menü</string>
+    <string name="ab_add">Hinzufügen</string>
+
+    <string name="ab_settings">Einstellungen</string>
+
+    <string name="ab_edit">Bearbeiten</string>
+    <string name="ab_select">Auswählen</string>
+    <string name="ab_selected">Ausgewählt</string>
+    <string name="ab_delete">Löschen</string>
+    <string name="ab_favourite">Favorit</string>
+</resources>
+
