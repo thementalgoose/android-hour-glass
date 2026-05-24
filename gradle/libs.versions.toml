@@ -15,7 +15,7 @@ androidx_nav3 = "1.1.1"
 compose = "2026.05.01"
 coroutines = "1.11.0"
 firebase = "34.13.0"
-junit = "6.0.3"
+junit = "6.1.0"
 room = "2.8.4"
 osslicense = "0.12.0"
 
