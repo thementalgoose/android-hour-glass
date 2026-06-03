@@ -3,7 +3,7 @@ minSdk = "26"
 compileSdk = "37"
 targetSdk = "37"
 
-kotlin = "2.3.21"
+kotlin = "2.4.0"
 ksp = "2.3.9" # Update with kotlin https://github.com/google/ksp/releases
 dagger = "2.59.2"
 androidx_activity = "1.13.0"
