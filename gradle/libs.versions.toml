@@ -21,7 +21,7 @@ osslicense = "0.12.0"
 
 agp = "9.2.1"
 
-uiTest = "1.11.2"
+uiTest = "1.11.3"
 
 [libraries]  # ===========================================================================
 ## Root build.gradle dependencies
