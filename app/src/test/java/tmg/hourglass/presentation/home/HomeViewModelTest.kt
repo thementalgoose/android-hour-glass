@@ -8,7 +8,13 @@ import io.mockk.verify
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -45,6 +51,16 @@ internal class HomeViewModelTest {
         )
     }
 
+    @BeforeEach
+    fun setUp() {
+        Dispatchers.setMain(UnconfinedTestDispatcher())
+    }
+
+    @AfterEach
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
+
     @Test
     fun `initial ui state is empty when use case emits empty list`() = runTest {
         coEvery { mockGetTagged() } returns flowOf(emptyList())
@@ -66,9 +82,6 @@ internal class HomeViewModelTest {
         initUnderTest()
 
         underTest.uiState.test {
-            // consume initial stateIn initial value
-            awaitItem()
-
             val state = awaitItem()
             assertEquals(2, state.items.size)
             assertTrue(state.items.first() is ListItem.UntaggedHeader)
