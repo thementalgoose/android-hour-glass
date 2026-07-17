@@ -8,7 +8,11 @@ import io.mockk.verify
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -47,58 +51,73 @@ internal class HomeViewModelTest {
 
     @Test
     fun `initial ui state is empty when use case emits empty list`() = runTest {
-        coEvery { mockGetTagged() } returns flowOf(emptyList())
+        Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
+        try {
+            coEvery { mockGetTagged() } returns flowOf(emptyList())
 
-        initUnderTest()
+            initUnderTest()
 
-        underTest.uiState.test {
-            assertEquals(0, awaitItem().items.size)
+            underTest.uiState.test {
+                assertEquals(0, awaitItem().items.size)
+            }
+        } finally {
+            Dispatchers.resetMain()
         }
     }
 
     @Test
     fun `untagged only list emits header then countdown item`() = runTest {
-        val cd: Countdown = Countdown.preview()
-        coEvery { mockGetTagged() } returns flowOf(
-            listOf(TaggedCountdowns.Untagged(sort = TagOrdering.ALPHABETICAL, countdowns = listOf(cd)))
-        )
+        Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
+        try {
+            val cd: Countdown = Countdown.preview()
+            coEvery { mockGetTagged() } returns flowOf(
+                listOf(TaggedCountdowns.Untagged(sort = TagOrdering.ALPHABETICAL, countdowns = listOf(cd)))
+            )
 
-        initUnderTest()
+            initUnderTest()
 
-        underTest.uiState.test {
-            // consume initial stateIn initial value
-            awaitItem()
+            underTest.uiState.test {
+                // consume initial stateIn initial value
+                awaitItem()
 
-            val state = awaitItem()
-            assertEquals(2, state.items.size)
-            assertTrue(state.items.first() is ListItem.UntaggedHeader)
-            val item = state.items[1]
-            assertTrue(item is ListItem.CountdownItem)
-            assertEquals(cd.id, (item as ListItem.CountdownItem).countdown.id)
+                val state = awaitItem()
+                assertEquals(2, state.items.size)
+                assertTrue(state.items.first() is ListItem.UntaggedHeader)
+                val item = state.items[1]
+                assertTrue(item is ListItem.CountdownItem)
+                assertEquals(cd.id, (item as ListItem.CountdownItem).countdown.id)
+            }
+        } finally {
+            Dispatchers.resetMain()
         }
     }
 
     @Test
     fun `untaggedSort updates preferences sortOrder`() = runTest {
-        val cd: Countdown = Countdown.preview()
-        coEvery { mockGetTagged() } returns flow {
-            emit(listOf(TaggedCountdowns.Untagged(sort = TagOrdering.ALPHABETICAL, countdowns = listOf(cd))))
-            awaitCancellation()
-        }
+        Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
+        try {
+            val cd: Countdown = Countdown.preview()
+            coEvery { mockGetTagged() } returns flow {
+                emit(listOf(TaggedCountdowns.Untagged(sort = TagOrdering.ALPHABETICAL, countdowns = listOf(cd))))
+                awaitCancellation()
+            }
 
-        initUnderTest()
+            initUnderTest()
 
-        underTest.uiState.test {
-            // consume initial stateIn initial value
-            awaitItem()
+            underTest.uiState.test {
+                // consume initial stateIn initial value
+                awaitItem()
 
-            // change sort
-            underTest.untaggedSort(TagOrdering.FINISHING_SOONEST)
-            // verify preference setter was called
-            verify { mockPreferencesManager.sortOrder = TagOrdering.FINISHING_SOONEST }
-            // there should be at least one emission after change
-            val state = awaitItem()
-            assertEquals(true, state.items.isNotEmpty())
+                // change sort
+                underTest.untaggedSort(TagOrdering.FINISHING_SOONEST)
+                // verify preference setter was called
+                verify { mockPreferencesManager.sortOrder = TagOrdering.FINISHING_SOONEST }
+                // there should be at least one emission after change
+                val state = awaitItem()
+                assertEquals(true, state.items.isNotEmpty())
+            }
+        } finally {
+            Dispatchers.resetMain()
         }
     }
 
