@@ -82,9 +82,6 @@ internal class HomeViewModelTest {
         initUnderTest()
 
         underTest.uiState.test {
-            // consume initial stateIn initial value
-            awaitItem()
-
             val state = awaitItem()
             assertEquals(2, state.items.size)
             assertTrue(state.items.first() is ListItem.UntaggedHeader)
