@@ -89,7 +89,6 @@ class HourglassAndroidJunit5ConventionPlugin : Plugin<Project> {
 
                 add("testImplementation", libs.findLibrary("test.androidx.core").get())
                 add("testImplementation", libs.findLibrary("test.androidx.arch").get())
-                add("kspTest", libs.findLibrary("test.androidx.lifecycle").get())
             }
         }
     }
