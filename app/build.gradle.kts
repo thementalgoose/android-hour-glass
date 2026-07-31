@@ -230,7 +230,6 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.test.androidx.core)
     testImplementation(libs.test.androidx.arch)
-    kspTest(libs.test.androidx.lifecycle)
 
     testImplementation(testFixtures(project(":domain")))
 
