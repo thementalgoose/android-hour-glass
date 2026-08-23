@@ -20,13 +20,14 @@ room = "2.8.4"
 osslicense = "0.13.0"
 
 agp = "9.3.1"
+crashlytics = "3.0.8"
 
 uiTest = "1.12.0"
 
 [libraries]  # ===========================================================================
 ## Root build.gradle dependencies
 gradle_agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
-gradle_crashlytics = "com.google.firebase:firebase-crashlytics-gradle:3.0.8"
+gradle_crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
 gradle_hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
 gradle_junit5 = "de.mannodermaus.gradle.plugins:android-junit5:2.0.1"
 gradle_kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -167,7 +168,7 @@ junit5 = { id = "de.mannodermaus.android-junit5", version = "2.0.1" }
 
 # Firebase & Google Services
 google_services = { id = "com.google.gms.google-services", version = "4.5.0" }
-firebase_crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.7" }
+firebase_crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 firebase_perf = { id = "com.google.firebase.firebase-perf", version = "2.0.2" }
 oss_licenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "osslicense" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
