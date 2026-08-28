@@ -37,7 +37,7 @@ object AppTheme {
 @Composable
 fun AppTheme(
     isLight: Boolean = !isSystemInDarkTheme(),
-    applyMaterial: Boolean = true,
+    applyMaterial: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colors = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && applyMaterial) {

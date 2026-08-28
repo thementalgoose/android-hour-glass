@@ -44,7 +44,6 @@ import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.buttons.PrimaryButton
-import tmg.hourglass.presentation.inputs.Switch
 import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextBody2
