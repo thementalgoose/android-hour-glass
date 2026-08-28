@@ -41,6 +41,7 @@ import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTablet
 import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.buttons.FloatingActionButton
+import tmg.hourglass.presentation.components.snow
 import tmg.hourglass.presentation.home.components.Countdown
 import tmg.hourglass.presentation.home.components.Empty
 import tmg.hourglass.presentation.home.components.Header
@@ -134,7 +135,9 @@ internal fun ListScreen(
     deleteItem: (Countdown) -> Unit
 ) {
     LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .snow(isEnabled = uiState.showSnow),
         columns = GridCells.Adaptive(minSize = 250.dp),
         contentPadding = PaddingValues(
             start = AppTheme.dimensions.paddingMedium,
@@ -312,7 +315,7 @@ private val expandedWindowSizeClass: WindowSizeClass =
     WindowSizeClass.calculateFromSize(DpSize(910.dp, 600.dp))
 
 private fun UiState.Companion.empty(): UiState = UiState(
-    items = emptyList()
+    items = emptyList(),
 )
 
 private fun UiState.Companion.untagged(): UiState = UiState(

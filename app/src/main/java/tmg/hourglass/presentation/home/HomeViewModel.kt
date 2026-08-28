@@ -1,6 +1,5 @@
 package tmg.hourglass.presentation.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,11 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import tmg.hourglass.core.crashlytics.AnalyticsManager
-import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.Tag
 import tmg.hourglass.domain.model.TagOrdering
@@ -23,13 +19,15 @@ import tmg.hourglass.domain.repositories.TagRepository
 import tmg.hourglass.domain.usecases.GetTaggedCountdownsUseCase
 import tmg.hourglass.domain.usecases.sortBy
 import java.time.LocalDateTime
+import java.time.Month
 import javax.inject.Inject
 
 data class UiState(
     val items: List<ListItem>,
+    val showSnow: Boolean = false,
 ) {
     constructor(): this(
-        items = emptyList(),
+        items = emptyList()
     )
     val isEmpty: Boolean
         get() = items.isEmpty()
@@ -74,19 +72,35 @@ class HomeViewModel @Inject constructor(
 ): ViewModel() {
 
     private val untaggedSort = MutableStateFlow(preferencesManager.sortOrder)
+    private val shouldShowSnow: Boolean by lazy {
+        val now = LocalDateTime.now()
+        val day = now.dayOfMonth
+        val month = now.month
+        return@lazy when (month) {
+            Month.JANUARY if day <= 4 -> true
+            Month.DECEMBER if day >= 15 -> true
+            else -> false
+        }
+    }
 
     val uiState: StateFlow<UiState> =
         combine(
             flow = getTaggedCountdownsUseCase(),
             flow2 = untaggedSort,
             transform = { list, untaggedSort ->
-                UiState(buildList(list,  untaggedSort))
+                UiState(
+                    items = buildList(list,  untaggedSort),
+                    showSnow = shouldShowSnow
+                )
             }
         )
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = UiState()
+            initialValue = UiState(
+                items = emptyList(),
+                showSnow = shouldShowSnow,
+            )
         )
 
     private fun buildList(
