@@ -37,9 +37,10 @@ object AppTheme {
 @Composable
 fun AppTheme(
     isLight: Boolean = !isSystemInDarkTheme(),
+    applyMaterial: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colors = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+    val colors = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && applyMaterial) {
         if (isLight) {
             lightColors.dynamic(dynamicLightColorScheme(LocalContext.current), isLightMode = true)
         } else {
