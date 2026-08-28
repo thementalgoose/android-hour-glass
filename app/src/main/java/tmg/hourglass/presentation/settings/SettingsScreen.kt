@@ -102,8 +102,6 @@ private fun SettingsOverviewScreen(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
-            start = AppTheme.dimensions.paddingMedium,
-            end = AppTheme.dimensions.paddingMedium,
             top = paddingValues.calculateTopPadding(),
             bottom = paddingValues.calculateBottomPadding()
         ),
