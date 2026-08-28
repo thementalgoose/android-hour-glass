@@ -101,7 +101,12 @@ private fun SettingsOverviewScreen(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = paddingValues,
+        contentPadding = PaddingValues(
+            start = AppTheme.dimensions.paddingMedium,
+            end = AppTheme.dimensions.paddingMedium,
+            top = paddingValues.calculateTopPadding(),
+            bottom = paddingValues.calculateBottomPadding()
+        ),
         content = {
             item(key = "header") {
                 TitleBar(
