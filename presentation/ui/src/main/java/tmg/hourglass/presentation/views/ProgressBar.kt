@@ -48,10 +48,11 @@ fun ProgressBar(
 ) {
 
     BoxWithConstraints(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .height(height)
             .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
+            .then(modifier)
     ) {
         val progressState = remember { mutableFloatStateOf(0f) }
         val progress = animateFloatAsState(
