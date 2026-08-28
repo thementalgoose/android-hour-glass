@@ -3,10 +3,10 @@
 
     <color name="splash_screen">#f8f8f8</color>
 
-    <color name="brand">#AD1457</color>
+    <color name="brand">#F1A16B</color>
 
     <color name="overlay">#88000000</color>
     <color name="black">#000000</color>
 
-    <color name="brand_dark">#5E1B3A</color>
+    <color name="brand_dark">#EB7051</color>
 </resources>

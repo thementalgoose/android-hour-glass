@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ExitToApp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -147,7 +148,10 @@ internal fun SettingsSwitch(
         }
         Switch(
             checked = isChecked,
-            onCheckedChange = null
+            onCheckedChange = null,
+            colors = SwitchDefaults.colors(
+                checkedTrackColor = AppTheme.colors.accent
+            )
         )
     }
 }

@@ -55,10 +55,10 @@ data class AppColors(
 }
 
 val lightColors = AppColors(
-    primary = Color(0xFFAD1457),
+    primary = Color(0xFFF1A16B),
     primaryDark = Color(0xFFFFFFFF),
-    primaryAlpha = Color(0x44AD1457),
-    accent = Color(0xFFAD1457),
+    primaryAlpha = Color(0x44EB7051),
+    accent = Color(0xFFED835B),
     onAccent = Color(0xFFF2F2F2),
     textPrimary = Color(0xFF181818),
     textSecondary = Color(0xFF383838),
@@ -81,10 +81,10 @@ val lightColors = AppColors(
 )
 
 val darkColors = AppColors(
-    primary = Color(0xFFAD1457),
+    primary = Color(0xFFF1A16B),
     primaryDark = Color(0xFF181818),
-    primaryAlpha = Color(0x44AD1457),
-    accent = Color(0xFFAD1457),
+    primaryAlpha = Color(0x44EB7051),
+    accent = Color(0xFFED835B),
     onAccent = Color(0xFFF2F2F2),
     textPrimary = Color(0xFFFBFBFB),
     textSecondary = Color(0xFFE8E8E8),

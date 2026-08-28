@@ -2,10 +2,13 @@ package tmg.hourglass.presentation.inputs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.SwitchColors
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewTheme
 import tmg.hourglass.presentation.textviews.TextBody1
@@ -28,7 +31,11 @@ fun Switch(
         androidx.compose.material3.Switch(
             checked = isChecked,
             onCheckedChange = null,
-            enabled = enabled
+            enabled = enabled,
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = AppTheme.colors.accent,
+                checkedTrackColor = AppTheme.colors.accent
+            )
         )
     }
 }
