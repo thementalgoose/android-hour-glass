@@ -22,7 +22,7 @@ osslicense = "0.13.0"
 agp = "9.4.0"
 crashlytics = "3.0.8"
 
-uiTest = "1.12.0"
+uiTest = "1.12.1"
 
 [libraries]  # ===========================================================================
 ## Root build.gradle dependencies
