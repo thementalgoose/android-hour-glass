@@ -2,6 +2,7 @@ package tmg.hourglass.domain
 
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.domain.model.CountdownNotifications
 import tmg.hourglass.domain.model.Tag
 import java.time.Month
 
@@ -17,7 +18,8 @@ fun Countdown.Static.Companion.model(
     endValue: String = "end",
 
     countdownType: CountdownType = CountdownType.DAYS,
-    tag: Tag? = null
+    tag: Tag? = null,
+    notifications: List<CountdownNotifications> = emptyList()
 ): Countdown.Static = Countdown.Static(
     id = id,
     name = name,
@@ -28,7 +30,8 @@ fun Countdown.Static.Companion.model(
     startValue = startValue,
     endValue = endValue,
     countdownType = countdownType,
-    tag = tag
+    tag = tag,
+    notifications = notifications
 )
 
 fun Countdown.Recurring.Companion.model(
@@ -38,7 +41,8 @@ fun Countdown.Recurring.Companion.model(
     colour: String = "colour",
     day: Int = 1,
     month: Month = Month.JANUARY,
-    tag: Tag? = null
+    tag: Tag? = null,
+    notifications: List<CountdownNotifications> = emptyList()
 ): Countdown.Recurring = Countdown.Recurring(
     id = id,
     name = name,
@@ -46,5 +50,6 @@ fun Countdown.Recurring.Companion.model(
     colour = colour,
     day = day,
     month = month,
-    tag = tag
+    tag = tag,
+    notifications = notifications
 )

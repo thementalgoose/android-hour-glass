@@ -1,5 +1,10 @@
 package tmg.hourglass.presentation.settings
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -14,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -23,6 +29,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import tmg.hourglass.core.crashlytics.screenview.ScreenView
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
@@ -54,6 +63,28 @@ internal fun SettingsScreenVM(
 ) {
     val uiState = viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.refresh()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        viewModel.refresh()
+        if (!isGranted) {
+            openNotificationSettings(context)
+        }
+    }
 
     SettingsOverviewScreen(
         paddingValues = paddingValues,
@@ -72,8 +103,39 @@ internal fun SettingsScreenVM(
         sendFeedback = goToAboutThisApp,
         changelogClicked = goToChangelog,
         actionUpClicked = actionUpClicked,
-        backupOptionsClicked = { navigateToBackup() }
+        backupOptionsClicked = { navigateToBackup() },
+        enableNotificationsClicked = {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                openNotificationSettings(context)
+            }
+        },
+        notificationSettingsClicked = {
+            openNotificationSettings(context)
+        },
+        exactTimingsClicked = {
+            openExactAlarmSettings(context)
+        }
     )
+}
+
+private fun openNotificationSettings(context: Context) {
+    val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+    }
+    context.startActivity(intent)
+}
+
+private fun openExactAlarmSettings(context: Context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+            data = Uri.parse("package:${context.packageName}")
+        }
+        context.startActivity(intent)
+    } else {
+        openNotificationSettings(context)
+    }
 }
 
 @Composable
@@ -88,6 +150,9 @@ private fun SettingsOverviewScreen(
     rateClicked: () -> Unit,
     privacyPolicyClicked: () -> Unit,
     backupOptionsClicked: () -> Unit,
+    enableNotificationsClicked: () -> Unit,
+    notificationSettingsClicked: () -> Unit,
+    exactTimingsClicked: () -> Unit,
     deleteAllClicked: () -> Unit,
     setAnalytics: (Boolean) -> Unit,
     setCrashlytics: (Boolean) -> Unit,
@@ -125,6 +190,33 @@ private fun SettingsOverviewScreen(
                         themeDialog.value = true
                     }
                 )
+            }
+            item(key = "notifications_header") {
+                SettingsHeader(title = string.settings_notifications)
+            }
+            if (!uiState.notificationsEnabled) {
+                item(key = "notifications_enable") {
+                    SettingsOption(
+                        title = string.settings_notifications_enable_title,
+                        subtitle = string.settings_notifications_enable_subtitle,
+                        optionClicked = enableNotificationsClicked
+                    )
+                }
+            } else {
+                item(key = "notifications_settings") {
+                    SettingsOption(
+                        title = string.settings_notifications_settings_title,
+                        subtitle = string.settings_notifications_customise_description,
+                        optionClicked = notificationSettingsClicked
+                    )
+                }
+                item(key = "notifications_exact") {
+                    SettingsOption(
+                        title = string.settings_notifications_exact_title,
+                        subtitle = string.settings_notifications_exact_description,
+                        optionClicked = exactTimingsClicked
+                    )
+                }
             }
             item(key = "widgets_header") {
                 SettingsHeader(title = string.settings_widgets)
@@ -253,7 +345,8 @@ private fun PreviewOverview() {
                 screen = null,
                 crashReporting = true,
                 anonymousAnalytics = false,
-                theme = ThemePref.AUTO
+                theme = ThemePref.AUTO,
+                notificationsEnabled = false
             ),
             refreshWidgetsClicked = { },
             aboutThisAppClicked = { },
@@ -266,7 +359,10 @@ private fun PreviewOverview() {
             privacyPolicyClicked = { },
             deleteAllClicked = { },
             actionUpClicked = { },
-            backupOptionsClicked = { }
+            backupOptionsClicked = { },
+            enableNotificationsClicked = { },
+            notificationSettingsClicked = { },
+            exactTimingsClicked = { }
         )
     }
 }

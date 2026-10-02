@@ -157,6 +157,7 @@ android {
 dependencies {
     implementation(project(":core:metrics:googleanalytics"))
     implementation(project(":core:metrics:crashlytics"))
+    implementation(project(":core:notifications"))
 
     // Modules
     implementation(project(":data:room"))

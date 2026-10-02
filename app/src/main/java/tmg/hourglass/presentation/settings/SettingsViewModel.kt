@@ -1,7 +1,10 @@
 package tmg.hourglass.presentation.settings
 
+import android.content.Context
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import tmg.hourglass.core.crashlytics.AnalyticsManager
@@ -17,12 +20,14 @@ data class UiState(
     val theme: ThemePref,
     val crashReporting: Boolean,
     val anonymousAnalytics: Boolean,
+    val notificationsEnabled: Boolean = false,
 ) {
     constructor(): this(
         screen = null,
         theme = ThemePref.AUTO,
         crashReporting = false,
         anonymousAnalytics = false,
+        notificationsEnabled = false,
     )
 }
 
@@ -36,7 +41,8 @@ class SettingsViewModel @Inject constructor(
     private val prefManager: PreferencesManager,
     private val countdownRepository: CountdownRepository,
     private val changeThemeUseCase: ChangeThemeUseCase,
-    private val analyticsManager: AnalyticsManager
+    private val analyticsManager: AnalyticsManager,
+    @param:ApplicationContext private val context: Context
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -75,11 +81,13 @@ class SettingsViewModel @Inject constructor(
         countdownRepository.deleteAll()
     }
 
-    private fun refresh() {
+    fun refresh() {
+        val notificationsEnabled = NotificationManagerCompat.from(context).areNotificationsEnabled()
         update { copy(
             crashReporting = prefManager.crashReporting,
             anonymousAnalytics = prefManager.analyticsEnabled,
-            theme = prefManager.theme.toPref()
+            theme = prefManager.theme.toPref(),
+            notificationsEnabled = notificationsEnabled
         )}
     }
 

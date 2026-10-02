@@ -39,6 +39,7 @@ fun Input(
     maxLines: Int = Int.MAX_VALUE,
     initial: String = "",
     error: String? = null,
+    enabled: Boolean = true,
 ) {
 
     val input = remember { mutableStateOf(initial) }
@@ -65,11 +66,15 @@ fun Input(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
-            .background(AppTheme.colors.backgroundSecondary)
+            .background(
+                if (enabled) AppTheme.colors.backgroundSecondary
+                else AppTheme.colors.backgroundSecondary.copy(alpha = 0.5f)
+            )
     ) {
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
+            enabled = enabled,
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
             value = input.value,
             onValueChange = {

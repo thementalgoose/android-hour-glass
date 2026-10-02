@@ -3,7 +3,7 @@ package tmg.hourglass.room.models
 import androidx.room.Embedded
 import androidx.room.Relation
 
-internal class CountdownWithTag(
+internal class CountdownWrapper(
     @Embedded
     val countdown: Countdown,
     @Relation(
@@ -11,4 +11,9 @@ internal class CountdownWithTag(
         entityColumn = "id"
     )
     val tag: Tag?,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "countdown_id"
+    )
+    val notifications: List<Notification> = emptyList()
 )

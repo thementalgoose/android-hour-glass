@@ -8,17 +8,19 @@ import tmg.hourglass.room.dao.CountdownDao
 import tmg.hourglass.room.dao.TagDao
 import tmg.hourglass.room.dao.WidgetDao
 import tmg.hourglass.room.models.Countdown
+import tmg.hourglass.room.models.Notification
 import tmg.hourglass.room.models.Tag
 import tmg.hourglass.room.models.WidgetReference
 
 internal const val DATABASE_NAME = "HourGlass"
 
 @Database(
-    version = 4,
+    version = 5,
     entities = [
         WidgetReference::class,
         Countdown::class,
-        Tag::class
+        Tag::class,
+        Notification::class
     ],
     exportSchema = true
 )

@@ -17,6 +17,13 @@
     <string name="settings_theme_theme_title">App theme</string>
     <string name="settings_theme_theme_description">Pick your theming preference</string>
     <string name="settings_theme_theme_summary">Pick here between following your system theming or overriding a light or dark theme</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_enable_title">Enable</string>
+    <string name="settings_notifications_enable_subtitle">Enable notifications for this app</string>
+    <string name="settings_notifications_settings_title">Notification Settings</string>
+    <string name="settings_notifications_customise_description">Customise your notification settings</string>
+    <string name="settings_notifications_exact_title">Exact Timings</string>
+    <string name="settings_notifications_exact_description">Grant permission for Hour Glass to send reminders at exact times. Without this setting your notifications may be up to an hour delayed</string>
     <string name="settings_widgets">Widgets</string>
     <string name="settings_widgets_refresh_title">Refresh widgets</string>
     <string name="settings_widgets_refresh_description">Widgets should refresh every hour, but you can force refresh them by clicking here. You can also tap the widget directly to update it at any time</string>
@@ -254,4 +261,14 @@
     <string name="select_date">Select date</string>
     <string name="select_date_confirm">Confirm</string>
     <string name="select_date_cancel">Cancel</string>
+
+    <string name="modify_notifications_title">Notifications</string>
+    <string name="modify_notifications_subtitle">Get notified when this countdown hits a milestone!</string>
+    <string name="modify_notifications_enable">Enable notifications</string>
+    <string name="modify_notifications_type_value">Value</string>
+    <string name="modify_notifications_type_time">Time</string>
+    <string name="modify_notifications_value_hint">Value</string>
+    <string name="modify_notifications_days_before">Days before</string>
+    <string name="modify_error_notification_days_out_of_range">Days before must be within range (0 - %d)</string>
+    <string name="modify_error_notification_value_out_of_range">Value must be within range (%1$d - %2$d)</string>
 </resources>

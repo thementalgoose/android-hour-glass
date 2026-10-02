@@ -1,6 +1,12 @@
 package tmg.hourglass.presentation.modify
 
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -15,8 +21,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.core.crashlytics.screenview.ScreenView
 import tmg.hourglass.presentation.AppTheme
@@ -24,6 +34,7 @@ import tmg.hourglass.presentation.layouts.TitleBar
 import tmg.hourglass.presentation.modify.layout.DataRangeDateLayout
 import tmg.hourglass.presentation.modify.layout.DataRangeInputLayout
 import tmg.hourglass.presentation.modify.layout.DataSingleDateLayout
+import tmg.hourglass.presentation.modify.layout.NotificationsLayout
 import tmg.hourglass.presentation.modify.layout.PersonaliseLayout
 import tmg.hourglass.presentation.modify.layout.SaveLayout
 import tmg.hourglass.presentation.modify.layout.TagLayout
@@ -52,6 +63,29 @@ fun ModifyScreenVM(
 
     val uiState = viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.refreshNotificationsEnabled()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        viewModel.refreshNotificationsEnabled()
+        if (!isGranted) {
+            openNotificationSettings(context)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -135,6 +169,23 @@ fun ModifyScreenVM(
             }
         }
 
+        NotificationsLayout(
+            notifications = uiState.value.notifications,
+            notificationsEnabled = uiState.value.notificationsEnabled,
+            isValuesType = uiState.value.inputTypes is UiState.Types.Values,
+            getNotificationError = uiState.value::getNotificationError,
+            onUpdateValue = viewModel::updateNotificationValue,
+            onUpdateType = viewModel::updateNotificationType,
+            onDelete = viewModel::deleteNotification,
+            onEnableNotifications = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                } else {
+                    openNotificationSettings(context)
+                }
+            }
+        )
+
         TagLayout(
             tags = uiState.value.allTags,
             selected = uiState.value.tag,
@@ -158,4 +209,11 @@ fun ModifyScreenVM(
 
         Spacer(Modifier.imePadding())
     }
+}
+
+private fun openNotificationSettings(context: Context) {
+    val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+    }
+    context.startActivity(intent)
 }

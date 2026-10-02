@@ -17,6 +17,13 @@
     <string name="settings_theme_theme_title">App-Design</string>
     <string name="settings_theme_theme_description">Wähle deine Design-Vorliebe</string>
     <string name="settings_theme_theme_summary">Wähle hier, ob die App das System-Design verwendet oder ein helles bzw. dunkles Design erzwingt</string>
+    <string name="settings_notifications">Benachrichtigungen</string>
+    <string name="settings_notifications_enable_title">Aktivieren</string>
+    <string name="settings_notifications_enable_subtitle">Benachrichtigungen für diese App aktivieren</string>
+    <string name="settings_notifications_settings_title">Benachrichtigungseinstellungen</string>
+    <string name="settings_notifications_customise_description">Passen Sie Ihre Benachrichtigungseinstellungen an</string>
+    <string name="settings_notifications_exact_title">Genaue Uhrzeiten</string>
+    <string name="settings_notifications_exact_description">Erteilen Sie Hour Glass die Berechtigung, Erinnerungen zu genauen Zeiten zu senden. Ohne diese Einstellung können Ihre Benachrichtigungen bis zu einer Stunde verzögert werden</string>
     <string name="settings_widgets">Widgets</string>
     <string name="settings_widgets_refresh_title">Widgets aktualisieren</string>
     <string name="settings_widgets_refresh_description">Widgets sollten sich jede Stunde aktualisieren, du kannst sie aber hier erzwingen. Du kannst das Widget auch direkt antippen, um es jederzeit zu aktualisieren</string>
@@ -217,5 +224,15 @@
     <string name="select_date">Datum auswählen</string>
     <string name="select_date_confirm">Bestätigen</string>
     <string name="select_date_cancel">Abbrechen</string>
+
+    <string name="modify_notifications_title">Benachrichtigungen</string>
+    <string name="modify_notifications_subtitle">Lassen Sie sich benachrichtigen, wenn dieser Countdown einen Meilenstein erreicht!</string>
+    <string name="modify_notifications_enable">Benachrichtigungen aktivieren</string>
+    <string name="modify_notifications_type_value">Wert</string>
+    <string name="modify_notifications_type_time">Zeit</string>
+    <string name="modify_notifications_value_hint">Wert</string>
+    <string name="modify_notifications_days_before">Tage davor</string>
+    <string name="modify_error_notification_days_out_of_range">Tage davor müssen im Bereich (0 - %d) liegen</string>
+    <string name="modify_error_notification_value_out_of_range">Wert muss im Bereich (%1$d - %2$d) liegen</string>
 </resources>
 
