@@ -4,18 +4,20 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import tmg.hourglass.room.models.Countdown
 import tmg.hourglass.room.models.CountdownWithTag
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import tmg.hourglass.room.models.Notification
 
 @Dao
 internal interface CountdownDao {
 
+    @Transaction
     @Query("SELECT * FROM Countdown")
     fun getCountdowns(): Flow<List<CountdownWithTag>>
 
+    @Transaction
     @Query("SELECT * FROM Countdown WHERE id == :id")
     fun getCountdown(id: String): Flow<CountdownWithTag?>
 
@@ -30,4 +32,22 @@ internal interface CountdownDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllCountdown(countdown: List<Countdown>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNotifications(notifications: List<Notification>)
+
+    @Query("DELETE FROM Notification WHERE countdown_id == :countdownId")
+    suspend fun deleteNotificationsForCountdown(countdownId: String)
+
+    @Transaction
+    suspend fun upsertCountdownWithNotifications(
+        countdown: Countdown,
+        notifications: List<Notification>
+    ) {
+        insertCountdown(countdown)
+        deleteNotificationsForCountdown(countdown.id)
+        if (notifications.isNotEmpty()) {
+            insertNotifications(notifications)
+        }
+    }
 }

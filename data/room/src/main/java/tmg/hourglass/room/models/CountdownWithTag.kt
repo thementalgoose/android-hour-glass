@@ -11,4 +11,9 @@ internal class CountdownWithTag(
         entityColumn = "id"
     )
     val tag: Tag?,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "countdown_id"
+    )
+    val notifications: List<Notification> = emptyList()
 )

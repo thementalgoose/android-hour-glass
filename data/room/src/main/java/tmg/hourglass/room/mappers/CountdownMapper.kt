@@ -10,7 +10,8 @@ import java.time.Month
 import javax.inject.Inject
 
 internal class CountdownMapper @Inject constructor(
-    private val tagMapper: TagMapper
+    private val tagMapper: TagMapper,
+    private val notificationMapper: NotificationMapper
 ) {
 
     private val Countdown.startLabel: String
@@ -45,6 +46,7 @@ internal class CountdownMapper @Inject constructor(
 
     fun deserialize(model: tmg.hourglass.room.models.CountdownWithTag): Countdown {
         Log.d("CountdownMapper", "Deserializing countdown $model")
+        val notifications = model.notifications.map { notificationMapper.deserialize(it) }
         return if (model.countdown.isRecurring) {
             Countdown.Recurring(
                 id = model.countdown.id,
@@ -53,7 +55,8 @@ internal class CountdownMapper @Inject constructor(
                 colour = model.countdown.colour,
                 day = model.countdown.end.split("-")[1].toIntOrNull() ?: 31,
                 month = Month.of(model.countdown.end.split("-")[0].toIntOrNull() ?: 12),
-                tag = model.tag?.let { tagMapper.deserialize(it) }
+                tag = model.tag?.let { tagMapper.deserialize(it) },
+                notifications = notifications
             )
         } else {
             Countdown.Static(
@@ -67,7 +70,8 @@ internal class CountdownMapper @Inject constructor(
                 endValue = model.countdown.finishing,
                 countdownType = model.countdown.passageType.toEnum<CountdownType> { it.key }
                     ?: CountdownType.NUMBER,
-                tag = model.tag?.let { tagMapper.deserialize(it) }
+                tag = model.tag?.let { tagMapper.deserialize(it) },
+                notifications = notifications
             )
         }
     }

@@ -52,5 +52,21 @@ enum class Migrations(
         override fun migrate(db: SupportSQLiteDatabase) {
             db.execSQL("ALTER TABLE Tag ADD COLUMN expanded INTEGER NOT NULL DEFAULT 1")
         }
+    }),
+    MIGRATION_4_5(object : Migration(4, 5) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS `Notification` (
+                  `id` TEXT NOT NULL,
+                  `countdown_id` TEXT NOT NULL,
+                  `type` TEXT NOT NULL,
+                  `time` TEXT,
+                  `value` TEXT,
+                  PRIMARY KEY(`id`),
+                  FOREIGN KEY(`countdown_id`) REFERENCES `Countdown`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+                )
+            """.trimIndent())
+            db.execSQL("CREATE INDEX IF NOT EXISTS `index_Notification_countdown_id` ON `Notification` (`countdown_id`)")
+        }
     });
 }

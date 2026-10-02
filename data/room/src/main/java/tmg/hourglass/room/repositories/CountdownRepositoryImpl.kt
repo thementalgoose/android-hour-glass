@@ -10,12 +10,14 @@ import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.room.BuildConfig
 import tmg.hourglass.room.dao.CountdownDao
 import tmg.hourglass.room.mappers.CountdownMapper
+import tmg.hourglass.room.mappers.NotificationMapper
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 internal class CountdownRepositoryImpl @Inject constructor(
     private val countdownDao: CountdownDao,
     private val countdownMapper: CountdownMapper,
+    private val notificationMapper: NotificationMapper
 ): CountdownRepository {
     override fun allCurrent(): Flow<List<Countdown>> {
         val nowLocalDateTime = LocalDateTime.now()
@@ -76,16 +78,24 @@ internal class CountdownRepositoryImpl @Inject constructor(
     override fun saveSync(countdown: Countdown) {
         runBlocking {
             Log.d("Room", "Saving $countdown")
-            countdownDao.insertCountdown(countdownMapper.serialize(countdown))
+            val notifications = countdown.notifications.map { notificationMapper.serialize(countdown.id, it) }
+            countdownDao.upsertCountdownWithNotifications(
+                countdown = countdownMapper.serialize(countdown),
+                notifications = notifications
+            )
         }
     }
 
     override fun saveAll(countdowns: List<Countdown>) {
         runBlocking {
             Log.d("Room", "Saving ${countdowns.joinToString { it.id }}")
-            countdownDao.insertAllCountdown(
-                countdowns.map { countdownMapper.serialize(it) }
-            )
+            countdowns.forEach { countdown ->
+                val notifications = countdown.notifications.map { notificationMapper.serialize(countdown.id, it) }
+                countdownDao.upsertCountdownWithNotifications(
+                    countdown = countdownMapper.serialize(countdown),
+                    notifications = notifications
+                )
+            }
         }
     }
 
