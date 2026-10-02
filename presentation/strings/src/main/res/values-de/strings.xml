@@ -231,5 +231,8 @@
     <string name="modify_notifications_type_value">Wert</string>
     <string name="modify_notifications_type_time">Zeit</string>
     <string name="modify_notifications_value_hint">Wert</string>
+    <string name="modify_notifications_days_before">Tage davor</string>
+    <string name="modify_error_notification_days_out_of_range">Tage davor müssen im Bereich (0 - %d) liegen</string>
+    <string name="modify_error_notification_value_out_of_range">Wert muss im Bereich (%1$d - %2$d) liegen</string>
 </resources>
 

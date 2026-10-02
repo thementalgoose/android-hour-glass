@@ -37,6 +37,8 @@ import tmg.hourglass.presentation.textviews.TextBody1
 import tmg.hourglass.presentation.textviews.TextHeader2
 import tmg.hourglass.strings.R
 
+import tmg.hourglass.presentation.modify.NotificationError
+
 @Composable
 fun NotificationsLayout(
     notifications: List<UiNotification>,
@@ -45,7 +47,9 @@ fun NotificationsLayout(
     onUpdateType: (id: String, type: NotificationType) -> Unit,
     onDelete: (id: String) -> Unit,
     onEnableNotifications: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isValuesType: Boolean = true,
+    getNotificationError: (UiNotification) -> NotificationError? = { null }
 ) {
     Column(
         modifier = modifier
@@ -60,6 +64,8 @@ fun NotificationsLayout(
             NotificationRow(
                 notification = notification,
                 isEnabled = notificationsEnabled,
+                isValuesType = isValuesType,
+                getNotificationError = getNotificationError,
                 onUpdateValue = onUpdateValue,
                 onUpdateType = onUpdateType,
                 onDelete = onDelete
@@ -81,12 +87,20 @@ fun NotificationsLayout(
 private fun NotificationRow(
     notification: UiNotification,
     isEnabled: Boolean,
+    isValuesType: Boolean,
+    getNotificationError: (UiNotification) -> NotificationError?,
     onUpdateValue: (id: String, value: String) -> Unit,
     onUpdateType: (id: String, type: NotificationType) -> Unit,
     onDelete: (id: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val showTypeDialog = remember { mutableStateOf(false) }
+    val error = getNotificationError(notification)
+    val errorString = when (error) {
+        is NotificationError.DaysOutOfRange -> stringResource(R.string.modify_error_notification_days_out_of_range, error.maxDays)
+        is NotificationError.ValueOutOfRange -> stringResource(R.string.modify_error_notification_value_out_of_range, error.minVal, error.maxVal)
+        null -> null
+    }
 
     Row(
         modifier = modifier
@@ -94,27 +108,29 @@ private fun NotificationRow(
             .height(IntrinsicSize.Min),
         horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall)
     ) {
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-                .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
-                .background(
-                    if (isEnabled) AppTheme.colors.backgroundSecondary
-                    else AppTheme.colors.backgroundSecondary.copy(alpha = 0.5f)
+        if (isValuesType) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
+                    .background(
+                        if (isEnabled) AppTheme.colors.backgroundSecondary
+                        else AppTheme.colors.backgroundSecondary.copy(alpha = 0.5f)
+                    )
+                    .clickable(enabled = isEnabled) {
+                        showTypeDialog.value = true
+                    }
+                    .padding(AppTheme.dimensions.paddingMedium)
+            ) {
+                TextBody1(
+                    modifier = Modifier.align(Alignment.CenterStart),
+                    text = when (notification.type) {
+                        NotificationType.VALUE -> stringResource(id = R.string.modify_notifications_type_value)
+                        NotificationType.TIME -> stringResource(id = R.string.modify_notifications_type_time)
+                    }
                 )
-                .clickable(enabled = isEnabled) {
-                    showTypeDialog.value = true
-                }
-                .padding(AppTheme.dimensions.paddingMedium)
-        ) {
-            TextBody1(
-                modifier = Modifier.align(Alignment.CenterStart),
-                text = when (notification.type) {
-                    NotificationType.VALUE -> stringResource(id = R.string.modify_notifications_type_value)
-                    NotificationType.TIME -> stringResource(id = R.string.modify_notifications_type_time)
-                }
-            )
+            }
         }
 
         Input(
@@ -122,7 +138,12 @@ private fun NotificationRow(
             initial = notification.value,
             inputUpdated = { onUpdateValue(notification.id, it) },
             keyboardType = KeyboardType.Number,
-            hint = stringResource(id = R.string.modify_notifications_value_hint),
+            hint = if (isValuesType) {
+                stringResource(id = R.string.modify_notifications_value_hint)
+            } else {
+                stringResource(id = R.string.modify_notifications_days_before)
+            },
+            error = errorString,
             enabled = isEnabled
         )
 
@@ -135,7 +156,7 @@ private fun NotificationRow(
         )
     }
 
-    if (showTypeDialog.value) {
+    if (showTypeDialog.value && isValuesType) {
         TextDialog(
             items = listOf(NotificationType.VALUE),
             itemClicked = { onUpdateType(notification.id, it) },

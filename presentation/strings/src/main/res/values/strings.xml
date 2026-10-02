@@ -268,4 +268,7 @@
     <string name="modify_notifications_type_value">Value</string>
     <string name="modify_notifications_type_time">Time</string>
     <string name="modify_notifications_value_hint">Value</string>
+    <string name="modify_notifications_days_before">Days before</string>
+    <string name="modify_error_notification_days_out_of_range">Days before must be within range (0 - %d)</string>
+    <string name="modify_error_notification_value_out_of_range">Value must be within range (%1$d - %2$d)</string>
 </resources>

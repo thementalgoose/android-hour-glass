@@ -116,6 +116,75 @@ internal class ModifyViewModelTest {
     }
 
     @Test
+    fun `setType clears configured notifications`() = runTest {
+        every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
+
+        initUnderTest()
+
+        underTest.uiState.test {
+            val item1 = awaitItem()
+            val firstId = item1.notifications[0].id
+            underTest.updateNotificationValue(firstId, "10")
+
+            val item2 = awaitItem()
+            assertEquals(2, item2.notifications.size)
+
+            underTest.setType(tmg.hourglass.domain.enums.CountdownType.NUMBER)
+            val item3 = awaitItem()
+            assertEquals(1, item3.notifications.size)
+            assertEquals("", item3.notifications[0].value)
+        }
+    }
+
+    @Test
+    fun `EndDate notification daysBefore out of range adds NOTIFICATION_OUT_OF_RANGE error and disables save`() = runTest {
+        every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
+        every { mockCountdownRepository.getSync("1") } returns ModifyData.countdownDays
+
+        initUnderTest()
+
+        underTest.uiState.test {
+            awaitItem()
+            underTest.initialise("1")
+            val loaded = awaitItem()
+            val firstId = loaded.notifications[0].id
+
+            // Set daysBefore to 50 when countdown duration is only 1 day (today to tomorrow)
+            underTest.updateNotificationValue(firstId, "50")
+            val invalidState = awaitItem()
+
+            assertEquals(true, invalidState.errors.contains(UiState.ErrorTypes.NOTIFICATION_OUT_OF_RANGE))
+            assertEquals(false, invalidState.isSaveEnabled)
+            val notificationError = invalidState.getNotificationError(invalidState.notifications[0])
+            assertEquals(NotificationError.DaysOutOfRange(maxDays = 1L), notificationError)
+        }
+    }
+
+    @Test
+    fun `Values notification value out of range adds NOTIFICATION_OUT_OF_RANGE error and disables save`() = runTest {
+        every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
+        every { mockCountdownRepository.getSync("2") } returns ModifyData.countdownNumber
+
+        initUnderTest()
+
+        underTest.uiState.test {
+            awaitItem()
+            underTest.initialise("2")
+            val loaded = awaitItem()
+            val firstId = loaded.notifications[0].id
+
+            // countdownNumber range is 0 to 100. Enter 200 (out of range).
+            underTest.updateNotificationValue(firstId, "200")
+            val invalidState = awaitItem()
+
+            assertEquals(true, invalidState.errors.contains(UiState.ErrorTypes.NOTIFICATION_OUT_OF_RANGE))
+            assertEquals(false, invalidState.isSaveEnabled)
+            val notificationError = invalidState.getNotificationError(invalidState.notifications[0])
+            assertEquals(NotificationError.ValueOutOfRange(minVal = 0, maxVal = 100), notificationError)
+        }
+    }
+
+    @Test
     fun `updateNotificationValue appends new blank row when all rows are filled`() = runTest {
         every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
 
@@ -132,6 +201,28 @@ internal class ModifyViewModelTest {
             assertEquals(2, item2.notifications.size)
             assertEquals("350", item2.notifications[0].value)
             assertEquals("", item2.notifications[1].value)
+        }
+    }
+
+    @Test
+    fun `updateNotificationValue clearing value cleans up extra rows leaving trailing blank row`() = runTest {
+        every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
+
+        initUnderTest()
+
+        underTest.uiState.test {
+            val item1 = awaitItem()
+            val firstId = item1.notifications[0].id
+
+            underTest.updateNotificationValue(firstId, "350")
+            val item2 = awaitItem()
+            assertEquals(2, item2.notifications.size)
+
+            // Now clear the value
+            underTest.updateNotificationValue(firstId, "")
+            val item3 = awaitItem()
+            assertEquals(1, item3.notifications.size)
+            assertEquals("", item3.notifications[0].value)
         }
     }
 
@@ -174,7 +265,7 @@ internal class ModifyViewModelTest {
     }
 
     @Test
-    fun `save when valid will call repository saveSync and scheduleNotificationsUseCase`() = runTest {
+    fun `save when valid will call repository saveSync, cancelNotificationsUseCase and scheduleNotificationsUseCase`() = runTest {
         every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
         every { mockCountdownRepository.getSync("1") } returns countdownDays
 
@@ -193,6 +284,7 @@ internal class ModifyViewModelTest {
             underTest.save()
 
             verify { mockAnalyticsManager.event(any(), any()) }
+            coVerify { mockCancelNotificationsUseCase("1") }
             verify { mockCountdownRepository.saveSync(any()) }
             coVerify { mockScheduleNotificationsUseCase("1") }
         }

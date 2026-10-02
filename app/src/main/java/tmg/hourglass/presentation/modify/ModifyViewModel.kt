@@ -41,9 +41,16 @@ import java.time.Year
 import java.util.UUID
 import javax.inject.Inject
 
+import tmg.hourglass.utils.DateUtils
+
 enum class NotificationType {
     VALUE,
     TIME
+}
+
+sealed class NotificationError {
+    data class DaysOutOfRange(val maxDays: Long): NotificationError()
+    data class ValueOutOfRange(val minVal: Int, val maxVal: Int): NotificationError()
 }
 
 data class UiNotification(
@@ -121,10 +128,9 @@ class ModifyViewModel @Inject constructor(
         val index = currentNotifications.indexOfFirst { it.id == id }
         if (index != -1) {
             currentNotifications[index] = currentNotifications[index].copy(value = value)
-            if (currentNotifications.all { it.value.isNotBlank() }) {
-                currentNotifications.add(UiNotification())
-            }
-            _uiState.value = _uiState.value.copy(notifications = currentNotifications)
+            val nonBlank = currentNotifications.filter { it.value.isNotBlank() }.toMutableList()
+            nonBlank.add(UiNotification())
+            _uiState.value = _uiState.value.copy(notifications = nonBlank)
         }
     }
 
@@ -138,11 +144,10 @@ class ModifyViewModel @Inject constructor(
     }
 
     fun deleteNotification(id: String) {
-        val currentNotifications = _uiState.value.notifications.filterNot { it.id == id }.toMutableList()
-        if (currentNotifications.isEmpty() || currentNotifications.all { it.value.isNotBlank() }) {
-            currentNotifications.add(UiNotification())
-        }
-        _uiState.value = _uiState.value.copy(notifications = currentNotifications)
+        val currentNotifications = _uiState.value.notifications.filterNot { it.id == id }
+        val nonBlank = currentNotifications.filter { it.value.isNotBlank() }.toMutableList()
+        nonBlank.add(UiNotification())
+        _uiState.value = _uiState.value.copy(notifications = nonBlank)
     }
 
     fun setTitle(title: String) {
@@ -185,7 +190,8 @@ class ModifyViewModel @Inject constructor(
             inputTypes = when (newType::class == existingType::class) {
                 true -> existingType
                 false -> newType
-            }
+            },
+            notifications = listOf(UiNotification())
         )
     }
     fun setStartDate(date: LocalDateTime) {
@@ -302,10 +308,14 @@ class ModifyViewModel @Inject constructor(
                 return
             }
 
-            val countdown = uiState.toCountdown(id ?: UUID.randomUUID().toString())
+            val saveId = id ?: UUID.randomUUID().toString()
+            val countdown = uiState.toCountdown(saveId)
             Log.d("Modify", "Saving countdown $countdown")
-            countdownRepository.saveSync(countdown)
             viewModelScope.launch {
+                if (id != null) {
+                    cancelNotificationsUseCase(saveId)
+                }
+                countdownRepository.saveSync(countdown)
                 scheduleNotificationsUseCase(countdown.id)
             }
 
@@ -392,6 +402,44 @@ data class UiState(
         START_DATE_NULL,
         START_DATE_IN_FUTURE,
         FINISH_DATE_BEFORE_START_DATE,
+        NOTIFICATION_OUT_OF_RANGE
+    }
+
+    fun getNotificationError(notification: UiNotification): NotificationError? {
+        if (notification.value.isBlank()) return null
+        return when (inputTypes) {
+            is Types.EndDate -> {
+                val dayInt = inputTypes.day?.trim()?.toIntOrNull() ?: return null
+                val monthVal = inputTypes.month ?: return null
+                val endDate = try {
+                    if (inputTypes.year.isNullOrBlank()) {
+                        val date = LocalDate.of(Year.now().value, monthVal, dayInt)
+                        if (date < LocalDate.now()) date.plusYears(1L).atStartOfDay() else date.atStartOfDay()
+                    } else {
+                        val yearInt = inputTypes.year.trim().toIntOrNull() ?: return null
+                        LocalDate.of(yearInt, monthVal, dayInt).atStartOfDay()
+                    }
+                } catch (_: Exception) {
+                    return null
+                }
+                val startDate = inputTypes.startDate
+                val totalDays = DateUtils.daysBetween(startDate, endDate).toLong()
+                val daysBefore = notification.value.trim().toLongOrNull()
+                if (daysBefore == null || daysBefore < 0 || daysBefore > totalDays) {
+                    NotificationError.DaysOutOfRange(maxDays = totalDays)
+                } else null
+            }
+            is Types.Values -> {
+                val startVal = inputTypes.startValue.trim().toIntOrNull() ?: return null
+                val endVal = inputTypes.endValue.trim().toIntOrNull() ?: return null
+                val minVal = minOf(startVal, endVal)
+                val maxVal = maxOf(startVal, endVal)
+                val numVal = notification.value.trim().toIntOrNull()
+                if (numVal == null || numVal < minVal || numVal > maxVal) {
+                    NotificationError.ValueOutOfRange(minVal = minVal, maxVal = maxVal)
+                } else null
+            }
+        }
     }
 
     private fun isDataValid(): List<ErrorTypes> {
@@ -401,6 +449,12 @@ data class UiState(
             }
             if (colorHex.isBlank()) {
                 add(ErrorTypes.COLOUR_BLANK)
+            }
+            val hasNotificationError = notifications
+                .filter { it.value.isNotBlank() }
+                .any { getNotificationError(it) != null }
+            if (hasNotificationError) {
+                add(ErrorTypes.NOTIFICATION_OUT_OF_RANGE)
             }
             when (inputTypes) {
                 is Types.EndDate -> {

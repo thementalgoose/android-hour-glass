@@ -217,4 +217,7 @@
     <string name="modify_notifications_type_value">Valor</string>
     <string name="modify_notifications_type_time">Tiempo</string>
     <string name="modify_notifications_value_hint">Valor</string>
+    <string name="modify_notifications_days_before">Días antes</string>
+    <string name="modify_error_notification_days_out_of_range">Días antes deben estar en el rango (0 - %d)</string>
+    <string name="modify_error_notification_value_out_of_range">El valor debe estar en el rango (%1$d - %2$d)</string>
 </resources>

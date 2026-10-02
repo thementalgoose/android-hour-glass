@@ -169,16 +169,11 @@ fun ModifyScreenVM(
             }
         }
 
-        TagLayout(
-            tags = uiState.value.allTags,
-            selected = uiState.value.tag,
-            selectTag = viewModel::setTag,
-            navigateToTag = navigateToTag
-        )
-
         NotificationsLayout(
             notifications = uiState.value.notifications,
             notificationsEnabled = uiState.value.notificationsEnabled,
+            isValuesType = uiState.value.inputTypes is UiState.Types.Values,
+            getNotificationError = uiState.value::getNotificationError,
             onUpdateValue = viewModel::updateNotificationValue,
             onUpdateType = viewModel::updateNotificationType,
             onDelete = viewModel::deleteNotification,
@@ -189,6 +184,13 @@ fun ModifyScreenVM(
                     openNotificationSettings(context)
                 }
             }
+        )
+
+        TagLayout(
+            tags = uiState.value.allTags,
+            selected = uiState.value.tag,
+            selectTag = viewModel::setTag,
+            navigateToTag = navigateToTag
         )
 
         SaveLayout(

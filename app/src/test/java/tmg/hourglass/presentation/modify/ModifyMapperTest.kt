@@ -33,13 +33,30 @@ internal class ModifyMapperTest {
     }
 
     @Test
-    fun `countdown NON DAYS toUiState maps as expected`() {
-        val result = countdownNumber.toUiState()
-        assertEquals(uiStateNumber.title, result.title)
-        assertEquals(uiStateNumber.description, result.description)
-        assertEquals(uiStateNumber.colorHex, result.colorHex)
-        assertEquals(uiStateNumber.type, result.type)
-        assertEquals(uiStateNumber.inputTypes, result.inputTypes)
-        assertEquals(uiStateNumber.notifications.map { it.value }, result.notifications.map { it.value })
+    fun `uiState DAYS toCountdown converts notification value into AtTime notification`() {
+        val endDate = ModifyData.tomorrow
+        val uiState = ModifyData.uiStateDays.copy(
+            notifications = listOf(UiNotification(id = "n1", value = "3"))
+        )
+        val countdown = uiState.toCountdown("1")
+        assertEquals(1, countdown.notifications.size)
+        val notification = countdown.notifications[0] as tmg.hourglass.domain.model.CountdownNotifications.AtTime
+        assertEquals("n1", notification.id)
+        assertEquals(endDate.minusDays(3), notification.time)
+    }
+
+    @Test
+    fun `countdown DAYS toUiState converts AtTime notification into daysBefore string`() {
+        val endDate = ModifyData.tomorrow
+        val notification = tmg.hourglass.domain.model.CountdownNotifications.AtTime(
+            id = "n1",
+            time = endDate.minusDays(3)
+        )
+        val countdown = ModifyData.countdownDays.copy(notifications = listOf(notification))
+        val uiState = countdown.toUiState()
+
+        val matching = uiState.notifications.firstOrNull { it.id == "n1" }
+        assertEquals("3", matching?.value)
+        assertEquals(NotificationType.TIME, matching?.type)
     }
 }
