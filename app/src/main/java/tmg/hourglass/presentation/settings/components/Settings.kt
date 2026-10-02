@@ -80,6 +80,32 @@ internal fun SettingsOption(
 
 @Composable
 internal fun SettingsOption(
+    title: String,
+    subtitle: String,
+    optionClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(
+                onClick = optionClicked
+            )
+            .padding(
+                start = AppTheme.dimensions.paddingMedium,
+                end = AppTheme.dimensions.paddingMedium,
+                top = AppTheme.dimensions.paddingNSmall,
+                bottom = AppTheme.dimensions.paddingNSmall
+            )
+    ) {
+        TextBody1(text = title)
+        Spacer(modifier = Modifier.height(internalSettingSpacing))
+        TextBody2(text = subtitle)
+    }
+}
+
+@Composable
+internal fun SettingsOption(
     @StringRes
     title: Int,
     @StringRes

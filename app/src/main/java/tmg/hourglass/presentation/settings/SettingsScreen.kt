@@ -1,5 +1,7 @@
 package tmg.hourglass.presentation.settings
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -32,7 +34,10 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import tmg.hourglass.BuildConfig
 import tmg.hourglass.core.crashlytics.screenview.ScreenView
+import tmg.hourglass.domain.schedulers.NotificationSchedulerImpl
+import tmg.hourglass.notifications.NotificationBroadcastReceiver
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
 import tmg.hourglass.presentation.PreviewPhone
@@ -116,6 +121,9 @@ internal fun SettingsScreenVM(
         },
         exactTimingsClicked = {
             openExactAlarmSettings(context)
+        },
+        testNotificationClicked = {
+            scheduleTestNotification(context)
         }
     )
 }
@@ -138,6 +146,49 @@ private fun openExactAlarmSettings(context: Context) {
     }
 }
 
+private fun scheduleTestNotification(context: Context) {
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager ?: return
+    val intent = Intent(NotificationBroadcastReceiver.ACTION_TRIGGER_NOTIFICATION).apply {
+        setPackage(context.packageName)
+        putExtra(NotificationSchedulerImpl.EXTRA_COUNTDOWN_ID, "test_countdown_id")
+        putExtra(NotificationSchedulerImpl.EXTRA_COUNTDOWN_NAME, "Test notification")
+        putExtra(NotificationSchedulerImpl.EXTRA_NOTIFICATION_ID, "test_notification_id")
+        putExtra(NotificationSchedulerImpl.EXTRA_MESSAGE, "Send a test notification")
+    }
+
+    val requestCode = "test_notification".hashCode()
+    val pendingIntent = PendingIntent.getBroadcast(
+        context,
+        requestCode,
+        intent,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
+
+    val triggerAtMillis = System.currentTimeMillis() + 3000L
+
+    try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+            alarmManager.setAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                triggerAtMillis,
+                pendingIntent
+            )
+        } else {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                triggerAtMillis,
+                pendingIntent
+            )
+        }
+    } catch (_: SecurityException) {
+        alarmManager.setAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            triggerAtMillis,
+            pendingIntent
+        )
+    }
+}
+
 @Composable
 private fun SettingsOverviewScreen(
     paddingValues: PaddingValues,
@@ -153,6 +204,7 @@ private fun SettingsOverviewScreen(
     enableNotificationsClicked: () -> Unit,
     notificationSettingsClicked: () -> Unit,
     exactTimingsClicked: () -> Unit,
+    testNotificationClicked: () -> Unit = { },
     deleteAllClicked: () -> Unit,
     setAnalytics: (Boolean) -> Unit,
     setCrashlytics: (Boolean) -> Unit,
@@ -215,6 +267,15 @@ private fun SettingsOverviewScreen(
                         title = string.settings_notifications_exact_title,
                         subtitle = string.settings_notifications_exact_description,
                         optionClicked = exactTimingsClicked
+                    )
+                }
+            }
+            if (BuildConfig.DEBUG) {
+                item(key = "notifications_test") {
+                    SettingsOption(
+                        title = "Test notification",
+                        subtitle = "Send a test notification",
+                        optionClicked = testNotificationClicked
                     )
                 }
             }
