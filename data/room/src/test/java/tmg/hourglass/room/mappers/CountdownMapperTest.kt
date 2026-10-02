@@ -2,9 +2,8 @@ package tmg.hourglass.room.mappers
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.CountdownNotifications
-import tmg.hourglass.room.models.CountdownWithTag
+import tmg.hourglass.room.models.CountdownWrapper
 import tmg.hourglass.room.models.Notification
 import java.time.LocalDateTime
 
@@ -44,13 +43,13 @@ class CountdownMapperTest {
             time = null,
             value = "50"
         )
-        val countdownWithTag = CountdownWithTag(
+        val countdownWrapper = CountdownWrapper(
             countdown = countdownEntity,
             tag = null,
             notifications = listOf(notifEntity1, notifEntity2)
         )
 
-        val result = countdownMapper.deserialize(countdownWithTag)
+        val result = countdownMapper.deserialize(countdownWrapper)
 
         assertEquals(2, result.notifications.size)
         val n1 = result.notifications[0] as CountdownNotifications.AtTime

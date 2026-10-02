@@ -44,7 +44,7 @@ internal class CountdownMapper @Inject constructor(
         )
     }
 
-    fun deserialize(model: tmg.hourglass.room.models.CountdownWithTag): Countdown {
+    fun deserialize(model: tmg.hourglass.room.models.CountdownWrapper): Countdown {
         Log.d("CountdownMapper", "Deserializing countdown $model")
         val notifications = model.notifications.map { notificationMapper.deserialize(it) }
         return if (model.countdown.isRecurring) {
