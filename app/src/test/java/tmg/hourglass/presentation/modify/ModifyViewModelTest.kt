@@ -1,41 +1,68 @@
 package tmg.hourglass.presentation.modify
 
+import android.content.Context
+import androidx.core.app.NotificationManagerCompat
 import app.cash.turbine.test
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.unmockkStatic
 import io.mockk.verify
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import org.junit.Ignore
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import tmg.hourglass.core.crashlytics.AnalyticsManager
+import tmg.hourglass.core.googleanalytics.CrashReporter
 import tmg.hourglass.domain.model.Tag
 import tmg.hourglass.domain.repositories.CountdownRepository
 import tmg.hourglass.domain.repositories.TagRepository
-import tmg.hourglass.core.googleanalytics.CrashReporter
-import tmg.hourglass.domain.model.preview
-import java.time.LocalDateTime
+import tmg.hourglass.domain.usecases.CancelNotificationsUseCase
+import tmg.hourglass.domain.usecases.ScheduleNotificationsUseCase
 import tmg.hourglass.presentation.modify.ModifyData.countdownDays
 import tmg.hourglass.presentation.modify.ModifyData.countdownNumber
 import tmg.hourglass.presentation.modify.ModifyData.today
 import tmg.hourglass.presentation.modify.ModifyData.uiStateDays
+import java.time.LocalDateTime
 
 internal class ModifyViewModelTest {
 
     private val mockCountdownRepository: CountdownRepository = mockk(relaxed = true)
     private val mockTagRepository: TagRepository = mockk(relaxed = true)
+    private val mockScheduleNotificationsUseCase: ScheduleNotificationsUseCase = mockk(relaxed = true)
+    private val mockCancelNotificationsUseCase: CancelNotificationsUseCase = mockk(relaxed = true)
     private val mockCrashReporter: CrashReporter = mockk(relaxed = true)
     private val mockAnalyticsManager: AnalyticsManager = mockk(relaxed = true)
+    private val mockContext: Context = mockk(relaxed = true)
+    private val mockNotificationManagerCompat: NotificationManagerCompat = mockk(relaxed = true)
 
     private lateinit var underTest: ModifyViewModel
+
+    @BeforeEach
+    fun setUp() {
+        mockkStatic(NotificationManagerCompat::class)
+        every { NotificationManagerCompat.from(any()) } returns mockNotificationManagerCompat
+        every { mockNotificationManagerCompat.areNotificationsEnabled() } returns true
+        every { mockTagRepository.getAll() } returns kotlinx.coroutines.flow.flowOf(emptyList())
+    }
+
+    @AfterEach
+    fun tearDown() {
+        unmockkStatic(NotificationManagerCompat::class)
+    }
 
     private fun initUnderTest() {
         underTest = ModifyViewModel(
             countdownRepository = mockCountdownRepository,
             tagRepository = mockTagRepository,
+            scheduleNotificationsUseCase = mockScheduleNotificationsUseCase,
+            cancelNotificationsUseCase = mockCancelNotificationsUseCase,
             crashReporter = mockCrashReporter,
-            analyticsManager = mockAnalyticsManager
+            analyticsManager = mockAnalyticsManager,
+            context = mockContext
         )
     }
 
@@ -89,6 +116,47 @@ internal class ModifyViewModelTest {
     }
 
     @Test
+    fun `updateNotificationValue appends new blank row when all rows are filled`() = runTest {
+        every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
+
+        initUnderTest()
+
+        underTest.uiState.test {
+            val item1 = awaitItem()
+            assertEquals(1, item1.notifications.size)
+            val firstId = item1.notifications[0].id
+
+            underTest.updateNotificationValue(firstId, "350")
+
+            val item2 = awaitItem()
+            assertEquals(2, item2.notifications.size)
+            assertEquals("350", item2.notifications[0].value)
+            assertEquals("", item2.notifications[1].value)
+        }
+    }
+
+    @Test
+    fun `deleteNotification removes specified notification`() = runTest {
+        every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
+
+        initUnderTest()
+
+        underTest.uiState.test {
+            val item1 = awaitItem()
+            val firstId = item1.notifications[0].id
+
+            underTest.updateNotificationValue(firstId, "350")
+            val item2 = awaitItem()
+            assertEquals(2, item2.notifications.size)
+
+            underTest.deleteNotification(firstId)
+            val item3 = awaitItem()
+            assertEquals(1, item3.notifications.size)
+            assertEquals("", item3.notifications[0].value)
+        }
+    }
+
+    @Test
     fun `save when invalid logs exception and does not save`() = runTest {
         every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
 
@@ -106,7 +174,7 @@ internal class ModifyViewModelTest {
     }
 
     @Test
-    fun `save when valid will call repository saveSync`() = runTest {
+    fun `save when valid will call repository saveSync and scheduleNotificationsUseCase`() = runTest {
         every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
         every { mockCountdownRepository.getSync("1") } returns countdownDays
 
@@ -126,11 +194,12 @@ internal class ModifyViewModelTest {
 
             verify { mockAnalyticsManager.event(any(), any()) }
             verify { mockCountdownRepository.saveSync(any()) }
+            coVerify { mockScheduleNotificationsUseCase("1") }
         }
     }
 
     @Test
-    fun `delete will call repository delete when id is set`() = runTest {
+    fun `delete will call cancelNotificationsUseCase and repository delete when id is set`() = runTest {
         every { mockTagRepository.getAll() } returns flow { emit(emptyList<Tag>()) }
         every { mockCountdownRepository.getSync("1") } returns countdownNumber
 
@@ -146,6 +215,7 @@ internal class ModifyViewModelTest {
             underTest.delete()
 
             verify { mockAnalyticsManager.event(any()) }
+            coVerify { mockCancelNotificationsUseCase("1") }
             verify { mockCountdownRepository.delete("1") }
         }
     }

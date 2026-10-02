@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import tmg.hourglass.BuildConfig
 import tmg.hourglass.core.crashlytics.AnalyticsManager
 import java.time.LocalDate
@@ -27,18 +28,39 @@ import tmg.hourglass.presentation.modify.ModifyMapper.toCountdown
 import tmg.hourglass.presentation.modify.ModifyMapper.toUiState
 import tmg.hourglass.presentation.modify.UiState.Direction.CountDown
 import tmg.hourglass.presentation.modify.UiState.Direction.CountUp
+import android.content.Context
+import androidx.core.app.NotificationManagerCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
+import tmg.hourglass.domain.usecases.CancelNotificationsUseCase
+import tmg.hourglass.domain.usecases.ScheduleNotificationsUseCase
+import tmg.hourglass.presentation.modify.UiState.Direction.CountDown
+import tmg.hourglass.presentation.modify.UiState.Direction.CountUp
 import tmg.hourglass.presentation.modify.UiState.Direction.Custom
 import java.time.Month
 import java.time.Year
 import java.util.UUID
 import javax.inject.Inject
 
+enum class NotificationType {
+    VALUE,
+    TIME
+}
+
+data class UiNotification(
+    val id: String = UUID.randomUUID().toString(),
+    val type: NotificationType = NotificationType.VALUE,
+    val value: String = ""
+)
+
 @HiltViewModel
 class ModifyViewModel @Inject constructor(
     private val countdownRepository: CountdownRepository,
     tagRepository: TagRepository,
+    private val scheduleNotificationsUseCase: ScheduleNotificationsUseCase,
+    private val cancelNotificationsUseCase: CancelNotificationsUseCase,
     private val crashReporter: CrashReporter,
     private val analyticsManager: AnalyticsManager,
+    @param:ApplicationContext private val context: Context
 ): ViewModel() {
     private val allTags: Flow<List<Tag>> = tagRepository.getAll()
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(getUiState())
@@ -52,35 +74,75 @@ class ModifyViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = getUiState()
+            initialValue = _uiState.value
         )
 
     private var id: String? = null
 
-    private fun getUiState(): UiState = UiState(
-        title = "",
-        description = "",
-        colorHex = CountdownColors.COLOUR_1.hex,
-        type = CountdownType.DAYS,
-        inputTypes = UiState.Types.EndDate(
-            day = null,
-            month = null,
-            year = "${Year.now().value}"
-        ),
-        allTags = emptyList(),
-        tag = null
-    )
+    private fun getUiState(): UiState {
+        val enabled = NotificationManagerCompat.from(context).areNotificationsEnabled()
+        return UiState(
+            title = "",
+            description = "",
+            colorHex = CountdownColors.COLOUR_1.hex,
+            type = CountdownType.DAYS,
+            inputTypes = UiState.Types.EndDate(
+                day = null,
+                month = null,
+                year = "${Year.now().value}"
+            ),
+            allTags = emptyList(),
+            tag = null,
+            notifications = listOf(UiNotification()),
+            notificationsEnabled = enabled
+        )
+    }
 
     fun initialise(id: String?) {
+        val enabled = NotificationManagerCompat.from(context).areNotificationsEnabled()
         if (id == null) {
             this.id = null
-            _uiState.value = getUiState()
+            _uiState.value = getUiState().copy(notificationsEnabled = enabled)
         } else {
             countdownRepository.getSync(id)?.let {
                 this.id = id
-                _uiState.value = it.toUiState()
+                _uiState.value = it.toUiState().copy(notificationsEnabled = enabled)
             }
         }
+    }
+
+    fun refreshNotificationsEnabled() {
+        val enabled = NotificationManagerCompat.from(context).areNotificationsEnabled()
+        _uiState.value = _uiState.value.copy(notificationsEnabled = enabled)
+    }
+
+    fun updateNotificationValue(id: String, value: String) {
+        val currentNotifications = _uiState.value.notifications.toMutableList()
+        val index = currentNotifications.indexOfFirst { it.id == id }
+        if (index != -1) {
+            currentNotifications[index] = currentNotifications[index].copy(value = value)
+            if (currentNotifications.all { it.value.isNotBlank() }) {
+                currentNotifications.add(UiNotification())
+            }
+            _uiState.value = _uiState.value.copy(notifications = currentNotifications)
+        }
+    }
+
+    fun updateNotificationType(id: String, type: NotificationType) {
+        val currentNotifications = _uiState.value.notifications.toMutableList()
+        val index = currentNotifications.indexOfFirst { it.id == id }
+        if (index != -1) {
+            currentNotifications[index] = currentNotifications[index].copy(type = type)
+            _uiState.value = _uiState.value.copy(notifications = currentNotifications)
+        }
+    }
+
+    fun deleteNotification(id: String) {
+        val currentNotifications = _uiState.value.notifications.filterNot { it.id == id }.toMutableList()
+        if (currentNotifications.isEmpty() || currentNotifications.all { it.value.isNotBlank() }) {
+            currentNotifications.add(UiNotification())
+        }
+        _uiState.value = _uiState.value.copy(notifications = currentNotifications)
     }
 
     fun setTitle(title: String) {
@@ -243,6 +305,9 @@ class ModifyViewModel @Inject constructor(
             val countdown = uiState.toCountdown(id ?: UUID.randomUUID().toString())
             Log.d("Modify", "Saving countdown $countdown")
             countdownRepository.saveSync(countdown)
+            viewModelScope.launch {
+                scheduleNotificationsUseCase(countdown.id)
+            }
 
             val key = when (id == null) {
                 true -> "countdown_add"
@@ -262,6 +327,9 @@ class ModifyViewModel @Inject constructor(
     fun delete() {
         id?.let {
             analyticsManager.event("countdown_remove")
+            viewModelScope.launch {
+                cancelNotificationsUseCase(it)
+            }
             countdownRepository.delete(it)
         }
     }
@@ -274,7 +342,9 @@ data class UiState(
     val type: CountdownType,
     val inputTypes: Types,
     val allTags: List<Tag>,
-    val tag: Tag?
+    val tag: Tag?,
+    val notifications: List<UiNotification> = listOf(UiNotification()),
+    val notificationsEnabled: Boolean = false
 ) {
 
     val errors: List<ErrorTypes> by lazy {

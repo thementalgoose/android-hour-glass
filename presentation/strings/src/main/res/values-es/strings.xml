@@ -211,4 +211,10 @@
     <string name="select_date_confirm">Confirmar</string>
     <string name="select_date_cancel">Cancelar</string>
 
+    <string name="modify_notifications_title">Notificaciones</string>
+    <string name="modify_notifications_subtitle">¡Recibe una notificación cuando este recuento alcance un hito!</string>
+    <string name="modify_notifications_enable">Activar notificaciones</string>
+    <string name="modify_notifications_type_value">Valor</string>
+    <string name="modify_notifications_type_time">Tiempo</string>
+    <string name="modify_notifications_value_hint">Valor</string>
 </resources>

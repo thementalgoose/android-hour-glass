@@ -224,5 +224,12 @@
     <string name="select_date">Seleziona data</string>
     <string name="select_date_confirm">Conferma</string>
     <string name="select_date_cancel">Annulla</string>
+
+    <string name="modify_notifications_title">Notifiche</string>
+    <string name="modify_notifications_subtitle">Ricevi una notifica quando questo conto alla rovescia raggiunge un traguardo!</string>
+    <string name="modify_notifications_enable">Abilita notifiche</string>
+    <string name="modify_notifications_type_value">Valore</string>
+    <string name="modify_notifications_type_time">Tempo</string>
+    <string name="modify_notifications_value_hint">Valore</string>
 </resources>
 

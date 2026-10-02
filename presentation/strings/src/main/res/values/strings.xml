@@ -261,4 +261,11 @@
     <string name="select_date">Select date</string>
     <string name="select_date_confirm">Confirm</string>
     <string name="select_date_cancel">Cancel</string>
+
+    <string name="modify_notifications_title">Notifications</string>
+    <string name="modify_notifications_subtitle">Get notified when this countdown hits a milestone!</string>
+    <string name="modify_notifications_enable">Enable notifications</string>
+    <string name="modify_notifications_type_value">Value</string>
+    <string name="modify_notifications_type_time">Time</string>
+    <string name="modify_notifications_value_hint">Value</string>
 </resources>

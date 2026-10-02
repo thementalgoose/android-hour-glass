@@ -224,5 +224,12 @@
     <string name="select_date">Datum auswählen</string>
     <string name="select_date_confirm">Bestätigen</string>
     <string name="select_date_cancel">Abbrechen</string>
+
+    <string name="modify_notifications_title">Benachrichtigungen</string>
+    <string name="modify_notifications_subtitle">Lassen Sie sich benachrichtigen, wenn dieser Countdown einen Meilenstein erreicht!</string>
+    <string name="modify_notifications_enable">Benachrichtigungen aktivieren</string>
+    <string name="modify_notifications_type_value">Wert</string>
+    <string name="modify_notifications_type_time">Zeit</string>
+    <string name="modify_notifications_value_hint">Wert</string>
 </resources>
 

@@ -13,6 +13,8 @@ import tmg.hourglass.utils.DateUtils
 import tmg.utilities.extensions.extend
 import java.time.Year
 
+import tmg.hourglass.domain.model.CountdownNotifications
+
 object ModifyMapper {
 
     fun Countdown.toUiState(): UiState {
@@ -35,6 +37,26 @@ object ModifyMapper {
                 endValue = endValue
             )
         }
+        val uiNotifications = notifications.mapNotNull { notification ->
+            when (notification) {
+                is CountdownNotifications.AtValue -> UiNotification(
+                    id = notification.id,
+                    type = NotificationType.VALUE,
+                    value = notification.value
+                )
+                is CountdownNotifications.AtTime -> UiNotification(
+                    id = notification.id,
+                    type = NotificationType.TIME,
+                    value = ""
+                )
+                else -> null
+            }
+        }.toMutableList()
+
+        if (uiNotifications.isEmpty() || uiNotifications.all { it.value.isNotBlank() }) {
+            uiNotifications.add(UiNotification())
+        }
+
         return UiState(
             title = this.name,
             description = this.description,
@@ -42,12 +64,28 @@ object ModifyMapper {
             type = this.countdownType,
             inputTypes = inputTypes,
             allTags = emptyList(),
-            tag = this.tag
+            tag = this.tag,
+            notifications = uiNotifications
         )
     }
 
     @Throws(IllegalStateException::class)
     fun UiState.toCountdown(id: String): Countdown {
+        val validNotifications: List<CountdownNotifications> = notifications
+            .filter { it.value.isNotBlank() }
+            .map { notification ->
+                when (notification.type) {
+                    NotificationType.VALUE -> CountdownNotifications.AtValue(
+                        id = notification.id,
+                        value = notification.value.trim()
+                    )
+                    NotificationType.TIME -> CountdownNotifications.AtTime(
+                        id = notification.id,
+                        time = LocalDateTime.now()
+                    )
+                }
+            }
+
         when (inputTypes) {
             is UiState.Types.EndDate -> {
                 Log.d("Modify", "Saving EndDate UI state (year=${inputTypes.year}, month=${inputTypes.month}, day=${inputTypes.day})")
@@ -60,6 +98,7 @@ object ModifyMapper {
                         day = inputTypes.day!!.trim().toInt(),
                         month = inputTypes.month!!,
                         tag = this.tag,
+                        notifications = validNotifications
                     )
                 } else {
                     val endDate = LocalDate.of(inputTypes.year.toInt(), inputTypes.month, inputTypes.day!!.toInt()).atStartOfDay()
@@ -80,6 +119,7 @@ object ModifyMapper {
                         endValue = end,
                         countdownType = type,
                         tag = this.tag,
+                        notifications = validNotifications
                     )
                 }
             }
@@ -100,6 +140,7 @@ object ModifyMapper {
                     endValue = end,
                     countdownType = type,
                     tag = this.tag,
+                    notifications = validNotifications
                 )
             }
         }

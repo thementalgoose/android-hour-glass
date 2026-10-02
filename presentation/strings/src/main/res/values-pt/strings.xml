@@ -224,5 +224,12 @@
     <string name="select_date">Selecionar data</string>
     <string name="select_date_confirm">Confirmar</string>
     <string name="select_date_cancel">Cancelar</string>
+
+    <string name="modify_notifications_title">Notificações</string>
+    <string name="modify_notifications_subtitle">Seja notificado quando esta contagem decrescente atingir um marco!</string>
+    <string name="modify_notifications_enable">Ativar notificações</string>
+    <string name="modify_notifications_type_value">Valor</string>
+    <string name="modify_notifications_type_time">Tempo</string>
+    <string name="modify_notifications_value_hint">Valor</string>
 </resources>
 

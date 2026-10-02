@@ -224,5 +224,12 @@
     <string name="select_date">选择日期</string>
     <string name="select_date_confirm">确认</string>
     <string name="select_date_cancel">取消</string>
+
+    <string name="modify_notifications_title">通知</string>
+    <string name="modify_notifications_subtitle">在此倒计时达到里程碑时接收通知！</string>
+    <string name="modify_notifications_enable">开启通知</string>
+    <string name="modify_notifications_type_value">数值</string>
+    <string name="modify_notifications_type_time">时间</string>
+    <string name="modify_notifications_value_hint">数值</string>
 </resources>
 

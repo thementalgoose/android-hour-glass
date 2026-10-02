@@ -79,8 +79,11 @@ internal fun SettingsScreenVM(
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
-    ) { _ ->
+    ) { isGranted ->
         viewModel.refresh()
+        if (!isGranted) {
+            openNotificationSettings(context)
+        }
     }
 
     SettingsOverviewScreen(
