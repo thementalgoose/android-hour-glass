@@ -19,9 +19,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
+import java.time.temporal.ChronoUnit
+import tmg.hourglass.domain.model.CountdownNotifications
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -214,6 +219,7 @@ fun Countdown(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun CountdownDays(
     countdown: Countdown,
@@ -235,16 +241,32 @@ private fun CountdownDays(
                 }
         )
         AnimatedVisibility(expanded.value) {
-            Row(modifier = Modifier.padding(top = 4.dp)) {
-                Spacer(Modifier.weight(1f))
-                TextBody2(
-                    text = countdown.endDate.toLocalDate().displayDate()
-                )
+            Column(modifier = Modifier.padding(top = 4.dp)) {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Spacer(Modifier.weight(1f))
+                    TextBody2(
+                        text = countdown.endDate.toLocalDate().displayDate()
+                    )
+                }
+                if (countdown.notifications.isNotEmpty()) {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 4.dp)
+                    ) {
+                        countdown.notifications.forEach { notification ->
+                            NotificationBadge(notification = notification, countdown = countdown)
+                        }
+                    }
+                }
             }
         }
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun CountdownOther(
     countdown: Countdown,
@@ -277,16 +299,72 @@ private fun CountdownOther(
                 }
         )
         AnimatedVisibility(expanded.value) {
-            Row(modifier = Modifier.padding(top = 4.dp)) {
-                TextBody2(
-                    text = countdown.startDate.toLocalDate().displayDate()
-                )
-                Spacer(Modifier.weight(1f))
-                TextBody2(
-                    text = countdown.endDate.toLocalDate().displayDate()
-                )
+            Column(modifier = Modifier.padding(top = 4.dp)) {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    TextBody2(
+                        text = countdown.startDate.toLocalDate().displayDate()
+                    )
+                    Spacer(Modifier.weight(1f))
+                    TextBody2(
+                        text = countdown.endDate.toLocalDate().displayDate()
+                    )
+                }
+                if (countdown.notifications.isNotEmpty()) {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 4.dp)
+                    ) {
+                        countdown.notifications.forEach { notification ->
+                            NotificationBadge(notification = notification, countdown = countdown)
+                        }
+                    }
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun NotificationBadge(
+    notification: CountdownNotifications,
+    countdown: Countdown,
+    modifier: Modifier = Modifier
+) {
+    val text = when (notification) {
+        is CountdownNotifications.AtValue -> notification.value
+        is CountdownNotifications.AtTime -> {
+            val daysBefore = ChronoUnit.DAYS.between(
+                notification.time.toLocalDate(),
+                countdown.endDate.toLocalDate()
+            ).coerceAtLeast(0)
+            daysBefore.toString()
+        }
+    }
+
+    Row(
+        modifier = modifier
+            .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
+            .background(AppTheme.colors.backgroundTertiary)
+            .padding(
+                horizontal = AppTheme.dimensions.paddingSmall,
+                vertical = 4.dp
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Default.Notifications,
+            contentDescription = null,
+            tint = AppTheme.colors.textPrimary,
+            modifier = Modifier.size(14.dp)
+        )
+        TextBody2(
+            text = text,
+            textColor = AppTheme.colors.textPrimary
+        )
     }
 }
 
