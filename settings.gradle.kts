@@ -12,6 +12,7 @@ rootProject.name = "android-hour-glass"
 include(":app")
 include(":core:metrics:googleanalytics")
 include(":core:metrics:crashlytics")
+include(":core:notifications")
 include(":domain")
 include(":data:room")
 include(":data:prefs")
