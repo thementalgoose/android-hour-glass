@@ -54,8 +54,7 @@ class NotificationManagerHelper @Inject constructor(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val appIcon = context.applicationInfo?.icon?.takeIf { it != 0 }
-            ?: android.R.drawable.ic_popup_reminder
+        val appIcon = R.drawable.notification_icon
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(appIcon)
