@@ -17,6 +17,13 @@
     <string name="settings_theme_theme_title">App-Design</string>
     <string name="settings_theme_theme_description">Wähle deine Design-Vorliebe</string>
     <string name="settings_theme_theme_summary">Wähle hier, ob die App das System-Design verwendet oder ein helles bzw. dunkles Design erzwingt</string>
+    <string name="settings_notifications">Benachrichtigungen</string>
+    <string name="settings_notifications_enable_title">Aktivieren</string>
+    <string name="settings_notifications_enable_subtitle">Benachrichtigungen für diese App aktivieren</string>
+    <string name="settings_notifications_settings_title">Benachrichtigungseinstellungen</string>
+    <string name="settings_notifications_customise_description">Passen Sie Ihre Benachrichtigungseinstellungen an</string>
+    <string name="settings_notifications_exact_title">Genaue Uhrzeiten</string>
+    <string name="settings_notifications_exact_description">Erteilen Sie Hour Glass die Berechtigung, Erinnerungen zu genauen Zeiten zu senden. Ohne diese Einstellung können Ihre Benachrichtigungen bis zu einer Stunde verzögert werden</string>
     <string name="settings_widgets">Widgets</string>
     <string name="settings_widgets_refresh_title">Widgets aktualisieren</string>
     <string name="settings_widgets_refresh_description">Widgets sollten sich jede Stunde aktualisieren, du kannst sie aber hier erzwingen. Du kannst das Widget auch direkt antippen, um es jederzeit zu aktualisieren</string>

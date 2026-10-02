@@ -17,6 +17,13 @@
     <string name="settings_theme_theme_title">应用主题</string>
     <string name="settings_theme_theme_description">选择你的主题偏好</string>
     <string name="settings_theme_theme_summary">在这里选择跟随系统主题或覆盖为浅色或深色主题</string>
+    <string name="settings_notifications">通知</string>
+    <string name="settings_notifications_enable_title">开启</string>
+    <string name="settings_notifications_enable_subtitle">开启此应用通知</string>
+    <string name="settings_notifications_settings_title">通知设置</string>
+    <string name="settings_notifications_customise_description">自定义您的通知设置</string>
+    <string name="settings_notifications_exact_title">精确时间</string>
+    <string name="settings_notifications_exact_description">允许 Hour Glass 在精确时间发送提醒。未开启此设置时，您的通知可能会延迟最多一小时</string>
     <string name="settings_widgets">小部件</string>
     <string name="settings_widgets_refresh_title">刷新小部件</string>
     <string name="settings_widgets_refresh_description">小部件应每小时刷新，但你可以点击此处强制刷新。你也可以直接点击小部件随时更新它</string>

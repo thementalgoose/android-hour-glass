@@ -1,10 +1,15 @@
 package tmg.hourglass.presentation.settings
 
+import android.content.Context
+import androidx.core.app.NotificationManagerCompat
 import app.cash.turbine.test
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.unmockkStatic
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -24,21 +29,32 @@ internal class SettingsViewModelTest: BaseTest() {
     private val mockPreferenceManager: PreferencesManager = mockk(relaxed = true)
     private val mockChangeThemeUseCase: ChangeThemeUseCase = mockk(relaxed = true)
     private val mockAnalyticsManager: AnalyticsManager = mockk(relaxed = true)
+    private val mockContext: Context = mockk(relaxed = true)
+    private val mockNotificationManagerCompat: NotificationManagerCompat = mockk(relaxed = true)
 
     private fun initUnderTest() {
         underTest = SettingsViewModel(
             prefManager = mockPreferenceManager,
             countdownRepository = mockCountdownRepository,
             changeThemeUseCase = mockChangeThemeUseCase,
-            analyticsManager = mockAnalyticsManager
+            analyticsManager = mockAnalyticsManager,
+            context = mockContext
         )
     }
 
     @BeforeEach
     fun setUp() {
+        mockkStatic(NotificationManagerCompat::class)
+        every { NotificationManagerCompat.from(any()) } returns mockNotificationManagerCompat
+        every { mockNotificationManagerCompat.areNotificationsEnabled() } returns true
         every { mockPreferenceManager.theme } returns ThemeSelection.Dark
         every { mockPreferenceManager.crashReporting } returns true
         every { mockPreferenceManager.analyticsEnabled } returns true
+    }
+
+    @AfterEach
+    fun tearDown() {
+        unmockkStatic(NotificationManagerCompat::class)
     }
 
     @Test
@@ -49,6 +65,17 @@ internal class SettingsViewModelTest: BaseTest() {
             assertEquals(ThemePref.DARK, item.theme)
             assertEquals(true, item.crashReporting)
             assertEquals(true, item.anonymousAnalytics)
+            assertEquals(true, item.notificationsEnabled)
+        }
+    }
+
+    @Test
+    fun `refresh updates notificationsEnabled when disabled`() = runTest {
+        every { mockNotificationManagerCompat.areNotificationsEnabled() } returns false
+        initUnderTest()
+        underTest.uiState.test {
+            val item = awaitItem()
+            assertEquals(false, item.notificationsEnabled)
         }
     }
 
@@ -90,7 +117,6 @@ internal class SettingsViewModelTest: BaseTest() {
             mockPreferenceManager.crashReporting = true
         }
     }
-
 
     @Test
     fun `analytics updates value`() = runTest {

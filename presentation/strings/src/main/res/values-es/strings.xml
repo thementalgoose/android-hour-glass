@@ -16,6 +16,13 @@
     <string name="settings_theme_theme_title">Tema de la aplicación</string>
     <string name="settings_theme_theme_description">Elige tu preferencia de tema</string>
     <string name="settings_theme_theme_summary">Elige aquí entre seguir el tema de tu sistema o anular un tema claro u oscuro</string>
+    <string name="settings_notifications">Notificaciones</string>
+    <string name="settings_notifications_enable_title">Activar</string>
+    <string name="settings_notifications_enable_subtitle">Activar notificaciones para esta aplicación</string>
+    <string name="settings_notifications_settings_title">Configuración de notificaciones</string>
+    <string name="settings_notifications_customise_description">Personaliza la configuración de notificaciones</string>
+    <string name="settings_notifications_exact_title">Horarios exactos</string>
+    <string name="settings_notifications_exact_description">Concede permiso a Hour Glass para enviar recordatorios a horas exactas. Sin este ajuste, tus notificaciones podrían retrasarse hasta una hora</string>
     <string name="settings_widgets">Widgets</string>
     <string name="settings_widgets_refresh_title">Actualizar widgets</string>
     <string name="settings_widgets_refresh_description">Los widgets deberían actualizarse cada hora, pero puedes forzar su actualización haciendo clic aquí. También puedes tocar el widget directamente para actualizarlo en cualquier momento</string>

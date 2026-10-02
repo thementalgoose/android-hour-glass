@@ -17,6 +17,13 @@
     <string name="settings_theme_theme_title">Tema dell\'app</string>
     <string name="settings_theme_theme_description">Scegli la preferenza del tema</string>
     <string name="settings_theme_theme_summary">Scegli qui se seguire il tema di sistema o forzare un tema chiaro o scuro</string>
+    <string name="settings_notifications">Notifiche</string>
+    <string name="settings_notifications_enable_title">Abilita</string>
+    <string name="settings_notifications_enable_subtitle">Abilita le notifiche per questa app</string>
+    <string name="settings_notifications_settings_title">Impostazioni notifiche</string>
+    <string name="settings_notifications_customise_description">Personalizza le tue impostazioni delle notifiche</string>
+    <string name="settings_notifications_exact_title">Orari esatti</string>
+    <string name="settings_notifications_exact_description">Concedi l\'autorizzazione ad Hour Glass per inviare promemoria a orari esatti. Senza questa impostazione le tue notifiche potrebbero ritardare fino a un\'ora</string>
     <string name="settings_widgets">Widget</string>
     <string name="settings_widgets_refresh_title">Aggiorna widget</string>
     <string name="settings_widgets_refresh_description">I widget dovrebbero aggiornarsi ogni ora, ma puoi forzarne l\'aggiornamento cliccando qui. Puoi anche toccare direttamente il widget per aggiornarlo in qualsiasi momento</string>
