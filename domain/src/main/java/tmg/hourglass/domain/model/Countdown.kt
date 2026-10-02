@@ -45,6 +45,9 @@ sealed interface Countdown {
 
     val tag: Tag?
 
+    val notifications: List<CountdownNotifications>
+        get() = emptyList()
+
     fun getLabel(progress: Float): String {
         val start: Int = startValue.toIntOrNull() ?: 0
         val end: Int = endValue.toIntOrNull() ?: 100
@@ -66,7 +69,8 @@ sealed interface Countdown {
         override val startValue: String,
         override val endValue: String,
         override val countdownType: CountdownType,
-        override val tag: Tag?
+        override val tag: Tag?,
+        override val notifications: List<CountdownNotifications> = emptyList()
     ): Countdown {
         override val startDate: LocalDateTime by lazy {
             val startLong = start.toLongOrNull()
@@ -124,7 +128,8 @@ sealed interface Countdown {
         override val colour: String,
         private val day: Int,
         private val month: Month,
-        override val tag: Tag?
+        override val tag: Tag?,
+        override val notifications: List<CountdownNotifications> = emptyList()
     ): Countdown {
 
         override val isFinished: Boolean
@@ -165,7 +170,8 @@ sealed interface Countdown {
 fun Countdown.Companion.preview(
     type: CountdownType = CountdownType.DAYS,
     color: String = "#152793",
-    tag: Tag? = Tag.preview()
+    tag: Tag? = Tag.preview(),
+    notifications: List<CountdownNotifications> = emptyList()
 ): Countdown {
     return Countdown.Static(
         id = "countdown",
@@ -177,6 +183,7 @@ fun Countdown.Companion.preview(
         startValue = "0",
         endValue = "1000",
         countdownType = type,
-        tag = tag
+        tag = tag,
+        notifications = notifications
     )
 }
