@@ -20,12 +20,17 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 
     fun processIntent(context: Context, intent: Intent) {
         val action = intent.action
-        if (action == NotificationSchedulerImpl.ACTION_TRIGGER_NOTIFICATION || action == ACTION_TRIGGER_NOTIFICATION) {
+        if (action == NotificationSchedulerImpl.ACTION_TRIGGER_NOTIFICATION) {
             val countdownId = intent.getStringExtra(NotificationSchedulerImpl.EXTRA_COUNTDOWN_ID) ?: ""
             val countdownName = intent.getStringExtra(NotificationSchedulerImpl.EXTRA_COUNTDOWN_NAME) ?: ""
             val notificationId = intent.getStringExtra(NotificationSchedulerImpl.EXTRA_NOTIFICATION_ID) ?: ""
             val notificationType = intent.getStringExtra(NotificationSchedulerImpl.EXTRA_NOTIFICATION_TYPE)
             val notificationValue = intent.getStringExtra(NotificationSchedulerImpl.EXTRA_NOTIFICATION_VALUE)
+            val daysRemaining = if (intent.hasExtra(NotificationSchedulerImpl.EXTRA_DAYS_REMAINING)) {
+                intent.getIntExtra(NotificationSchedulerImpl.EXTRA_DAYS_REMAINING, 0)
+            } else {
+                null
+            }
             val message = intent.getStringExtra(NotificationSchedulerImpl.EXTRA_MESSAGE)
 
             notificationManagerHelper.showNotification(
@@ -34,6 +39,7 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
                 notificationId = notificationId,
                 notificationType = notificationType,
                 notificationValue = notificationValue,
+                daysRemaining = daysRemaining,
                 message = message
             )
         }
