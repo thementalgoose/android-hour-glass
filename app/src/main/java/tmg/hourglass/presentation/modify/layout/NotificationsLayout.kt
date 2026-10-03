@@ -13,14 +13,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -58,27 +65,69 @@ fun NotificationsLayout(
         verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingSmall)
     ) {
         TextHeader2(text = stringResource(id = R.string.modify_notifications_title))
-        TextBody1(text = stringResource(id = R.string.modify_notifications_subtitle))
 
-        notifications.forEach { notification ->
-            NotificationRow(
-                notification = notification,
-                isEnabled = notificationsEnabled,
-                isValuesType = isValuesType,
-                getNotificationError = getNotificationError,
-                onUpdateValue = onUpdateValue,
-                onUpdateType = onUpdateType,
-                onDelete = onDelete
-            )
-        }
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .then(
+                        if (!notificationsEnabled) {
+                            Modifier
+                                .graphicsLayer { alpha = 0.4f }
+                                .blur(4.dp)
+                        } else {
+                            Modifier
+                        }
+                    ),
+                verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingSmall)
+            ) {
+                TextBody1(text = stringResource(id = R.string.modify_notifications_subtitle))
 
-        if (!notificationsEnabled) {
-            Spacer(modifier = Modifier.height(4.dp))
-            PrimaryButton(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.modify_notifications_enable),
-                onClick = onEnableNotifications
-            )
+                notifications.forEach { notification ->
+                    NotificationRow(
+                        notification = notification,
+                        isEnabled = notificationsEnabled,
+                        isValuesType = isValuesType,
+                        getNotificationError = getNotificationError,
+                        onUpdateValue = onUpdateValue,
+                        onUpdateType = onUpdateType,
+                        onDelete = onDelete
+                    )
+                }
+            }
+
+            if (!notificationsEnabled) {
+                Button(
+                    onClick = onEnableNotifications,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = AppTheme.colors.accent,
+                        contentColor = AppTheme.colors.onAccent
+                    ),
+                    shape = RoundedCornerShape(AppTheme.dimensions.radiusSmall),
+                    contentPadding = PaddingValues(
+                        horizontal = AppTheme.dimensions.paddingMedium,
+                        vertical = AppTheme.dimensions.paddingSmall
+                    )
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Lock,
+                            contentDescription = null,
+                            tint = AppTheme.colors.onAccent
+                        )
+                        TextBody1(
+                            text = stringResource(id = R.string.modify_notifications_enable),
+                            style = AppTheme.typography.body1.copy(color = AppTheme.colors.onAccent)
+                        )
+                    }
+                }
+            }
         }
     }
 }
