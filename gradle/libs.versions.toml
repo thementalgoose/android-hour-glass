@@ -16,6 +16,7 @@ compose = "2026.09.00"
 coroutines = "1.11.0"
 firebase = "34.19.0"
 junit = "6.1.3"
+android_junit5 = "2.0.1"
 room = "2.8.5"
 osslicense = "0.13.0"
 
@@ -29,7 +30,7 @@ uiTest = "1.12.1"
 gradle_agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 gradle_crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
 gradle_hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
-gradle_junit6 = "de.mannodermaus.gradle.plugins:android-junit5:2.0.1"
+gradle_junit6 = { module = "de.mannodermaus.gradle.plugins:android-junit5", version.ref = "android_junit5" }
 gradle_kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 google_services = "com.google.gms:google-services:4.5.0"
 firebase_perf_plugin = "com.google.firebase:perf-plugin:2.0.2"
@@ -164,7 +165,7 @@ composecompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 
 # Testing
-junit6 = { id = "de.mannodermaus.android-junit5", version = "2.0.1" }
+junit6 = { id = "de.mannodermaus.android-junit5", version.ref = "android_junit5" }
 
 # Firebase & Google Services
 google_services = { id = "com.google.gms.google-services", version = "4.5.0" }
