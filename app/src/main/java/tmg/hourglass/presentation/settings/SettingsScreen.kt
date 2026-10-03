@@ -53,6 +53,7 @@ import tmg.hourglass.presentation.settings.privacy.PrivacyPolicyLayout
 import tmg.hourglass.presentation.utils.DeleteDialog
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.widgets.updateAllWidgets
+import androidx.core.net.toUri
 
 @Composable
 internal fun SettingsScreenVM(
@@ -138,7 +139,7 @@ private fun openNotificationSettings(context: Context) {
 private fun openExactAlarmSettings(context: Context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
-            data = Uri.parse("package:${context.packageName}")
+            data = "package:${context.packageName}".toUri()
         }
         context.startActivity(intent)
     } else {

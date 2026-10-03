@@ -101,6 +101,13 @@ class NotificationSchedulerImpl @Inject constructor(
         }
     }
 
+    override fun cancelAll() {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager ?: return
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            alarmManager.cancelAll()
+        }
+    }
+
     companion object {
         const val ACTION_TRIGGER_NOTIFICATION = "tmg.hourglass.notifications.TRIGGER_NOTIFICATION"
         const val EXTRA_COUNTDOWN_ID = "extra_countdown_id"

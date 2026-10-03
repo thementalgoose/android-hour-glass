@@ -15,6 +15,8 @@ import tmg.hourglass.domain.model.ThemeSelection
 import tmg.hourglass.domain.repositories.PreferencesManager
 import tmg.hourglass.migration.LogOldEvents
 import tmg.hourglass.widgets.updateAllWidgets
+import tmg.hourglass.domain.usecases.CancelAllNotificationsUseCase
+import tmg.hourglass.domain.usecases.ScheduleAllNotificationsUseCase
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -25,6 +27,12 @@ class HourGlassApplication : Application() {
 
     @Inject
     lateinit var logOldEvents: LogOldEvents
+
+    @Inject
+    lateinit var cancelAllNotificationsUseCase: CancelAllNotificationsUseCase
+
+    @Inject
+    lateinit var scheduleAllNotificationsUseCase: ScheduleAllNotificationsUseCase
 
     override fun onCreate() {
         super.onCreate()
@@ -54,6 +62,11 @@ class HourGlassApplication : Application() {
                 logOldEvents.invoke()
             }
             prefs.hasLoggedInitialEvents = true
+        }
+
+        GlobalScope.launch {
+            cancelAllNotificationsUseCase(force = true)
+            scheduleAllNotificationsUseCase()
         }
 
         this.updateAllWidgets()
