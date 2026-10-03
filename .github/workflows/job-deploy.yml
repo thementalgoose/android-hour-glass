@@ -48,13 +48,13 @@ jobs:
           echo Version name: ${{ inputs.version_name }}
           echo Version code: ${{ inputs.version_code }}
 
-      # Assemble AAB
+      # Assemble APK
       - name: Assemble APK
         env:
           VERSION_NAME: ${{ inputs.version_name }}
           VERSION_CODE: ${{ inputs.version_code }}
         run: |
-          ./gradlew :app:assembleLiveRelease
+          ./gradlew :app:assembleLiveRelease :wearos:assembleRelease
 
       # Assemble AAB
       - name: Assemble bundle
@@ -62,10 +62,10 @@ jobs:
           VERSION_NAME: ${{ inputs.version_name }}
           VERSION_CODE: ${{ inputs.version_code }}
         run: |
-          ./gradlew :app:bundleLiveRelease
+          ./gradlew :app:bundleLiveRelease :wearos:bundleRelease
 
-      # Sign AAB
-      - name: Sign app
+      # Sign Phone AAB
+      - name: Sign phone app bundle
         uses: r0adkll/sign-android-release@v1
         id: sign_aab
         with:
@@ -77,12 +77,38 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "37.0.0"
 
-      # Sign APK
-      - name: Sign app
+      # Sign Wear OS AAB
+      - name: Sign wearos app bundle
+        uses: r0adkll/sign-android-release@v1
+        id: sign_wearos_aab
+        with:
+          releaseDirectory: wearos/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.ENCODED_KEYSTORE }}
+          alias: ${{ secrets.KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "37.0.0"
+
+      # Sign Phone APK
+      - name: Sign phone app apk
         uses: r0adkll/sign-android-release@v1
         id: sign_apk
         with:
           releaseDirectory: app/build/outputs/apk/live/release
+          signingKeyBase64: ${{ secrets.ENCODED_KEYSTORE }}
+          alias: ${{ secrets.KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "37.0.0"
+
+      # Sign Wear OS APK
+      - name: Sign wearos app apk
+        uses: r0adkll/sign-android-release@v1
+        id: sign_wearos_apk
+        with:
+          releaseDirectory: wearos/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.ENCODED_KEYSTORE }}
           alias: ${{ secrets.KEYSTORE_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -96,12 +122,15 @@ jobs:
         with:
           name: AAB
           path: |
-            androidApp/build/outputs/bundle/**/*.aab
-            androidApp/build/outputs/apk/**/*.apk
-            androidApp/build/outputs/mapping/**/mapping.txt
+            app/build/outputs/bundle/**/*.aab
+            app/build/outputs/apk/**/*.apk
+            app/build/outputs/mapping/**/mapping.txt
+            wearos/build/outputs/bundle/**/*.aab
+            wearos/build/outputs/apk/**/*.apk
+            wearos/build/outputs/mapping/**/mapping.txt
 
-      # Deploy
-      - name: Deploy Bundle to google Play
+      # Deploy Phone Bundle to Google Play
+      - name: Deploy Phone Bundle to google Play
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT }}
@@ -112,11 +141,25 @@ jobs:
           status: "completed"
           mappingFile: app/build/outputs/mapping/liveRelease/mapping.txt
 
-      # Rename signed APK
-      - name: Rename signed apk
+      # Deploy Wear OS Bundle to Google Play wearos track
+      - name: Deploy Wear OS Bundle to google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT }}
+          packageName: tmg.hourglass
+          releaseFiles: wearos/build/outputs/bundle/**/*.aab
+          track: wearos-internal
+          whatsNewDirectory: release-notes
+          status: "completed"
+          mappingFile: wearos/build/outputs/mapping/release/mapping.txt
+
+      # Rename signed APK and AAB
+      - name: Rename signed apk and bundle
         run: |
           mv app/build/outputs/apk/live/release/app-live-release-unsigned-signed.apk app/build/outputs/apk/live/release/android.apk
           mv app/build/outputs/bundle/liveRelease/app-live-release.aab app/build/outputs/bundle/liveRelease/android.aab
+          mv wearos/build/outputs/apk/release/wearos-release-unsigned-signed.apk wearos/build/outputs/apk/release/wearos.apk
+          mv wearos/build/outputs/bundle/release/wearos-release.aab wearos/build/outputs/bundle/release/wearos.aab
 
       # Add artifact to tag
       - name: Upload file to github tag
@@ -126,3 +169,5 @@ jobs:
           files: |
             app/build/outputs/apk/live/release/android.apk
             app/build/outputs/bundle/liveRelease/android.aab
+            wearos/build/outputs/apk/release/wearos.apk
+            wearos/build/outputs/bundle/release/wearos.aab

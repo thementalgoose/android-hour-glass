@@ -5,6 +5,17 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
+val versionCodeProperty: Int = try {
+    System.getenv("VERSION_CODE").toInt()
+} catch (e: Exception) {
+    1
+}
+val versionNameProperty: String = try {
+    System.getenv("VERSION_NAME")
+} catch (e: Exception) {
+    "1.0.0"
+}
+
 kotlin {
     jvmToolchain(25)
 }
@@ -17,8 +28,8 @@ android {
         applicationId = "tmg.hourglass"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = versionCodeProperty
+        versionName = "${versionNameProperty}.${versionCodeProperty}"
     }
 
     buildFeatures {
