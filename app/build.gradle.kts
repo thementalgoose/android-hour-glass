@@ -240,6 +240,9 @@ dependencies {
     // Android UI Testing
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.junit5.api)
+    androidTestImplementation(libs.junit5.params)
+    androidTestRuntimeOnly(libs.junit5.engine)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
 
