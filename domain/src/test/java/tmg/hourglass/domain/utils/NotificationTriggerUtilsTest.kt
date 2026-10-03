@@ -70,4 +70,56 @@ class NotificationTriggerUtilsTest {
 
         assertEquals(countdown.endDate, triggerTime)
     }
+
+    @Test
+    fun `sortChronologically sorts AtTime notifications in chronological order`() {
+        val endDate = LocalDateTime.of(2026, 12, 31, 0, 0)
+        val countdown = Countdown.Static.model(end = "2026-12-31")
+
+        val n1 = CountdownNotifications.AtTime(id = "1", time = endDate.minusDays(2))
+        val n2 = CountdownNotifications.AtTime(id = "2", time = endDate.minusDays(10))
+        val n3 = CountdownNotifications.AtTime(id = "3", time = endDate.minusDays(5))
+
+        val sorted = NotificationTriggerUtils.sortChronologically(countdown, listOf(n1, n2, n3))
+
+        assertEquals(listOf(n2, n3, n1), sorted)
+    }
+
+    @Test
+    fun `sortChronologically sorts AtValue notifications in chronological order for count up`() {
+        val countdown = Countdown.Static.model(
+            start = "2026-01-01",
+            end = "2026-12-31",
+            startValue = "0",
+            endValue = "100",
+            countdownType = CountdownType.NUMBER
+        )
+
+        val n1 = CountdownNotifications.AtValue(id = "1", value = "80")
+        val n2 = CountdownNotifications.AtValue(id = "2", value = "20")
+        val n3 = CountdownNotifications.AtValue(id = "3", value = "50")
+
+        val sorted = NotificationTriggerUtils.sortChronologically(countdown, listOf(n1, n2, n3))
+
+        assertEquals(listOf(n2, n3, n1), sorted)
+    }
+
+    @Test
+    fun `sortChronologically sorts AtValue notifications in chronological order for count down`() {
+        val countdown = Countdown.Static.model(
+            start = "2026-01-01",
+            end = "2026-12-31",
+            startValue = "100",
+            endValue = "0",
+            countdownType = CountdownType.NUMBER
+        )
+
+        val n1 = CountdownNotifications.AtValue(id = "1", value = "20")
+        val n2 = CountdownNotifications.AtValue(id = "2", value = "80")
+        val n3 = CountdownNotifications.AtValue(id = "3", value = "50")
+
+        val sorted = NotificationTriggerUtils.sortChronologically(countdown, listOf(n1, n2, n3))
+
+        assertEquals(listOf(n2, n3, n1), sorted)
+    }
 }
