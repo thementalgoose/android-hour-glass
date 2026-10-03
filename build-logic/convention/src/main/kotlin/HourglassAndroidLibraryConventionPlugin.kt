@@ -38,8 +38,8 @@ class HourglassAndroidLibraryConventionPlugin : Plugin<Project> {
                 }
 
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_21
-                    targetCompatibility = JavaVersion.VERSION_21
+                    sourceCompatibility = JavaVersion.VERSION_25
+                    targetCompatibility = JavaVersion.VERSION_25
                 }
 
                 lint {
@@ -49,10 +49,10 @@ class HourglassAndroidLibraryConventionPlugin : Plugin<Project> {
 
             // Configure Kotlin options
             extensions.configure<KotlinAndroidProjectExtension> {
-                jvmToolchain(21)
+                jvmToolchain(25)
 
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_21)
+                    jvmTarget.set(JvmTarget.JVM_25)
 
                     // Kotlin compiler arguments
                     freeCompilerArgs.addAll(
