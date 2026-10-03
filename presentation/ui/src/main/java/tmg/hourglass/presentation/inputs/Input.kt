@@ -108,6 +108,7 @@ fun Input(
                 errorContainerColor = AppTheme.colors.backgroundSecondary,
                 errorIndicatorColor = AppTheme.colors.appColors.error,
                 errorCursorColor = AppTheme.colors.appColors.error,
+                errorTextColor = AppTheme.colors.textPrimary,
             )
         )
     }
