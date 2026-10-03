@@ -343,11 +343,7 @@ private fun NotificationBadge(
     val text = when (notification) {
         is CountdownNotifications.AtValue -> notification.value
         is CountdownNotifications.AtTime -> {
-            val daysBefore = ChronoUnit.DAYS.between(
-                notification.time.toLocalDate(),
-                countdown.endDate.toLocalDate()
-            ).coerceAtLeast(0)
-            daysBefore.toString()
+            notification.time.format("d MMM") ?: ""
         }
     }
 
