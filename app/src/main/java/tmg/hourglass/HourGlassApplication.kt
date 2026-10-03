@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import tmg.hourglass.domain.model.ThemeSelection
 import tmg.hourglass.domain.repositories.PreferencesManager
 import tmg.hourglass.migration.LogOldEvents
+import tmg.hourglass.room.sync.WearDataSyncManager
 import tmg.hourglass.widgets.updateAllWidgets
 import tmg.hourglass.domain.usecases.CancelAllNotificationsUseCase
 import tmg.hourglass.domain.usecases.ScheduleAllNotificationsUseCase
@@ -29,14 +30,21 @@ class HourGlassApplication : Application() {
     lateinit var logOldEvents: LogOldEvents
 
     @Inject
+    lateinit var wearDataSyncManager: WearDataSyncManager
+
+    @Inject
     lateinit var cancelAllNotificationsUseCase: CancelAllNotificationsUseCase
 
     @Inject
     lateinit var scheduleAllNotificationsUseCase: ScheduleAllNotificationsUseCase
 
+    private val applicationScope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.SupervisorJob() + kotlinx.coroutines.Dispatchers.IO)
+
     override fun onCreate() {
         super.onCreate()
         
+        wearDataSyncManager.startSyncing(applicationScope)
+
         // Night mode
         when (prefs.theme) {
             ThemeSelection.FollowSystem -> setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM)

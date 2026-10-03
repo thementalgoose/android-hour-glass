@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hourglass Wear</string>
+    <string name="complication_label">Countdown Progress</string>
+    <string name="select_countdown">Select Countdown</string>
+    <string name="no_countdowns_synced">No countdowns synced from phone yet</string>
+</resources>

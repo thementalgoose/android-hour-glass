@@ -1,6 +1,7 @@
 plugins {
     id("hourglass.android.library")
     id("hourglass.android.junit6")
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -13,4 +14,5 @@ android {
 
 dependencies {
     implementation(project(":presentation:strings"))
+    implementation(libs.bundles.kotlin)
 }

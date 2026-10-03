@@ -19,3 +19,5 @@ include(":data:prefs")
 include(":presentation:ui")
 include(":presentation:strings")
 include(":widgets")
+include(":wearos")
+
