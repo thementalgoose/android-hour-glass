@@ -54,8 +54,10 @@ class NotificationManagerHelper @Inject constructor(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        val appIcon = R.drawable.notification_icon
+
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(android.R.drawable.ic_popup_reminder)
+            .setSmallIcon(appIcon)
             .setContentTitle(titleText)
             .setContentText(bodyText)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
