@@ -33,14 +33,9 @@ class DashboardActivity: AppCompatActivity(), SplashScreen.KeepOnScreenCondition
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
+        val splashScreen = installSplashScreen()
         this.enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            splashScreen.setSplashScreenTheme(R.style.AppTheme)
-        }
-        val splashScreen = installSplashScreen()
 
         val windowInfoTracker = WindowInfoTracker
             .getOrCreate(this)
