@@ -234,5 +234,21 @@
     <string name="modify_notifications_days_before">Dias antes</string>
     <string name="modify_error_notification_days_out_of_range">Dias antes devem estar no intervalo (0 - %d)</string>
     <string name="modify_error_notification_value_out_of_range">O valor deve estar no intervalo (%1$d - %2$d)</string>
+
+    <!-- Notifications formatting -->
+    <string name="notification_channel_name">Notificações de contagem decrescente</string>
+    <string name="notification_channel_description">Notificações para marcos de contagem decrescente do HourGlass</string>
+    <string name="notification_subtitle_milestone_reached">Marco de %1$s atingido</string>
+    <string name="notification_subtitle_today">Hoje</string>
+    <string name="notification_subtitle_tomorrow">Amanhã</string>
+    <string name="notification_subtitle_at_value">%1$s atingiu %2$s</string>
+    <plurals name="notification_subtitle_days_to_go">
+        <item quantity="one">Falta %d dia</item>
+        <item quantity="other">Faltam %d dias</item>
+    </plurals>
+    <plurals name="notification_subtitle_weeks_to_go">
+        <item quantity="one">Falta %d semana</item>
+        <item quantity="other">Faltam %d semanas</item>
+    </plurals>
 </resources>
 

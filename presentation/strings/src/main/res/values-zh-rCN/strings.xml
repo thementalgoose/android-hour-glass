@@ -234,5 +234,19 @@
     <string name="modify_notifications_days_before">几天前</string>
     <string name="modify_error_notification_days_out_of_range">提前天数必须在范围 (0 - %d) 内</string>
     <string name="modify_error_notification_value_out_of_range">数值必须在范围 (%1$d - %2$d) 内</string>
+
+    <!-- Notifications formatting -->
+    <string name="notification_channel_name">倒计时通知</string>
+    <string name="notification_channel_description">HourGlass 倒计时里程碑通知</string>
+    <string name="notification_subtitle_milestone_reached">%1$s 已达到里程碑</string>
+    <string name="notification_subtitle_today">今天</string>
+    <string name="notification_subtitle_tomorrow">明天</string>
+    <string name="notification_subtitle_at_value">%1$s 已达到 %2$s</string>
+    <plurals name="notification_subtitle_days_to_go">
+        <item quantity="other">还剩 %d 天</item>
+    </plurals>
+    <plurals name="notification_subtitle_weeks_to_go">
+        <item quantity="other">还剩 %d 周</item>
+    </plurals>
 </resources>
 

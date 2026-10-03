@@ -234,5 +234,21 @@
     <string name="modify_notifications_days_before">Tage davor</string>
     <string name="modify_error_notification_days_out_of_range">Tage davor müssen im Bereich (0 - %d) liegen</string>
     <string name="modify_error_notification_value_out_of_range">Wert muss im Bereich (%1$d - %2$d) liegen</string>
+
+    <!-- Notifications formatting -->
+    <string name="notification_channel_name">Countdown-Benachrichtigungen</string>
+    <string name="notification_channel_description">Benachrichtigungen für HourGlass-Countdown-Meilensteine</string>
+    <string name="notification_subtitle_milestone_reached">%1$s Meilenstein erreicht</string>
+    <string name="notification_subtitle_today">Heute</string>
+    <string name="notification_subtitle_tomorrow">Morgen</string>
+    <string name="notification_subtitle_at_value">%1$s hat %2$s erreicht</string>
+    <plurals name="notification_subtitle_days_to_go">
+        <item quantity="one">Noch %d Tag</item>
+        <item quantity="other">Noch %d Tage</item>
+    </plurals>
+    <plurals name="notification_subtitle_weeks_to_go">
+        <item quantity="one">Noch %d Woche</item>
+        <item quantity="other">Noch %d Wochen</item>
+    </plurals>
 </resources>
 

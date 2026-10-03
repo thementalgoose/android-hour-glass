@@ -234,5 +234,21 @@
     <string name="modify_notifications_days_before">Giorni prima</string>
     <string name="modify_error_notification_days_out_of_range">I giorni prima devono essere nel raggio (0 - %d)</string>
     <string name="modify_error_notification_value_out_of_range">Il valore deve essere nel raggio (%1$d - %2$d)</string>
+
+    <!-- Notifications formatting -->
+    <string name="notification_channel_name">Notifiche conto alla rovescia</string>
+    <string name="notification_channel_description">Notifiche per i traguardi del conto alla rovescia di HourGlass</string>
+    <string name="notification_subtitle_milestone_reached">Traguardo di %1$s raggiunto</string>
+    <string name="notification_subtitle_today">Oggi</string>
+    <string name="notification_subtitle_tomorrow">Domani</string>
+    <string name="notification_subtitle_at_value">%1$s ha raggiunto %2$s</string>
+    <plurals name="notification_subtitle_days_to_go">
+        <item quantity="one">Manca %d giorno</item>
+        <item quantity="other">Mancano %d giorni</item>
+    </plurals>
+    <plurals name="notification_subtitle_weeks_to_go">
+        <item quantity="one">Manca %d settimana</item>
+        <item quantity="other">Mancano %d settimane</item>
+    </plurals>
 </resources>
 

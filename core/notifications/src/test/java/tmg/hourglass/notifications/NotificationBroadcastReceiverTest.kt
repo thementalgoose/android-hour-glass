@@ -26,6 +26,8 @@ class NotificationBroadcastReceiverTest {
             every { getStringExtra(NotificationSchedulerImpl.EXTRA_NOTIFICATION_ID) } returns "n-456"
             every { getStringExtra(NotificationSchedulerImpl.EXTRA_NOTIFICATION_TYPE) } returns "TIME"
             every { getStringExtra(NotificationSchedulerImpl.EXTRA_NOTIFICATION_VALUE) } returns null
+            every { hasExtra(NotificationSchedulerImpl.EXTRA_DAYS_REMAINING) } returns true
+            every { getIntExtra(NotificationSchedulerImpl.EXTRA_DAYS_REMAINING, 0) } returns 7
             every { getStringExtra(NotificationSchedulerImpl.EXTRA_MESSAGE) } returns "My Countdown notification"
         }
 
@@ -38,6 +40,7 @@ class NotificationBroadcastReceiverTest {
                 notificationId = "n-456",
                 notificationType = "TIME",
                 notificationValue = null,
+                daysRemaining = 7,
                 message = "My Countdown notification"
             )
         }
@@ -52,7 +55,7 @@ class NotificationBroadcastReceiverTest {
         receiver.processIntent(context, intent)
 
         verify(exactly = 0) {
-            notificationManagerHelper.showNotification(any(), any(), any(), any(), any(), any())
+            notificationManagerHelper.showNotification(any(), any(), any(), any(), any(), any(), any())
         }
     }
 }

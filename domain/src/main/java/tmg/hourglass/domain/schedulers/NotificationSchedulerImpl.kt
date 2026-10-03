@@ -10,6 +10,7 @@ import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.CountdownNotifications
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 class NotificationSchedulerImpl @Inject constructor(
@@ -35,7 +36,12 @@ class NotificationSchedulerImpl @Inject constructor(
             putExtra(EXTRA_NOTIFICATION_ID, notification.id)
             when (notification) {
                 is CountdownNotifications.AtTime -> {
+                    val daysRemaining = ChronoUnit.DAYS.between(
+                        triggerAt.toLocalDate(),
+                        countdown.endDate.toLocalDate()
+                    ).toInt().coerceAtLeast(0)
                     putExtra(EXTRA_NOTIFICATION_TYPE, TYPE_TIME)
+                    putExtra(EXTRA_DAYS_REMAINING, daysRemaining)
                     putExtra(EXTRA_MESSAGE, "${countdown.name} notification")
                 }
                 is CountdownNotifications.AtValue -> {
@@ -102,6 +108,7 @@ class NotificationSchedulerImpl @Inject constructor(
         const val EXTRA_NOTIFICATION_ID = "extra_notification_id"
         const val EXTRA_NOTIFICATION_TYPE = "extra_notification_type"
         const val EXTRA_NOTIFICATION_VALUE = "extra_notification_value"
+        const val EXTRA_DAYS_REMAINING = "extra_days_remaining"
         const val EXTRA_MESSAGE = "extra_message"
 
         const val TYPE_TIME = "TIME"
