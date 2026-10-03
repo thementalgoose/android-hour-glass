@@ -2,6 +2,11 @@ package tmg.hourglass.wearos.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
+import android.util.Log
+import com.google.android.gms.wearable.DataMapItem
+import com.google.android.gms.wearable.Wearable
+import kotlinx.coroutines.tasks.await
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import tmg.hourglass.domain.model.Countdown
@@ -9,7 +14,7 @@ import tmg.hourglass.domain.model.WearCountdownDto
 import tmg.hourglass.domain.model.toCountdown
 import tmg.hourglass.domain.model.toWearDto
 
-class WearosCountdownRepository(context: Context) {
+class WearosCountdownRepository(private val context: Context) {
 
     private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
@@ -17,6 +22,31 @@ class WearosCountdownRepository(context: Context) {
         val dtos = countdowns.map { it.toWearDto() }
         val json = Json.encodeToString(dtos)
         prefs.edit().putString(KEY_COUNTDOWNS, json).apply()
+    }
+
+    suspend fun fetchCountdownsFromDataClient(): List<Countdown> {
+        try {
+            val dataItems = Wearable.getDataClient(context)
+                .getDataItems(Uri.parse("wear://$COUNTDOWNS_PATH"))
+                .await()
+            for (item in dataItems) {
+                if (item.uri.path == COUNTDOWNS_PATH) {
+                    val dataMap = DataMapItem.fromDataItem(item).dataMap
+                    val jsonString = dataMap.getString(KEY_COUNTDOWNS_JSON)
+                    if (jsonString != null) {
+                        val dtos = Json.decodeFromString<List<WearCountdownDto>>(jsonString)
+                        val countdowns = dtos.map { it.toCountdown() }
+                        saveCountdowns(countdowns)
+                        dataItems.release()
+                        return countdowns
+                    }
+                }
+            }
+            dataItems.release()
+        } catch (e: Exception) {
+            Log.e("WearosRepo", "Failed to fetch countdowns from DataClient", e)
+        }
+        return getCountdowns()
     }
 
     fun getCountdowns(): List<Countdown> {
@@ -49,5 +79,7 @@ class WearosCountdownRepository(context: Context) {
         private const val PREFS_NAME = "wearos_hourglass_prefs"
         private const val KEY_COUNTDOWNS = "synced_countdowns"
         private const val KEY_COMPLICATION_PREFIX = "complication_id_"
+        private const val COUNTDOWNS_PATH = "/countdowns"
+        private const val KEY_COUNTDOWNS_JSON = "countdowns_json"
     }
 }

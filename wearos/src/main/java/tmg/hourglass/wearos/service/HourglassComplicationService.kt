@@ -16,7 +16,12 @@ class HourglassComplicationService : SuspendingComplicationDataSourceService() {
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
         val repository = WearosCountdownRepository(this)
         val countdownId = repository.getComplicationBinding(request.complicationInstanceId)
-        val countdown = countdownId?.let { repository.getCountdown(it) }
+        var countdown = countdownId?.let { repository.getCountdown(it) }
+
+        if (countdown == null && countdownId != null) {
+            repository.fetchCountdownsFromDataClient()
+            countdown = repository.getCountdown(countdownId)
+        }
 
         if (countdown == null) {
             return buildFallbackComplication(request.complicationType)

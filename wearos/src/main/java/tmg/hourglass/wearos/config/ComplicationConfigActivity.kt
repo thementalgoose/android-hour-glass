@@ -21,7 +21,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -50,9 +54,14 @@ class ComplicationConfigActivity : ComponentActivity() {
         val repository = WearosCountdownRepository(this)
 
         setContent {
+            var countdowns by remember { mutableStateOf(repository.getCountdowns()) }
+
+            LaunchedEffect(Unit) {
+                countdowns = repository.fetchCountdownsFromDataClient()
+            }
+
             MaterialTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    val countdowns = remember { repository.getCountdowns() }
                     ComplicationConfigScreen(
                         countdowns = countdowns,
                         onCountdownSelected = { selected ->
@@ -141,3 +150,5 @@ fun ComplicationConfigScreen(
         }
     }
 }
+
+@Composable

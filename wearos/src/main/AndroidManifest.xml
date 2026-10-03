@@ -53,6 +53,7 @@
             android:label="@string/select_countdown">
             <intent-filter>
                 <action android:name="tmg.hourglass.wearos.ACTION_CONFIG_COMPLICATION" />
+                <category android:name="android.support.wearable.complications.category.PROVIDER_CONFIG" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
