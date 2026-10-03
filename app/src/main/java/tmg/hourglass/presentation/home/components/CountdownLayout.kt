@@ -58,6 +58,7 @@ import tmg.hourglass.presentation.views.ProgressBar
 import tmg.hourglass.strings.R
 import tmg.hourglass.strings.R.string
 import tmg.utilities.extensions.format
+import tmg.utilities.extensions.ordinalAbbreviation
 
 @Composable
 fun TagHeader(
@@ -343,7 +344,7 @@ private fun NotificationBadge(
     val text = when (notification) {
         is CountdownNotifications.AtValue -> notification.value
         is CountdownNotifications.AtTime -> {
-            notification.time.format("d MMM") ?: ""
+            notification.time.toLocalDate().displayDate(includeYear = false)
         }
     }
 
