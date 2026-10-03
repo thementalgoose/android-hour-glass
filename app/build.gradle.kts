@@ -75,6 +75,9 @@ android {
             isReturnDefaultValues = true
             all {
                 it.useJUnitPlatform()
+                it.filter {
+                    isFailOnNoMatchingTests = false
+                }
                 it.testLogging {
                     showStandardStreams = true
                     events("passed", "skipped", "failed", "standardOut", "standardError")

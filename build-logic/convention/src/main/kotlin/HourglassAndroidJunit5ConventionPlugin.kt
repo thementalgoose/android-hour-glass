@@ -56,6 +56,9 @@ class HourglassAndroidJunit5ConventionPlugin : Plugin<Project> {
                             }))
 
                             it.useJUnitPlatform()
+                            (it as Test).filter {
+                                isFailOnNoMatchingTests = false
+                            }
                             (it as Test).testLogging {
                                 showStandardStreams = true
                                 events("passed", "skipped", "failed", "standardOut", "standardError")
@@ -67,6 +70,9 @@ class HourglassAndroidJunit5ConventionPlugin : Plugin<Project> {
 
             // Configure test tasks
             tasks.withType<Test> {
+                filter {
+                    isFailOnNoMatchingTests = false
+                }
                 testLogging {
                     exceptionFormat = TestExceptionFormat.FULL
                     showCauses = true

@@ -7,6 +7,9 @@ import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.EnumSource
 import tmg.hourglass.strings.R
 
 class AtTimeSubtitleFormatterTest {
@@ -19,54 +22,46 @@ class AtTimeSubtitleFormatterTest {
         formatter = AtTimeSubtitleFormatter()
     }
 
-    @Test
-    fun `format with 0 days remaining returns Today string resource`() {
-        every { resources.getString(R.string.notification_subtitle_today) } returns "Today"
-
-        val result = formatter.format(resources, 0)
-
-        assertEquals("Today", result)
-        verify { resources.getString(R.string.notification_subtitle_today) }
+    enum class SpecialCaseTestParam(
+        val days: Int,
+        val resId: Int,
+        val expectedText: String
+    ) {
+        TODAY(0, R.string.notification_subtitle_today, "Today"),
+        TOMORROW(1, R.string.notification_subtitle_tomorrow, "Tomorrow")
     }
 
-    @Test
-    fun `format with 1 day remaining returns Tomorrow string resource`() {
-        every { resources.getString(R.string.notification_subtitle_tomorrow) } returns "Tomorrow"
+    @ParameterizedTest(name = "format with {0} days remaining returns special string resource")
+    @EnumSource(SpecialCaseTestParam::class)
+    fun `format with special cases returns expected string resource`(param: SpecialCaseTestParam) {
+        every { resources.getString(param.resId) } returns param.expectedText
 
-        val result = formatter.format(resources, 1)
+        val result = formatter.format(resources, param.days)
 
-        assertEquals("Tomorrow", result)
-        verify { resources.getString(R.string.notification_subtitle_tomorrow) }
+        assertEquals(param.expectedText, result)
+        verify { resources.getString(param.resId) }
     }
 
-    @Test
-    fun `format with 7 days remaining returns 1 week to go plural`() {
-        every { resources.getQuantityString(R.plurals.notification_subtitle_weeks_to_go, 1, 1) } returns "1 week to go"
-
-        val result = formatter.format(resources, 7)
-
-        assertEquals("1 week to go", result)
-        verify { resources.getQuantityString(R.plurals.notification_subtitle_weeks_to_go, 1, 1) }
+    enum class PluralCaseTestParam(
+        val days: Int,
+        val pluralId: Int,
+        val count: Int,
+        val expectedText: String
+    ) {
+        ONE_WEEK(7, R.plurals.notification_subtitle_weeks_to_go, 1, "1 week to go"),
+        TWO_WEEKS(14, R.plurals.notification_subtitle_weeks_to_go, 2, "2 weeks to go"),
+        THREE_DAYS(3, R.plurals.notification_subtitle_days_to_go, 3, "3 days to go")
     }
 
-    @Test
-    fun `format with 14 days remaining returns 2 weeks to go plural`() {
-        every { resources.getQuantityString(R.plurals.notification_subtitle_weeks_to_go, 2, 2) } returns "2 weeks to go"
+    @ParameterizedTest(name = "format with {0} days remaining returns plural string")
+    @EnumSource(PluralCaseTestParam::class)
+    fun `format with plural days remaining returns expected plural string`(param: PluralCaseTestParam) {
+        every { resources.getQuantityString(param.pluralId, param.count, param.count) } returns param.expectedText
 
-        val result = formatter.format(resources, 14)
+        val result = formatter.format(resources, param.days)
 
-        assertEquals("2 weeks to go", result)
-        verify { resources.getQuantityString(R.plurals.notification_subtitle_weeks_to_go, 2, 2) }
-    }
-
-    @Test
-    fun `format with 3 days remaining returns 3 days to go plural`() {
-        every { resources.getQuantityString(R.plurals.notification_subtitle_days_to_go, 3, 3) } returns "3 days to go"
-
-        val result = formatter.format(resources, 3)
-
-        assertEquals("3 days to go", result)
-        verify { resources.getQuantityString(R.plurals.notification_subtitle_days_to_go, 3, 3) }
+        assertEquals(param.expectedText, result)
+        verify { resources.getQuantityString(param.pluralId, param.count, param.count) }
     }
 
     @Test
