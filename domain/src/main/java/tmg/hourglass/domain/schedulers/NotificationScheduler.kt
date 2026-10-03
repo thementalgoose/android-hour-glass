@@ -15,4 +15,6 @@ interface NotificationScheduler {
         countdownId: String,
         notificationId: String
     )
+
+    fun cancelAll()
 }

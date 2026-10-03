@@ -10,12 +10,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import tmg.hourglass.domain.usecases.CancelAllNotificationsUseCase
+import tmg.hourglass.domain.usecases.ScheduleAllNotificationsUseCase
 import tmg.hourglass.room.backups.BackupManager
 import javax.inject.Inject
 
 @HiltViewModel
 class BackupViewModel @Inject constructor(
-    private val backupManager: BackupManager
+    private val backupManager: BackupManager,
+    private val cancelAllNotificationsUseCase: CancelAllNotificationsUseCase,
+    private val scheduleAllNotificationsUseCase: ScheduleAllNotificationsUseCase
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<BackupUiState> = MutableStateFlow(BackupUiState())
@@ -37,6 +41,10 @@ class BackupViewModel @Inject constructor(
         val uri = uri ?: return
         viewModelScope.launch {
             val result = backupManager.restore(uri)
+            if (result) {
+                cancelAllNotificationsUseCase(force = true)
+                scheduleAllNotificationsUseCase()
+            }
             _uiState.update { it.copy(restoreState = result) }
         }
     }
