@@ -2,6 +2,8 @@ package tmg.hourglass.domain.utils
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model
 import tmg.hourglass.domain.model.Countdown
@@ -21,11 +23,16 @@ class NotificationTriggerUtilsTest {
         assertEquals(time, triggerTime)
     }
 
-    @Test
-    fun `calculateTriggerTime for AtValue interpolates midpoint date for 50 percent progress`() {
-        val startDateTime = LocalDateTime.of(2026, 1, 1, 0, 0)
-        val endDateTime = LocalDateTime.of(2026, 1, 11, 0, 0)
-
+    @ParameterizedTest(name = "calculateTriggerTime for AtValue with value {0} returns {1}")
+    @CsvSource(
+        "350, 2026-01-06T00:00", // Midpoint 50%
+        "100, 2026-01-01T00:00", // Below startValue returns startDate
+        "600, 2026-01-11T00:00"  // Above endValue returns endDate
+    )
+    fun `calculateTriggerTime for AtValue returns expected interpolated date`(
+        inputValue: String,
+        expectedIso: String
+    ) {
         val countdown = Countdown.Static.model(
             start = "2026-01-01",
             end = "2026-01-11",
@@ -33,42 +40,11 @@ class NotificationTriggerUtilsTest {
             endValue = "500",
             countdownType = CountdownType.NUMBER
         )
-        val notification = CountdownNotifications.AtValue(id = "n-2", value = "350")
+        val notification = CountdownNotifications.AtValue(id = "n-1", value = inputValue)
 
         val triggerTime = NotificationTriggerUtils.calculateTriggerTime(countdown, notification)
 
-        val expectedMidpoint = LocalDateTime.of(2026, 1, 6, 0, 0)
-        assertEquals(expectedMidpoint, triggerTime)
-    }
-
-    @Test
-    fun `calculateTriggerTime for AtValue below startValue returns startDate`() {
-        val countdown = Countdown.Static.model(
-            start = "2026-01-01",
-            end = "2026-01-11",
-            startValue = "200",
-            endValue = "500"
-        )
-        val notification = CountdownNotifications.AtValue(id = "n-3", value = "100")
-
-        val triggerTime = NotificationTriggerUtils.calculateTriggerTime(countdown, notification)
-
-        assertEquals(countdown.startDate, triggerTime)
-    }
-
-    @Test
-    fun `calculateTriggerTime for AtValue above endValue returns endDate`() {
-        val countdown = Countdown.Static.model(
-            start = "2026-01-01",
-            end = "2026-01-11",
-            startValue = "200",
-            endValue = "500"
-        )
-        val notification = CountdownNotifications.AtValue(id = "n-4", value = "600")
-
-        val triggerTime = NotificationTriggerUtils.calculateTriggerTime(countdown, notification)
-
-        assertEquals(countdown.endDate, triggerTime)
+        assertEquals(LocalDateTime.parse(expectedIso), triggerTime)
     }
 
     @Test
