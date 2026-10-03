@@ -139,4 +139,20 @@ internal class HomeViewModelTest {
         verify { mockAnalyticsManager.event(any()) }
         verify { mockCountdownRepository.delete(cd.id) }
     }
+
+    @Test
+    fun `refresh with showIndicator true toggles isRefreshing state`() = runTest {
+        coEvery { mockGetTagged() } returns flowOf(emptyList())
+
+        initUnderTest()
+
+        underTest.isRefreshing.test {
+            assertEquals(false, awaitItem())
+
+            underTest.refresh(showIndicator = true)
+
+            assertEquals(true, awaitItem())
+            assertEquals(false, awaitItem())
+        }
+    }
 }

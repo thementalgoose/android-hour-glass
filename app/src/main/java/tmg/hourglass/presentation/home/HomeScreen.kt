@@ -52,6 +52,14 @@ import tmg.hourglass.strings.R.string
 import java.time.LocalDateTime
 import java.time.ZoneId
 
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.runtime.DisposableEffect
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun HomeScreenVM(
     paddingValues: PaddingValues,
@@ -63,12 +71,29 @@ internal fun HomeScreenVM(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     ScreenView("Home")
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.refresh(showIndicator = false)
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
     val uiState = viewModel.uiState.collectAsState()
+    val isRefreshing = viewModel.isRefreshing.collectAsState()
 
     HomeScreen(
         paddingValues = paddingValues,
         windowSizeClass = windowSize,
         uiState = uiState.value,
+        isRefreshing = isRefreshing.value,
+        onRefresh = { viewModel.refresh(showIndicator = true) },
         tagSortUpdated = viewModel::tagSortUpdated,
         tagExpanded = viewModel::tagExpanded,
         untaggedSort = viewModel::untaggedSort,
@@ -80,11 +105,14 @@ internal fun HomeScreenVM(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun HomeScreen(
     paddingValues: PaddingValues,
     windowSizeClass: WindowSizeClass,
     uiState: UiState,
+    isRefreshing: Boolean = false,
+    onRefresh: () -> Unit = {},
     tagSortUpdated: (Tag, TagOrdering) -> Unit,
     untaggedSort: (TagOrdering) -> Unit,
     tagExpanded: (Tag, Boolean) -> Unit,
@@ -94,30 +122,36 @@ internal fun HomeScreen(
     navigateToSettings: () -> Unit,
     navigateToTags: () -> Unit,
 ) {
-    ListScreen(
-        paddingValues = paddingValues,
-        uiState = uiState,
-        windowSizeClass = windowSizeClass,
-        editItem = edit,
-        deleteItem = delete,
-        untaggedSort = untaggedSort,
-        tagSortUpdated = tagSortUpdated,
-        tagExpanded = tagExpanded,
-        navigateToSettings = navigateToSettings,
-        navigateToTags = navigateToTags
-    )
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .navigationBarsPadding()
-            .padding(AppTheme.dimensions.paddingMedium),
-        contentAlignment = Alignment.BottomEnd
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = onRefresh,
+        modifier = Modifier.fillMaxSize()
     ) {
-        FloatingActionButton(
-            label = stringResource(id = string.dashboard_fab_new),
-            icon = Icons.Outlined.Add,
-            onClick = openCreateNew
+        ListScreen(
+            paddingValues = paddingValues,
+            uiState = uiState,
+            windowSizeClass = windowSizeClass,
+            editItem = edit,
+            deleteItem = delete,
+            untaggedSort = untaggedSort,
+            tagSortUpdated = tagSortUpdated,
+            tagExpanded = tagExpanded,
+            navigateToSettings = navigateToSettings,
+            navigateToTags = navigateToTags
         )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .navigationBarsPadding()
+                .padding(AppTheme.dimensions.paddingMedium),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            FloatingActionButton(
+                label = stringResource(id = string.dashboard_fab_new),
+                icon = Icons.Outlined.Add,
+                onClick = openCreateNew
+            )
+        }
     }
 }
 
@@ -183,6 +217,7 @@ internal fun ListScreen(
                                 modifier = Modifier
                                     .animateItem(),
                                 countdown = it.countdown,
+                                now = it.now,
                                 editClicked = editItem,
                                 deleteClicked = deleteItem
                             )

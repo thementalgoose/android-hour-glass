@@ -3,11 +3,14 @@ package tmg.hourglass.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import tmg.hourglass.core.crashlytics.AnalyticsManager
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.Tag
@@ -55,7 +58,8 @@ sealed interface ListItem {
     }
 
     data class CountdownItem(
-        val countdown: Countdown
+        val countdown: Countdown,
+        val now: LocalDateTime = LocalDateTime.now()
     ): ListItem {
         override val id: String
             get() = countdown.id
@@ -72,6 +76,10 @@ class HomeViewModel @Inject constructor(
 ): ViewModel() {
 
     private val untaggedSort = MutableStateFlow(preferencesManager.sortOrder)
+    private val refreshTrigger = MutableStateFlow(0L)
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
     private val shouldShowSnow: Boolean by lazy {
         val now = LocalDateTime.now()
         val day = now.dayOfMonth
@@ -87,9 +95,10 @@ class HomeViewModel @Inject constructor(
         combine(
             flow = getTaggedCountdownsUseCase(),
             flow2 = untaggedSort,
-            transform = { list, untaggedSort ->
+            flow3 = refreshTrigger,
+            transform = { list, untaggedSort, _ ->
                 UiState(
-                    items = buildList(list,  untaggedSort),
+                    items = buildList(list, untaggedSort),
                     showSnow = shouldShowSnow
                 )
             }
@@ -103,6 +112,19 @@ class HomeViewModel @Inject constructor(
             )
         )
 
+    fun refresh(showIndicator: Boolean = false) {
+        viewModelScope.launch {
+            if (showIndicator) {
+                _isRefreshing.value = true
+            }
+            refreshTrigger.value = refreshTrigger.value + 1L
+            if (showIndicator) {
+                delay(300)
+                _isRefreshing.value = false
+            }
+        }
+    }
+
     private fun buildList(
         list: List<TaggedCountdowns>,
         untaggedSort: TagOrdering
@@ -112,7 +134,7 @@ class HomeViewModel @Inject constructor(
             return listOf(ListItem.UntaggedHeader(untaggedSort)) + list.first()
                 .countdowns
                 .sortBy(now, untaggedSort)
-                .map { ListItem.CountdownItem(it) }
+                .map { ListItem.CountdownItem(it, now) }
 
         }
         return buildList {
@@ -121,14 +143,14 @@ class HomeViewModel @Inject constructor(
                     is TaggedCountdowns.Tagged -> {
                         add(ListItem.TagHeader(item.tag, item.tag.expanded, item.sort))
                         if (item.tag.expanded) {
-                            addAll(item.countdowns.map { countdown -> ListItem.CountdownItem(countdown) })
+                            addAll(item.countdowns.map { countdown -> ListItem.CountdownItem(countdown, now) })
                         }
                     }
                     is TaggedCountdowns.Untagged -> {
                         add(ListItem.UntaggedHeader(untaggedSort))
                         addAll(item.countdowns
                             .sortBy(now, untaggedSort)
-                            .map { countdown -> ListItem.CountdownItem(countdown) })
+                            .map { countdown -> ListItem.CountdownItem(countdown, now) })
                     }
                 }
             }
