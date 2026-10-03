@@ -6,7 +6,7 @@ dependencies {
     compileOnly(libs.gradle.agp)
     compileOnly(libs.gradle.kotlin)
     compileOnly(libs.gradle.hilt)
-    compileOnly(libs.gradle.junit5)
+    compileOnly(libs.gradle.junit6)
 }
 
 gradlePlugin {
@@ -19,9 +19,9 @@ gradlePlugin {
             id = "hourglass.android.compose"
             implementationClass = "HourglassAndroidComposeConventionPlugin"
         }
-        register("hourglassAndroidJunit5") {
-            id = "hourglass.android.junit5"
-            implementationClass = "HourglassAndroidJunit5ConventionPlugin"
+        register("hourglassAndroidJunit6") {
+            id = "hourglass.android.junit6"
+            implementationClass = "HourglassAndroidJunit6ConventionPlugin"
         }
     }
 }

@@ -7,10 +7,10 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
 
-class HourglassAndroidJunit5ConventionPlugin : Plugin<Project> {
+class HourglassAndroidJunit6ConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            // Apply JUnit5 plugin
+            // Apply JUnit6 plugin
             pluginManager.apply("de.mannodermaus.android-junit5")
 
             // Configure Android extension
@@ -84,10 +84,10 @@ class HourglassAndroidJunit5ConventionPlugin : Plugin<Project> {
 
             // Add test dependencies
             dependencies {
-                add("testImplementation", libs.findLibrary("junit5.api").get())
-                add("testImplementation", libs.findLibrary("junit5.engine").get())
-                add("testImplementation", libs.findLibrary("junit5.params").get())
-                add("testRuntimeOnly", libs.findLibrary("junit5.engine").get())
+                add("testImplementation", libs.findLibrary("junit6.api").get())
+                add("testImplementation", libs.findLibrary("junit6.engine").get())
+                add("testImplementation", libs.findLibrary("junit6.params").get())
+                add("testRuntimeOnly", libs.findLibrary("junit6.engine").get())
 
                 add("testImplementation", libs.findLibrary("mockk").get())
                 add("testImplementation", libs.findLibrary("tmg.testutils").get())
