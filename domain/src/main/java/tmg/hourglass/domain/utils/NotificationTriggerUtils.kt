@@ -8,6 +8,13 @@ import java.time.ZoneId
 
 object NotificationTriggerUtils {
 
+    fun sortChronologically(
+        countdown: Countdown,
+        notifications: List<CountdownNotifications>
+    ): List<CountdownNotifications> {
+        return notifications.sortedBy { calculateTriggerTime(countdown, it) }
+    }
+
     fun calculateTriggerTime(
         countdown: Countdown,
         notification: CountdownNotifications

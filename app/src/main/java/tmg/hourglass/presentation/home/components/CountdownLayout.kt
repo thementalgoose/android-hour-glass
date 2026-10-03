@@ -27,6 +27,7 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import java.time.temporal.ChronoUnit
 import tmg.hourglass.domain.model.CountdownNotifications
+import tmg.hourglass.domain.utils.NotificationTriggerUtils
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -248,18 +249,21 @@ private fun CountdownDays(
                         text = countdown.endDate.toLocalDate().displayDate()
                     )
                 }
-                if (countdown.notifications.isNotEmpty()) {
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 4.dp)
-                    ) {
-                        countdown.notifications.forEach { notification ->
-                            NotificationBadge(notification = notification, countdown = countdown)
-                        }
-                    }
+            }
+        }
+        if (countdown.notifications.isNotEmpty()) {
+            val sortedNotifications = remember(countdown.notifications, countdown) {
+                NotificationTriggerUtils.sortChronologically(countdown, countdown.notifications)
+            }
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp)
+            ) {
+                sortedNotifications.forEach { notification ->
+                    NotificationBadge(notification = notification, countdown = countdown)
                 }
             }
         }
@@ -309,18 +313,21 @@ private fun CountdownOther(
                         text = countdown.endDate.toLocalDate().displayDate()
                     )
                 }
-                if (countdown.notifications.isNotEmpty()) {
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 4.dp)
-                    ) {
-                        countdown.notifications.forEach { notification ->
-                            NotificationBadge(notification = notification, countdown = countdown)
-                        }
-                    }
+            }
+        }
+        if (countdown.notifications.isNotEmpty()) {
+            val sortedNotifications = remember(countdown.notifications, countdown) {
+                NotificationTriggerUtils.sortChronologically(countdown, countdown.notifications)
+            }
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp)
+            ) {
+                sortedNotifications.forEach { notification ->
+                    NotificationBadge(notification = notification, countdown = countdown)
                 }
             }
         }
@@ -336,11 +343,7 @@ private fun NotificationBadge(
     val text = when (notification) {
         is CountdownNotifications.AtValue -> notification.value
         is CountdownNotifications.AtTime -> {
-            val daysBefore = ChronoUnit.DAYS.between(
-                notification.time.toLocalDate(),
-                countdown.endDate.toLocalDate()
-            ).coerceAtLeast(0)
-            daysBefore.toString()
+            notification.time.format("d MMM") ?: ""
         }
     }
 
