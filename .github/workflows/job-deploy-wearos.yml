@@ -86,16 +86,6 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "37.0.0"
 
-      # Upload signed artifact info
-      - name: Upload artifact info
-        uses: actions/upload-artifact@v7
-        with:
-          name: WearOS-AAB
-          path: |
-            wearos/build/outputs/bundle/**/*.aab
-            wearos/build/outputs/apk/**/*.apk
-            wearos/build/outputs/mapping/**/mapping.txt
-
       # Deploy Wear OS Bundle to Google Play wearos track
       - name: Deploy Wear OS Bundle to google Play
         uses: r0adkll/upload-google-play@v1
