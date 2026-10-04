@@ -90,16 +90,6 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "37.0.0"
 
-      # Upload signed artifact info
-      - name: Upload artifact info
-        uses: actions/upload-artifact@v7
-        with:
-          name: AAB
-          path: |
-            app/build/outputs/bundle/**/*.aab
-            app/build/outputs/apk/**/*.apk
-            app/build/outputs/mapping/**/mapping.txt
-
       # Deploy Phone Bundle to Google Play
       - name: Deploy Phone Bundle to google Play
         uses: r0adkll/upload-google-play@v1
