@@ -17,6 +17,8 @@ import tmg.hourglass.domain.model.toCountdown
 import tmg.hourglass.domain.model.toWearDto
 import javax.inject.Inject
 import javax.inject.Singleton
+import androidx.core.net.toUri
+import androidx.core.content.edit
 
 @Singleton
 class WearosCountdownRepository @Inject constructor(
@@ -27,11 +29,11 @@ class WearosCountdownRepository @Inject constructor(
     fun saveCountdowns(countdowns: List<Countdown>) {
         val dtos = countdowns.map { it.toWearDto() }
         val json = Json.encodeToString(dtos)
-        prefs.edit().putString(KEY_COUNTDOWNS, json).apply()
+        prefs.edit { putString(KEY_COUNTDOWNS, json) }
     }
 
     fun setSchemaSupported(supported: Boolean) {
-        prefs.edit().putBoolean(KEY_SCHEMA_SUPPORTED, supported).apply()
+        prefs.edit { putBoolean(KEY_SCHEMA_SUPPORTED, supported) }
     }
 
     fun isSchemaSupported(): Boolean {
@@ -41,7 +43,7 @@ class WearosCountdownRepository @Inject constructor(
     suspend fun fetchCountdownsFromDataClient(): List<Countdown> {
         try {
             val dataItems = Wearable.getDataClient(context)
-                .getDataItems(Uri.parse("wear://${WearSyncContract.COUNTDOWNS_PATH}"))
+                .getDataItems("wear://${WearSyncContract.COUNTDOWNS_PATH}".toUri())
                 .await()
 
             try {
@@ -90,7 +92,7 @@ class WearosCountdownRepository @Inject constructor(
     }
 
     fun saveComplicationBinding(complicationId: Int, countdownId: String) {
-        prefs.edit().putString("$KEY_COMPLICATION_PREFIX$complicationId", countdownId).apply()
+        prefs.edit { putString("$KEY_COMPLICATION_PREFIX$complicationId", countdownId) }
     }
 
     fun getComplicationBinding(complicationId: Int): String? {
@@ -98,7 +100,7 @@ class WearosCountdownRepository @Inject constructor(
     }
 
     fun removeComplicationBinding(complicationId: Int) {
-        prefs.edit().remove("$KEY_COMPLICATION_PREFIX$complicationId").apply()
+        prefs.edit { remove("$KEY_COMPLICATION_PREFIX$complicationId") }
     }
 
     companion object {
