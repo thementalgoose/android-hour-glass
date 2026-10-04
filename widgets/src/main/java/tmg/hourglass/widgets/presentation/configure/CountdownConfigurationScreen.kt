@@ -197,8 +197,13 @@ private fun SelectableItem(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
+                val titleText = if (!countdown.emoji.isNullOrBlank()) {
+                    "${countdown.emoji} ${countdown.name}"
+                } else {
+                    countdown.name
+                }
                 TextBody1(
-                    text = countdown.name,
+                    text = titleText,
                     bold = true
                 )
                 Spacer(modifier = Modifier.height(2.dp))

@@ -301,20 +301,12 @@ internal class ModifyViewModelTest {
         every { mockCountdownRepository.getSync("1") } returns countdownNumber
 
         initUnderTest()
+        underTest.initialise("1")
+        underTest.delete()
+        testScheduler.advanceUntilIdle()
 
-        underTest.uiState.test {
-            awaitItem()
-
-            underTest.initialise("1")
-
-            awaitItem()
-
-            underTest.delete()
-            testScheduler.advanceUntilIdle()
-
-            verify { mockAnalyticsManager.event(any()) }
-            coVerify { mockCancelNotificationsUseCase("1") }
-            verify { mockCountdownRepository.delete("1") }
-        }
+        verify { mockAnalyticsManager.event(any()) }
+        coVerify { mockCancelNotificationsUseCase("1") }
+        verify { mockCountdownRepository.delete("1") }
     }
 }

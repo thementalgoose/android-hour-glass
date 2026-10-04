@@ -179,8 +179,13 @@ internal fun CountdownBar(
                 .defaultWeight(),
             verticalAlignment = Alignment.Top
         ) {
+            val titleText = if (!countdownModel.emoji.isNullOrBlank()) {
+                "${countdownModel.emoji} ${countdownModel.name}"
+            } else {
+                countdownModel.name
+            }
             Text(
-                text = countdownModel.name,
+                text = titleText,
                 modifier = GlanceModifier.defaultWeight()
                     .padding(end = 4.dp),
                 maxLines = 1,

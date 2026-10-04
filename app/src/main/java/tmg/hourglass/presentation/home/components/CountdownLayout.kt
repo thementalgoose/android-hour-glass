@@ -163,8 +163,13 @@ fun Countdown(
                     .fillMaxHeight(),
                 verticalArrangement = Arrangement.Center
             ) {
+                val titleText = if (!countdown.emoji.isNullOrBlank()) {
+                    "${countdown.emoji} ${countdown.name}"
+                } else {
+                    countdown.name
+                }
                 TextBody1(
-                    text = countdown.name,
+                    text = titleText,
                     bold = true
                 )
                 if (countdown.description.isNotEmpty()) {
