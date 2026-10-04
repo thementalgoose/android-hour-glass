@@ -73,7 +73,7 @@ fun PersonaliseLayout(
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.Top
         ) {
             Box(
@@ -84,14 +84,14 @@ fun PersonaliseLayout(
                     .clickable { emojiPicker.value = true },
                 contentAlignment = Alignment.Center
             ) {
-                if (emoji != null && emoji.isNotBlank()) {
+                if (!emoji.isNullOrBlank()) {
                     Text(
                         text = emoji,
                         fontSize = 24.sp
                     )
                 } else {
                     Text(
-                        text = "😀",
+                        text = "⏳",
                         fontSize = 24.sp,
                         modifier = Modifier.alpha(0.4f)
                     )
@@ -172,54 +172,6 @@ fun PersonaliseLayout(
                 colorPicker.value = false
             }
         )
-    }
-}
-
-@Composable
-private fun EmojiPickerDialog(
-    onEmojiPicked: (String) -> Unit,
-    onClearEmoji: () -> Unit,
-    dismiss: () -> Unit
-) {
-    Dialog(
-        onDismissRequest = dismiss,
-        properties = DialogProperties(usePlatformDefaultWidth = false)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .fillMaxHeight(0.7f)
-                .clip(RoundedCornerShape(AppTheme.dimensions.radiusMedium))
-                .background(AppTheme.colors.backgroundSecondary)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(AppTheme.dimensions.paddingMedium),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                TextHeader2(text = stringResource(id = string.modify_field_emoji_picker_title))
-                TextButton(onClick = onClearEmoji) {
-                    TextBody1(
-                        text = stringResource(id = string.modify_field_emoji_clear),
-                        textColor = AppTheme.colors.appColors.error
-                    )
-                }
-            }
-            AndroidView(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                factory = { context ->
-                    EmojiPickerView(context).apply {
-                        setOnEmojiPickedListener { emojiViewItem ->
-                            onEmojiPicked(emojiViewItem.emoji)
-                        }
-                    }
-                }
-            )
-        }
     }
 }
 
