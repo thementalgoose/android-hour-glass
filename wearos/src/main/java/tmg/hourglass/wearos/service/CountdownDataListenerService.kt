@@ -12,10 +12,16 @@ import tmg.hourglass.domain.model.WearCountdownDto
 import tmg.hourglass.domain.model.toCountdown
 import tmg.hourglass.wearos.data.WearosCountdownRepository
 
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
 class CountdownDataListenerService : WearableListenerService() {
 
+    @Inject
+    lateinit var repository: WearosCountdownRepository
+
     override fun onDataChanged(dataEvents: DataEventBuffer) {
-        val repository = WearosCountdownRepository(this)
         for (event in dataEvents) {
             if (event.type == DataEvent.TYPE_CHANGED && event.dataItem.uri.path == COUNTDOWNS_PATH) {
                 val dataMap = DataMapItem.fromDataItem(event.dataItem).dataMap

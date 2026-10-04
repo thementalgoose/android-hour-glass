@@ -9,12 +9,17 @@ import androidx.wear.watchface.complications.data.ShortTextComplicationData
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import androidx.wear.watchface.complications.datasource.SuspendingComplicationDataSourceService
 import tmg.hourglass.wearos.data.WearosCountdownRepository
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import java.time.LocalDateTime
 
+@AndroidEntryPoint
 class HourglassComplicationService : SuspendingComplicationDataSourceService() {
 
+    @Inject
+    lateinit var repository: WearosCountdownRepository
+
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
-        val repository = WearosCountdownRepository(this)
         val countdownId = repository.getComplicationBinding(request.complicationInstanceId)
         var countdown = countdownId?.let { repository.getCountdown(it) }
 

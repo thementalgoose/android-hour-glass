@@ -14,7 +14,14 @@ import tmg.hourglass.domain.model.WearCountdownDto
 import tmg.hourglass.domain.model.toCountdown
 import tmg.hourglass.domain.model.toWearDto
 
-class WearosCountdownRepository(private val context: Context) {
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class WearosCountdownRepository @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
 
     private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 

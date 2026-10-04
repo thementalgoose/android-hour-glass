@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.composecompiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 val versionCodeProperty: Int = try {
@@ -51,9 +53,19 @@ dependencies {
     implementation(libs.androidx.wear.watchface.complications.data.source)
     implementation(libs.androidx.wear.watchface.complications.data)
 
+    implementation(libs.androidx.wear.compose.foundation)
+    implementation(libs.androidx.wear.compose.material)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    ksp(libs.hilt.kapt.compiler)
+    implementation(libs.hilt.compose)
+
     implementation(libs.bundles.kotlin)
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.material)
     implementation(libs.compose.activity)
+    implementation(libs.compose.ui.toolingpreview)
+    debugImplementation(libs.compose.ui.tooling)
 }
