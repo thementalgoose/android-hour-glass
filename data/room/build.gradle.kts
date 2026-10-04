@@ -19,4 +19,6 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
+    implementation(libs.google.play.services.wearable)
+    implementation(libs.bundles.kotlin)
 }

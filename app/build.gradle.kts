@@ -169,6 +169,7 @@ dependencies {
     implementation(project(":presentation:ui"))
     implementation(project(":presentation:strings"))
     implementation(project(":widgets"))
+    implementation(libs.google.play.services.wearable)
     implementation(libs.androidx.ui.test.junit4)
 
     // AndroidX

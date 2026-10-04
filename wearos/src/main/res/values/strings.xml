@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hourglass Wear</string>
+    <string name="complication_label">Countdown Progress</string>
+    <string name="select_countdown">Select Countdown</string>
+    <string name="no_countdowns_synced">No countdowns synced from phone yet</string>
+    <string name="refresh">Refresh</string>
+    <string name="update_required_title">Update Required</string>
+    <string name="update_required_desc">App schema was updated. Please update Hourglass to continue syncing countdowns.</string>
+    <string name="update_watch_app">Update Watch App</string>
+    <string name="update_phone_app">Open Play Store on Phone</string>
+</resources>

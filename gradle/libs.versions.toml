@@ -25,6 +25,10 @@ agp = "9.4.1"
 crashlytics = "3.0.8"
 
 uiTest = "1.12.1"
+play_services_wearable = "19.0.0"
+androidx_wear = "1.3.0"
+androidx_wear_watchface = "1.3.0"
+androidx_wear_compose = "1.4.0"
 
 [libraries]  # ===========================================================================
 ## Root build.gradle dependencies
@@ -52,6 +56,13 @@ androidx_preference = "androidx.preference:preference-ktx:1.2.1"
 androidx_splashscreen = "androidx.core:core-splashscreen:1.2.0"
 androidx_window = "androidx.window:window:1.5.1"
 androidx_emoji2_emojipicker = { module = "androidx.emoji2:emoji2-emojipicker", version.ref = "emoji2" }
+
+google_play_services_wearable = { module = "com.google.android.gms:play-services-wearable", version.ref = "play_services_wearable" }
+androidx_wear = { module = "androidx.wear:wear", version.ref = "androidx_wear" }
+androidx_wear_watchface_complications_data_source = { module = "androidx.wear.watchface:watchface-complications-data-source-ktx", version.ref = "androidx_wear_watchface" }
+androidx_wear_watchface_complications_data = { module = "androidx.wear.watchface:watchface-complications-data", version.ref = "androidx_wear_watchface" }
+androidx_wear_compose_foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "androidx_wear_compose" }
+androidx_wear_compose_material = { module = "androidx.wear.compose:compose-material", version.ref = "androidx_wear_compose" }
 
 androidx_glance_core = { module = "androidx.glance:glance", version.ref = "androidx_glance" }
 androidx_glance_appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "androidx_glance" }

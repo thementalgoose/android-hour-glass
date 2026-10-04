@@ -56,9 +56,7 @@ class HourglassAndroidJunit6ConventionPlugin : Plugin<Project> {
                             }))
 
                             it.useJUnitPlatform()
-                            (it as Test).filter {
-                                isFailOnNoMatchingTests = false
-                            }
+                            (it as Test).filter.isFailOnNoMatchingTests = false
                             (it as Test).testLogging {
                                 showStandardStreams = true
                                 events("passed", "skipped", "failed", "standardOut", "standardError")
