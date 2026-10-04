@@ -75,7 +75,7 @@ object WearTheme {
 
 @Composable
 fun WearTheme(
-    isLight: Boolean = !isSystemInDarkTheme(),
+    isLight: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colors = if (isLight) lightWearColors else darkWearColors
