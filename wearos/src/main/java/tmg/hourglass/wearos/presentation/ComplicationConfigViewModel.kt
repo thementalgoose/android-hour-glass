@@ -33,6 +33,10 @@ class ComplicationConfigViewModel @Inject constructor(
         }
     }
 
+    fun refresh() {
+        loadCountdowns()
+    }
+
     fun saveComplicationBinding(complicationId: Int, countdownId: String) {
         repository.saveComplicationBinding(complicationId, countdownId)
     }

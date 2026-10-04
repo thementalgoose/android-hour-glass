@@ -45,6 +45,9 @@ class ComplicationConfigActivity : ComponentActivity() {
                 },
                 onDismiss = {
                     finish()
+                },
+                onRefresh = {
+                    viewModel.refresh()
                 }
             )
         }

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -20,6 +19,8 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
 import androidx.wear.compose.material.Card
+import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.SwipeToDismissBox
@@ -37,7 +38,8 @@ import tmg.hourglass.wearos.text.TextBodyTitle
 fun ComplicationConfigScreen(
     countdowns: List<Countdown>,
     onCountdownSelected: (Countdown) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onRefresh: () -> Unit = {}
 ) {
     WearTheme {
         val swipeState = rememberSwipeToDismissBoxState()
@@ -59,33 +61,48 @@ fun ComplicationConfigScreen(
                             .fillMaxSize()
                             .background(WearTheme.colors.backgroundPrimary)
                     ) {
-                        if (countdowns.isEmpty()) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(16.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                TextBody1(
-                                    text = stringResource(id = R.string.no_countdowns_synced),
-                                    textAlign = TextAlign.Center
+                        ScalingLazyColumn(
+                            state = listState,
+                            contentPadding = PaddingValues(horizontal = 14.dp, vertical = 24.dp),
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            item {
+                                TextBodyTitle(
+                                    text = stringResource(id = R.string.select_countdown),
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 8.dp)
                                 )
                             }
-                        } else {
-                            ScalingLazyColumn(
-                                state = listState,
-                                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 24.dp),
-                                modifier = Modifier.fillMaxSize()
-                            ) {
+                            if (countdowns.isEmpty()) {
                                 item {
-                                    TextBodyTitle(
-                                        text = stringResource(id = R.string.select_countdown),
+                                    TextBody1(
+                                        text = stringResource(id = R.string.no_countdowns_synced),
                                         textAlign = TextAlign.Center,
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .padding(bottom = 8.dp)
+                                            .padding(vertical = 12.dp)
                                     )
                                 }
+                                item {
+                                    Chip(
+                                        onClick = onRefresh,
+                                        colors = ChipDefaults.primaryChipColors(),
+                                        label = {
+                                            TextBody1(
+                                                text = stringResource(id = R.string.refresh),
+                                                textAlign = TextAlign.Center,
+                                                bold = true,
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(top = 4.dp)
+                                    )
+                                }
+                            } else {
                                 items(countdowns) { countdown ->
                                     Card(
                                         onClick = { onCountdownSelected(countdown) },
@@ -120,7 +137,7 @@ fun ComplicationConfigScreen(
 
 @PreviewWearOS
 @Composable
-private fun ComplicationConfigScreenPreview() {
+private fun Preview() {
     val sampleCountdowns = listOf(
         Countdown.preview(type = CountdownType.DAYS, color = "#F1A16B"),
         Countdown.preview(type = CountdownType.DAYS, color = "#ED835B")
@@ -128,6 +145,16 @@ private fun ComplicationConfigScreenPreview() {
 
     ComplicationConfigScreen(
         countdowns = sampleCountdowns,
+        onCountdownSelected = {},
+        onDismiss = {}
+    )
+}
+
+@PreviewWearOS
+@Composable
+private fun PreviewNoItems() {
+    ComplicationConfigScreen(
+        countdowns = emptyList(),
         onCountdownSelected = {},
         onDismiss = {}
     )
