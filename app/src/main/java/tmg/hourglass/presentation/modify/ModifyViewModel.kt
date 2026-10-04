@@ -315,18 +315,19 @@ class ModifyViewModel @Inject constructor(
                 return
             }
 
-            val saveId = id ?: UUID.randomUUID().toString()
+            val currentId = id
+            val saveId = currentId ?: UUID.randomUUID().toString()
             val countdown = uiState.toCountdown(saveId)
             Log.d("Modify", "Saving countdown $countdown")
             viewModelScope.launch {
-                if (id != null) {
+                if (currentId != null) {
                     cancelNotificationsUseCase(saveId)
                 }
                 countdownRepository.saveSync(countdown)
                 scheduleNotificationsUseCase(countdown.id)
             }
 
-            val key = when (id == null) {
+            val key = when (currentId == null) {
                 true -> "countdown_add"
                 false -> "countdown_modify"
             }
