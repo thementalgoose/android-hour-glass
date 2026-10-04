@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.junit6)
 }
 
 val versionCodeProperty: Int = try {
@@ -43,6 +44,18 @@ android {
         sourceCompatibility = JavaVersion.VERSION_25
         targetCompatibility = JavaVersion.VERSION_25
     }
+
+    buildTypes {
+        getByName("debug") {
+            applicationIdSuffix = ".sandbox"
+        }
+    }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -68,4 +81,7 @@ dependencies {
     implementation(libs.compose.activity)
     implementation(libs.compose.ui.toolingpreview)
     debugImplementation(libs.compose.ui.tooling)
+
+    testImplementation(libs.junit6.api)
+    testRuntimeOnly(libs.junit6.engine)
 }

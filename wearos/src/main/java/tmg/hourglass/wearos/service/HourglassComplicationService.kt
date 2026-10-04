@@ -35,7 +35,7 @@ class HourglassComplicationService : SuspendingComplicationDataSourceService() {
         val now = LocalDateTime.now()
         val progress = countdown.getProgress(now)
         val label = countdown.getLabel(progress)
-        val title = countdown.name
+        val title = formatComplicationTitle(countdown.name)
 
         return when (request.complicationType) {
             ComplicationType.RANGED_VALUE -> {
@@ -138,6 +138,19 @@ class HourglassComplicationService : SuspendingComplicationDataSourceService() {
                     .build()
             }
             else -> null
+        }
+    }
+
+    companion object {
+        fun formatComplicationTitle(title: String, maxLength: Int = 7): String {
+            if (title.length <= maxLength) return title
+            val substring = title.substring(0, maxLength)
+            val lastSpaceIndex = substring.lastIndexOf(' ')
+            return if (lastSpaceIndex > 0) {
+                substring.substring(0, lastSpaceIndex).trimEnd()
+            } else {
+                substring.trimEnd()
+            }
         }
     }
 }

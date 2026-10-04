@@ -1,6 +1,7 @@
 package tmg.hourglass.wearos.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -39,90 +40,90 @@ fun ComplicationConfigScreen(
     countdowns: List<Countdown>,
     onCountdownSelected: (Countdown) -> Unit,
     onDismiss: () -> Unit,
-    onRefresh: () -> Unit = {}
+    onRefresh: () -> Unit = {},
+    isLight: Boolean = !isSystemInDarkTheme()
 ) {
-    WearTheme {
-        val swipeState = rememberSwipeToDismissBoxState()
+    val swipeState = rememberSwipeToDismissBoxState()
 
-        SwipeToDismissBox(
-            state = swipeState,
-            onDismissed = onDismiss
-        ) { isBackground ->
-            if (!isBackground) {
-                val listState = rememberScalingLazyListState()
+    SwipeToDismissBox(
+        state = swipeState,
+        onDismissed = onDismiss
+    ) { isBackground ->
+        if (!isBackground) {
+            val listState = rememberScalingLazyListState()
 
-                Scaffold(
-                    positionIndicator = {
-                        PositionIndicator(scalingLazyListState = listState)
-                    }
+            Scaffold(
+                positionIndicator = {
+                    PositionIndicator(scalingLazyListState = listState)
+                }
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(WearTheme.colors.backgroundPrimary)
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(WearTheme.colors.backgroundPrimary)
+                    ScalingLazyColumn(
+                        state = listState,
+                        contentPadding = PaddingValues(horizontal = 14.dp, vertical = 24.dp),
+                        modifier = Modifier.fillMaxSize()
                     ) {
-                        ScalingLazyColumn(
-                            state = listState,
-                            contentPadding = PaddingValues(horizontal = 14.dp, vertical = 24.dp),
-                            modifier = Modifier.fillMaxSize()
-                        ) {
+                        item {
+                            TextBodyTitle(
+                                text = stringResource(id = R.string.select_countdown),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 8.dp)
+                            )
+                        }
+                        if (countdowns.isEmpty()) {
                             item {
-                                TextBodyTitle(
-                                    text = stringResource(id = R.string.select_countdown),
+                                TextBody1(
+                                    text = stringResource(id = R.string.no_countdowns_synced),
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(bottom = 8.dp)
+                                        .padding(vertical = 12.dp)
                                 )
                             }
-                            if (countdowns.isEmpty()) {
-                                item {
-                                    TextBody1(
-                                        text = stringResource(id = R.string.no_countdowns_synced),
-                                        textAlign = TextAlign.Center,
+                            item {
+                                Chip(
+                                    onClick = onRefresh,
+                                    colors = ChipDefaults.primaryChipColors(),
+                                    label = {
+                                        TextBody1(
+                                            text = stringResource(id = R.string.refresh),
+                                            textAlign = TextAlign.Center,
+                                            bold = true,
+                                            textColor = WearTheme.colors.wearColors.onPrimary,
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 4.dp)
+                                )
+                            }
+                        } else {
+                            items(countdowns) { countdown ->
+                                Card(
+                                    onClick = { onCountdownSelected(countdown) },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Column(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .padding(vertical = 12.dp)
-                                    )
-                                }
-                                item {
-                                    Chip(
-                                        onClick = onRefresh,
-                                        colors = ChipDefaults.primaryChipColors(),
-                                        label = {
-                                            TextBody1(
-                                                text = stringResource(id = R.string.refresh),
-                                                textAlign = TextAlign.Center,
-                                                bold = true,
-                                                modifier = Modifier.fillMaxWidth()
-                                            )
-                                        },
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(top = 4.dp)
-                                    )
-                                }
-                            } else {
-                                items(countdowns) { countdown ->
-                                    Card(
-                                        onClick = { onCountdownSelected(countdown) },
-                                        modifier = Modifier.fillMaxWidth()
+                                            .padding(4.dp)
                                     ) {
-                                        Column(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(4.dp)
-                                        ) {
-                                            TextBody1(
-                                                text = countdown.name,
-                                                bold = true
+                                        TextBody1(
+                                            text = countdown.name,
+                                            bold = true
+                                        )
+                                        if (countdown.description.isNotBlank()) {
+                                            Spacer(modifier = Modifier.height(2.dp))
+                                            TextBody2(
+                                                text = countdown.description
                                             )
-                                            if (countdown.description.isNotBlank()) {
-                                                Spacer(modifier = Modifier.height(2.dp))
-                                                TextBody2(
-                                                    text = countdown.description
-                                                )
-                                            }
                                         }
                                     }
                                 }
@@ -143,19 +144,23 @@ private fun Preview() {
         Countdown.preview(type = CountdownType.DAYS, color = "#ED835B")
     )
 
-    ComplicationConfigScreen(
-        countdowns = sampleCountdowns,
-        onCountdownSelected = {},
-        onDismiss = {}
-    )
+    WearTheme {
+        ComplicationConfigScreen(
+            countdowns = sampleCountdowns,
+            onCountdownSelected = {},
+            onDismiss = {}
+        )
+    }
 }
 
 @PreviewWearOS
 @Composable
 private fun PreviewNoItems() {
-    ComplicationConfigScreen(
-        countdowns = emptyList(),
-        onCountdownSelected = {},
-        onDismiss = {}
-    )
+    WearTheme {
+        ComplicationConfigScreen(
+            countdowns = emptyList(),
+            onCountdownSelected = {},
+            onDismiss = {}
+        )
+    }
 }

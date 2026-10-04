@@ -30,7 +30,7 @@ data class WearColors(
         secondaryVariant = accent,
         background = backgroundPrimary,
         surface = backgroundSecondary,
-        onPrimary = textPrimary,
+        onPrimary = if (isLight) textPrimary else primaryDark,
         onSecondary = onAccent,
         onBackground = textPrimary,
         onSurface = textSecondary

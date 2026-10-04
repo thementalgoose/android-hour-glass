@@ -12,6 +12,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import dagger.hilt.android.AndroidEntryPoint
 import tmg.hourglass.wearos.service.HourglassComplicationService
+import tmg.hourglass.wearos.style.WearTheme
 
 @AndroidEntryPoint
 class ComplicationConfigActivity : ComponentActivity() {
@@ -31,25 +32,27 @@ class ComplicationConfigActivity : ComponentActivity() {
         setContent {
             val countdowns by viewModel.countdowns.collectAsStateWithLifecycle()
 
-            ComplicationConfigScreen(
-                countdowns = countdowns,
-                onCountdownSelected = { selected ->
-                    if (complicationId != -1) {
-                        viewModel.saveComplicationBinding(complicationId, selected.id)
-                        updateComplication(complicationId)
+            WearTheme {
+                ComplicationConfigScreen(
+                    countdowns = countdowns,
+                    onCountdownSelected = { selected ->
+                        if (complicationId != -1) {
+                            viewModel.saveComplicationBinding(complicationId, selected.id)
+                            updateComplication(complicationId)
+                        }
+                        setResult(Activity.RESULT_OK, Intent().apply {
+                            putExtra(EXTRA_CONFIG_COMPLICATION_ID, complicationId)
+                        })
+                        finish()
+                    },
+                    onDismiss = {
+                        finish()
+                    },
+                    onRefresh = {
+                        viewModel.refresh()
                     }
-                    setResult(Activity.RESULT_OK, Intent().apply {
-                        putExtra(EXTRA_CONFIG_COMPLICATION_ID, complicationId)
-                    })
-                    finish()
-                },
-                onDismiss = {
-                    finish()
-                },
-                onRefresh = {
-                    viewModel.refresh()
-                }
-            )
+                )
+            }
         }
     }
 
