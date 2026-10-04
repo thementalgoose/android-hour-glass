@@ -68,5 +68,10 @@ enum class Migrations(
             """.trimIndent())
             db.execSQL("CREATE INDEX IF NOT EXISTS `index_Notification_countdown_id` ON `Notification` (`countdown_id`)")
         }
+    }),
+    MIGRATION_5_6(object : Migration(5, 6) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE Countdown ADD COLUMN emoji TEXT DEFAULT NULL")
+        }
     });
 }

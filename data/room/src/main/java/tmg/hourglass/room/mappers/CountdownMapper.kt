@@ -41,6 +41,7 @@ internal class CountdownMapper @Inject constructor(
             passageType = model.countdownType.key,
             interpolator = model.interpolator.key,
             tagId = model.tag?.tagId,
+            emoji = model.emoji,
         )
     }
 
@@ -53,6 +54,7 @@ internal class CountdownMapper @Inject constructor(
                 name = model.countdown.name,
                 description = model.countdown.description,
                 colour = model.countdown.colour,
+                emoji = model.countdown.emoji,
                 day = model.countdown.end.split("-")[1].toIntOrNull() ?: 31,
                 month = Month.of(model.countdown.end.split("-")[0].toIntOrNull() ?: 12),
                 tag = model.tag?.let { tagMapper.deserialize(it) },
@@ -64,6 +66,7 @@ internal class CountdownMapper @Inject constructor(
                 name = model.countdown.name,
                 description = model.countdown.description,
                 colour = model.countdown.colour,
+                emoji = model.countdown.emoji,
                 start = model.countdown.start,
                 end = model.countdown.end,
                 startValue = model.countdown.initial,

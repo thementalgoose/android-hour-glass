@@ -23,6 +23,7 @@ sealed interface Countdown {
     val name: String
     val description: String
     val colour: String
+    val emoji: String?
 
     val startDate: LocalDateTime
     val endDate: LocalDateTime
@@ -64,6 +65,7 @@ sealed interface Countdown {
         override val name: String,
         override val description: String,
         override val colour: String,
+        override val emoji: String? = null,
         private val start: String,
         private val end: String,
         override val startValue: String,
@@ -126,6 +128,7 @@ sealed interface Countdown {
         override val name: String,
         override val description: String,
         override val colour: String,
+        override val emoji: String? = null,
         private val day: Int,
         private val month: Month,
         override val tag: Tag?,
@@ -170,6 +173,7 @@ sealed interface Countdown {
 fun Countdown.Companion.preview(
     type: CountdownType = CountdownType.DAYS,
     color: String = "#152793",
+    emoji: String? = null,
     tag: Tag? = Tag.preview(),
     notifications: List<CountdownNotifications> = emptyList()
 ): Countdown {
@@ -178,6 +182,7 @@ fun Countdown.Companion.preview(
         name = "Countdown Item",
         description = "Generic Lorum Ipsum content here",
         colour = color,
+        emoji = emoji,
         start = LocalDateTime.now().minusDays(1L).format(YYYY_MM_DD_FORMAT),
         end = LocalDateTime.now().plusDays(2L).format(YYYY_MM_DD_FORMAT),
         startValue = "0",

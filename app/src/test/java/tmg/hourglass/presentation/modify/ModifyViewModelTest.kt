@@ -10,6 +10,7 @@ import io.mockk.mockkStatic
 import io.mockk.unmockkStatic
 import io.mockk.verify
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -101,6 +102,9 @@ internal class ModifyViewModelTest {
 
             underTest.setColor("#fff")
             assertEquals("#fff", awaitItem().colorHex)
+
+            underTest.setEmoji("🚀")
+            assertEquals("🚀", awaitItem().emoji)
 
             // switch to NUMBER type then set start date
             underTest.setType(tmg.hourglass.domain.enums.CountdownType.NUMBER)
@@ -282,6 +286,7 @@ internal class ModifyViewModelTest {
             assertEquals(true, loaded.isSaveEnabled)
 
             underTest.save()
+            testScheduler.advanceUntilIdle()
 
             verify { mockAnalyticsManager.event(any(), any()) }
             coVerify { mockCancelNotificationsUseCase("1") }
@@ -296,19 +301,12 @@ internal class ModifyViewModelTest {
         every { mockCountdownRepository.getSync("1") } returns countdownNumber
 
         initUnderTest()
+        underTest.initialise("1")
+        underTest.delete()
+        testScheduler.advanceUntilIdle()
 
-        underTest.uiState.test {
-            awaitItem()
-
-            underTest.initialise("1")
-
-            awaitItem()
-
-            underTest.delete()
-
-            verify { mockAnalyticsManager.event(any()) }
-            coVerify { mockCancelNotificationsUseCase("1") }
-            verify { mockCountdownRepository.delete("1") }
-        }
+        verify { mockAnalyticsManager.event(any()) }
+        coVerify { mockCancelNotificationsUseCase("1") }
+        verify { mockCountdownRepository.delete("1") }
     }
 }

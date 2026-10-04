@@ -92,6 +92,7 @@ class ModifyViewModel @Inject constructor(
             title = "",
             description = "",
             colorHex = CountdownColors.COLOUR_1.hex,
+            emoji = null,
             type = CountdownType.DAYS,
             inputTypes = UiState.Types.EndDate(
                 day = null,
@@ -148,6 +149,12 @@ class ModifyViewModel @Inject constructor(
         val nonBlank = currentNotifications.filter { it.value.isNotBlank() }.toMutableList()
         nonBlank.add(UiNotification())
         _uiState.value = _uiState.value.copy(notifications = nonBlank)
+    }
+
+    fun setEmoji(emoji: String?) {
+        _uiState.value = _uiState.value.copy(
+            emoji = emoji
+        )
     }
 
     fun setTitle(title: String) {
@@ -349,6 +356,7 @@ data class UiState(
     val title: String,
     val description: String,
     val colorHex: String,
+    val emoji: String? = null,
     val type: CountdownType,
     val inputTypes: Types,
     val allTags: List<Tag>,

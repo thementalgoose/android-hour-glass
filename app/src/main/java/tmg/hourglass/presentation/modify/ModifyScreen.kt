@@ -101,6 +101,8 @@ fun ModifyScreenVM(
         )
 
         PersonaliseLayout(
+            emoji = uiState.value.emoji,
+            emojiPicked = viewModel::setEmoji,
             name = uiState.value.title,
             nameUpdated = viewModel::setTitle,
             nameError = uiState.value.errors.any { it == UiState.ErrorTypes.TITLE_BLANK },
