@@ -43,6 +43,25 @@ fun ComplicationConfigScreen(
     onRefresh: () -> Unit = {},
     isLight: Boolean = !isSystemInDarkTheme()
 ) {
+    ComplicationConfigScreen(
+        uiState = ComplicationConfigUiState.Content(countdowns),
+        onCountdownSelected = onCountdownSelected,
+        onDismiss = onDismiss,
+        onRefresh = onRefresh,
+        isLight = isLight
+    )
+}
+
+@Composable
+fun ComplicationConfigScreen(
+    uiState: ComplicationConfigUiState,
+    onCountdownSelected: (Countdown) -> Unit,
+    onDismiss: () -> Unit,
+    onRefresh: () -> Unit = {},
+    onOpenPlayStoreWatch: () -> Unit = {},
+    onOpenPlayStorePhone: () -> Unit = {},
+    isLight: Boolean = !isSystemInDarkTheme()
+) {
     val swipeState = rememberSwipeToDismissBoxState()
 
     SwipeToDismissBox(
@@ -67,68 +86,135 @@ fun ComplicationConfigScreen(
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 24.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        item {
-                            TextBodyTitle(
-                                text = stringResource(id = R.string.select_countdown),
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 8.dp)
-                            )
-                        }
-                        if (countdowns.isEmpty()) {
-                            item {
-                                TextBody1(
-                                    text = stringResource(id = R.string.no_countdowns_synced),
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 12.dp)
-                                )
-                            }
-                            item {
-                                Chip(
-                                    onClick = onRefresh,
-                                    colors = ChipDefaults.primaryChipColors(),
-                                    label = {
-                                        TextBody1(
-                                            text = stringResource(id = R.string.refresh),
-                                            textAlign = TextAlign.Center,
-                                            bold = true,
-                                            textColor = WearTheme.colors.wearColors.onPrimary,
-                                            modifier = Modifier.fillMaxWidth()
-                                        )
-                                    },
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(top = 4.dp)
-                                )
-                            }
-                        } else {
-                            items(countdowns) { countdown ->
-                                Card(
-                                    onClick = { onCountdownSelected(countdown) },
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Column(
+                        when (uiState) {
+                            is ComplicationConfigUiState.UpdateRequired -> {
+                                item {
+                                    TextBodyTitle(
+                                        text = stringResource(id = R.string.update_required_title),
+                                        textAlign = TextAlign.Center,
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .padding(4.dp)
+                                            .padding(bottom = 8.dp)
+                                    )
+                                }
+                                item {
+                                    Card(
+                                        onClick = {},
+                                        enabled = false,
+                                        modifier = Modifier.fillMaxWidth()
                                     ) {
-                                        val titleText = if (!countdown.emoji.isNullOrBlank()) {
-                                            "${countdown.emoji} ${countdown.name}"
-                                        } else {
-                                            countdown.name
-                                        }
-                                        TextBody1(
-                                            text = titleText,
-                                            bold = true
+                                        TextBody2(
+                                            text = stringResource(id = R.string.update_required_desc),
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier.padding(4.dp)
                                         )
-                                        if (countdown.description.isNotBlank()) {
-                                            Spacer(modifier = Modifier.height(2.dp))
-                                            TextBody2(
-                                                text = countdown.description
+                                    }
+                                }
+                                item {
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                }
+                                item {
+                                    Chip(
+                                        onClick = onOpenPlayStoreWatch,
+                                        colors = ChipDefaults.primaryChipColors(),
+                                        label = {
+                                            TextBody1(
+                                                text = stringResource(id = R.string.update_watch_app),
+                                                textAlign = TextAlign.Center,
+                                                bold = true,
+                                                textColor = WearTheme.colors.wearColors.onPrimary,
+                                                modifier = Modifier.fillMaxWidth()
                                             )
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                }
+                                item {
+                                    Chip(
+                                        onClick = onOpenPlayStorePhone,
+                                        colors = ChipDefaults.secondaryChipColors(),
+                                        label = {
+                                            TextBody1(
+                                                text = stringResource(id = R.string.update_phone_app),
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(top = 4.dp)
+                                    )
+                                }
+                            }
+                            is ComplicationConfigUiState.Loading,
+                            is ComplicationConfigUiState.Content -> {
+                                val countdowns = (uiState as? ComplicationConfigUiState.Content)?.countdowns ?: emptyList()
+
+                                item {
+                                    TextBodyTitle(
+                                        text = stringResource(id = R.string.select_countdown),
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(bottom = 8.dp)
+                                    )
+                                }
+
+                                if (countdowns.isEmpty()) {
+                                    item {
+                                        TextBody1(
+                                            text = stringResource(id = R.string.no_countdowns_synced),
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(vertical = 12.dp)
+                                        )
+                                    }
+                                    item {
+                                        Chip(
+                                            onClick = onRefresh,
+                                            colors = ChipDefaults.primaryChipColors(),
+                                            label = {
+                                                TextBody1(
+                                                    text = stringResource(id = R.string.refresh),
+                                                    textAlign = TextAlign.Center,
+                                                    bold = true,
+                                                    textColor = WearTheme.colors.wearColors.onPrimary,
+                                                    modifier = Modifier.fillMaxWidth()
+                                                )
+                                            },
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(top = 4.dp)
+                                        )
+                                    }
+                                } else {
+                                    items(countdowns) { countdown ->
+                                        Card(
+                                            onClick = { onCountdownSelected(countdown) },
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            Column(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(4.dp)
+                                            ) {
+                                                val titleText = if (!countdown.emoji.isNullOrBlank()) {
+                                                    "${countdown.emoji} ${countdown.name}"
+                                                } else {
+                                                    countdown.name
+                                                }
+                                                TextBody1(
+                                                    text = titleText,
+                                                    bold = true
+                                                )
+                                                if (countdown.description.isNotBlank()) {
+                                                    Spacer(modifier = Modifier.height(2.dp))
+                                                    TextBody2(
+                                                        text = countdown.description
+                                                    )
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -164,6 +250,18 @@ private fun PreviewNoItems() {
     WearTheme {
         ComplicationConfigScreen(
             countdowns = emptyList(),
+            onCountdownSelected = {},
+            onDismiss = {}
+        )
+    }
+}
+
+@PreviewWearOS
+@Composable
+private fun PreviewUpdateRequired() {
+    WearTheme {
+        ComplicationConfigScreen(
+            uiState = ComplicationConfigUiState.UpdateRequired,
             onCountdownSelected = {},
             onDismiss = {}
         )

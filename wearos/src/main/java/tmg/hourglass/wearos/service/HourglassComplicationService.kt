@@ -8,10 +8,10 @@ import androidx.wear.watchface.complications.data.RangedValueComplicationData
 import androidx.wear.watchface.complications.data.ShortTextComplicationData
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import androidx.wear.watchface.complications.datasource.SuspendingComplicationDataSourceService
-import tmg.hourglass.wearos.data.WearosCountdownRepository
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import tmg.hourglass.wearos.data.WearosCountdownRepository
 import java.time.LocalDateTime
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HourglassComplicationService : SuspendingComplicationDataSourceService() {
@@ -20,6 +20,10 @@ class HourglassComplicationService : SuspendingComplicationDataSourceService() {
     lateinit var repository: WearosCountdownRepository
 
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
+        if (!repository.isSchemaSupported()) {
+            return buildFallbackComplication(request.complicationType, title = "Hourglass", label = "Update")
+        }
+
         val countdownId = repository.getComplicationBinding(request.complicationInstanceId)
         var countdown = countdownId?.let { repository.getCountdown(it) }
 
@@ -42,7 +46,28 @@ class HourglassComplicationService : SuspendingComplicationDataSourceService() {
         }
         val title = formatComplicationTitle(fullTitle)
 
-        return when (request.complicationType) {
+        return buildComplicationData(request.complicationType, title = title, label = label, progress = progress)
+    }
+
+    override fun getPreviewData(type: ComplicationType): ComplicationData? {
+        return buildComplicationData(type, title = "Countdown", label = "10 days", progress = 0.5f)
+    }
+
+    private fun buildFallbackComplication(
+        type: ComplicationType,
+        title: String = "Hourglass",
+        label: String = "Select"
+    ): ComplicationData? {
+        return buildComplicationData(type, title = title, label = label, progress = 0f)
+    }
+
+    private fun buildComplicationData(
+        type: ComplicationType,
+        title: String,
+        label: String,
+        progress: Float
+    ): ComplicationData? {
+        return when (type) {
             ComplicationType.RANGED_VALUE -> {
                 RangedValueComplicationData.Builder(
                     value = (progress * 100f).coerceIn(0f, 100f),
@@ -70,78 +95,6 @@ class HourglassComplicationService : SuspendingComplicationDataSourceService() {
                     .setTitle(PlainComplicationText.Builder(title).build())
                     .build()
             }
-            else -> buildFallbackComplication(request.complicationType)
-        }
-    }
-
-    override fun getPreviewData(type: ComplicationType): ComplicationData? {
-        val sampleTitle = "Countdown"
-        val sampleLabel = "10 days"
-        val sampleProgress = 50f
-
-        return when (type) {
-            ComplicationType.RANGED_VALUE -> {
-                RangedValueComplicationData.Builder(
-                    value = sampleProgress,
-                    min = 0f,
-                    max = 100f,
-                    contentDescription = PlainComplicationText.Builder(sampleTitle).build()
-                )
-                    .setText(PlainComplicationText.Builder(sampleLabel).build())
-                    .setTitle(PlainComplicationText.Builder(sampleTitle).build())
-                    .build()
-            }
-            ComplicationType.SHORT_TEXT -> {
-                ShortTextComplicationData.Builder(
-                    text = PlainComplicationText.Builder(sampleLabel).build(),
-                    contentDescription = PlainComplicationText.Builder(sampleTitle).build()
-                )
-                    .setTitle(PlainComplicationText.Builder(sampleTitle).build())
-                    .build()
-            }
-            ComplicationType.LONG_TEXT -> {
-                LongTextComplicationData.Builder(
-                    text = PlainComplicationText.Builder(sampleLabel).build(),
-                    contentDescription = PlainComplicationText.Builder("$sampleTitle: $sampleLabel").build()
-                )
-                    .setTitle(PlainComplicationText.Builder(sampleTitle).build())
-                    .build()
-            }
-            else -> null
-        }
-    }
-
-    private fun buildFallbackComplication(type: ComplicationType): ComplicationData? {
-        val label = "Select"
-        val title = "Hourglass"
-        return when (type) {
-            ComplicationType.RANGED_VALUE -> {
-                RangedValueComplicationData.Builder(
-                    value = 0f,
-                    min = 0f,
-                    max = 100f,
-                    contentDescription = PlainComplicationText.Builder(title).build()
-                )
-                    .setText(PlainComplicationText.Builder(label).build())
-                    .setTitle(PlainComplicationText.Builder(title).build())
-                    .build()
-            }
-            ComplicationType.SHORT_TEXT -> {
-                ShortTextComplicationData.Builder(
-                    text = PlainComplicationText.Builder(label).build(),
-                    contentDescription = PlainComplicationText.Builder(title).build()
-                )
-                    .setTitle(PlainComplicationText.Builder(title).build())
-                    .build()
-            }
-            ComplicationType.LONG_TEXT -> {
-                LongTextComplicationData.Builder(
-                    text = PlainComplicationText.Builder(label).build(),
-                    contentDescription = PlainComplicationText.Builder(title).build()
-                )
-                    .setTitle(PlainComplicationText.Builder(title).build())
-                    .build()
-            }
             else -> null
         }
     }
@@ -149,7 +102,7 @@ class HourglassComplicationService : SuspendingComplicationDataSourceService() {
     companion object {
         fun formatComplicationTitle(title: String, maxLength: Int = 7): String {
             if (title.length <= maxLength) return title
-            val substring = title.substring(0, maxLength)
+            val substring = title.take(maxLength)
             val lastSpaceIndex = substring.lastIndexOf(' ')
             return if (lastSpaceIndex > 0) {
                 substring.substring(0, lastSpaceIndex).trimEnd()

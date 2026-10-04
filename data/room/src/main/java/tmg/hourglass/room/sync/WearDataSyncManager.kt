@@ -13,6 +13,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.domain.model.WearSyncContract
 import tmg.hourglass.domain.model.toWearDto
 import tmg.hourglass.domain.repositories.CountdownRepository
 import javax.inject.Inject
@@ -25,9 +26,9 @@ class WearDataSyncManager @Inject constructor(
 ) {
     companion object {
         private const val TAG = "WearDataSyncManager"
-        const val COUNTDOWNS_PATH = "/countdowns"
-        const val KEY_COUNTDOWNS_JSON = "countdowns_json"
-        const val KEY_TIMESTAMP = "timestamp"
+        const val COUNTDOWNS_PATH = WearSyncContract.COUNTDOWNS_PATH
+        const val KEY_COUNTDOWNS_JSON = WearSyncContract.KEY_COUNTDOWNS_JSON
+        const val KEY_TIMESTAMP = WearSyncContract.KEY_TIMESTAMP
     }
 
     fun startSyncing(coroutineScope: CoroutineScope) {
@@ -46,15 +47,17 @@ class WearDataSyncManager @Inject constructor(
             val dtos = countdowns.map { it.toWearDto() }
             val jsonString = Json.encodeToString(dtos)
 
-            val putDataMapRequest = PutDataMapRequest.create(COUNTDOWNS_PATH).apply {
-                dataMap.putString(KEY_COUNTDOWNS_JSON, jsonString)
-                dataMap.putLong(KEY_TIMESTAMP, System.currentTimeMillis())
+            val putDataMapRequest = PutDataMapRequest.create(WearSyncContract.COUNTDOWNS_PATH).apply {
+                dataMap.putString(WearSyncContract.KEY_COUNTDOWNS_JSON, jsonString)
+                dataMap.putLong(WearSyncContract.KEY_TIMESTAMP, System.currentTimeMillis())
+                dataMap.putInt(WearSyncContract.KEY_SCHEMA_VERSION, WearSyncContract.CURRENT_SCHEMA_VERSION)
             }
             val request = putDataMapRequest.asPutDataRequest().setUrgent()
             Wearable.getDataClient(context).putDataItem(request).await()
-            Log.d(TAG, "Successfully synced ${countdowns.size} countdowns to Wear OS")
+            Log.d(TAG, "Successfully synced ${countdowns.size} countdowns to Wear OS with schema version ${WearSyncContract.CURRENT_SCHEMA_VERSION}")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to sync countdowns to Wear OS", e)
         }
     }
 }
+

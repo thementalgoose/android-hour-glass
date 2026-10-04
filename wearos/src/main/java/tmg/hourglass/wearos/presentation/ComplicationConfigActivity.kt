@@ -1,6 +1,5 @@
 package tmg.hourglass.wearos.presentation
 
-import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
@@ -19,28 +18,25 @@ class ComplicationConfigActivity : ComponentActivity() {
 
     private val viewModel: ComplicationConfigViewModel by viewModels()
 
-    private var complicationId: Int = -1
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        complicationId = intent.getIntExtra(EXTRA_CONFIG_COMPLICATION_ID, -1)
+        var complicationId = intent.getIntExtra(EXTRA_CONFIG_COMPLICATION_ID, -1)
         if (complicationId == -1) {
             complicationId = intent.getIntExtra(EXTRA_CONFIG_COMPLICATION_ID_FALLBACK, -1)
         }
 
         setContent {
-            val countdowns by viewModel.countdowns.collectAsStateWithLifecycle()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             WearTheme {
                 ComplicationConfigScreen(
-                    countdowns = countdowns,
+                    uiState = uiState,
                     onCountdownSelected = { selected ->
                         if (complicationId != -1) {
                             viewModel.saveComplicationBinding(complicationId, selected.id)
                             updateComplication(complicationId)
                         }
-                        setResult(Activity.RESULT_OK, Intent().apply {
+                        setResult(RESULT_OK, Intent().apply {
                             putExtra(EXTRA_CONFIG_COMPLICATION_ID, complicationId)
                         })
                         finish()
@@ -50,6 +46,12 @@ class ComplicationConfigActivity : ComponentActivity() {
                     },
                     onRefresh = {
                         viewModel.refresh()
+                    },
+                    onOpenPlayStoreWatch = {
+                        viewModel.openPlayStoreOnWatch(this)
+                    },
+                    onOpenPlayStorePhone = {
+                        viewModel.openPlayStoreOnPhone(this)
                     }
                 )
             }
