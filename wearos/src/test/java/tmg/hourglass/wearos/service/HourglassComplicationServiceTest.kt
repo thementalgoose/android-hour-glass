@@ -23,4 +23,10 @@ class HourglassComplicationServiceTest {
         assertEquals("Christm", HourglassComplicationService.formatComplicationTitle("Christmas"))
         assertEquals("Superca", HourglassComplicationService.formatComplicationTitle("Supercalifragilistic"))
     }
+
+    @Test
+    fun `formatComplicationTitle with emoji prefix breaks at space`() {
+        assertEquals("🚀", HourglassComplicationService.formatComplicationTitle("🚀 Vacation"))
+        assertEquals("🚀 Trip", HourglassComplicationService.formatComplicationTitle("🚀 Trip"))
+    }
 }

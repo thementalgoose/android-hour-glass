@@ -35,7 +35,12 @@ class HourglassComplicationService : SuspendingComplicationDataSourceService() {
         val now = LocalDateTime.now()
         val progress = countdown.getProgress(now)
         val label = countdown.getLabel(progress)
-        val title = formatComplicationTitle(countdown.name)
+        val fullTitle = if (!countdown.emoji.isNullOrBlank()) {
+            "${countdown.emoji} ${countdown.name}"
+        } else {
+            countdown.name
+        }
+        val title = formatComplicationTitle(fullTitle)
 
         return when (request.complicationType) {
             ComplicationType.RANGED_VALUE -> {

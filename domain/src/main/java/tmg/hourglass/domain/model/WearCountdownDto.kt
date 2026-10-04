@@ -18,7 +18,8 @@ data class WearCountdownDto(
     val countdownType: String,
     val isRecurring: Boolean,
     val day: Int = 1,
-    val month: Int = 1
+    val month: Int = 1,
+    val emoji: String? = null
 )
 
 fun Countdown.toWearDto(): WearCountdownDto {
@@ -33,7 +34,8 @@ fun Countdown.toWearDto(): WearCountdownDto {
             startValue = startValue,
             endValue = endValue,
             countdownType = countdownType.key,
-            isRecurring = false
+            isRecurring = false,
+            emoji = emoji
         )
         is Countdown.Recurring -> WearCountdownDto(
             id = id,
@@ -47,7 +49,8 @@ fun Countdown.toWearDto(): WearCountdownDto {
             countdownType = countdownType.key,
             isRecurring = true,
             day = endDate.dayOfMonth,
-            month = endDate.monthValue
+            month = endDate.monthValue,
+            emoji = emoji
         )
     }
 }
@@ -59,6 +62,7 @@ fun WearCountdownDto.toCountdown(): Countdown {
             name = name,
             description = description,
             colour = colour,
+            emoji = emoji,
             day = day,
             month = try { Month.of(month) } catch (e: Exception) { Month.JANUARY },
             tag = null
@@ -70,6 +74,7 @@ fun WearCountdownDto.toCountdown(): Countdown {
             name = name,
             description = description,
             colour = colour,
+            emoji = emoji,
             start = start,
             end = end,
             startValue = startValue,

@@ -115,8 +115,13 @@ fun ComplicationConfigScreen(
                                             .fillMaxWidth()
                                             .padding(4.dp)
                                     ) {
+                                        val titleText = if (!countdown.emoji.isNullOrBlank()) {
+                                            "${countdown.emoji} ${countdown.name}"
+                                        } else {
+                                            countdown.name
+                                        }
                                         TextBody1(
-                                            text = countdown.name,
+                                            text = titleText,
                                             bold = true
                                         )
                                         if (countdown.description.isNotBlank()) {
@@ -140,7 +145,7 @@ fun ComplicationConfigScreen(
 @Composable
 private fun Preview() {
     val sampleCountdowns = listOf(
-        Countdown.preview(type = CountdownType.DAYS, color = "#F1A16B"),
+        Countdown.preview(type = CountdownType.DAYS, color = "#F1A16B", emoji = "🚀"),
         Countdown.preview(type = CountdownType.DAYS, color = "#ED835B")
     )
 
