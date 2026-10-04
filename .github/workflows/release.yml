@@ -1,6 +1,6 @@
 name: Release
 env:
-  RUN_OFFSET: 4
+  RUN_OFFSET: 5
 'on':
   release:
     types: [published]
