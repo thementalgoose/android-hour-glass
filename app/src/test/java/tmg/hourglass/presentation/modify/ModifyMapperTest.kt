@@ -59,4 +59,13 @@ internal class ModifyMapperTest {
         assertEquals("3", matching?.value)
         assertEquals(NotificationType.TIME, matching?.type)
     }
+
+    @Test
+    fun `emoji maps between Countdown and UiState`() {
+        val countdown = countdownDays.copy(emoji = "🚀")
+        val uiState = countdown.toUiState()
+        assertEquals("🚀", uiState.emoji)
+        val restored = uiState.toCountdown("1")
+        assertEquals("🚀", restored.emoji)
+    }
 }

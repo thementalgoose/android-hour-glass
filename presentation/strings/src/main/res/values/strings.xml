@@ -209,6 +209,8 @@
     <string name="modify_field_dates_start">Start date</string>
     <string name="modify_field_dates_end">End date</string>
     <string name="modify_field_colour_hint">Colour</string>
+    <string name="modify_field_emoji_picker_title">Select Emoji</string>
+    <string name="modify_field_emoji_clear">Remove emoji</string>
     <string name="settings_theme_applied_later">Theme will be applied when the app is restarted</string>
     <string name="modify_type_title">Countdown type</string>
 

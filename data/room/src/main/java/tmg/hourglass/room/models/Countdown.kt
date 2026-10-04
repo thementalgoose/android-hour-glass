@@ -30,5 +30,7 @@ internal data class Countdown(
     @ColumnInfo("interpolator")
     val interpolator: String,
     @ColumnInfo("tag_id")
-    val tagId: String?
+    val tagId: String?,
+    @ColumnInfo("emoji")
+    val emoji: String? = null
 )
