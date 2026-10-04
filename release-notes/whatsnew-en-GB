@@ -1,3 +1,4 @@
 - Adds notifications! Get notified when your countdowns reach a milestone
+- Adds initial wearos support! Add your countdowns as complications
 - Expands collapsible details to countdowns on the homepage
-- Dependency bumps
+- Bug fixes and dependency bumps
