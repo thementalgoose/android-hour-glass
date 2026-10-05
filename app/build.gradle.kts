@@ -37,7 +37,7 @@ android {
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = versionCodeProperty
-        versionName = "${versionNameProperty}.${versionCodeProperty}"
+        versionName = versionNameProperty
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
