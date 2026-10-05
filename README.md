@@ -28,13 +28,16 @@
 
 HourGlass is a small app to be able to track something between two dates so you know what the value should be. You can use this to track how much you should have saved towards a holiday, or how many miles a rental car should be on when you drop it off if you have a quota
 
-HourGlass now supports widget! See the countdown progress right from your home screen
+- Tags! Tag your countdowns to keep them grouped together
+- Widget support! Monitor your countdown progress right from your home screen
+- Notification support! Get notified when your countdown reaches a certain milestone
+- WearOS support! Ensure you have the companion app and see your countdowns as complications on your chosen watchface
+- Backup / Restore! Support backing up your countdowns and restoring them 
 
 No ads, no purchases required.
 
-
 ```
-Copyright 2022 Jordan Fisher
+Copyright 2026 Jordan Fisher
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
