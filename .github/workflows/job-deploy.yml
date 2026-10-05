@@ -97,7 +97,7 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT }}
           packageName: tmg.hourglass
           releaseFiles: app/build/outputs/bundle/**/*.aab
-          track: internal
+          tracks: internal
           whatsNewDirectory: release-notes
           status: "completed"
           mappingFile: app/build/outputs/mapping/liveRelease/mapping.txt
