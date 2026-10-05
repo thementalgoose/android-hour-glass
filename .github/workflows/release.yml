@@ -1,4 +1,4 @@
-name: Release Store
+name: Release
 env:
   RUN_OFFSET: 2
 'on':
