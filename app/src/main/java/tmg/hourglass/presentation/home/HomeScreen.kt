@@ -171,6 +171,7 @@ internal fun ListScreen(
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
+            .padding(horizontal = AppTheme.dimensions.paddingMedium)
             .snow(isEnabled = uiState.showSnow),
         columns = GridCells.Adaptive(minSize = 250.dp),
         contentPadding = PaddingValues(
@@ -183,7 +184,6 @@ internal fun ListScreen(
             item("header", span = { GridItemSpan(maxLineSpan) }) {
                 Header(
                     modifier = Modifier
-                        .padding(start = AppTheme.dimensions.paddingMedium)
                         .animateItem(),
                     windowSizeClass = windowSizeClass,
                     navigateToSettings = navigateToSettings,
@@ -215,7 +215,6 @@ internal fun ListScreen(
                         is ListItem.CountdownItem -> {
                             Countdown(
                                 modifier = Modifier
-                                    .padding(horizontal = AppTheme.dimensions.paddingMedium)
                                     .animateItem(),
                                 countdown = it.countdown,
                                 now = it.now,
@@ -236,7 +235,6 @@ internal fun ListScreen(
                                 showCollapse = true,
                                 modifier = Modifier
                                     .animateItem()
-                                    .padding(horizontal = AppTheme.dimensions.paddingMedium)
                                     .padding(top = AppTheme.dimensions.paddingNSmall),
                                 sort = it.sort
                             )
@@ -252,7 +250,6 @@ internal fun ListScreen(
                                 showCollapse = false,
                                 modifier = Modifier
                                     .animateItem()
-                                    .padding(horizontal = AppTheme.dimensions.paddingMedium)
                                     .padding(top = AppTheme.dimensions.paddingNSmall),
                                 sort = it.sort
                             )
