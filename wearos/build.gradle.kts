@@ -1,8 +1,11 @@
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.composecompiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.junit6)
@@ -49,6 +52,14 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".sandbox"
         }
+        getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = true
+            }
+        }
     }
 
     testOptions {
@@ -73,6 +84,9 @@ dependencies {
     ksp(libs.hilt.compiler)
     ksp(libs.hilt.kapt.compiler)
     implementation(libs.hilt.compose)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics)
 
     implementation(libs.bundles.kotlin)
 

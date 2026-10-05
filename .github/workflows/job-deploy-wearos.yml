@@ -93,7 +93,7 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT }}
           packageName: tmg.hourglass
           releaseFiles: wearos/build/outputs/bundle/**/*.aab
-          track: wear:internal
+          tracks: wear:internal
           whatsNewDirectory: release-notes
           status: "completed"
           mappingFile: wearos/build/outputs/mapping/release/mapping.txt
