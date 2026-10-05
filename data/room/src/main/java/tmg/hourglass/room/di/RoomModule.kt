@@ -14,8 +14,8 @@ import tmg.hourglass.domain.repositories.WidgetRepository
 import tmg.hourglass.room.DATABASE_NAME
 import tmg.hourglass.room.HourGlassDatabase
 import tmg.hourglass.room.Migrations
-import tmg.hourglass.room.backups.BackupManager
-import tmg.hourglass.room.backups.BackupManagerImpl
+import tmg.hourglass.room.backups.LegacyBackupManager
+import tmg.hourglass.room.backups.LegacyBackupManagerImpl
 import tmg.hourglass.room.dao.CountdownDao
 import tmg.hourglass.room.dao.TagDao
 import tmg.hourglass.room.dao.WidgetDao
@@ -29,7 +29,7 @@ import javax.inject.Singleton
 internal class RoomModule {
 
     @Provides
-    fun provideBackupManager(impl: BackupManagerImpl): BackupManager = impl
+    fun provideLegacyBackupManager(impl: LegacyBackupManagerImpl): LegacyBackupManager = impl
 
     @Provides
     @Singleton
