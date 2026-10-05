@@ -3,10 +3,8 @@ package tmg.hourglass.presentation.settings.backup
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -26,8 +24,9 @@ import tmg.hourglass.presentation.settings.components.SettingsHeader
 import tmg.hourglass.presentation.settings.components.SettingsOption
 import tmg.hourglass.strings.R.string
 
-const val FILE_NAME = "HourGlass.backup"
-const val MIME_TYPE = "application/octet-stream"
+const val JSON_FILE_NAME = "HourGlass.json"
+const val JSON_MIME_TYPE = "application/json"
+const val LEGACY_MIME_TYPE = "application/octet-stream"
 
 @Composable
 fun BackupScreen(
@@ -39,11 +38,14 @@ fun BackupScreen(
     ScreenView("Settings - Backup")
 
     val uiState = viewModel.uiState.collectAsState()
-    val createDocument = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/octet-stream")) {
-        viewModel.createBackup(it)
+    val createJsonDocument = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument(JSON_MIME_TYPE)) { uri ->
+        viewModel.createJsonBackup(uri)
     }
-    val openDocument = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) {
-        viewModel.restoreBackup(it)
+    val openJsonDocument = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        viewModel.restoreJsonBackup(uri)
+    }
+    val openLegacyDocument = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        viewModel.restoreLegacyBackup(uri)
     }
 
     LazyColumn(
@@ -58,37 +60,52 @@ fun BackupScreen(
                 actionUpClicked = backClicked
             )
         }
-        item(key = "backup_1") {
+        item(key = "auto_backup") {
             SettingsOption(
                 title = string.settings_autobackup_title,
                 subtitle = string.settings_autobackup_description,
                 optionClicked = { }
             )
         }
-        item(key = "backup_header") {
-            SettingsHeader(title = string.settings_backup_restore_title)
+        item(key = "json_backup_header") {
+            SettingsHeader(title = string.settings_backup_restore_json_title)
         }
-        item(key = "backup_2") {
+        item(key = "json_backup") {
             SettingsOption(
-                title = string.settings_backup_title,
-                subtitle = string.settings_backup_description,
+                title = string.settings_json_backup_title,
+                subtitle = string.settings_json_backup_description,
                 optionClicked = {
-                    createDocument.launch(FILE_NAME)
+                    createJsonDocument.launch(JSON_FILE_NAME)
                 },
                 label = {
-                    Label(uiState.value.backupState)
+                    Label(uiState.value.jsonBackupState)
                 }
             )
         }
-        item(key = "backup_3") {
+        item(key = "json_restore") {
+            SettingsOption(
+                title = string.settings_json_restore_title,
+                subtitle = string.settings_json_restore_description,
+                optionClicked = {
+                    openJsonDocument.launch(arrayOf(JSON_MIME_TYPE))
+                },
+                label = {
+                    Label(uiState.value.jsonRestoreState)
+                }
+            )
+        }
+        item(key = "legacy_backup_header") {
+            SettingsHeader(title = string.settings_restore_legacy_title)
+        }
+        item(key = "legacy_restore") {
             SettingsOption(
                 title = string.settings_restore_title,
                 subtitle = string.settings_restore_description,
                 optionClicked = {
-                    openDocument.launch(arrayOf(MIME_TYPE))
+                    openLegacyDocument.launch(arrayOf(LEGACY_MIME_TYPE))
                 },
                 label = {
-                    Label(uiState.value.restoreState)
+                    Label(uiState.value.legacyRestoreState)
                 }
             )
         }

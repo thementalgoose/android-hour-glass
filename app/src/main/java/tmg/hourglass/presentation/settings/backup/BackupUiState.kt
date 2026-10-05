@@ -1,6 +1,7 @@
 package tmg.hourglass.presentation.settings.backup
 
 data class BackupUiState(
-    val backupState: Boolean? = null,
-    val restoreState: Boolean? = null
+    val jsonBackupState: Boolean? = null,
+    val jsonRestoreState: Boolean? = null,
+    val legacyRestoreState: Boolean? = null
 )
