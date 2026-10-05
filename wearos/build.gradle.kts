@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.composecompiler)
+    alias(libs.plugins.google.services)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.hilt)
