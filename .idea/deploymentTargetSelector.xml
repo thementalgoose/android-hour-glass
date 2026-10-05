@@ -30,10 +30,10 @@
       </SelectionState>
       <SelectionState runConfigName="wearos.HourglassComplicationService">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-10-04T22:32:04.115138Z">
+        <DropdownSelection timestamp="2026-10-05T08:57:14.653690Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/jordan/.android/avd/Wear_OS_Small_Round.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/jordan/.android/avd/Resizable_Experimental.avd" />
             </handle>
           </Target>
         </DropdownSelection>
