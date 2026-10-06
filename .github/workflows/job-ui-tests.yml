@@ -1,4 +1,4 @@
-name: Job - Android UI tests
+name: Workflow - Android UI tests
 
 on:
   workflow_call:
