@@ -33,7 +33,7 @@ jobs:
       - name: Environment variables
         run: |
           echo ${{ secrets.ENCODED_GOOGLE_SERVICES_SAND }} | base64 --decode >> app/src/sand/google-services.json
-          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_LIVE }} | base64 --decode >> wearos/src/release/google-services.json
+          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_SAND }} | base64 --decode >> wearos/src/debug/google-services.json
 
       # Running unit tests
       - name: Unit tests
