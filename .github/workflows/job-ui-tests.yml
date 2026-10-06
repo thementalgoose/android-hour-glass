@@ -40,6 +40,7 @@ jobs:
       - name: Environment and google services
         run: |
           echo ${{ secrets.ENCODED_GOOGLE_SERVICES_SAND }} | base64 --decode >> app/src/sand/google-services.json
+          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_SAND }} | base64 --decode >> wearos/src/debug/google-services.json
           echo ${{ secrets.ENCODED_KEYSTORE }} | base64 --decode >> hourglass.keystore
           echo ${{ secrets.ENCODED_DEPLOYMENT_KEY }} | base64 --decode >> deployment_private_key.json
 

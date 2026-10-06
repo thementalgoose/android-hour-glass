@@ -37,11 +37,13 @@ jobs:
         if: ${{ inputs.variant == 'assembleSandRelease' }}
         run: |
           echo ${{ secrets.ENCODED_GOOGLE_SERVICES_SAND }} | base64 --decode >> app/src/sand/google-services.json
+          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_SAND }} | base64 --decode >> wearos/src/debug/google-services.json
 
       - name: Environment google services
         if: ${{ inputs.variant == 'assembleLiveRelease' }}
         run: |
           echo ${{ secrets.ENCODED_GOOGLE_SERVICES_LIVE }} | base64 --decode >> app/src/live/google-services.json
+          echo ${{ secrets.ENCODED_GOOGLE_SERVICES_LIVE }} | base64 --decode >> app/src/release/google-services.json
 
       # Assemble AAB
       - name: Assemble bundle
