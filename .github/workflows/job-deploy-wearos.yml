@@ -1,4 +1,4 @@
-name: Job - Deploy WearOS
+name: Workflow - Deploy WearOS
 
 on:
   workflow_call:

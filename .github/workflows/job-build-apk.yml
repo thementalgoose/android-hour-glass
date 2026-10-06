@@ -1,4 +1,4 @@
-name: Job - Build APK
+name: Workflow - Build APK
 'on':
   workflow_dispatch:
     inputs:
