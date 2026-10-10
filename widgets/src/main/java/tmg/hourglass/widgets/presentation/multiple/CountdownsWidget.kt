@@ -33,6 +33,12 @@ import androidx.glance.unit.ColorProvider
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import androidx.glance.GlanceTheme
+import androidx.glance.LocalContext
+import androidx.glance.preview.ExperimentalGlancePreviewApi
+import androidx.glance.preview.Preview
+import java.time.LocalDate
+import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.WidgetReference
 import tmg.hourglass.domain.utils.ProgressUtils
@@ -108,7 +114,7 @@ class CountdownsWidget : GlanceAppWidget() {
 internal fun CountdownsList(
     countdowns: List<Countdown>,
     theming: CountdownWidgetTheming,
-    action: androidx.glance.action.Action,
+    action: androidx.glance.action.Action = actionRunCallback<OpenApp>(),
     modifier: GlanceModifier = GlanceModifier
 ) {
     LazyColumn(
@@ -191,7 +197,7 @@ internal fun CountdownRow(
 internal fun NoCountdowns(
     modifier: GlanceModifier = GlanceModifier,
     theming: CountdownWidgetTheming,
-    context: Context
+    context: Context = LocalContext.current
 ) {
     Box(
         modifier = modifier.surface(theming.backgroundColor),
@@ -214,4 +220,84 @@ private fun Countdown.getProgressAndInfo(): Pair<Float, String> {
     val progress = ProgressUtils.getProgress(this)
     val label = this.getLabel(progress)
     return Pair(progress, label)
+}
+
+// MARK: - Previews
+
+private val previewCountdowns = listOf(
+    Countdown.Static(
+        id = "1",
+        name = "Holiday",
+        description = "Trip to Tokyo",
+        colour = "#4CAF50",
+        emoji = "✈️",
+        start = LocalDate.now().minusDays(10).toString(),
+        end = LocalDate.now().plusDays(20).toString(),
+        startValue = "0",
+        endValue = "30",
+        countdownType = CountdownType.DAYS,
+        tag = null
+    ),
+    Countdown.Static(
+        id = "2",
+        name = "Birthday",
+        description = "Party time",
+        colour = "#2196F3",
+        emoji = "🎂",
+        start = LocalDate.now().minusDays(5).toString(),
+        end = LocalDate.now().plusDays(45).toString(),
+        startValue = "0",
+        endValue = "50",
+        countdownType = CountdownType.DAYS,
+        tag = null
+    ),
+    Countdown.Static(
+        id = "3",
+        name = "Marathon",
+        description = "Race day",
+        colour = "#FF9800",
+        emoji = "🏃",
+        start = LocalDate.now().minusDays(30).toString(),
+        end = LocalDate.now().plusDays(60).toString(),
+        startValue = "0",
+        endValue = "90",
+        countdownType = CountdownType.DAYS,
+        tag = null
+    )
+)
+
+@OptIn(ExperimentalGlancePreviewApi::class)
+@Preview(widthDp = 250, heightDp = 200)
+@Composable
+private fun CountdownsWidgetPreview() {
+    GlanceTheme {
+        CountdownsList(
+            countdowns = previewCountdowns,
+            theming = getCountdownWidgetColors(),
+            action = actionRunCallback<OpenApp>()
+        )
+    }
+}
+
+@OptIn(ExperimentalGlancePreviewApi::class)
+@Preview(widthDp = 250, heightDp = 60)
+@Composable
+private fun CountdownsWidgetRowPreview() {
+    GlanceTheme {
+        CountdownRow(
+            countdownModel = previewCountdowns.first(),
+            theming = getCountdownWidgetColors()
+        )
+    }
+}
+
+@OptIn(ExperimentalGlancePreviewApi::class)
+@Preview(widthDp = 250, heightDp = 150)
+@Composable
+private fun CountdownsWidgetEmptyPreview() {
+    GlanceTheme {
+        NoCountdowns(
+            theming = getCountdownWidgetColors()
+        )
+    }
 }

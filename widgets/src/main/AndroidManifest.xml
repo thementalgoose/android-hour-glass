@@ -11,29 +11,8 @@
             android:name=".presentation.multiple.configure.CountdownsConfigurationActivity"
             android:exported="false" />
 
-        <activity-alias
-            android:name=".presentation.configure.CountdownConfigurationActivity"
-            android:targetActivity=".presentation.single.configure.CountdownConfigurationActivity"
-            android:exported="false" />
-
         <receiver
             android:name=".presentation.single.CountdownWidgetReceiver"
-            android:exported="true"
-            android:label="@string/widget_label">
-
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/countdown_single_widget" />
-
-        </receiver>
-
-        <!-- Backwards-compatibility alias for existing widgets configured with legacy receiver name -->
-        <receiver
-            android:name=".presentation.CountdownWidgetReceiver"
             android:exported="true"
             android:label="@string/widget_label">
 

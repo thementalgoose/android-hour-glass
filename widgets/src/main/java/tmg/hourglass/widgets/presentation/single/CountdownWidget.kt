@@ -32,6 +32,12 @@ import androidx.glance.text.TextAlign
 import androidx.glance.unit.ColorProvider
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import androidx.glance.GlanceTheme
+import androidx.glance.LocalContext
+import androidx.glance.preview.ExperimentalGlancePreviewApi
+import androidx.glance.preview.Preview
+import java.time.LocalDate
+import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.WidgetReference
 import tmg.hourglass.domain.utils.ProgressUtils
@@ -225,7 +231,7 @@ internal fun CountdownBar(
 internal fun NoCountdown(
     modifier: GlanceModifier = GlanceModifier,
     theming: CountdownWidgetTheming,
-    context: Context
+    context: Context = LocalContext.current
 ) {
     Box(
         modifier = modifier.surface(theming.backgroundColor),
@@ -248,4 +254,55 @@ private fun Countdown.getProgressAndInfo(): Pair<Float, String> {
     val progress = ProgressUtils.getProgress(this)
     val label = this.getLabel(progress)
     return Pair(progress, label)
+}
+
+// MARK: - Previews
+
+private val previewCountdown = Countdown.Static(
+    id = "1",
+    name = "Holiday",
+    description = "Trip to Tokyo",
+    colour = "#4CAF50",
+    emoji = "✈️",
+    start = LocalDate.now().minusDays(10).toString(),
+    end = LocalDate.now().plusDays(20).toString(),
+    startValue = "0",
+    endValue = "30",
+    countdownType = CountdownType.DAYS,
+    tag = null
+)
+
+@OptIn(ExperimentalGlancePreviewApi::class)
+@Preview(widthDp = 150, heightDp = 48)
+@Composable
+private fun CountdownWidgetPreview() {
+    GlanceTheme {
+        CountdownBar(
+            countdownModel = previewCountdown,
+            theming = getCountdownWidgetColors()
+        )
+    }
+}
+
+@OptIn(ExperimentalGlancePreviewApi::class)
+@Preview(widthDp = 48, heightDp = 48)
+@Composable
+private fun CountdownWidgetCirclePreview() {
+    GlanceTheme {
+        CountdownSmall(
+            countdownModel = previewCountdown,
+            theming = getCountdownWidgetColors()
+        )
+    }
+}
+
+@OptIn(ExperimentalGlancePreviewApi::class)
+@Preview(widthDp = 150, heightDp = 48)
+@Composable
+private fun CountdownWidgetEmptyPreview() {
+    GlanceTheme {
+        NoCountdown(
+            theming = getCountdownWidgetColors()
+        )
+    }
 }
