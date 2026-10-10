@@ -1,4 +1,4 @@
-package tmg.hourglass.widgets.presentation
+package tmg.hourglass.widgets.presentation.single
 
 import android.content.Context
 import android.util.Log

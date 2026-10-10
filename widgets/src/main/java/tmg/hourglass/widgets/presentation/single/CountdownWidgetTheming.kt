@@ -1,4 +1,4 @@
-package tmg.hourglass.widgets.presentation
+package tmg.hourglass.widgets.presentation.single
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.sp

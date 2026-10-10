@@ -1,4 +1,4 @@
-package tmg.hourglass.widgets.presentation.configure
+package tmg.hourglass.widgets.presentation.single.configure
 
 import app.cash.turbine.test
 import io.mockk.every

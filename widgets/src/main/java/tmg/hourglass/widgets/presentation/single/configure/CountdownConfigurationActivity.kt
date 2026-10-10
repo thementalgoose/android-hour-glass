@@ -1,4 +1,4 @@
-package tmg.hourglass.widgets.presentation.configure
+package tmg.hourglass.widgets.presentation.single.configure
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import tmg.hourglass.presentation.AppTheme
-import tmg.hourglass.widgets.presentation.CountdownWidgetReceiver
+import tmg.hourglass.widgets.presentation.single.CountdownWidgetReceiver
 import tmg.hourglass.widgets.updateAllWidgets
 import tmg.utilities.extensions.updateWidget
 
