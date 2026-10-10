@@ -1,4 +1,4 @@
-package tmg.hourglass.widgets.presentation.single
+package tmg.hourglass.widgets.presentation
 
 import android.content.Context
 import android.content.Intent
@@ -8,6 +8,7 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.updateAll
 import tmg.hourglass.widgets.di.WidgetsEntryPoints
+import tmg.hourglass.widgets.presentation.single.CountdownWidget
 import tmg.hourglass.widgets.utils.appWidgetId
 
 internal class RefreshWidget : ActionCallback {
