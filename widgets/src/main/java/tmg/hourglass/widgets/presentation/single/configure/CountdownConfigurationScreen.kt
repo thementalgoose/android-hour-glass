@@ -1,4 +1,4 @@
-package tmg.hourglass.widgets.presentation.configure
+package tmg.hourglass.widgets.presentation.single.configure
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

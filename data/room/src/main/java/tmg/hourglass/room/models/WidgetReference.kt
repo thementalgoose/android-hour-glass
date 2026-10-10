@@ -10,7 +10,9 @@ internal data class WidgetReference(
     @ColumnInfo(name = "app_widget_id")
     val appWidgetId: Int,
     @ColumnInfo(name = "countdown_id")
-    val countdownId: String,
+    val countdownId: String? = null,
+    @ColumnInfo(name = "tag_id")
+    val tagId: String? = null,
     @ColumnInfo(name = "open_app_on_click")
     val openAppOnClick: Boolean = false
 )

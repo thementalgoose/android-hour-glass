@@ -66,6 +66,8 @@ androidx_wear_compose_material = { module = "androidx.wear.compose:compose-mater
 
 androidx_glance_core = { module = "androidx.glance:glance", version.ref = "androidx_glance" }
 androidx_glance_appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "androidx_glance" }
+androidx_glance_preview = { module = "androidx.glance:glance-preview", version.ref = "androidx_glance" }
+androidx_glance_appwidget_preview = { module = "androidx.glance:glance-appwidget-preview", version.ref = "androidx_glance" }
 
 room_runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room_compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
@@ -149,7 +151,9 @@ androidx = [
 ]
 androidx_glance = [
     "androidx_glance_core",
-    "androidx_glance_appwidget"
+    "androidx_glance_appwidget",
+    "androidx_glance_preview",
+    "androidx_glance_appwidget_preview"
 ]
 kotlin = [
     "kotlinx_coroutines_core",

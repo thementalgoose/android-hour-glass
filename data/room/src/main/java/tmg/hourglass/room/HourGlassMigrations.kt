@@ -73,5 +73,28 @@ enum class Migrations(
         override fun migrate(db: SupportSQLiteDatabase) {
             db.execSQL("ALTER TABLE Countdown ADD COLUMN emoji TEXT DEFAULT NULL")
         }
+    }),
+    MIGRATION_6_7(object : Migration(6, 7) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS `WidgetReference_New` (
+                  `app_widget_id` INTEGER NOT NULL,
+                  `countdown_id` TEXT DEFAULT NULL,
+                  `tag_id` TEXT DEFAULT NULL,
+                  `open_app_on_click` INTEGER NOT NULL,
+                  PRIMARY KEY(`app_widget_id`)
+                )
+                """.trimIndent()
+            )
+            db.execSQL(
+                """
+                INSERT INTO `WidgetReference_New` (`app_widget_id`, `countdown_id`, `tag_id`, `open_app_on_click`)
+                SELECT `app_widget_id`, `countdown_id`, NULL, `open_app_on_click` FROM `WidgetReference`
+                """.trimIndent()
+            )
+            db.execSQL("DROP TABLE `WidgetReference`")
+            db.execSQL("ALTER TABLE `WidgetReference_New` RENAME TO `WidgetReference`")
+        }
     });
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:configure="tmg.hourglass.widgets.presentation.multiple.configure.CountdownsConfigurationActivity"
+    android:minWidth="150dp"
+    android:minHeight="48dp"
+    android:minResizeWidth="100dp"
+    android:minResizeHeight="48dp"
+    android:description="@string/widget_multiple_label"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="3"
+    android:targetCellHeight="1"
+    android:widgetFeatures="reconfigurable"
+    android:updatePeriodMillis="7200000"
+    android:widgetCategory="home_screen|keyguard"
+    android:previewImage="@drawable/widget_multiple_preview"
+    tools:ignore="UnusedAttribute" />

@@ -4,11 +4,15 @@
     <application>
 
         <activity
-            android:name=".presentation.configure.CountdownConfigurationActivity"
+            android:name=".presentation.single.configure.CountdownConfigurationActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.multiple.configure.CountdownsConfigurationActivity"
             android:exported="false" />
 
         <receiver
-            android:name=".presentation.CountdownWidgetReceiver"
+            android:name=".presentation.single.CountdownWidgetReceiver"
             android:exported="true"
             android:label="@string/widget_label">
 
@@ -18,7 +22,22 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/countdown_widget" />
+                android:resource="@xml/countdown_single_widget" />
+
+        </receiver>
+
+        <receiver
+            android:name=".presentation.multiple.CountdownsWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_multiple_label">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/countdown_multiple_widget" />
 
         </receiver>
 

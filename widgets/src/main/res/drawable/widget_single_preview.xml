@@ -1,0 +1,26 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="150dp"
+    android:height="34dp"
+    android:viewportWidth="286"
+    android:viewportHeight="66">
+    <!-- Background Card -->
+    <path
+        android:fillColor="#F5F5F5"
+        android:pathData="M11,0L275,0A11,11 0,0 1,286 11L286,55A11,11 0,0 1,275 66L11,66A11,11 0,0 1,0 55L0,11A11,11 0,0 1,11 0z" />
+
+    <!-- Item: Title Bar -->
+    <path
+        android:fillColor="#333333"
+        android:pathData="M16,18L100,18A4,4 0,0 1,104 22L104,26A4,4 0,0 1,100 30L16,30A4,4 0,0 1,12 26L12,22A4,4 0,0 1,16 18z" />
+    <path
+        android:fillColor="#888888"
+        android:pathData="M 230 18 L 270 18 C 272.209 18 274 19.791 274 22 L 274 26 C 274 28.209 272.209 30 270 30 L 230 30 C 230 30 224.973 29.548 224.885 24.311 C 224.8 19.249 227.791 18 230 18 Z" />
+    <!-- Item: Progress Track -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M16,36L270,36A6,6 0,0 1,276 42L276,46A6,6 0,0 1,270 52L16,52A6,6 0,0 1,10 46L10,42A6,6 0,0 1,16 36z" />
+    <!-- Item: Progress Fill -->
+    <path
+        android:fillColor="#CA2323"
+        android:pathData="M16,36L180,36A6,6 0,0 1,186 42L186,46A6,6 0,0 1,180 52L16,52A6,6 0,0 1,10 46L10,42A6,6 0,0 1,16 36z" />
+</vector>

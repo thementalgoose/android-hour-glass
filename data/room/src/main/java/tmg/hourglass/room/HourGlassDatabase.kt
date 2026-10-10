@@ -15,7 +15,7 @@ import tmg.hourglass.room.models.WidgetReference
 internal const val DATABASE_NAME = "HourGlass"
 
 @Database(
-    version = 6,
+    version = 7,
     entities = [
         WidgetReference::class,
         Countdown::class,

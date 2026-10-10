@@ -1,4 +1,4 @@
-package tmg.hourglass.widgets.presentation
+package tmg.hourglass.widgets.presentation.single
 
 import android.content.Context
 import android.util.Log
@@ -32,13 +32,23 @@ import androidx.glance.text.TextAlign
 import androidx.glance.unit.ColorProvider
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import androidx.glance.GlanceTheme
+import androidx.glance.LocalContext
+import androidx.glance.layout.fillMaxHeight
+import androidx.glance.preview.ExperimentalGlancePreviewApi
+import androidx.glance.preview.Preview
+import java.time.LocalDate
+import tmg.hourglass.domain.enums.CountdownType
 import tmg.hourglass.domain.model.Countdown
+import tmg.hourglass.domain.model.WidgetReference
 import tmg.hourglass.domain.utils.ProgressUtils
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.widgets.di.WidgetsEntryPoints
+import tmg.hourglass.widgets.presentation.CountdownWidgetTheming
+import tmg.hourglass.widgets.presentation.OpenApp
+import tmg.hourglass.widgets.presentation.getCountdownWidgetColors
 import tmg.hourglass.widgets.utils.appWidgetId
 import tmg.hourglass.widgets.utils.fromHex
-import tmg.utilities.extensions.isInDayMode
 
 class CountdownWidget : GlanceAppWidget() {
 
@@ -65,7 +75,7 @@ class CountdownWidget : GlanceAppWidget() {
             Log.i("CountdownWidget", "provideContent App Widget Id ${id.appWidgetId}")
             val countdownModel = widgetConnector.get(id.appWidgetId)
                 .flatMapLatest { model ->
-                    if (model == null) {
+                    if (model !is WidgetReference.Single) {
                         return@flatMapLatest flow<Countdown?> { emit(null) }
                     }
                     return@flatMapLatest countdownConnector.get(model.countdownId)
@@ -140,6 +150,7 @@ internal fun CountdownSmall(
         }
         Box(
             modifier = GlanceModifier.fillMaxWidth()
+                .defaultWeight()
                 .padding(
                     start = 8.dp,
                     end = 8.dp,
@@ -149,7 +160,7 @@ internal fun CountdownSmall(
             LinearProgressIndicator(
                 modifier = GlanceModifier
                     .fillMaxWidth()
-                    .height(32.dp)
+                    .fillMaxHeight()
                     .cornerRadius(16.dp),
                 progress = progress,
                 backgroundColor = theming.barBackgroundColor,
@@ -202,7 +213,9 @@ internal fun CountdownBar(
             )
         }
         Row(
-            modifier = GlanceModifier.fillMaxWidth(),
+            modifier = GlanceModifier
+                .fillMaxWidth()
+                .defaultWeight(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             LinearProgressIndicator(
@@ -222,7 +235,7 @@ internal fun CountdownBar(
 internal fun NoCountdown(
     modifier: GlanceModifier = GlanceModifier,
     theming: CountdownWidgetTheming,
-    context: Context
+    context: Context = LocalContext.current
 ) {
     Box(
         modifier = modifier.surface(theming.backgroundColor),
@@ -245,4 +258,56 @@ private fun Countdown.getProgressAndInfo(): Pair<Float, String> {
     val progress = ProgressUtils.getProgress(this)
     val label = this.getLabel(progress)
     return Pair(progress, label)
+}
+
+// MARK: - Previews
+
+private val previewCountdown = Countdown.Static(
+    id = "1",
+    name = "Holiday",
+    description = "Trip to Tokyo",
+    colour = "#4CAF50",
+    emoji = "✈️",
+    start = LocalDate.now().minusDays(10).toString(),
+    end = LocalDate.now().plusDays(20).toString(),
+    startValue = "0",
+    endValue = "30",
+    countdownType = CountdownType.DAYS,
+    tag = null
+)
+
+@OptIn(ExperimentalGlancePreviewApi::class)
+@Preview(widthDp = 150, heightDp = 48)
+@Preview(widthDp = 250, heightDp = 96)
+@Composable
+private fun CountdownWidgetPreview() {
+    GlanceTheme {
+        CountdownBar(
+            countdownModel = previewCountdown,
+            theming = getCountdownWidgetColors()
+        )
+    }
+}
+
+@OptIn(ExperimentalGlancePreviewApi::class)
+@Preview(widthDp = 48, heightDp = 48)
+@Composable
+private fun CountdownWidgetCirclePreview() {
+    GlanceTheme {
+        CountdownSmall(
+            countdownModel = previewCountdown,
+            theming = getCountdownWidgetColors()
+        )
+    }
+}
+
+@OptIn(ExperimentalGlancePreviewApi::class)
+@Preview(widthDp = 150, heightDp = 48)
+@Composable
+private fun CountdownWidgetEmptyPreview() {
+    GlanceTheme {
+        NoCountdown(
+            theming = getCountdownWidgetColors()
+        )
+    }
 }
