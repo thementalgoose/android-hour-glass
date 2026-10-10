@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import androidx.glance.GlanceTheme
 import androidx.glance.LocalContext
+import androidx.glance.layout.fillMaxHeight
 import androidx.glance.preview.ExperimentalGlancePreviewApi
 import androidx.glance.preview.Preview
 import java.time.LocalDate
@@ -149,6 +150,7 @@ internal fun CountdownSmall(
         }
         Box(
             modifier = GlanceModifier.fillMaxWidth()
+                .defaultWeight()
                 .padding(
                     start = 8.dp,
                     end = 8.dp,
@@ -158,7 +160,7 @@ internal fun CountdownSmall(
             LinearProgressIndicator(
                 modifier = GlanceModifier
                     .fillMaxWidth()
-                    .height(32.dp)
+                    .fillMaxHeight()
                     .cornerRadius(16.dp),
                 progress = progress,
                 backgroundColor = theming.barBackgroundColor,
@@ -211,7 +213,9 @@ internal fun CountdownBar(
             )
         }
         Row(
-            modifier = GlanceModifier.fillMaxWidth(),
+            modifier = GlanceModifier
+                .fillMaxWidth()
+                .defaultWeight(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             LinearProgressIndicator(
@@ -274,6 +278,7 @@ private val previewCountdown = Countdown.Static(
 
 @OptIn(ExperimentalGlancePreviewApi::class)
 @Preview(widthDp = 150, heightDp = 48)
+@Preview(widthDp = 250, heightDp = 96)
 @Composable
 private fun CountdownWidgetPreview() {
     GlanceTheme {

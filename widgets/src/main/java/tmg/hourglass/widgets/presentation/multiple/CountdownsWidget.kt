@@ -46,7 +46,6 @@ import tmg.hourglass.strings.R.string
 import tmg.hourglass.widgets.di.WidgetsEntryPoints
 import tmg.hourglass.widgets.presentation.CountdownWidgetTheming
 import tmg.hourglass.widgets.presentation.OpenApp
-import tmg.hourglass.widgets.presentation.RefreshWidget
 import tmg.hourglass.widgets.presentation.getCountdownWidgetColors
 import tmg.hourglass.widgets.utils.appWidgetId
 import tmg.hourglass.widgets.utils.fromHex
@@ -117,21 +116,34 @@ internal fun CountdownsList(
     action: androidx.glance.action.Action = actionRunCallback<OpenApp>(),
     modifier: GlanceModifier = GlanceModifier
 ) {
-    LazyColumn(
-        modifier = modifier
-            .surface(theming.backgroundColor)
-            .padding(vertical = 4.dp, horizontal = 8.dp)
-    ) {
-        items(countdowns, itemId = { it.id.hashCode().toLong() }) { countdown ->
-            CountdownRow(
-                countdownModel = countdown,
-                theming = theming,
-                modifier = GlanceModifier
-                    .fillMaxWidth()
-                    .clickable(action)
-                    .padding(vertical = 4.dp)
-            )
+
+    if (countdowns.size > 1) {
+        LazyColumn(
+            modifier = modifier
+                .surface(theming.backgroundColor)
+        ) {
+            item {
+                Spacer(GlanceModifier.height(8.dp))
+            }
+            items(countdowns, itemId = { it.id.hashCode().toLong() }) { countdown ->
+                CountdownRow(
+                    countdownModel = countdown,
+                    theming = theming,
+                    modifier = GlanceModifier
+                        .fillMaxWidth()
+                        .padding(bottom = 4.dp, start = 8.dp, end = 8.dp)
+                        .clickable(action)
+                )
+            }
         }
+    } else {
+        CountdownBar(
+            countdownModel = countdowns.first(),
+            theming = theming,
+            modifier = GlanceModifier
+                .fillMaxWidth()
+                .clickable(action)
+        )
     }
 }
 
@@ -177,14 +189,79 @@ internal fun CountdownRow(
             )
         }
         Row(
-            modifier = GlanceModifier.fillMaxWidth(),
+            modifier = GlanceModifier
+                .fillMaxWidth()
+                .padding(top = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             LinearProgressIndicator(
                 modifier = GlanceModifier
                     .fillMaxWidth()
-                    .height(24.dp)
-                    .cornerRadius(12.dp),
+                    .height(32.dp)
+                    .cornerRadius(16.dp),
+                progress = progress,
+                backgroundColor = theming.barBackgroundColor,
+                color = ColorProvider(Color.fromHex(countdownModel.colour))
+            )
+        }
+    }
+}
+
+
+
+@Composable
+internal fun CountdownBar(
+    countdownModel: Countdown,
+    theming: CountdownWidgetTheming,
+    modifier: GlanceModifier = GlanceModifier
+) {
+    val (progress, label) = countdownModel.getProgressAndInfo()
+    Column(
+        modifier = modifier
+            .surface(theming.backgroundColor)
+            .padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            modifier = GlanceModifier
+                .fillMaxWidth()
+                .padding(4.dp)
+                .defaultWeight(),
+            verticalAlignment = Alignment.Top
+        ) {
+            val titleText = if (!countdownModel.emoji.isNullOrBlank()) {
+                "${countdownModel.emoji} ${countdownModel.name}"
+            } else {
+                countdownModel.name
+            }
+            Text(
+                text = titleText,
+                modifier = GlanceModifier.defaultWeight()
+                    .padding(end = 4.dp),
+                maxLines = 1,
+                style = theming.title.copy(
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Start
+                ),
+            )
+            Text(
+                text = label,
+                style = theming.content.copy(
+                    textAlign = TextAlign.End
+                )
+            )
+        }
+        Row(
+            modifier = GlanceModifier
+                .fillMaxWidth()
+                .defaultWeight(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            LinearProgressIndicator(
+                modifier = GlanceModifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+                    .cornerRadius(16.dp),
                 progress = progress,
                 backgroundColor = theming.barBackgroundColor,
                 color = ColorProvider(Color.fromHex(countdownModel.colour))
