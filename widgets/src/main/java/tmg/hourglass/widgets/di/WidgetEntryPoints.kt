@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import tmg.hourglass.domain.repositories.CountdownRepository
+import tmg.hourglass.domain.repositories.TagRepository
 import tmg.hourglass.domain.repositories.WidgetRepository
 
 @EntryPoint
@@ -14,6 +15,7 @@ internal interface WidgetsEntryPoints {
 
     fun widgetConnector(): WidgetRepository
     fun countdownConnector(): CountdownRepository
+    fun tagConnector(): TagRepository
     fun navigator(): WidgetNavigator
 
     companion object {

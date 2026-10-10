@@ -1,0 +1,58 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="150dp"
+    android:height="110dp"
+    android:viewportWidth="286"
+    android:viewportHeight="210">
+    <!-- Background Card -->
+    <path
+        android:fillColor="#F5F5F5"
+        android:pathData="M16,0L270,0A16,16 0,0 1,286 16L286,194A16,16 0,0 1,270 210L16,210A16,16 0,0 1,0 194L0,16A16,16 0,0 1,16 0z" />
+
+    <!-- Item 1: Title Bar -->
+    <path
+        android:fillColor="#333333"
+        android:pathData="M16,18L100,18A4,4 0,0 1,104 22L104,26A4,4 0,0 1,100 30L16,30A4,4 0,0 1,12 26L12,22A4,4 0,0 1,16 18z" />
+    <path
+        android:fillColor="#888888"
+        android:pathData="M230,18L270,18A4,4 0,0 1,274 22L274,26A4,4 0,0 1,270 30L230,30A4,4 0,0 1,226 22L226,22A4,4 0,0 1,230 18z" />
+    <!-- Item 1: Progress Track -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M16,36L270,36A6,6 0,0 1,276 42L276,46A6,6 0,0 1,270 52L16,52A6,6 0,0 1,10 46L10,42A6,6 0,0 1,16 36z" />
+    <!-- Item 1: Progress Fill -->
+    <path
+        android:fillColor="#CA2323"
+        android:pathData="M16,36L180,36A6,6 0,0 1,186 42L186,46A6,6 0,0 1,180 52L16,52A6,6 0,0 1,10 46L10,42A6,6 0,0 1,16 36z" />
+
+    <!-- Item 2: Title Bar -->
+    <path
+        android:fillColor="#333333"
+        android:pathData="M16,84L120,84A4,4 0,0 1,124 88L124,92A4,4 0,0 1,120 96L16,96A4,4 0,0 1,12 92L12,88A4,4 0,0 1,16 84z" />
+    <path
+        android:fillColor="#888888"
+        android:pathData="M220,84L270,84A4,4 0,0 1,274 88L274,92A4,4 0,0 1,270 96L220,96A4,4 0,0 1,216 92L216,88A4,4 0,0 1,220 84z" />
+    <!-- Item 2: Progress Track -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M16,102L270,102A6,6 0,0 1,276 108L276,112A6,6 0,0 1,270 118L16,118A6,6 0,0 1,10 112L10,108A6,6 0,0 1,16 102z" />
+    <!-- Item 2: Progress Fill -->
+    <path
+        android:fillColor="#2196F3"
+        android:pathData="M16,102L110,102A6,6 0,0 1,116 108L116,112A6,6 0,0 1,110 118L16,118A6,6 0,0 1,10 112L10,108A6,6 0,0 1,16 102z" />
+
+    <!-- Item 3: Title Bar -->
+    <path
+        android:fillColor="#333333"
+        android:pathData="M16,150L90,150A4,4 0,0 1,94 154L94,158A4,4 0,0 1,90 162L16,162A4,4 0,0 1,12 158L12,154A4,4 0,0 1,16 150z" />
+    <path
+        android:fillColor="#888888"
+        android:pathData="M235,150L270,150A4,4 0,0 1,274 154L274,158A4,4 0,0 1,270 162L235,162A4,4 0,0 1,231 158L231,154A4,4 0,0 1,235 150z" />
+    <!-- Item 3: Progress Track -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M16,168L270,168A6,6 0,0 1,276 174L276,178A6,6 0,0 1,270 184L16,184A6,6 0,0 1,10 178L10,174A6,6 0,0 1,16 168z" />
+    <!-- Item 3: Progress Fill -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M16,168L220,168A6,6 0,0 1,226 174L226,178A6,6 0,0 1,220 184L16,184A6,6 0,0 1,10 178L10,174A6,6 0,0 1,16 168z" />
+</vector>

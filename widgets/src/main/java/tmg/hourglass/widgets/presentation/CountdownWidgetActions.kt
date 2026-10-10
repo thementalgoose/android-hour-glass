@@ -8,7 +8,7 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.updateAll
 import tmg.hourglass.widgets.di.WidgetsEntryPoints
-import tmg.hourglass.widgets.presentation.single.CountdownWidget
+import tmg.hourglass.widgets.updateAllWidgets
 import tmg.hourglass.widgets.utils.appWidgetId
 
 internal class RefreshWidget : ActionCallback {
@@ -19,7 +19,7 @@ internal class RefreshWidget : ActionCallback {
         parameters: ActionParameters
     ) {
         Log.i("Widget", "Refresh widget action for $glanceId (${glanceId.appWidgetId})")
-        CountdownWidget().updateAll(context)
+        context.updateAllWidgets()
     }
 }
 
@@ -31,7 +31,7 @@ internal class OpenApp : ActionCallback {
         parameters: ActionParameters
     ) {
         Log.i("Widget", "Refresh widget action for $glanceId (${glanceId.appWidgetId}) + opening app")
-        CountdownWidget().updateAll(context)
+        context.updateAllWidgets()
         val openAppIntent = WidgetsEntryPoints.get(context).navigator().getIntent(context)
             .apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
         context.startActivity(openAppIntent)

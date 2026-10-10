@@ -8,7 +8,7 @@ interface WidgetRepository {
     fun saveSync(widgetReference: WidgetReference)
 
     fun saveSync(appWidgetId: Int, countdownId: String) {
-        val model = WidgetReference(
+        val model = WidgetReference.Single(
             appWidgetId = appWidgetId,
             countdownId = countdownId,
             openAppOnClick = false

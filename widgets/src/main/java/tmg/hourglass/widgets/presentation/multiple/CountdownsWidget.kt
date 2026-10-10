@@ -1,27 +1,27 @@
-package tmg.hourglass.widgets.presentation.single
+package tmg.hourglass.widgets.presentation.multiple
 
 import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
-import androidx.glance.LocalSize
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.LinearProgressIndicator
-import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.lazy.LazyColumn
+import androidx.glance.appwidget.lazy.items
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
+import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
@@ -32,6 +32,7 @@ import androidx.glance.text.TextAlign
 import androidx.glance.unit.ColorProvider
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import tmg.hourglass.domain.model.Countdown
 import tmg.hourglass.domain.model.WidgetReference
 import tmg.hourglass.domain.utils.ProgressUtils
@@ -39,131 +40,97 @@ import tmg.hourglass.strings.R.string
 import tmg.hourglass.widgets.di.WidgetsEntryPoints
 import tmg.hourglass.widgets.presentation.CountdownWidgetTheming
 import tmg.hourglass.widgets.presentation.OpenApp
+import tmg.hourglass.widgets.presentation.RefreshWidget
 import tmg.hourglass.widgets.presentation.getCountdownWidgetColors
 import tmg.hourglass.widgets.utils.appWidgetId
 import tmg.hourglass.widgets.utils.fromHex
 
-class CountdownWidget : GlanceAppWidget() {
-
-    companion object {
-        private val configCircle = DpSize(48.dp, 48.dp)
-        private val configBar = DpSize(150.dp, 48.dp)
-    }
-
-    override val sizeMode = SizeMode.Responsive(
-        setOf(
-            configCircle,
-            configBar,
-        )
-    )
+class CountdownsWidget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val widgetConnector = WidgetsEntryPoints.get(context = context).widgetConnector()
         val countdownConnector = WidgetsEntryPoints.get(context = context).countdownConnector()
 
         provideContent {
-            val config = LocalSize.current
             val theming = getCountdownWidgetColors()
 
-            Log.i("CountdownWidget", "provideContent App Widget Id ${id.appWidgetId}")
-            val countdownModel = widgetConnector.get(id.appWidgetId)
-                .flatMapLatest { model ->
-                    if (model !is WidgetReference.Single) {
-                        return@flatMapLatest flow<Countdown?> { emit(null) }
-                    }
-                    return@flatMapLatest countdownConnector.get(model.countdownId)
-                }
-                .collectAsState(null)
+            Log.i("CountdownsWidget", "provideContent App Widget Id ${id.appWidgetId}")
+            val widgetRefState = widgetConnector.get(id.appWidgetId).collectAsState(null)
+            val allCountdownsState = countdownConnector.all().collectAsState(null)
 
-            val action = actionRunCallback<OpenApp>()
+            val widgetRef = widgetRefState.value
+            val allCountdowns = allCountdownsState.value
 
-            Log.i("CountdownWidget", "Countdown model loaded to be ${countdownModel.value}")
-            when (val model = countdownModel.value) {
-                null -> {
-                    Log.e("CountdownWidget", "Observing countdown to be null")
-                    NoCountdown(
-                        modifier = GlanceModifier.clickable(action),
-                        theming = theming,
-                        context = context
-                    )
-                }
-                else -> {
-                    when (config) {
-                        configCircle -> {
-                            Log.d("CountdownWidget", "Drawing circle widget")
-                            CountdownSmall(
-                                countdownModel = model,
-                                theming = theming,
-                                modifier = GlanceModifier.clickable(action),
-                            )
-                        }
+            val action = if (widgetRef?.openAppOnClick == true) {
+                actionRunCallback<OpenApp>()
+            } else {
+                actionRunCallback<OpenApp>() // Default to opening app on item click
+            }
 
-                        configBar -> {
-                            Log.d("CountdownWidget", "Drawing bar widget")
-                            CountdownBar(
-                                countdownModel = model,
-                                theming = theming,
-                                modifier = GlanceModifier.clickable(action),
-                            )
-                        }
+            if (allCountdowns == null) {
+                NoCountdowns(
+                    modifier = GlanceModifier.clickable(action),
+                    theming = theming,
+                    context = context
+                )
+                return@provideContent
+            }
 
-                        else -> {
-                            Log.e("UpNextWidget", "Invalid size, throwing IAW")
-                            throw IllegalArgumentException("Invalid size not matching the provided ones")
-                        }
+            val filteredList = when (widgetRef) {
+                is WidgetReference.Multiple -> {
+                    if (widgetRef.tagId != null) {
+                        allCountdowns.filter { it.tag?.tagId == widgetRef.tagId }
+                    } else {
+                        allCountdowns
                     }
                 }
+                else -> allCountdowns
+            }.sortedBy { it.endDate }
+
+            if (filteredList.isEmpty()) {
+                NoCountdowns(
+                    modifier = GlanceModifier.clickable(action),
+                    theming = theming,
+                    context = context
+                )
+            } else {
+                CountdownsList(
+                    countdowns = filteredList,
+                    theming = theming,
+                    action = action
+                )
             }
         }
     }
 }
 
 @Composable
-internal fun CountdownSmall(
-    countdownModel: Countdown,
+internal fun CountdownsList(
+    countdowns: List<Countdown>,
     theming: CountdownWidgetTheming,
+    action: androidx.glance.action.Action,
     modifier: GlanceModifier = GlanceModifier
 ) {
-    val (progress, label) = countdownModel.getProgressAndInfo()
-    Column(
-        modifier = modifier.surface(theming.backgroundColor),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalAlignment = Alignment.CenterHorizontally
+    LazyColumn(
+        modifier = modifier
+            .surface(theming.backgroundColor)
+            .padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        Box(
-            modifier = GlanceModifier.defaultWeight(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = label,
-                style = theming.content.copy(
-                    textAlign = TextAlign.Center
-                )
-            )
-        }
-        Box(
-            modifier = GlanceModifier.fillMaxWidth()
-                .padding(
-                    start = 8.dp,
-                    end = 8.dp,
-                    bottom = 8.dp
-                ),
-        ) {
-            LinearProgressIndicator(
+        items(countdowns, itemId = { it.id.hashCode().toLong() }) { countdown ->
+            CountdownRow(
+                countdownModel = countdown,
+                theming = theming,
                 modifier = GlanceModifier
                     .fillMaxWidth()
-                    .height(32.dp)
-                    .cornerRadius(16.dp),
-                progress = progress,
-                backgroundColor = theming.barBackgroundColor,
-                color = ColorProvider(Color.fromHex(countdownModel.colour))
+                    .clickable(action)
+                    .padding(vertical = 4.dp)
             )
         }
     }
 }
 
 @Composable
-internal fun CountdownBar(
+internal fun CountdownRow(
     countdownModel: Countdown,
     theming: CountdownWidgetTheming,
     modifier: GlanceModifier = GlanceModifier
@@ -171,16 +138,14 @@ internal fun CountdownBar(
     val (progress, label) = countdownModel.getProgressAndInfo()
     Column(
         modifier = modifier
-            .surface(theming.backgroundColor)
-            .padding(8.dp),
+            .padding(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
             modifier = GlanceModifier
                 .fillMaxWidth()
-                .padding(4.dp)
-                .defaultWeight(),
-            verticalAlignment = Alignment.Top
+                .padding(bottom = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             val titleText = if (!countdownModel.emoji.isNullOrBlank()) {
                 "${countdownModel.emoji} ${countdownModel.name}"
@@ -189,7 +154,8 @@ internal fun CountdownBar(
             }
             Text(
                 text = titleText,
-                modifier = GlanceModifier.defaultWeight()
+                modifier = GlanceModifier
+                    .defaultWeight()
                     .padding(end = 4.dp),
                 maxLines = 1,
                 style = theming.title.copy(
@@ -211,8 +177,8 @@ internal fun CountdownBar(
             LinearProgressIndicator(
                 modifier = GlanceModifier
                     .fillMaxWidth()
-                    .height(32.dp)
-                    .cornerRadius(16.dp),
+                    .height(24.dp)
+                    .cornerRadius(12.dp),
                 progress = progress,
                 backgroundColor = theming.barBackgroundColor,
                 color = ColorProvider(Color.fromHex(countdownModel.colour))
@@ -222,7 +188,7 @@ internal fun CountdownBar(
 }
 
 @Composable
-internal fun NoCountdown(
+internal fun NoCountdowns(
     modifier: GlanceModifier = GlanceModifier,
     theming: CountdownWidgetTheming,
     context: Context

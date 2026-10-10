@@ -5,10 +5,12 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import tmg.hourglass.widgets.presentation.multiple.CountdownsWidgetReceiver
 import tmg.hourglass.widgets.presentation.single.CountdownWidgetReceiver
 
 fun Context.updateAllWidgets() {
     updateWidgets(CountdownWidgetReceiver::class.java)
+    updateWidgets(CountdownsWidgetReceiver::class.java)
 }
 
 internal fun <T : AppWidgetProvider> Context.updateWidgets(zClass: Class<T>) {
