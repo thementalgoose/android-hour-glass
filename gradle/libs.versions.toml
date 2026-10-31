@@ -21,7 +21,7 @@ room = "2.8.5"
 emoji2 = "1.7.0"
 osslicense = "0.13.0"
 
-agp = "9.4.1"
+agp = "9.5.0"
 crashlytics = "3.0.8"
 
 uiTest = "1.12.1"
