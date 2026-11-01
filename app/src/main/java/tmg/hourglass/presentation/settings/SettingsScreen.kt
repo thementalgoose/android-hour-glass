@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -54,6 +55,7 @@ import tmg.hourglass.presentation.utils.DeleteDialog
 import tmg.hourglass.strings.R.string
 import tmg.hourglass.widgets.updateAllWidgets
 import androidx.core.net.toUri
+import tmg.hourglass.presentation.settings.components.SettingsCategory
 
 @Composable
 internal fun SettingsScreenVM(
@@ -223,6 +225,7 @@ private fun SettingsOverviewScreen(
             top = paddingValues.calculateTopPadding(),
             bottom = paddingValues.calculateBottomPadding()
         ),
+        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingMedium),
         content = {
             item(key = "header") {
                 TitleBar(
@@ -232,147 +235,149 @@ private fun SettingsOverviewScreen(
                     actionUpClicked = actionUpClicked
                 )
             }
-            item(key = "theme_header") {
-                SettingsHeader(title = string.settings_theme)
+            item(key = "theme") {
+                SettingsCategory(
+                    title = string.settings_theme
+                ) {
+                    SettingsOption(
+                        title = string.settings_theme_theme_title,
+                        subtitle = string.settings_theme_theme_description,
+                        optionClicked = {
+                            themeDialog.value = true
+                        }
+                    )
+                }
             }
-            item(key = "theme_1") {
-                SettingsOption(
-                    title = string.settings_theme_theme_title,
-                    subtitle = string.settings_theme_theme_description,
-                    optionClicked = {
-                        themeDialog.value = true
+
+            item(key = "notifications") {
+                SettingsCategory(
+                    title = string.settings_notifications
+                ) {
+                    if (!uiState.notificationsEnabled) {
+                        SettingsOption(
+                            title = string.settings_notifications_enable_title,
+                            subtitle = string.settings_notifications_enable_subtitle,
+                            optionClicked = enableNotificationsClicked
+                        )
+                    } else {
+                        SettingsOption(
+                            title = string.settings_notifications_settings_title,
+                            subtitle = string.settings_notifications_customise_description,
+                            optionClicked = notificationSettingsClicked
+                        )
+                        SettingsOption(
+                            title = string.settings_notifications_exact_title,
+                            subtitle = string.settings_notifications_exact_description,
+                            optionClicked = exactTimingsClicked
+                        )
                     }
-                )
-            }
-            item(key = "notifications_header") {
-                SettingsHeader(title = string.settings_notifications)
-            }
-            if (!uiState.notificationsEnabled) {
-                item(key = "notifications_enable") {
-                    SettingsOption(
-                        title = string.settings_notifications_enable_title,
-                        subtitle = string.settings_notifications_enable_subtitle,
-                        optionClicked = enableNotificationsClicked
-                    )
+                    if (BuildConfig.DEBUG) {
+                        SettingsOption(
+                            title = "Test notification",
+                            subtitle = "Send a test notification",
+                            optionClicked = testNotificationClicked
+                        )
+                    }
                 }
-            } else {
-                item(key = "notifications_settings") {
+            }
+
+            item(key = "widgets") {
+                SettingsCategory(
+                    title = string.settings_widgets
+                ) {
                     SettingsOption(
-                        title = string.settings_notifications_settings_title,
-                        subtitle = string.settings_notifications_customise_description,
-                        optionClicked = notificationSettingsClicked
-                    )
-                }
-                item(key = "notifications_exact") {
-                    SettingsOption(
-                        title = string.settings_notifications_exact_title,
-                        subtitle = string.settings_notifications_exact_description,
-                        optionClicked = exactTimingsClicked
+                        title = string.settings_widgets_refresh_title,
+                        subtitle = string.settings_widgets_refresh_description,
+                        optionClicked = refreshWidgetsClicked
                     )
                 }
             }
-            if (BuildConfig.DEBUG) {
-                item(key = "notifications_test") {
-                    SettingsOption(
-                        title = "Test notification",
-                        subtitle = "Send a test notification",
-                        optionClicked = testNotificationClicked
-                    )
-                }
-            }
-            item(key = "widgets_header") {
-                SettingsHeader(title = string.settings_widgets)
-            }
-            item(key = "widgets_1") {
-                SettingsOption(
-                    title = string.settings_widgets_refresh_title,
-                    subtitle = string.settings_widgets_refresh_description,
-                    optionClicked = refreshWidgetsClicked
-                )
-            }
-            item(key = "backup_header") {
-                SettingsHeader(title = string.settings_backup_restore_title)
-            }
+
             item(key = "backup") {
-                SettingsOption(
-                    title = string.settings_backup_restore_title,
-                    subtitle = string.settings_backup_restore_description,
-                    optionClicked = backupOptionsClicked
-                )
+                SettingsCategory(
+                    title = string.settings_backup_restore_title
+                ) {
+                    SettingsOption(
+                        title = string.settings_backup_restore_title,
+                        subtitle = string.settings_backup_restore_description,
+                        optionClicked = backupOptionsClicked
+                    )
+                }
             }
-            item(key = "delete_header") {
-                SettingsHeader(title = string.settings_reset)
+
+            item(key = "reset") {
+                SettingsCategory(
+                    title = string.settings_reset
+                ) {
+                    SettingsOption(
+                        title = string.settings_reset_all_title,
+                        subtitle = string.settings_reset_all_description,
+                        optionClicked = {
+                            deletionConfirmationDialog.value = true
+                        }
+                    )
+                }
             }
-            item(key = "delete_1") {
-                SettingsOption(
-                    title = string.settings_reset_all_title,
-                    subtitle = string.settings_reset_all_description,
-                    optionClicked = {
-                        deletionConfirmationDialog.value = true
-                    }
-                )
+
+            item(key = "about") {
+                SettingsCategory(
+                    title = string.settings_help
+                ) {
+                    SettingsOption(
+                        title = string.settings_help_about_title,
+                        subtitle = string.settings_help_about_description,
+                        optionClicked = aboutThisAppClicked
+                    )
+                    SettingsOption(
+                        title = string.settings_help_review_title,
+                        subtitle = string.settings_help_review_description,
+                        optionClicked = rateClicked
+                    )
+                    SettingsOption(
+                        title = string.settings_help_changelog_title,
+                        subtitle = string.settings_help_changelog_description,
+                        optionClicked = changelogClicked
+                    )
+                }
             }
-            item(key = "about_header") {
-                SettingsHeader(title = string.settings_help)
+
+            item(key = "feedback") {
+                SettingsCategory(
+                    title = string.settings_feedback
+                ) {
+                    SettingsSwitch(
+                        title = string.settings_help_crash_reporting_title,
+                        subtitle = string.settings_help_crash_reporting_description,
+                        isChecked = uiState.crashReporting,
+                        optionClicked = setCrashlytics
+                    )
+                    SettingsOption(
+                        title = string.settings_help_feedback_title,
+                        subtitle = string.settings_help_feedback_description,
+                        optionClicked = sendFeedback
+                    )
+                }
             }
-            item(key = "about_1") {
-                SettingsOption(
-                    title = string.settings_help_about_title,
-                    subtitle = string.settings_help_about_description,
-                    optionClicked = aboutThisAppClicked
-                )
+
+            item(key = "privacy") {
+                SettingsCategory(
+                    title = string.settings_privacy
+                ) {
+                    SettingsOption(
+                        title = string.settings_help_privacy_policy_title,
+                        subtitle = string.settings_help_privacy_policy_description,
+                        optionClicked = privacyPolicyClicked
+                    )
+                    SettingsSwitch(
+                        title = string.settings_help_analytics_title,
+                        subtitle = string.settings_help_analytics_description,
+                        isChecked = uiState.anonymousAnalytics,
+                        optionClicked = setAnalytics
+                    )
+                }
             }
-            item(key = "about_2") {
-                SettingsOption(
-                    title = string.settings_help_review_title,
-                    subtitle = string.settings_help_review_description,
-                    optionClicked = rateClicked
-                )
-            }
-            item(key = "about_3") {
-                SettingsOption(
-                    title = string.settings_help_changelog_title,
-                    subtitle = string.settings_help_changelog_description,
-                    optionClicked = changelogClicked
-                )
-            }
-            item(key = "feedback_header") {
-                SettingsHeader(title = string.settings_feedback)
-            }
-            item(key = "feedback_2") {
-                SettingsSwitch(
-                    title = string.settings_help_crash_reporting_title,
-                    subtitle = string.settings_help_crash_reporting_description,
-                    isChecked = uiState.crashReporting,
-                    optionClicked = setCrashlytics
-                )
-            }
-            item(key = "feedback_3") {
-                SettingsOption(
-                    title = string.settings_help_feedback_title,
-                    subtitle = string.settings_help_feedback_description,
-                    optionClicked = sendFeedback
-                )
-            }
-            item(key = "privacy_header") {
-                SettingsHeader(title = string.settings_privacy)
-            }
-            item(key = "privacy_1") {
-                SettingsOption(
-                    title = string.settings_help_privacy_policy_title,
-                    subtitle = string.settings_help_privacy_policy_description,
-                    optionClicked = privacyPolicyClicked
-                )
-            }
-            item(key = "privacy_2") {
-                SettingsSwitch(
-                    title = string.settings_help_analytics_title,
-                    subtitle = string.settings_help_analytics_description,
-                    isChecked = uiState.anonymousAnalytics,
-                    optionClicked = setAnalytics
-                )
-            }
-            item(key = "edgetoedge-footer") {
+
+            item(key = "footer") {
                 Spacer(Modifier.navigationBarsPadding())
             }
         }

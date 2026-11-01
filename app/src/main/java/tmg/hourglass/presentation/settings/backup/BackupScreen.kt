@@ -2,6 +2,7 @@ package tmg.hourglass.presentation.settings.backup
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import tmg.hourglass.core.crashlytics.screenview.ScreenView
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.layouts.TitleBar
+import tmg.hourglass.presentation.settings.components.SettingsCategory
 import tmg.hourglass.presentation.settings.components.SettingsHeader
 import tmg.hourglass.presentation.settings.components.SettingsOption
 import tmg.hourglass.strings.R.string
@@ -50,6 +52,7 @@ fun BackupScreen(
 
     LazyColumn(
         contentPadding = paddingValues,
+        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingMedium),
         modifier = Modifier.fillMaxSize()
     ) {
         item(key = "header") {
@@ -60,54 +63,61 @@ fun BackupScreen(
                 actionUpClicked = backClicked
             )
         }
-        item(key = "auto_backup") {
-            SettingsOption(
-                title = string.settings_autobackup_title,
-                subtitle = string.settings_autobackup_description,
-                optionClicked = { }
-            )
+
+        item(key = "auto_backups") {
+            SettingsCategory(
+                title = string.settings_autobackup_title
+            ) {
+                SettingsOption(
+                    title = string.settings_autobackup_title,
+                    subtitle = string.settings_autobackup_description,
+                    optionClicked = { }
+                )
+            }
         }
-        item(key = "json_backup_header") {
-            SettingsHeader(title = string.settings_backup_restore_json_title)
+
+        item(key = "backup_json") {
+            SettingsCategory(
+                title = string.settings_backup_restore_json_title
+            ) {
+                SettingsOption(
+                    title = string.settings_json_backup_title,
+                    subtitle = string.settings_json_backup_description,
+                    optionClicked = {
+                        createJsonDocument.launch(JSON_FILE_NAME)
+                    },
+                    label = {
+                        Label(uiState.value.jsonBackupState)
+                    }
+                )
+                SettingsOption(
+                    title = string.settings_json_restore_title,
+                    subtitle = string.settings_json_restore_description,
+                    optionClicked = {
+                        openJsonDocument.launch(arrayOf(JSON_MIME_TYPE))
+                    },
+                    label = {
+                        Label(uiState.value.jsonRestoreState)
+                    }
+                )
+            }
         }
-        item(key = "json_backup") {
-            SettingsOption(
-                title = string.settings_json_backup_title,
-                subtitle = string.settings_json_backup_description,
-                optionClicked = {
-                    createJsonDocument.launch(JSON_FILE_NAME)
-                },
-                label = {
-                    Label(uiState.value.jsonBackupState)
-                }
-            )
-        }
-        item(key = "json_restore") {
-            SettingsOption(
-                title = string.settings_json_restore_title,
-                subtitle = string.settings_json_restore_description,
-                optionClicked = {
-                    openJsonDocument.launch(arrayOf(JSON_MIME_TYPE))
-                },
-                label = {
-                    Label(uiState.value.jsonRestoreState)
-                }
-            )
-        }
-        item(key = "legacy_backup_header") {
-            SettingsHeader(title = string.settings_restore_legacy_title)
-        }
-        item(key = "legacy_restore") {
-            SettingsOption(
-                title = string.settings_restore_title,
-                subtitle = string.settings_restore_description,
-                optionClicked = {
-                    openLegacyDocument.launch(arrayOf(LEGACY_MIME_TYPE))
-                },
-                label = {
-                    Label(uiState.value.legacyRestoreState)
-                }
-            )
+
+        item(key = "backup_legacy") {
+            SettingsCategory(
+                title = string.settings_restore_legacy_title
+            ) {
+                SettingsOption(
+                    title = string.settings_restore_title,
+                    subtitle = string.settings_restore_description,
+                    optionClicked = {
+                        openLegacyDocument.launch(arrayOf(LEGACY_MIME_TYPE))
+                    },
+                    label = {
+                        Label(uiState.value.legacyRestoreState)
+                    }
+                )
+            }
         }
     }
 }
