@@ -2,6 +2,8 @@ package tmg.hourglass.presentation.modify.layout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +31,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -76,12 +81,19 @@ fun PersonaliseLayout(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.Top
         ) {
+            val emojiDescription = emoji ?: stringResource(string.ab_select_emoji)
             Box(
                 modifier = Modifier
                     .size(56.dp)
                     .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
                     .background(AppTheme.colors.backgroundSecondary)
-                    .clickable { emojiPicker.value = true },
+                    .clickable(
+                        role = Role.Button,
+                        onClickLabel = stringResource(string.ab_select_emoji)
+                    ) { emojiPicker.value = true }
+                    .semantics {
+                        contentDescription = emojiDescription
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 if (!emoji.isNullOrBlank()) {
@@ -122,6 +134,8 @@ fun PersonaliseLayout(
                 .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
                 .background(AppTheme.colors.backgroundSecondary)
                 .clickable(
+                    role = Role.Button,
+                    onClickLabel = stringResource(string.modify_field_colour_hint),
                     onClick = {
                         colorPicker.value = true
                     }
@@ -167,6 +181,7 @@ fun PersonaliseLayout(
 
     if (colorPicker.value) {
         ColorPicker(
+            selectedColor = color,
             colorPicked = colorPicked,
             dismiss = {
                 colorPicker.value = false
@@ -177,6 +192,7 @@ fun PersonaliseLayout(
 
 @Composable
 private fun ColorPicker(
+    selectedColor: String,
     colorPicked: (String) -> Unit,
     dismiss: () -> Unit
 ) {
@@ -199,22 +215,32 @@ private fun ColorPicker(
                         ),
                     text = stringResource(id = string.modify_field_colour_hint)
                 )
+                val colorsList = CountdownColors.values().toList()
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(5),
                     contentPadding = PaddingValues(AppTheme.dimensions.paddingMedium),
+                    modifier = Modifier.selectableGroup(),
                     content = {
-                        items(CountdownColors.values().toList()) {
+                        items(colorsList.size) { index ->
+                            val it = colorsList[index]
+                            val isSelected = it.hex.equals(selectedColor, ignoreCase = true)
+                            val label = stringResource(string.ab_color_number, index + 1)
                             Box(
                                 modifier = Modifier
                                     .height(64.dp)
                                     .padding(AppTheme.dimensions.paddingSmall)
                                     .background(Color(it.hex.toColorInt()))
-                                    .clickable(
+                                    .selectable(
+                                        selected = isSelected,
+                                        role = Role.RadioButton,
                                         onClick = {
                                             colorPicked(it.hex)
                                             dismiss()
                                         }
                                     )
+                                    .semantics {
+                                        contentDescription = label
+                                    }
                             )
                         }
                     }

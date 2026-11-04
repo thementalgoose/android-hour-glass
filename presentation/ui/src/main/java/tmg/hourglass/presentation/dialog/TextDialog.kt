@@ -8,12 +8,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -40,7 +45,8 @@ fun <T> TextDialog(
             LazyColumn(
                 modifier = modifier
                     .clip(RoundedCornerShape(AppTheme.dimensions.radiusMedium))
-                    .background(AppTheme.colors.backgroundPrimary),
+                    .background(AppTheme.colors.backgroundPrimary)
+                    .then(if (showSelection) Modifier.selectableGroup() else Modifier),
                 contentPadding = PaddingValues(
                     horizontal = AppTheme.dimensions.paddingSmall,
                     vertical = AppTheme.dimensions.paddingSmall
@@ -65,7 +71,17 @@ fun <T> TextDialog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
-                            .background(AppTheme.colors.backgroundSecondary),
+                            .background(AppTheme.colors.backgroundSecondary)
+                            .then(
+                                if (showSelection) {
+                                    Modifier.semantics {
+                                        this.selected = itemSelected == it
+                                        this.role = Role.RadioButton
+                                    }
+                                } else {
+                                    Modifier
+                                }
+                            ),
                         onClick = {
                             itemClicked(it)
                             dismissed()

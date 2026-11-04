@@ -188,7 +188,7 @@ private fun TagView(
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_delete),
-                contentDescription = null,
+                contentDescription = stringResource(string.ab_delete),
                 tint = AppTheme.colors.textSecondary
             )
         }

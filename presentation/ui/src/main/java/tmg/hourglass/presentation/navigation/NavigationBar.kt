@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,6 +33,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -55,7 +60,8 @@ fun NavigationBar(
         modifier = modifier
             .height(appBarHeight)
             .shadow(elevation = 8.dp)
-            .background(AppTheme.colors.backgroundNav),
+            .background(AppTheme.colors.backgroundNav)
+            .selectableGroup(),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -89,9 +95,15 @@ private fun Item(
     }, label = "backgroundColor")
 
     val context = LocalContext.current
+    val isSelected = item.isSelected == true
     Column(
         modifier = modifier
+            .semantics {
+                this.selected = isSelected
+                this.role = Role.Tab
+            }
             .combinedClickable(
+                role = Role.Tab,
                 onClick = { itemClicked(item) },
                 onLongClick = {
                     Toast.makeText(context, context.getString(item.label), Toast.LENGTH_LONG).show()
@@ -99,7 +111,7 @@ private fun Item(
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(modifier = modifier
+        Box(modifier = Modifier
             .width(selectedPillWidth)
             .height(pillHeight)
         ) {

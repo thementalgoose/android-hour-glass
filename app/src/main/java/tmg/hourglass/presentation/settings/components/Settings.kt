@@ -3,6 +3,7 @@ package tmg.hourglass.presentation.settings.components
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.AppThemePreview
@@ -198,8 +200,10 @@ internal fun SettingsSwitch(
             .fillMaxWidth()
             .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
             .background(AppTheme.colors.backgroundSecondary)
-            .clickable(
-                onClick = { optionClicked(!isChecked) }
+            .toggleable(
+                value = isChecked,
+                role = Role.Switch,
+                onValueChange = optionClicked
             )
             .padding(
                 start = AppTheme.dimensions.paddingMedium,

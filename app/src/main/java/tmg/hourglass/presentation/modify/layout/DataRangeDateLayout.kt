@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import java.time.LocalDate
@@ -113,6 +114,8 @@ private fun ColumnScope.DateSelection(
                 .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
                 .background(AppTheme.colors.backgroundSecondary)
                 .clickable(
+                    role = Role.Button,
+                    onClickLabel = stringResource(id = text),
                     onClick = {
                         showDialog.value = true
                     }
@@ -127,7 +130,7 @@ private fun ColumnScope.DateSelection(
                 SecondaryIconButton(
                     modifier = Modifier.height(IntrinsicSize.Max),
                     icon = Icons.Outlined.PlayArrow,
-                    contentDescription = stringResource(string.modify_field_date_today),
+                    contentDescription = stringResource(string.ab_set_to_today),
                     onClick = {
                         dateUpdated(LocalDateTime.now())
                     }

@@ -32,6 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
@@ -115,13 +118,21 @@ fun DataSingleDateLayout(
                     keyboardType = KeyboardType.Number,
                     hint = stringResource(id = string.modify_field_day)
                 )
+                val monthLabel = month?.getDisplayName(SHORT_STANDALONE, Locale.getDefault()) ?: stringResource(id = string.modify_field_month)
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
-                        .clickable {
-                            showDialog.value = true
+                        .semantics {
+                            contentDescription = monthLabel
                         }
+                        .clickable(
+                            role = Role.Button,
+                            onClickLabel = stringResource(id = string.modify_field_month),
+                            onClick = {
+                                showDialog.value = true
+                            }
+                        )
                         .border(
                             width = 1.dp,
                             color = if (error != null) AppTheme.colors.errorColor else Color.Transparent,

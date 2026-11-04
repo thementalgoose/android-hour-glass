@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -106,7 +109,9 @@ fun CountdownConfigurationScreen(
                 } else {
                     Column(Modifier.weight(1f)) {
                         LazyColumn(
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier
+                                .weight(1f)
+                                .selectableGroup(),
                             verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.paddingXSmall),
                             content = {
                                 items(uiState.items, key = { it.id }) {
@@ -183,7 +188,11 @@ private fun SelectableItem(
             .padding(horizontal = AppTheme.dimensions.paddingMedium)
             .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
             .then(selectionModifier)
-            .clickable(onClick = { selectItem(countdown) })
+            .selectable(
+                selected = isChecked,
+                role = Role.RadioButton,
+                onClick = { selectItem(countdown) }
+            )
             .padding(
                 horizontal = AppTheme.dimensions.paddingMedium,
                 vertical = AppTheme.dimensions.paddingMedium

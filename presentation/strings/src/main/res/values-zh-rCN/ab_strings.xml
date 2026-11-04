@@ -11,5 +11,14 @@
     <string name="ab_selected">已选</string>
     <string name="ab_delete">删除</string>
     <string name="ab_favourite">收藏</string>
+
+    <string name="ab_sort">排序</string>
+    <string name="ab_expand">展开</string>
+    <string name="ab_collapse">折叠</string>
+    <string name="ab_status_success">成功</string>
+    <string name="ab_status_failed">失败</string>
+    <string name="ab_select_emoji">选择表情符号</string>
+    <string name="ab_color_number">颜色 %1$d</string>
+    <string name="ab_set_to_today">设为今天</string>
 </resources>
 

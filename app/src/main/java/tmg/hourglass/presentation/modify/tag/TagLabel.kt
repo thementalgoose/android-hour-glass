@@ -3,12 +3,14 @@ package tmg.hourglass.presentation.modify.tag
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.presentation.AppTheme
 import tmg.hourglass.presentation.PreviewTheme
@@ -33,9 +35,13 @@ fun TagLabel(
     Row(modifier = modifier
         .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
         .then(selectionModifier)
-        .clickable {
-            selectTag(tag)
-        }
+        .selectable(
+            selected = selected,
+            role = Role.Checkbox,
+            onClick = {
+                selectTag(tag)
+            }
+        )
         .padding(
             vertical = AppTheme.dimensions.paddingMedium,
             horizontal = AppTheme.dimensions.paddingMedium
