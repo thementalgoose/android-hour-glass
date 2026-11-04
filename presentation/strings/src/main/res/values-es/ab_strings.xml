@@ -9,4 +9,13 @@
     <string name="ab_selected">Escogido</string>
     <string name="ab_delete">Eliminar</string>
     <string name="ab_favourite">Favorito</string>
+
+    <string name="ab_sort">Ordenar</string>
+    <string name="ab_expand">Desplegar</string>
+    <string name="ab_collapse">Plegar</string>
+    <string name="ab_status_success">Éxito</string>
+    <string name="ab_status_failed">Error</string>
+    <string name="ab_select_emoji">Seleccionar emoji</string>
+    <string name="ab_color_number">Color %1$d</string>
+    <string name="ab_set_to_today">Establecer en hoy</string>
 </resources>

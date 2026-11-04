@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -38,6 +39,10 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import java.time.LocalDateTime
@@ -87,36 +92,60 @@ fun TagHeader(
             text = name,
             bold = true
         )
-        Icon(
+        Box(
             modifier = Modifier
-                .size(24.dp)
-                .clip(CircleShape)
-                .background(AppTheme.colors.backgroundTertiary)
-                .clickable {
-                    sortDialog.value = true
-                }
-                .padding(4.dp),
-            painter = painterResource(tmg.hourglass.R.drawable.ic_sort),
-            tint = AppTheme.colors.textPrimary,
-            contentDescription = null
-        )
-        if (showCollapse) {
-            val float = animateFloatAsState(if (expanded) 0f else 90f, label = "Expand")
-            Spacer(Modifier.width(AppTheme.dimensions.paddingSmall))
-            Icon(
+                .size(48.dp)
+                .clickable(
+                    role = Role.Button,
+                    onClickLabel = stringResource(R.string.ab_sort),
+                    onClick = { sortDialog.value = true }
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
                 modifier = Modifier
                     .size(24.dp)
                     .clip(CircleShape)
-                    .background(AppTheme.colors.backgroundTertiary)
-                    .rotate(float.value)
-                    .clickable {
-                        expandClicked(!expanded)
-                    }
-                    .padding(4.dp),
-                painter = painterResource(tmg.hourglass.R.drawable.ic_chevron_down),
-                tint = AppTheme.colors.textPrimary,
-                contentDescription = null
-            )
+                    .background(AppTheme.colors.backgroundTertiary),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    modifier = Modifier.padding(4.dp),
+                    painter = painterResource(tmg.hourglass.R.drawable.ic_sort),
+                    tint = AppTheme.colors.textPrimary,
+                    contentDescription = stringResource(R.string.ab_sort)
+                )
+            }
+        }
+        if (showCollapse) {
+            val float = animateFloatAsState(if (expanded) 0f else 90f, label = "Expand")
+            val collapseLabel = stringResource(if (expanded) R.string.ab_collapse else R.string.ab_expand)
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clickable(
+                        role = Role.Button,
+                        onClickLabel = collapseLabel,
+                        onClick = { expandClicked(!expanded) }
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clip(CircleShape)
+                        .background(AppTheme.colors.backgroundTertiary)
+                        .rotate(float.value),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        modifier = Modifier.padding(4.dp),
+                        painter = painterResource(tmg.hourglass.R.drawable.ic_chevron_down),
+                        tint = AppTheme.colors.textPrimary,
+                        contentDescription = collapseLabel
+                    )
+                }
+            }
         }
     }
 
@@ -140,12 +169,31 @@ fun Countdown(
     now: LocalDateTime = LocalDateTime.now()
 ) {
     val deleteConfirm = remember { mutableStateOf(false) }
+    val editLabel = stringResource(id = R.string.ab_edit)
+    val deleteLabel = stringResource(id = R.string.ab_delete)
+    val customActionsList = remember(editClicked, deleteClicked, countdown, editLabel, deleteLabel) {
+        buildList {
+            if (editClicked != null) {
+                add(CustomAccessibilityAction(editLabel) {
+                    editClicked(countdown)
+                    true
+                })
+            }
+            if (deleteClicked != null) {
+                add(CustomAccessibilityAction(deleteLabel) {
+                    deleteConfirm.value = true
+                    true
+                })
+            }
+        }
+    }
 
     Column(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
             .background(AppTheme.colors.backgroundSecondary)
+            .semantics { customActions = customActionsList }
             .padding(
                 start = AppTheme.dimensions.paddingMedium,
                 top = AppTheme.dimensions.paddingSmall,
@@ -234,6 +282,7 @@ private fun CountdownDays(
     modifier: Modifier = Modifier
 ) {
     val expanded = remember { mutableStateOf(false) }
+    val expandActionLabel = stringResource(if (expanded.value) R.string.ab_collapse else R.string.ab_expand)
     Column(modifier = modifier) {
         ProgressBar(
             barColor = Color(countdown.colour.toColorInt()),
@@ -243,7 +292,10 @@ private fun CountdownDays(
                 countdown.getLabel(progress = progress)
             },
             modifier = Modifier
-                .clickable {
+                .clickable(
+                    role = Role.Button,
+                    onClickLabel = expandActionLabel
+                ) {
                     expanded.value = !expanded.value
                 }
         )
@@ -284,6 +336,7 @@ private fun CountdownOther(
     modifier: Modifier = Modifier
 ) {
     val expanded = remember { mutableStateOf(false) }
+    val expandActionLabel = stringResource(if (expanded.value) R.string.ab_collapse else R.string.ab_expand)
     Column(modifier = modifier) {
         AnimatedVisibility(expanded.value) {
             Row(modifier = Modifier.padding(bottom = 4.dp)) {
@@ -304,7 +357,10 @@ private fun CountdownOther(
                 countdown.getLabel(progress = progress)
             },
             modifier = Modifier
-                .clickable {
+                .clickable(
+                    role = Role.Button,
+                    onClickLabel = expandActionLabel
+                ) {
                     expanded.value = !expanded.value
                 }
         )

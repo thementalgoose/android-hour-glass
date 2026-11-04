@@ -11,5 +11,14 @@
     <string name="ab_selected">Ausgewählt</string>
     <string name="ab_delete">Löschen</string>
     <string name="ab_favourite">Favorit</string>
+
+    <string name="ab_sort">Sortieren</string>
+    <string name="ab_expand">Ausklappen</string>
+    <string name="ab_collapse">Einklappen</string>
+    <string name="ab_status_success">Erfolg</string>
+    <string name="ab_status_failed">Fehlgeschlagen</string>
+    <string name="ab_select_emoji">Emoji auswählen</string>
+    <string name="ab_color_number">Farbe %1$d</string>
+    <string name="ab_set_to_today">Auf heute setzen</string>
 </resources>
 

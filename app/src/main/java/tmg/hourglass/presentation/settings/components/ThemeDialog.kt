@@ -3,6 +3,8 @@
 package tmg.hourglass.presentation.settings.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,13 +14,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Switch
+import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.R
 import tmg.hourglass.extensions.title
@@ -67,10 +70,14 @@ fun ThemeDialog(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable {
-                                themePicked(it)
-                                dismissed()
-                            }
+                            .selectable(
+                                selected = it == theme,
+                                role = Role.RadioButton,
+                                onClick = {
+                                    themePicked(it)
+                                    dismissed()
+                                }
+                            )
                             .padding(
                                 horizontal = AppTheme.dimensions.paddingMedium,
                                 vertical = AppTheme.dimensions.paddingSmall
@@ -86,9 +93,9 @@ fun ThemeDialog(
                                 ),
                             text = stringResource(it.title)
                         )
-                        Switch(
-                            checked = it == theme,
-                            onCheckedChange = null,
+                        RadioButton(
+                            selected = it == theme,
+                            onClick = null,
                         )
                     }
                 }

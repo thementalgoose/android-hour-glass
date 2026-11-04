@@ -132,7 +132,7 @@ private fun Label(
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Filled.CheckCircle,
-                contentDescription = null,
+                contentDescription = stringResource(string.ab_status_success),
                 tint = AppTheme.colors.successColor
             )
         }
@@ -140,7 +140,7 @@ private fun Label(
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.Warning,
-                contentDescription = null,
+                contentDescription = stringResource(string.ab_status_failed),
                 tint = AppTheme.colors.errorColor
             )
         }

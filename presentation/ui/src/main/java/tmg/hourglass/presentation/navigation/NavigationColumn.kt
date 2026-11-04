@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +28,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import tmg.hourglass.presentation.AppTheme
@@ -67,7 +72,8 @@ fun NavigationColumn(
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .selectableGroup(),
             content = {
                 item {
                     Column(Modifier.fillMaxWidth()) {
@@ -91,7 +97,7 @@ fun NavigationColumn(
             NavigationItem(
                 item = NavigationItem(
                     id = "menu",
-                    label = string.empty,
+                    label = string.ab_menu,
                     icon = R.drawable.ic_menu
                 ),
                 onClick = {
@@ -119,6 +125,9 @@ private fun NavigationItem(
         false -> (itemSize - iconSize) / 2
     }, label = "iconPadding")
 
+    val isTab = item.id != "menu"
+    val isSelected = item.isSelected == true
+
     Row(modifier = modifier
         .padding(
             horizontal = (columnWidthCollapsed - itemSize) / 2
@@ -127,8 +136,17 @@ private fun NavigationItem(
         .height(itemSize)
         .clip(RoundedCornerShape(AppTheme.dimensions.radiusMedium))
         .background(backgroundColor.value)
+        .semantics {
+            if (isTab) {
+                this.selected = isSelected
+                this.role = Role.Tab
+            } else {
+                this.role = Role.Button
+            }
+        }
         .clickable(
             enabled = onClick != null,
+            role = if (isTab) Role.Tab else Role.Button,
             onClick = {
                 onClick?.invoke(item)
             }
@@ -143,7 +161,7 @@ private fun NavigationItem(
                 .align(Alignment.CenterVertically),
             painter = painterResource(id = item.icon),
             tint = AppTheme.colors.textPrimary,
-            contentDescription = stringResource(id = item.label)
+            contentDescription = if (isExpanded) null else stringResource(id = item.label)
         )
         if (isExpanded) {
             TextBody1(

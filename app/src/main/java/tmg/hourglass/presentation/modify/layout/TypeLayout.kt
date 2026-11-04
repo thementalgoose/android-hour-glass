@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -47,6 +48,8 @@ fun TypeLayout(
                 .clip(RoundedCornerShape(AppTheme.dimensions.radiusSmall))
                 .background(AppTheme.colors.backgroundSecondary)
                 .clickable(
+                    role = Role.Button,
+                    onClickLabel = stringResource(id = string.modify_field_type),
                     onClick = {
                         openDialog.value = true
                     },
