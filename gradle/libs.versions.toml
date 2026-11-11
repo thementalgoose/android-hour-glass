@@ -37,7 +37,7 @@ gradle_crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle
 gradle_hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
 gradle_junit6 = { module = "de.mannodermaus.gradle.plugins:android-junit5", version.ref = "android_junit5" }
 gradle_kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-google_services = "com.google.gms:google-services:4.5.0"
+google_services = "com.google.gms:google-services:4.6.0"
 firebase_perf_plugin = "com.google.firebase:perf-plugin:2.0.2"
 oss_licenses_plugin = { module = "com.google.android.gms:oss-licenses-plugin", version.ref = "osslicense" }
 
