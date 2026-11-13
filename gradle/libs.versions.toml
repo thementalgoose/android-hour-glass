@@ -185,7 +185,7 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 junit6 = { id = "de.mannodermaus.android-junit5", version.ref = "android_junit5" }
 
 # Firebase & Google Services
-google_services = { id = "com.google.gms.google-services", version = "4.5.0" }
+google_services = { id = "com.google.gms.google-services", version = "4.6.0" }
 firebase_crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 firebase_perf = { id = "com.google.firebase.firebase-perf", version = "2.0.2" }
 oss_licenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "osslicense" }
